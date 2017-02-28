@@ -27,6 +27,7 @@
 namespace DSchoenbauer\Orm;
 
 use PHPUnit_Framework_TestCase;
+use Zend\EventManager\EventManager;
 
 /**
  * Description of ModelTest
@@ -57,6 +58,10 @@ class ModelTest extends PHPUnit_Framework_TestCase {
         });
 
         $this->assertEquals($this->_object, $this->_object->accept($mock));
+    }
+    
+    public function testEventManager(){
+        $this->assertInstanceOf(EventManager::class, $this->_object->getEventManager());
     }
 
 }
