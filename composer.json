@@ -1,6 +1,6 @@
 {
     "name": "dschoenbauer/orm",
-    "description": "A complete PHP upload suite.",
+    "description": "Object Relational Mapper... This is my vision for an ORM. It uses an event driven process that makes updating information in a persistent manner hopefully easier to understand and maintain.",
     "authors": [
         {
             "name": "David Schoenbauer",
