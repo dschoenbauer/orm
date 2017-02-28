@@ -1,6 +1,8 @@
-# File Upload
+# ORM
 
-A complete PHP upload suite
+Object Relational Mapper... This is my vision for an ORM. It uses an event driven
+process that makes updating information in a persistent manner hopefully easier to 
+understand and maintain.
 
 [![Build Status](https://travis-ci.org/dschoenbauer/orm.svg?branch=develop)](https://travis-ci.org/dschoenbauer/orm)
 [![Coverage Status](https://coveralls.io/repos/github/dschoenbauer/orm/badge.svg?branch=develop)](https://coveralls.io/github/dschoenbauer/orm?branch=develop)
