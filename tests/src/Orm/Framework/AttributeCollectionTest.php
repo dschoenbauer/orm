@@ -24,57 +24,31 @@
  * THE SOFTWARE.
  */
 
-namespace DSchoenbauer\Orm;
+namespace DSchoenbauer\Orm\Framework;
 
 /**
- * Description of Model
+ * Description of AttributeCollection
  *
- * @author David Schoenbauer
+ * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class Model {
+class AttributeCollectionTest extends \PHPUnit_Framework_TestCase {
 
-    private $_id;
-    private $_data;
-    private $_attributes;
+    private $_object;
 
-    use \Zend\EventManager\EventManagerAwareTrait;
-
-    public function __construct() {
-        $this->setAttributes(new Framework\AttributeCollection());
-    }
-    
-    function accept(VisitorInterface $visitor) {
-        $visitor->visitModel($this);
-        return $this;
+    protected function setUp() {
+        $this->_object = new AttributeCollection();
     }
 
-    function getId() {
-        return $this->_id;
+    public function testSet() {
+        $this->assertEquals("value", $this->_object->set('test', 'value')->get('test'));
     }
 
-    function getData() {
-        return $this->_data;
+    public function testByRef() {
+        $this->assertInstanceOf(Attribute::class, $this->_object->set('test', 'value')->get('test', null, AttributeCollection::BY_REF));
     }
 
-    function setId($id) {
-        $this->_id = $id;
-        return $this;
+    public function testDefaultValues() {
+        $this->assertEquals("value", $this->_object->set('test', 'value')->get('test', 'notValue'));
     }
 
-    function setData($data) {
-        $this->_data = $data;
-        return $this;
-    }
-
-    /**
-     * @return Framework\AttributeCollection
-     */
-    public function getAttributes() {
-        return $this->_attributes;
-    }
-
-    public function setAttributes(Framework\AttributeCollection $attributes) {
-        $this->_attributes = $attributes;
-        return $this;
-    }
 }

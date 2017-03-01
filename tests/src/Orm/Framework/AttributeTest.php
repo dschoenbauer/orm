@@ -24,57 +24,28 @@
  * THE SOFTWARE.
  */
 
-namespace DSchoenbauer\Orm;
+namespace DSchoenbauer\Orm\Framework;
 
 /**
- * Description of Model
+ * Description of AttributeTest
  *
- * @author David Schoenbauer
+ * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class Model {
+class AttributeTest extends \PHPUnit_Framework_TestCase {
 
-    private $_id;
-    private $_data;
-    private $_attributes;
+    private $_object;
 
-    use \Zend\EventManager\EventManagerAwareTrait;
-
-    public function __construct() {
-        $this->setAttributes(new Framework\AttributeCollection());
-    }
-    
-    function accept(VisitorInterface $visitor) {
-        $visitor->visitModel($this);
-        return $this;
+    protected function setUp() {
+        $this->_object = new \DSchoenbauer\Orm\Framework\Attribute();
     }
 
-    function getId() {
-        return $this->_id;
+    public function testValue() {
+        $this->assertEquals("Test", $this->_object->setValue("Test")->getValue());
     }
 
-    function getData() {
-        return $this->_data;
+    public function testContructor() {
+        $attr = new Attribute("value");
+        $this->assertEquals("value",$attr->getValue());
     }
 
-    function setId($id) {
-        $this->_id = $id;
-        return $this;
-    }
-
-    function setData($data) {
-        $this->_data = $data;
-        return $this;
-    }
-
-    /**
-     * @return Framework\AttributeCollection
-     */
-    public function getAttributes() {
-        return $this->_attributes;
-    }
-
-    public function setAttributes(Framework\AttributeCollection $attributes) {
-        $this->_attributes = $attributes;
-        return $this;
-    }
 }
