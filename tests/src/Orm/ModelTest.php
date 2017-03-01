@@ -26,6 +26,7 @@
 
 namespace DSchoenbauer\Orm;
 
+use DSchoenbauer\Orm\Framework\AttributeCollection;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -57,6 +58,10 @@ class ModelTest extends PHPUnit_Framework_TestCase {
         });
 
         $this->assertEquals($this->_object, $this->_object->accept($mock));
+    }
+    
+    public function testAttributeCollection(){
+        $this->assertInstanceOf(AttributeCollection::class, $this->_object->getAttributes());
     }
 
 }

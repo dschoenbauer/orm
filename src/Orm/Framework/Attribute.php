@@ -24,57 +24,35 @@
  * THE SOFTWARE.
  */
 
-namespace DSchoenbauer\Orm;
+namespace DSchoenbauer\Orm\Framework;
 
 /**
- * Description of Model
+ * Description of Attribute
  *
- * @author David Schoenbauer
+ * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class Model {
+class Attribute {
 
-    private $_id;
-    private $_data;
-    private $_attributes;
+    private $_value;
 
-    use \Zend\EventManager\EventManagerAwareTrait;
-
-    public function __construct() {
-        $this->setAttributes(new Framework\AttributeCollection());
+    public function __construct($value = null) {
+        $this->setValue($value);
     }
     
-    function accept(VisitorInterface $visitor) {
-        $visitor->visitModel($this);
-        return $this;
-    }
-
-    function getId() {
-        return $this->_id;
-    }
-
-    function getData() {
-        return $this->_data;
-    }
-
-    function setId($id) {
-        $this->_id = $id;
-        return $this;
-    }
-
-    function setData($data) {
-        $this->_data = $data;
-        return $this;
-    }
-
     /**
-     * @return Framework\AttributeCollection
+     * @return mixed a value stored
      */
-    public function getAttributes() {
-        return $this->_attributes;
+    public function getValue() {
+        return $this->_value;
     }
-
-    public function setAttributes(Framework\AttributeCollection $attributes) {
-        $this->_attributes = $attributes;
+    
+    /**
+     * @param mixed $value a value to be stored
+     * @return $this
+     */
+    public function setValue($value) {
+        $this->_value = $value;
         return $this;
     }
+
 }
