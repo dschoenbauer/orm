@@ -26,6 +26,10 @@
 
 namespace DSchoenbauer\Orm;
 
+use DSchoenbauer\Orm\Enum\ModelEvents;
+use DSchoenbauer\Orm\Framework\AttributeCollection;
+use Zend\EventManager\EventManagerAwareTrait;
+
 /**
  * Description of Model
  *
@@ -37,10 +41,10 @@ class Model {
     private $_data;
     private $_attributes;
 
-    use \Zend\EventManager\EventManagerAwareTrait;
+    use EventManagerAwareTrait;
 
     public function __construct() {
-        $this->setAttributes(new Framework\AttributeCollection());
+        $this->setAttributes(new AttributeCollection());
     }
     
     function accept(VisitorInterface $visitor) {
@@ -65,15 +69,15 @@ class Model {
         $this->_data = $data;
         return $this;
     }
-
+    
     /**
-     * @return Framework\AttributeCollection
+     * @return AttributeCollection
      */
     public function getAttributes() {
         return $this->_attributes;
     }
 
-    public function setAttributes(Framework\AttributeCollection $attributes) {
+    public function setAttributes(AttributeCollection $attributes) {
         $this->_attributes = $attributes;
         return $this;
     }
