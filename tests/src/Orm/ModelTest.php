@@ -38,9 +38,24 @@ use Zend\EventManager\EventManager;
 class ModelTest extends PHPUnit_Framework_TestCase {
 
     private $_object;
+    private $_entity;
 
     protected function setUp() {
-        $this->_object = new Model();
+        $this->_entity = $this->getMockEntity();
+        $this->_object = new Model($this->_entity);
+    }
+
+    private function getMockEntity() {
+        return $this->getMockBuilder(Entity\EntityInterface::class)->getMock();
+    }
+
+    public function testEntityThroughConstructor() {
+        $this->assertSame($this->_entity, $this->_object->getEntity());
+    }
+
+    public function testEntity() {
+        $entity = $this->getMockEntity();
+        $this->assertSame($entity, $this->_object->setEntity($entity)->getEntity());
     }
 
     public function testId() {
@@ -60,13 +75,12 @@ class ModelTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals($this->_object, $this->_object->accept($mock));
     }
-    
 
-    public function testEventManager(){
+    public function testEventManager() {
         $this->assertInstanceOf(EventManager::class, $this->_object->getEventManager());
     }
-      
-      public function testAttributeCollection(){
+
+    public function testAttributeCollection() {
         $this->assertInstanceOf(AttributeCollection::class, $this->_object->getAttributes());
     }
 
