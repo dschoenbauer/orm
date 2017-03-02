@@ -26,7 +26,7 @@
 
 namespace DSchoenbauer\Orm;
 
-use DSchoenbauer\Orm\Enum\ModelEvents;
+use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Framework\AttributeCollection;
 use Zend\EventManager\EventManagerAwareTrait;
 
@@ -40,12 +40,26 @@ class Model {
     private $_id;
     private $_data;
     private $_attributes;
-
+    private $_entity;
+    
     use EventManagerAwareTrait;
 
-    public function __construct() {
-        $this->setAttributes(new AttributeCollection());
+    public function __construct(EntityInterface $entity) {
+        $this->setAttributes(new AttributeCollection())->setEntity($entity);
     }
+    
+    /**
+     * @return EntityInterface
+     */
+    public function getEntity() {
+        return $this->_entity;
+    }
+
+    public function setEntity(EntityInterface $entity) {
+        $this->_entity = $entity;
+        return $this;
+    }
+    
     
     function accept(VisitorInterface $visitor) {
         $visitor->visitModel($this);

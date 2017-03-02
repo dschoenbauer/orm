@@ -38,9 +38,11 @@ class CrudModelTest extends PHPUnit_Framework_TestCase {
 
     protected $_object;
     protected $_mockEventManager;
+    private $_entity;
 
     protected function setUp() {
-        $this->_object = new CrudModel();
+        $this->_entity = $this->getMockBuilder(Entity\EntityInterface::class)->getMock();
+        $this->_object = new CrudModel($this->_entity);
         $this->_mockEventManager = $this->getMockBuilder(EventManager::class)->getMock();
     }
 
