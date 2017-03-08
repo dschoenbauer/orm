@@ -37,29 +37,29 @@ abstract class AbstractEntity implements EntityInterface {
     private $_table;
     private $_name;
 
-    function getIdField() {
+    public function getIdField() {
         return $this->_idField;
     }
 
-    function getTable() {
+    public function getTable() {
         return $this->_table;
     }
 
-    function getName() {
+    public function getName() {
         return $this->_name;
     }
 
-    function setIdField($idField) {
+    public function setIdField($idField) {
         $this->_idField = $idField;
         return $this;
     }
 
-    function setTable($table) {
+    public function setTable($table) {
         $this->_table = $table;
         return $this;
     }
 
-    function setName($name) {
+    public function setName($name) {
         $this->_name = $name;
         return $this;
     }
