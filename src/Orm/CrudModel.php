@@ -38,13 +38,7 @@ class CrudModel extends Model
     {
         $this->setData($data);
         $events = [ModelEvents::CREATE, ModelEvents::FETCH];
-        $this->getEventManager()->trigger(
-            ModelEvents::VALIDATE,
-            $this,
-            compact('events')
-        );
-        $this->getEventManager()->trigger(ModelEvents::CREATE, $this);
-        $this->getEventManager()->trigger(ModelEvents::FETCH, $this);
+        $this->processEvents($events);
         return $this->getData();
     }
 
@@ -52,24 +46,14 @@ class CrudModel extends Model
     {
         $this->setId($id);
         $events = [ModelEvents::FETCH];
-        $this->getEventManager()->trigger(
-            ModelEvents::VALIDATE,
-            $this,
-            compact('events')
-        );
-        $this->getEventManager()->trigger(ModelEvents::FETCH, $this);
+        $this->processEvents($events);
         return $this->getData();
     }
 
     public function fetchAll()
     {
         $events = [ModelEvents::FETCH_ALL];
-        $this->getEventManager()->trigger(
-            ModelEvents::VALIDATE,
-            $this,
-            compact('events')
-        );
-        $this->getEventManager()->trigger(ModelEvents::FETCH_ALL, $this);
+        $this->processEvents($events);
         return $this->getData();
     }
 
@@ -77,13 +61,7 @@ class CrudModel extends Model
     {
         $this->setId($id)->setData($data);
         $events = [ModelEvents::UPDATE, ModelEvents::FETCH];
-        $this->getEventManager()->trigger(
-            ModelEvents::VALIDATE,
-            $this,
-            compact('events')
-        );
-        $this->getEventManager()->trigger(ModelEvents::UPDATE, $this);
-        $this->getEventManager()->trigger(ModelEvents::FETCH, $this);
+        $this->processEvents($events);
         return $this->getData();
     }
 
@@ -91,12 +69,17 @@ class CrudModel extends Model
     {
         $this->setId($id);
         $events = [ModelEvents::DELETE];
-        $this->getEventManager()->trigger(
-            ModelEvents::VALIDATE,
-            $this,
-            compact('events')
-        );
-        $this->getEventManager()->trigger(ModelEvents::DELETE, $this);
+        $this->processEvents($events);
         return true;
+    }
+
+    protected function processEvents(array $events)
+    {
+        $this->getEventManager()->trigger(
+            ModelEvents::VALIDATE, $this, compact('events')
+        );
+        foreach ($events as $event) {
+            $this->getEventManager()->trigger($event, $this);
+        }
     }
 }
