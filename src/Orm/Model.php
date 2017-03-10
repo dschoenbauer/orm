@@ -61,25 +61,25 @@ class Model {
     }
     
     
-    function accept(VisitorInterface $visitor) {
+    public function accept(VisitorInterface $visitor) {
         $visitor->visitModel($this);
         return $this;
     }
 
-    function getId() {
+    public function getId() {
         return $this->_id;
     }
 
-    function getData() {
+    public function getData() {
         return $this->_data;
     }
 
-    function setId($id) {
+    public function setId($id) {
         $this->_id = $id;
         return $this;
     }
 
-    function setData($data) {
+    public function setData($data) {
         $this->_data = $data;
         return $this;
     }
