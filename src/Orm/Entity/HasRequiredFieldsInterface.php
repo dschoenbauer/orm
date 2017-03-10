@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The MIT License
  *
@@ -23,14 +22,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace DSchoenbauer\Orm\Entity;
 
 /**
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-interface HasRequiredFieldsInterface {
+interface HasRequiredFieldsInterface
+{
 
     public function getRequiredFields();
 }

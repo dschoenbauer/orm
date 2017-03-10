@@ -15,7 +15,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "5.7.14",
-        "satooshi/php-coveralls": "dev-master"
+        "satooshi/php-coveralls": "dev-master",
+        "squizlabs/php_codesniffer": "^2.8"
     },
     "autoload": {
         "psr-4": {
@@ -28,6 +29,8 @@
         }
     },
     "scripts": {
-        "test": "phpunit tests"
+        "test": "phpunit tests",
+        "inspect": "phpcs --standard=PSR2 --colors src/",
+        "inspect-repair": "phpcbf --standard=PSR2 src/"
     }
 }

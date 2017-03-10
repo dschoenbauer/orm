@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The MIT License
  *
@@ -23,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace DSchoenbauer\Orm\Entity;
 
 /**
@@ -31,9 +29,14 @@ namespace DSchoenbauer\Orm\Entity;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-interface EntityInterface {
+interface EntityInterface
+{
+
     public function getName();
+
     public function getIdField();
+
     public function getTable();
+
     public function getAllFields();
 }

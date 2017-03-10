@@ -1,5 +1,4 @@
 <?php
-
 /*
  * The MIT License
  *
@@ -23,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace DSchoenbauer\Orm\Enum;
 
 /**
@@ -31,13 +29,13 @@ namespace DSchoenbauer\Orm\Enum;
  *
  * @author David Schoenbauer
  */
-class ModelEvents {
+class ModelEvents
+{
+
     const VALIDATE = 'validate';
-    
     const CREATE = 'create';
     const FETCH = "fetch";
     const FETCH_ALL = "fetchAll";
     const UPDATE = 'update';
     const DELETE = 'delete';
-
 }

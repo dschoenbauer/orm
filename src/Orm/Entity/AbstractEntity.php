@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The MIT License
  *
@@ -23,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace DSchoenbauer\Orm\Entity;
 
 /**
@@ -31,40 +29,48 @@ namespace DSchoenbauer\Orm\Entity;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-abstract class AbstractEntity implements EntityInterface {
+abstract class AbstractEntity implements EntityInterface
+{
 
-    private $_idField;
-    private $_table;
-    private $_name;
+    private $idField;
+    private $table;
+    private $name;
 
-    public function getIdField() {
-        return $this->_idField;
+    public function getIdField()
+    {
+        return $this->idField;
     }
 
-    public function getTable() {
-        return $this->_table;
+    public function getTable()
+    {
+        return $this->table;
     }
 
-    public function getName() {
-        return $this->_name;
+    public function getName()
+    {
+        return $this->name;
     }
 
-    public function setIdField($idField) {
-        $this->_idField = $idField;
+    public function setIdField($idField)
+    {
+        $this->idField = $idField;
         return $this;
     }
 
-    public function setTable($table) {
-        $this->_table = $table;
+    public function setTable($table)
+    {
+        $this->table = $table;
         return $this;
     }
 
-    public function setName($name) {
-        $this->_name = $name;
+    public function setName($name)
+    {
+        $this->name = $name;
         return $this;
     }
 
-    public function getAllFields() {
+    public function getAllFields()
+    {
         $fields = [];
         if ($this instanceof HasBoolFieldsInterface) {
             $fields = array_merge($fields, $this->getBoolFields());

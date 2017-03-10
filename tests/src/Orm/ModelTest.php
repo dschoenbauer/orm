@@ -1,5 +1,4 @@
 <?php
-
 /*
  * The MIT License
  *
@@ -23,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace DSchoenbauer\Orm;
 
 use DSchoenbauer\Orm\Framework\AttributeCollection;
@@ -35,53 +33,66 @@ use Zend\EventManager\EventManager;
  *
  * @author David Schoenbauer
  */
-class ModelTest extends PHPUnit_Framework_TestCase {
+class ModelTest extends PHPUnit_Framework_TestCase
+{
 
-    private $_object;
-    private $_entity;
+    private $object;
+    private $entity;
 
-    protected function setUp() {
-        $this->_entity = $this->getMockEntity();
-        $this->_object = new Model($this->_entity);
+    protected function setUp()
+    {
+        $this->entity = $this->getMockEntity();
+        $this->object = new Model($this->entity);
     }
 
-    private function getMockEntity() {
+    private function getMockEntity()
+    {
         return $this->getMockBuilder(Entity\EntityInterface::class)->getMock();
     }
 
-    public function testEntityThroughConstructor() {
-        $this->assertSame($this->_entity, $this->_object->getEntity());
+    public function testEntityThroughConstructor()
+    {
+        $this->assertSame($this->entity, $this->object->getEntity());
     }
 
-    public function testEntity() {
+    public function testEntity()
+    {
         $entity = $this->getMockEntity();
-        $this->assertSame($entity, $this->_object->setEntity($entity)->getEntity());
+        $this->assertSame($entity,
+            $this->object->setEntity($entity)->getEntity());
     }
 
-    public function testId() {
-        $this->assertEquals(10, $this->_object->setId(10)->getId());
+    public function testId()
+    {
+        $this->assertEquals(10, $this->object->setId(10)->getId());
     }
 
-    public function testData() {
-        $this->assertEquals('test', $this->_object->setData('test')->getData());
-        $this->assertEquals(['test'], $this->_object->setData(['test'])->getData());
+    public function testData()
+    {
+        $this->assertEquals('test', $this->object->setData('test')->getData());
+        $this->assertEquals(['test'],
+            $this->object->setData(['test'])->getData());
     }
 
-    public function testAccept() {
+    public function testAccept()
+    {
         $mock = $this->getMockBuilder(VisitorInterface::class)->getMock();
         $mock->expects($this->once())->method('visitModel')->willReturnCallback(function($arg) {
-            $this->assertEquals($this->_object, $arg);
+            $this->assertEquals($this->object, $arg);
         });
 
-        $this->assertEquals($this->_object, $this->_object->accept($mock));
+        $this->assertEquals($this->object, $this->object->accept($mock));
     }
 
-    public function testEventManager() {
-        $this->assertInstanceOf(EventManager::class, $this->_object->getEventManager());
+    public function testEventManager()
+    {
+        $this->assertInstanceOf(EventManager::class,
+            $this->object->getEventManager());
     }
 
-    public function testAttributeCollection() {
-        $this->assertInstanceOf(AttributeCollection::class, $this->_object->getAttributes());
+    public function testAttributeCollection()
+    {
+        $this->assertInstanceOf(AttributeCollection::class,
+            $this->object->getAttributes());
     }
-
 }

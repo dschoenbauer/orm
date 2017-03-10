@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The MIT License
  *
@@ -23,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace DSchoenbauer\Orm\Framework;
 
 /**
@@ -31,21 +29,24 @@ namespace DSchoenbauer\Orm\Framework;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class AttributeTest extends \PHPUnit_Framework_TestCase {
+class AttributeTest extends \PHPUnit_Framework_TestCase
+{
 
-    private $_object;
+    private $object;
 
-    protected function setUp() {
-        $this->_object = new \DSchoenbauer\Orm\Framework\Attribute();
+    protected function setUp()
+    {
+        $this->object = new \DSchoenbauer\Orm\Framework\Attribute();
     }
 
-    public function testValue() {
-        $this->assertEquals("Test", $this->_object->setValue("Test")->getValue());
+    public function testValue()
+    {
+        $this->assertEquals("Test", $this->object->setValue("Test")->getValue());
     }
 
-    public function testContructor() {
+    public function testContructor()
+    {
         $attr = new Attribute("value");
-        $this->assertEquals("value",$attr->getValue());
+        $this->assertEquals("value", $attr->getValue());
     }
-
 }

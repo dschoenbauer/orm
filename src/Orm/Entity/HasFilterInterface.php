@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * The MIT License
  *
@@ -24,13 +22,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace DSchoenbauer\Orm\Entity;
 
 /**
  *
  * @author David Schoenbauer <d.schoenbauer@ctimeetingtech.com>
  */
-interface HasFilterInterface {
+interface HasFilterInterface
+{
+
     public function getFilters();
 }
