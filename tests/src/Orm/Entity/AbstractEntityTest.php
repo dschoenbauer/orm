@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The MIT License
  *
@@ -23,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace DSchoenbauer\Orm\Entity;
 
 use DSchoenbauer\Tests\Orm\Entity\AbstractEntityWithAll;
@@ -38,54 +36,65 @@ use PHPUnit_Framework_TestCase;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class AbstractEntityTest extends PHPUnit_Framework_TestCase {
+class AbstractEntityTest extends PHPUnit_Framework_TestCase
+{
 
     private $object;
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->object = $this->getMockForAbstractClass(AbstractEntity::class);
     }
 
-    public function testName() {
+    public function testName()
+    {
         $this->assertEquals("test", $this->object->setName("test")->getName());
     }
 
-    public function testIdField() {
+    public function testIdField()
+    {
         $this->assertEquals('id', $this->object->setIdField('id')->getIdField());
     }
 
-    public function testTable() {
-        $this->assertEquals('some-table', $this->object->setTable('some-table')->getTable());
+    public function testTable()
+    {
+        $this->assertEquals('some-table',
+            $this->object->setTable('some-table')->getTable());
     }
 
-    public function testGetAllFieldsEmpty() {
+    public function testGetAllFieldsEmpty()
+    {
         $this->assertEquals([], $this->object->getAllFields());
     }
 
-    public function testGetAllFieldsBool() {
+    public function testGetAllFieldsBool()
+    {
         $entity = new AbstractEntityWithBool();
         $this->assertEquals(['boolField'], $entity->getAllFields());
     }
-    
-    public function testGetAllFieldsDate() {
+
+    public function testGetAllFieldsDate()
+    {
         $entity = new AbstractEntityWithDate();
         $this->assertEquals(['dateField'], $entity->getAllFields());
     }
 
-    public function testGetAllFieldsNumber() {
+    public function testGetAllFieldsNumber()
+    {
         $entity = new AbstractEntityWithNumber();
         $this->assertEquals(['numberField'], $entity->getAllFields());
     }
 
-    public function testGetAllFieldsString() {
+    public function testGetAllFieldsString()
+    {
         $entity = new AbstractEntityWithString();
         $this->assertEquals(['stringField'], $entity->getAllFields());
     }
 
-    public function testGetAllFieldsAll() {
+    public function testGetAllFieldsAll()
+    {
         $entity = new AbstractEntityWithAll();
-        $this->assertEquals(['boolField','dateField','numberField','stringField'], $entity->getAllFields());
+        $this->assertEquals(['boolField', 'dateField', 'numberField', 'stringField'],
+            $entity->getAllFields());
     }
-
-    
 }

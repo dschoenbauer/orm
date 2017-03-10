@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The MIT License
  *
@@ -23,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace DSchoenbauer\Orm\Framework;
 
 /**
@@ -40,7 +38,7 @@ class Attribute
     {
         $this->setValue($value);
     }
-    
+
     /**
      * @return mixed a value stored
      */
@@ -48,7 +46,7 @@ class Attribute
     {
         return $this->value;
     }
-    
+
     /**
      * @param mixed $value a value to be stored
      * @return $this

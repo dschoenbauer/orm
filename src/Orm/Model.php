@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The MIT License
  *
@@ -23,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace DSchoenbauer\Orm;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
@@ -42,14 +40,14 @@ class Model
     private $data;
     private $attributes;
     private $entity;
-    
+
     use EventManagerAwareTrait;
 
     public function __construct(EntityInterface $entity)
     {
         $this->setAttributes(new AttributeCollection())->setEntity($entity);
     }
-    
+
     /**
      * @return EntityInterface
      */
@@ -63,36 +61,35 @@ class Model
         $this->entity = $entity;
         return $this;
     }
-    
-    
-    function accept(VisitorInterface $visitor)
+
+    public function accept(VisitorInterface $visitor)
     {
         $visitor->visitModel($this);
         return $this;
     }
 
-    function getId()
+    public function getId()
     {
         return $this->id;
     }
 
-    function getData()
+    public function getData()
     {
         return $this->data;
     }
 
-    function setId($id)
+    public function setId($id)
     {
         $this->id = $id;
         return $this;
     }
 
-    function setData($data)
+    public function setData($data)
     {
         $this->data = $data;
         return $this;
     }
-    
+
     /**
      * @return AttributeCollection
      */

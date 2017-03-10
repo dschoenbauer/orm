@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The MIT License
  *
@@ -23,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace DSchoenbauer\Tests\Orm\Entity;
 
 use DSchoenbauer\Orm\Entity\AbstractEntity;
@@ -34,10 +32,11 @@ use DSchoenbauer\Orm\Entity\HasDateFieldsInterface;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class AbstractEntityWithDate extends AbstractEntity implements HasDateFieldsInterface{
+class AbstractEntityWithDate extends AbstractEntity implements HasDateFieldsInterface
+{
 
-    public function getDateFields() {
+    public function getDateFields()
+    {
         return ['dateField'];
     }
-
 }

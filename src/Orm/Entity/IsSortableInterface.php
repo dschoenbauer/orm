@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The MIT License
  *
@@ -23,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace DSchoenbauer\Orm\Entity;
 
 /**
@@ -32,7 +30,10 @@ namespace DSchoenbauer\Orm\Entity;
  */
 interface IsSortableInterface
 {
+
     public function getSortFields();
+
     public function getDefaultSortField();
+
     public function getDefaultSortDirection();
 }

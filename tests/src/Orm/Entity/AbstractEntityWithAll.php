@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The MIT License
  *
@@ -23,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace DSchoenbauer\Tests\Orm\Entity;
 
 use DSchoenbauer\Orm\Entity\AbstractEntity;
@@ -38,22 +36,26 @@ use DSchoenbauer\Orm\Entity\HasStringFieldsInterface;
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
 class AbstractEntityWithAll extends AbstractEntity implements
-HasBoolFieldsInterface, HasDateFieldsInterface, HasNumericFieldsInterface, HasStringFieldsInterface {
+HasBoolFieldsInterface, HasDateFieldsInterface, HasNumericFieldsInterface, HasStringFieldsInterface
+{
 
-    public function getBoolFields() {
+    public function getBoolFields()
+    {
         return ['boolField'];
     }
 
-    public function getDateFields() {
+    public function getDateFields()
+    {
         return ['dateField'];
     }
 
-    public function getNumericFields() {
+    public function getNumericFields()
+    {
         return ['numberField'];
     }
 
-    public function getStringFields() {
+    public function getStringFields()
+    {
         return ['stringField'];
     }
-
 }

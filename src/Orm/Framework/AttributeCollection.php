@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The MIT License
  *
@@ -23,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace DSchoenbauer\Orm\Framework;
 
 /**
@@ -49,7 +47,8 @@ class AttributeCollection
      * Retrieves a parameter if the parameter doesn't exist one is created with the default value
      * @param string $key a one word label for the value
      * @param type $defaultValue a value to use if the parameter is not present
-     * @param string $type byRef or byValue : byRef will return the attribute object and byValue will return the attribute value
+     * @param string $type byRef or byValue : byRef will return the attribute
+     * object and byValue will return the attribute value
      * @return mixed type will define what is returned
      */
     public function get($key, $defaultValue = null, $type = self::BY_VALUE)

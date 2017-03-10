@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The MIT License
  *
@@ -23,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace DSchoenbauer\Orm\Framework;
 
 /**
@@ -31,24 +29,32 @@ namespace DSchoenbauer\Orm\Framework;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class AttributeCollectionTest extends \PHPUnit_Framework_TestCase {
+class AttributeCollectionTest extends \PHPUnit_Framework_TestCase
+{
 
     private $object;
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->object = new AttributeCollection();
     }
 
-    public function testSet() {
-        $this->assertEquals("value", $this->object->set('test', 'value')->get('test'));
+    public function testSet()
+    {
+        $this->assertEquals("value",
+            $this->object->set('test', 'value')->get('test'));
     }
 
-    public function testByRef() {
-        $this->assertInstanceOf(Attribute::class, $this->object->set('test', 'value')->get('test', null, AttributeCollection::BY_REF));
+    public function testByRef()
+    {
+        $this->assertInstanceOf(Attribute::class,
+            $this->object->set('test', 'value')->get('test', null,
+                AttributeCollection::BY_REF));
     }
 
-    public function testDefaultValues() {
-        $this->assertEquals("value", $this->object->set('test', 'value')->get('test', 'notValue'));
+    public function testDefaultValues()
+    {
+        $this->assertEquals("value",
+            $this->object->set('test', 'value')->get('test', 'notValue'));
     }
-
 }

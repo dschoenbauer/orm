@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The MIT License
  *
@@ -23,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace DSchoenbauer\Orm\Entity;
 
 /**
@@ -38,34 +36,34 @@ abstract class AbstractEntity implements EntityInterface
     private $table;
     private $name;
 
-    function getIdField()
+    public function getIdField()
     {
         return $this->idField;
     }
 
-    function getTable()
+    public function getTable()
     {
         return $this->table;
     }
 
-    function getName()
+    public function getName()
     {
         return $this->name;
     }
 
-    function setIdField($idField)
+    public function setIdField($idField)
     {
         $this->idField = $idField;
         return $this;
     }
 
-    function setTable($table)
+    public function setTable($table)
     {
         $this->table = $table;
         return $this;
     }
 
-    function setName($name)
+    public function setName($name)
     {
         $this->name = $name;
         return $this;
