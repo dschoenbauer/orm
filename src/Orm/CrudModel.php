@@ -33,9 +33,11 @@ use DSchoenbauer\Orm\Enum\ModelEvents;
  *
  * @author David Schoenbauer
  */
-class CrudModel extends Model {
+class CrudModel extends Model
+{
 
-    public function create($data) {
+    public function create($data)
+    {
         $this->setData($data);
         $events = [ModelEvents::CREATE, ModelEvents::FETCH];
         $this->getEventManager()->trigger(ModelEvents::VALIDATE, $this, compact('events'));
@@ -44,7 +46,8 @@ class CrudModel extends Model {
         return $this->getData();
     }
 
-    public function fetch($id) {
+    public function fetch($id)
+    {
         $this->setId($id);
         $events = [ModelEvents::FETCH];
         $this->getEventManager()->trigger(ModelEvents::VALIDATE, $this, compact('events'));
@@ -52,14 +55,16 @@ class CrudModel extends Model {
         return $this->getData();
     }
 
-    public function fetchAll() {
+    public function fetchAll()
+    {
         $events = [ModelEvents::FETCH_ALL];
         $this->getEventManager()->trigger(ModelEvents::VALIDATE, $this, compact('events'));
         $this->getEventManager()->trigger(ModelEvents::FETCH_ALL, $this);
         return $this->getData();
     }
 
-    public function update($id, $data) {
+    public function update($id, $data)
+    {
         $this->setId($id)->setData($data);
         $events = [ModelEvents::UPDATE, ModelEvents::FETCH];
         $this->getEventManager()->trigger(ModelEvents::VALIDATE, $this, compact('events'));
@@ -68,12 +73,12 @@ class CrudModel extends Model {
         return $this->getData();
     }
     
-    public function delete($id){
+    public function delete($id)
+    {
         $this->setId($id);
         $events = [ModelEvents::DELETE];
         $this->getEventManager()->trigger(ModelEvents::VALIDATE, $this, compact('events'));
         $this->getEventManager()->trigger(ModelEvents::DELETE, $this);
         return true;
     }
-
 }

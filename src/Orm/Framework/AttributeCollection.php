@@ -31,15 +31,17 @@ namespace DSchoenbauer\Orm\Framework;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class AttributeCollection {
+class AttributeCollection
+{
 
     const BY_VALUE = "byValue";
     const BY_REF = "byRef";
 
-    private $_attributes = [];
+    private $attributes = [];
 
-    public function set($key, $value) {
-        $this->ensureKey($key)->_attributes[$key]->setValue($value);
+    public function set($key, $value)
+    {
+        $this->ensureKey($key)->attributes[$key]->setValue($value);
         return $this;
     }
 
@@ -50,8 +52,9 @@ class AttributeCollection {
      * @param string $type byRef or byValue : byRef will return the attribute object and byValue will return the attribute value
      * @return mixed type will define what is returned
      */
-    public function get($key, $defaultValue = null, $type = self::BY_VALUE) {
-        $attr = &$this->ensureKey($key, $defaultValue)->_attributes[$key];
+    public function get($key, $defaultValue = null, $type = self::BY_VALUE)
+    {
+        $attr = &$this->ensureKey($key, $defaultValue)->attributes[$key];
         if ($type == self::BY_REF) {
             return $attr;
         }
@@ -64,9 +67,10 @@ class AttributeCollection {
      * @param type $value
      * @return $this
      */
-    private function ensureKey($key, $value = null) {
+    private function ensureKey($key, $value = null)
+    {
         if (!$this->has($key)) {
-            $this->_attributes[$key] = new Attribute($value);
+            $this->attributes[$key] = new Attribute($value);
         }
         return $this;
     }
@@ -76,8 +80,8 @@ class AttributeCollection {
      * @param string $key
      * @return bool
      */
-    public function has($key) {
-        return array_key_exists($key, $this->_attributes);
+    public function has($key)
+    {
+        return array_key_exists($key, $this->attributes);
     }
-
 }

@@ -30,7 +30,8 @@ namespace DSchoenbauer\Orm\Entity;
  * Default values can be overridden. Static Values can not.
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-interface HasDefaultValuesInterface {
+interface HasDefaultValuesInterface
+{
 
     function getDefaultValues();
 }

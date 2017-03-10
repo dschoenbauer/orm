@@ -30,7 +30,8 @@ namespace DSchoenbauer\Orm\Entity;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-interface HasRequiredFieldsInterface {
+interface HasRequiredFieldsInterface
+{
 
     public function getRequiredFields();
 }

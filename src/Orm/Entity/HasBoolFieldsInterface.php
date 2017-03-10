@@ -30,7 +30,8 @@ namespace DSchoenbauer\Orm\Entity;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-interface HasBoolFieldsInterface {
+interface HasBoolFieldsInterface
+{
 
     public function getBoolFields();
 }

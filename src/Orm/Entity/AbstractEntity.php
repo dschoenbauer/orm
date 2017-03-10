@@ -31,40 +31,48 @@ namespace DSchoenbauer\Orm\Entity;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-abstract class AbstractEntity implements EntityInterface {
+abstract class AbstractEntity implements EntityInterface
+{
 
-    private $_idField;
-    private $_table;
-    private $_name;
+    private $idField;
+    private $table;
+    private $name;
 
-    function getIdField() {
-        return $this->_idField;
+    function getIdField()
+    {
+        return $this->idField;
     }
 
-    function getTable() {
-        return $this->_table;
+    function getTable()
+    {
+        return $this->table;
     }
 
-    function getName() {
-        return $this->_name;
+    function getName()
+    {
+        return $this->name;
     }
 
-    function setIdField($idField) {
-        $this->_idField = $idField;
+    function setIdField($idField)
+    {
+        $this->idField = $idField;
         return $this;
     }
 
-    function setTable($table) {
-        $this->_table = $table;
+    function setTable($table)
+    {
+        $this->table = $table;
         return $this;
     }
 
-    function setName($name) {
-        $this->_name = $name;
+    function setName($name)
+    {
+        $this->name = $name;
         return $this;
     }
 
-    public function getAllFields() {
+    public function getAllFields()
+    {
         $fields = [];
         if ($this instanceof HasBoolFieldsInterface) {
             $fields = array_merge($fields, $this->getBoolFields());

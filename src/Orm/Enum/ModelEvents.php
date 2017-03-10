@@ -31,7 +31,8 @@ namespace DSchoenbauer\Orm\Enum;
  *
  * @author David Schoenbauer
  */
-class ModelEvents {
+class ModelEvents
+{
     const VALIDATE = 'validate';
     
     const CREATE = 'create';
@@ -39,5 +40,4 @@ class ModelEvents {
     const FETCH_ALL = "fetchAll";
     const UPDATE = 'update';
     const DELETE = 'delete';
-
 }

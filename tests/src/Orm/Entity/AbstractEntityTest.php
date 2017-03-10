@@ -40,26 +40,26 @@ use PHPUnit_Framework_TestCase;
  */
 class AbstractEntityTest extends PHPUnit_Framework_TestCase {
 
-    private $_object;
+    private $object;
 
     protected function setUp() {
-        $this->_object = $this->getMockForAbstractClass(AbstractEntity::class);
+        $this->object = $this->getMockForAbstractClass(AbstractEntity::class);
     }
 
     public function testName() {
-        $this->assertEquals("test", $this->_object->setName("test")->getName());
+        $this->assertEquals("test", $this->object->setName("test")->getName());
     }
 
     public function testIdField() {
-        $this->assertEquals('id', $this->_object->setIdField('id')->getIdField());
+        $this->assertEquals('id', $this->object->setIdField('id')->getIdField());
     }
 
     public function testTable() {
-        $this->assertEquals('some-table', $this->_object->setTable('some-table')->getTable());
+        $this->assertEquals('some-table', $this->object->setTable('some-table')->getTable());
     }
 
     public function testGetAllFieldsEmpty() {
-        $this->assertEquals([], $this->_object->getAllFields());
+        $this->assertEquals([], $this->object->getAllFields());
     }
 
     public function testGetAllFieldsBool() {

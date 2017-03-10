@@ -36,81 +36,81 @@ use Zend\EventManager\EventManager;
  */
 class CrudModelTest extends PHPUnit_Framework_TestCase {
 
-    protected $_object;
-    protected $_mockEventManager;
-    private $_entity;
+    protected $object;
+    protected $mockEventManager;
+    private $entity;
 
     protected function setUp() {
-        $this->_entity = $this->getMockBuilder(Entity\EntityInterface::class)->getMock();
-        $this->_object = new CrudModel($this->_entity);
-        $this->_mockEventManager = $this->getMockBuilder(EventManager::class)->getMock();
+        $this->entity = $this->getMockBuilder(Entity\EntityInterface::class)->getMock();
+        $this->object = new CrudModel($this->entity);
+        $this->mockEventManager = $this->getMockBuilder(EventManager::class)->getMock();
     }
 
     public function testCreate() {
-        $this->_mockEventManager->expects($this->exactly(3))
+        $this->mockEventManager->expects($this->exactly(3))
                 ->method('trigger')
                 ->withConsecutive(
-                        [Enum\ModelEvents::VALIDATE, $this->_object, ['events' => [Enum\ModelEvents::CREATE, Enum\ModelEvents::FETCH]]], [Enum\ModelEvents::CREATE, $this->_object], [Enum\ModelEvents::FETCH, $this->_object]);
+                        [Enum\ModelEvents::VALIDATE, $this->object, ['events' => [Enum\ModelEvents::CREATE, Enum\ModelEvents::FETCH]]], [Enum\ModelEvents::CREATE, $this->object], [Enum\ModelEvents::FETCH, $this->object]);
 
-        $this->_object->setEventManager($this->_mockEventManager);
+        $this->object->setEventManager($this->mockEventManager);
         $data = ['test' => 'value'];
-        $this->assertEquals($data, $this->_object->create($data));
-        $this->assertEquals($data, $this->_object->getData());
+        $this->assertEquals($data, $this->object->create($data));
+        $this->assertEquals($data, $this->object->getData());
     }
 
     public function testFetch() {
-        $this->_mockEventManager->expects($this->exactly(2))
+        $this->mockEventManager->expects($this->exactly(2))
                 ->method('trigger')
                 ->withConsecutive(
-                        [Enum\ModelEvents::VALIDATE, $this->_object, ['events' => [Enum\ModelEvents::FETCH]]], 
-                        [Enum\ModelEvents::FETCH, $this->_object]);
+                        [Enum\ModelEvents::VALIDATE, $this->object, ['events' => [Enum\ModelEvents::FETCH]]], 
+                        [Enum\ModelEvents::FETCH, $this->object]);
 
-        $this->_object->setEventManager($this->_mockEventManager);
+        $this->object->setEventManager($this->mockEventManager);
         $id = 1447;
         $data = ['test' => 'value'];
-        $this->assertEquals($data, $this->_object->setData($data)->fetch($id));
-        $this->assertEquals($id, $this->_object->getId());
+        $this->assertEquals($data, $this->object->setData($data)->fetch($id));
+        $this->assertEquals($id, $this->object->getId());
     }
 
     public function testFetchAll() {
-        $this->_mockEventManager->expects($this->exactly(2))
+        $this->mockEventManager->expects($this->exactly(2))
                 ->method('trigger')
                 ->withConsecutive(
-                        [Enum\ModelEvents::VALIDATE, $this->_object, ['events' => [Enum\ModelEvents::FETCH_ALL]]], 
-                        [Enum\ModelEvents::FETCH_ALL, $this->_object]);
+                        [Enum\ModelEvents::VALIDATE, $this->object, ['events' => [Enum\ModelEvents::FETCH_ALL]]], 
+                        [Enum\ModelEvents::FETCH_ALL, $this->object]);
 
-        $this->_object->setEventManager($this->_mockEventManager);
+        $this->object->setEventManager($this->mockEventManager);
         $data = ['test' => 'value'];
-        $this->assertEquals($data, $this->_object->setData($data)->fetchAll());
+        $this->assertEquals($data, $this->object->setData($data)->fetchAll());
     }
     
     public function testUpdate() {
-        $this->_mockEventManager->expects($this->exactly(3))
+        $this->mockEventManager->expects($this->exactly(3))
                 ->method('trigger')
                 ->withConsecutive(
-                        [Enum\ModelEvents::VALIDATE, $this->_object, ['events' => [Enum\ModelEvents::UPDATE, Enum\ModelEvents::FETCH]]], 
-                        [Enum\ModelEvents::UPDATE, $this->_object], 
-                        [Enum\ModelEvents::FETCH, $this->_object]
+                        [Enum\ModelEvents::VALIDATE, $this->object, ['events' => [Enum\ModelEvents::UPDATE, Enum\ModelEvents::FETCH]]], 
+                        [Enum\ModelEvents::UPDATE, $this->object], 
+                        [Enum\ModelEvents::FETCH, $this->object]
                         );
 
-        $this->_object->setEventManager($this->_mockEventManager);
+        $this->object->setEventManager($this->mockEventManager);
         $id = 1447;
         $data = ['test' => 'value'];
-        $this->assertEquals($data, $this->_object->update($id,$data));
-        $this->assertEquals($data, $this->_object->getData());
-        $this->assertEquals($id, $this->_object->getId());
+        $this->assertEquals($data, $this->object->update($id,$data));
+        $this->assertEquals($data, $this->object->getData());
+        $this->assertEquals($id, $this->object->getId());
     }
     
     public function testDelete() {
-        $this->_mockEventManager->expects($this->exactly(2))
+        $this->mockEventManager->expects($this->exactly(2))
                 ->method('trigger')
                 ->withConsecutive(
-                        [Enum\ModelEvents::VALIDATE, $this->_object, ['events' => [Enum\ModelEvents::DELETE]]], 
-                        [Enum\ModelEvents::DELETE, $this->_object]);
+                        [Enum\ModelEvents::VALIDATE, $this->object, ['events' => [Enum\ModelEvents::DELETE]]], 
+                        [Enum\ModelEvents::DELETE, $this->object]);
 
-        $this->_object->setEventManager($this->_mockEventManager);
+        $this->object->setEventManager($this->mockEventManager);
         $id = 1447;
-        $this->assertTrue($this->_object->delete($id));
-        $this->assertEquals($id, $this->_object->getId());
+        $this->assertTrue($this->object->delete($id));
+        $this->assertEquals($id, $this->object->getId());
     }
 }

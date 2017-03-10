@@ -31,7 +31,8 @@ namespace DSchoenbauer\Orm\Entity;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-interface HasDateFieldsInterface {
+interface HasDateFieldsInterface
+{
 
     public function getDateFields();
 }

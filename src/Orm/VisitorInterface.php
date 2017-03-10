@@ -30,6 +30,7 @@ namespace DSchoenbauer\Orm;
  *
  * @author David Schoenbauer
  */
-interface VisitorInterface {
+interface VisitorInterface
+{
     public function visitModel(Model $model);
 }

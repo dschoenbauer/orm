@@ -33,22 +33,22 @@ namespace DSchoenbauer\Orm\Framework;
  */
 class AttributeCollectionTest extends \PHPUnit_Framework_TestCase {
 
-    private $_object;
+    private $object;
 
     protected function setUp() {
-        $this->_object = new AttributeCollection();
+        $this->object = new AttributeCollection();
     }
 
     public function testSet() {
-        $this->assertEquals("value", $this->_object->set('test', 'value')->get('test'));
+        $this->assertEquals("value", $this->object->set('test', 'value')->get('test'));
     }
 
     public function testByRef() {
-        $this->assertInstanceOf(Attribute::class, $this->_object->set('test', 'value')->get('test', null, AttributeCollection::BY_REF));
+        $this->assertInstanceOf(Attribute::class, $this->object->set('test', 'value')->get('test', null, AttributeCollection::BY_REF));
     }
 
     public function testDefaultValues() {
-        $this->assertEquals("value", $this->_object->set('test', 'value')->get('test', 'notValue'));
+        $this->assertEquals("value", $this->object->set('test', 'value')->get('test', 'notValue'));
     }
 
 }

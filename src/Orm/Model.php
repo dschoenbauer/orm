@@ -35,64 +35,75 @@ use Zend\EventManager\EventManagerAwareTrait;
  *
  * @author David Schoenbauer
  */
-class Model {
+class Model
+{
 
-    private $_id;
-    private $_data;
-    private $_attributes;
-    private $_entity;
+    private $id;
+    private $data;
+    private $attributes;
+    private $entity;
     
     use EventManagerAwareTrait;
 
-    public function __construct(EntityInterface $entity) {
+    public function __construct(EntityInterface $entity)
+    {
         $this->setAttributes(new AttributeCollection())->setEntity($entity);
     }
     
     /**
      * @return EntityInterface
      */
-    public function getEntity() {
-        return $this->_entity;
+    public function getEntity()
+    {
+        return $this->entity;
     }
 
-    public function setEntity(EntityInterface $entity) {
-        $this->_entity = $entity;
+    public function setEntity(EntityInterface $entity)
+    {
+        $this->entity = $entity;
         return $this;
     }
     
     
-    function accept(VisitorInterface $visitor) {
+    function accept(VisitorInterface $visitor)
+    {
         $visitor->visitModel($this);
         return $this;
     }
 
-    function getId() {
-        return $this->_id;
+    function getId()
+    {
+        return $this->id;
     }
 
-    function getData() {
-        return $this->_data;
+    function getData()
+    {
+        return $this->data;
     }
 
-    function setId($id) {
-        $this->_id = $id;
+    function setId($id)
+    {
+        $this->id = $id;
         return $this;
     }
 
-    function setData($data) {
-        $this->_data = $data;
+    function setData($data)
+    {
+        $this->data = $data;
         return $this;
     }
     
     /**
      * @return AttributeCollection
      */
-    public function getAttributes() {
-        return $this->_attributes;
+    public function getAttributes()
+    {
+        return $this->attributes;
     }
 
-    public function setAttributes(AttributeCollection $attributes) {
-        $this->_attributes = $attributes;
+    public function setAttributes(AttributeCollection $attributes)
+    {
+        $this->attributes = $attributes;
         return $this;
     }
 }

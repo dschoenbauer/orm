@@ -33,14 +33,14 @@ namespace DSchoenbauer\Orm\Framework;
  */
 class AttributeTest extends \PHPUnit_Framework_TestCase {
 
-    private $_object;
+    private $object;
 
     protected function setUp() {
-        $this->_object = new \DSchoenbauer\Orm\Framework\Attribute();
+        $this->object = new \DSchoenbauer\Orm\Framework\Attribute();
     }
 
     public function testValue() {
-        $this->assertEquals("Test", $this->_object->setValue("Test")->getValue());
+        $this->assertEquals("Test", $this->object->setValue("Test")->getValue());
     }
 
     public function testContructor() {

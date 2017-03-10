@@ -31,28 +31,31 @@ namespace DSchoenbauer\Orm\Framework;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class Attribute {
+class Attribute
+{
 
-    private $_value;
+    private $value;
 
-    public function __construct($value = null) {
+    public function __construct($value = null)
+    {
         $this->setValue($value);
     }
     
     /**
      * @return mixed a value stored
      */
-    public function getValue() {
-        return $this->_value;
+    public function getValue()
+    {
+        return $this->value;
     }
     
     /**
      * @param mixed $value a value to be stored
      * @return $this
      */
-    public function setValue($value) {
-        $this->_value = $value;
+    public function setValue($value)
+    {
+        $this->value = $value;
         return $this;
     }
-
 }

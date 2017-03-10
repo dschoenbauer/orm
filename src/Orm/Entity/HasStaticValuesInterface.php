@@ -31,7 +31,8 @@ namespace DSchoenbauer\Orm\Entity;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-interface HasStaticValuesInterface {
+interface HasStaticValuesInterface
+{
 
     public function getStaticValues();
 }

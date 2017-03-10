@@ -31,7 +31,8 @@ namespace DSchoenbauer\Orm\Entity;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-interface EntityInterface {
+interface EntityInterface
+{
     public function getName();
     public function getIdField();
     public function getTable();
