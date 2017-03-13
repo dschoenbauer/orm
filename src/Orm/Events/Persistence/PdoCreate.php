@@ -38,8 +38,8 @@ class PdoCreate extends AbstractEvent
         $model = $event->getTarget();
         $entity = $model->getEntity();
         $this->getCreate()
-            ->setTable($entity->getTable())->setData($model->getData())
-            ->setWhere(new ArrayWhere([$entity->getIdField() => $model->getId()]))
+            ->setTable($entity->getTable())
+            ->setData($model->getData())
             ->execute($this->getAdapter());
     }
 
