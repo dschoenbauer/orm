@@ -28,7 +28,6 @@ use DSchoenbauer\Orm\Enum\ModelEvents;
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Sql\Command\Select;
-use DSchoenbauer\Sql\Query;
 use DSchoenbauer\Sql\Where\ArrayWhere;
 use PDO;
 use Zend\EventManager\Event;
@@ -47,7 +46,8 @@ class PdoSelect extends AbstractEvent
     public function __construct(\PDO $adapter, Select $select = null)
     {
         $this->setEvents([ModelEvents::FETCH])
-            ->setAdapter($adapter);
+            ->setAdapter($adapter)
+            ->setSelect($select);
     }
 
     public function onExecute(Event $event)
@@ -94,7 +94,7 @@ class PdoSelect extends AbstractEvent
         return $this->select;
     }
 
-    public function setSelect(Select $select)
+    public function setSelect(Select $select = null)
     {
         $this->select = $select;
         return $this;
