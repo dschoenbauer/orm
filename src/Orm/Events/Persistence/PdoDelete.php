@@ -21,8 +21,8 @@ use Zend\EventManager\Event;
 class PdoDelete extends AbstractEvent
 {
 
-    public $adapter;
-    public $delete;
+    private $adapter;
+    private $delete;
 
     public function __construct(PDO $adapter, Delete $delete = null)
     {
