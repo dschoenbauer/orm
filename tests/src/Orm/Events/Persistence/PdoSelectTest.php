@@ -107,14 +107,10 @@ class PdoSelectTest extends PHPUnit_Framework_TestCase
         $select->expects($this->once())->method('execute')->with($this->mockAdapter);
 
         
-        $model->expects($this->once())
-            ->method('getEntity')
-            ->willReturn($entity);
-        
+        $model->expects($this->once())->method('getEntity')->willReturn($entity);
+
         $event = $this->getMockBuilder(Event::class)->getMock();
-        $event->expects($this->exactly(2))
-            ->method('getTarget')
-            ->willReturn($model);
+        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
         
         $this->assertNull($this->object->setSelect($select)->onExecute($event));
     }
