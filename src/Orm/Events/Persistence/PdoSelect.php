@@ -33,7 +33,7 @@ use PDO;
 use Zend\EventManager\Event;
 
 /**
- * Description of PdoSelect
+ * Event driven hook to select information from a PDO connection
  *
  * @author David Schoenbauer
  */
@@ -50,6 +50,11 @@ class PdoSelect extends AbstractEvent
             ->setSelect($select);
     }
 
+    /**
+     * event action
+     * @param Event $event object passed when event is fired
+     * @return void
+     */
     public function onExecute(Event $event)
     {
         if (!$event->getTarget() instanceof Model) {
@@ -60,10 +65,10 @@ class PdoSelect extends AbstractEvent
         $entity = $model->getEntity();
         $model->setData(
             $this->getSelect()
-            ->setTable($entity->getTable())
-            ->setFields($entity->getAllFields())
-            ->setWhere(new ArrayWhere([$entity->getIdField() => $model->getId()]))->setFetchFlat()
-            ->execute($this->getAdapter())
+                ->setTable($entity->getTable())
+                ->setFields($entity->getAllFields())
+                ->setWhere(new ArrayWhere([$entity->getIdField() => $model->getId()]))->setFetchFlat()
+                ->execute($this->getAdapter())
         );
     }
 
@@ -76,6 +81,11 @@ class PdoSelect extends AbstractEvent
         return $this->adapter;
     }
 
+    /**
+     * PDO connection to a db of some sort.
+     * @param PDO $adapter
+     * @return $this
+     */
     public function setAdapter(PDO $adapter)
     {
         $this->adapter = $adapter;
@@ -83,7 +93,7 @@ class PdoSelect extends AbstractEvent
     }
 
     /**
-     *
+     * object with logic for the Select. If Select is not provided one will be lazy loaded
      * @return Select
      */
     public function getSelect()
@@ -94,6 +104,11 @@ class PdoSelect extends AbstractEvent
         return $this->select;
     }
 
+    /**
+     * Object that contains the select logic
+     * @param Select $select
+     * @return $this
+     */
     public function setSelect(Select $select = null)
     {
         $this->select = $select;

@@ -14,7 +14,7 @@ use PDO;
 use Zend\EventManager\Event;
 
 /**
- * Description of PdoUpdate
+ * Event driven hook to update information from a PDO connection
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
@@ -29,6 +29,11 @@ class PdoUpdate extends AbstractEvent
         $this->setAdapter($adapter)->setUpdate($update);
     }
 
+    /**
+     * event action
+     * @param Event $event object passed when event is fired
+     * @return void
+     */
     public function onExecute(Event $event)
     {
         if (!$event->getTarget() instanceof Model) {
@@ -43,11 +48,20 @@ class PdoUpdate extends AbstractEvent
             ->execute($this->getAdapter());
     }
 
+    /**
+     * Returns a PHP Data Object
+     * @return PDO
+     */
     public function getAdapter()
     {
         return $this->adapter;
     }
 
+    /**
+     * PDO connection to a db of some sort.
+     * @param PDO $adapter
+     * @return $this
+     */
     public function setAdapter($adapter)
     {
         $this->adapter = $adapter;
@@ -55,6 +69,7 @@ class PdoUpdate extends AbstractEvent
     }
 
     /**
+     * object with logic for the Update. If Update is not provided one will be lazy loaded
      * @return Update
      */
     public function getUpdate()
@@ -65,7 +80,12 @@ class PdoUpdate extends AbstractEvent
         return $this->update;
     }
 
-    public function setUpdate($update)
+    /**
+     * Object that contains the update logic
+     * @param Update $update
+     * @return $this
+     */
+    public function setUpdate(Update $update = null)
     {
         $this->update = $update;
         return $this;

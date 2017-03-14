@@ -14,7 +14,7 @@ use PDO;
 use Zend\EventManager\Event;
 
 /**
- * Description of PdoDelete
+ * Event driven hook to delete information from a PDO connection
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
@@ -29,6 +29,11 @@ class PdoDelete extends AbstractEvent
         $this->setAdapter($adapter)->setDelete($delete);
     }
 
+    /**
+     * event action
+     * @param Event $event object passed when event is fired
+     * @return void
+     */
     public function onExecute(Event $event)
     {
         if (!$event->getTarget() instanceof Model) {
@@ -42,12 +47,20 @@ class PdoDelete extends AbstractEvent
             ->setWhere(new ArrayWhere([$entity->getIdField() => $model->getId()]))
             ->execute($this->getAdapter());
     }
-
+    /**
+     * Returns a PHP Data Object
+     * @return PDO
+     */
     public function getAdapter()
     {
         return $this->adapter;
     }
 
+        /**
+     * PDO connection to a db of some sort.
+     * @param PDO $adapter
+     * @return $this
+     */
     public function setAdapter(PDO $adapter)
     {
         $this->adapter = $adapter;
@@ -55,6 +68,7 @@ class PdoDelete extends AbstractEvent
     }
 
     /**
+     * object with logic for the delete. If Delete is not provided one will be lazy loaded
      * @return Delete
      */
     public function getDelete()
@@ -65,7 +79,12 @@ class PdoDelete extends AbstractEvent
         return $this->delete;
     }
 
-    public function setDelete($delete)
+    /**
+     * Object that contains the delete logic
+     * @param Delete $delete
+     * @return $this
+     */
+    public function setDelete(Delete $delete = null)
     {
         $this->delete = $delete;
         return $this;
