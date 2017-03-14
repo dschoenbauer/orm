@@ -76,7 +76,9 @@ class CrudModel extends Model
     protected function processEvents(array $events)
     {
         $this->getEventManager()->trigger(
-            ModelEvents::VALIDATE, $this, compact('events')
+            ModelEvents::VALIDATE,
+            $this,
+            compact('events')
         );
         foreach ($events as $event) {
             $this->getEventManager()->trigger($event, $this);
