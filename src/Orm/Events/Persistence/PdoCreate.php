@@ -1,16 +1,17 @@
 <?php
 
-use DSchoenbauer\Orm\Events\AbstractEvent;
-use DSchoenbauer\Orm\Model;
-use DSchoenbauer\Sql\Command\Create;
-use Zend\EventManager\Event;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 namespace DSchoenbauer\Orm\Events\Persistence;
+
+use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Sql\Command\Create;
+use PDO;
+use Zend\EventManager\Event;
 
 /**
 * Event driven hook to creates information from a PDO connection
