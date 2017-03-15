@@ -34,5 +34,4 @@ interface HasDateFieldsInterface
 
     public function getDateFields();
     public function getDateDefaultFormat();
-    
 }

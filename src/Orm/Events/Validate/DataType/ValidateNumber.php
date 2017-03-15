@@ -26,7 +26,7 @@ class ValidateNumber extends AbstractValidate
         return HasNumericFieldsInterface::class;
     }
 
-    public function validateValue($value, $field  = null)
+    public function validateValue($value, $field = null)
     {
         return is_numeric($value);
     }

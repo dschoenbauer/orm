@@ -74,8 +74,9 @@ class ValidateDate extends AbstractValidate
         if (is_object($value)) {
             return false;
         }
-        $format = array_key_exists($field, $this->customDateTimeFormats) ? $this->customDateTimeFormats[$field] : $this->getDefaultDateTimeFormat();
-        var_dump($format, $this->customDateTimeFormats, $this->getDefaultDateTimeFormat());
+        $format = array_key_exists($field, $this->customDateTimeFormats) ?
+            $this->customDateTimeFormats[$field] :
+            $this->getDefaultDateTimeFormat();
         return DateTime::createFromFormat($format, $value) instanceof DateTime;
     }
 
@@ -83,17 +84,17 @@ class ValidateDate extends AbstractValidate
      * returns a default Date Time String
      * @return string
      */
-    protected function getDefaultDateTimeFormat()
+    public function getDefaultDateTimeFormat()
     {
         return $this->defaultDateTimeFormat;
     }
 
     /**
-     * 
+     *
      * @param string $defaultDateTimeFormat a format used to translate to a date
      * @return $this
      */
-    protected function setDefaultDateTimeFormat($defaultDateTimeFormat)
+    public function setDefaultDateTimeFormat($defaultDateTimeFormat)
     {
         $this->defaultDateTimeFormat = $defaultDateTimeFormat;
         return $this;

@@ -72,16 +72,26 @@ class ValidateDateTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->object->validateValue(new stdClass()), $i++);
     }
 
+    public function testDefaultDateTimeFormat()
+    {
+        $this->assertEquals(\DateTime::ISO8601,
+            $this->object->setDefaultDateTimeFormat(\DateTime::ISO8601)->getDefaultDateTimeFormat());
+    }
+
     public function testValidateBadDate()
     {
         //ISO8601 = "Y-m-d\TH:i:sO";
         $this->assertFalse($this->object->validateValue('2013-13-01'));
     }
 
-    public function testValidateBadDateMore()
+    public function testValidateGoodDate()
     {
         //ISO8601 = "Y-m-d\TH:i:sO";
-        $this->assertFalse($this->object->validateValue('2013-13-01'));
+        $this->assertTrue(
+            $this->object
+                ->setDefaultDateTimeFormat(\DateTime::ISO8601)
+                ->validateValue('2017-03-15T18:42:12+00:00')
+        );
     }
 
     public function testCustomFormats()
@@ -96,11 +106,14 @@ class ValidateDateTest extends PHPUnit_Framework_TestCase
         $entity->expects($this->exactly(1))->method('getDateCustomFormat')->willReturn($customFormats);
         $entity->expects($this->exactly(1))->method('getDateDefaultFormat')->willReturn(\DateTime::ISO8601);
         $entity->expects($this->exactly(1))->method('getDateFields')->willReturn($fields);
+
         $this->object->getFields($entity);
-        
+
         //Default
-        $this->assertTrue($this->object->validateValue('2013-01-13', 'default'));
-        $this->assertFalse($this->object->validateValue('2013/13/01', 'default'));
+        $this->assertTrue($this->object->validateValue('2017-03-15T18:42:12+05:00',
+                'default'));
+        $this->assertFalse($this->object->validateValue('2013/13/01 13:00:00',
+                'default'));
         //Us Date
         $this->assertTrue($this->object->validateValue('01/13/2013', 'usDate'));
         $this->assertTrue($this->object->validateValue('01/13/13', 'usDate'));

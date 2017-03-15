@@ -17,7 +17,7 @@ class ValidateString extends AbstractValidate
 {
 
     /**
-     * 
+     *
      * @param HasStringFieldsInterface $entity
      * @return array of fields that are this type
      */

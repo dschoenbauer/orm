@@ -38,7 +38,7 @@ abstract class AbstractValidate extends AbstractEvent
 {
 
     /**
-     * @return string path of full interface name space 
+     * @return string path of full interface name space
      */
     abstract public function getTypeInterface();
 
