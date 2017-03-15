@@ -22,30 +22,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Validate\DataType;
-
-use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
+namespace DSchoenbauer\Orm\Entity;
 
 /**
- * validates boolean fields are boolean
+ * Allows for the definition of different date formats for each field
  *
  * @author David Schoenbauer
  */
-class ValidateBoolean extends AbstractValidate
+interface HasDateWithCustomFormatInterface extends HasDateFieldsInterface
 {
-
-    public function getTypeInterface()
-    {
-        return HasBoolFieldsInterface::class;
-    }
-
-    public function validateValue($value, $field = null)
-    {
-        return is_bool($value);
-    }
-
-    public function getFields($entity)
-    {
-        return $entity->getBoolFields();
-    }
+    /**
+     * returns an associative array with fields as keys and formats as values
+     * @return array
+     */
+    public function getDateCustomFormat();
 }

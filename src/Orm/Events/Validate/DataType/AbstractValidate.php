@@ -41,7 +41,7 @@ abstract class AbstractValidate extends AbstractEvent
      * @return string path of full interface name space 
      */
     abstract public function getTypeInterface();
-    
+
     /**
      * @return array returns an array of fields that match the given type
      */
@@ -50,7 +50,7 @@ abstract class AbstractValidate extends AbstractEvent
     /**
      * Function that returns true if the value is valid
      */
-    abstract public function validateValue($value);
+    abstract public function validateValue($value, $field = null);
 
     /**
      * method is called when a given event is triggered
@@ -81,7 +81,7 @@ abstract class AbstractValidate extends AbstractEvent
     public function validate(array $data, array $fields)
     {
         foreach ($fields as $field) {
-            if (array_key_exists($field, $data) && !$this->validateValue($data[$field])) {
+            if (array_key_exists($field, $data) && !$this->validateValue($data[$field], $field)) {
                 throw new InvalidDataTypeException($field);
             }
         }

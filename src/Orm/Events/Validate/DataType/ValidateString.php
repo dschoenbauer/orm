@@ -15,6 +15,7 @@ use DSchoenbauer\Orm\Entity\HasStringFieldsInterface;
  */
 class ValidateString extends AbstractValidate
 {
+
     /**
      * 
      * @param HasStringFieldsInterface $entity
@@ -30,7 +31,7 @@ class ValidateString extends AbstractValidate
         return HasStringFieldsInterface::class;
     }
 
-    public function validateValue($value)
+    public function validateValue($value, $field = null)
     {
         return is_string($value);
     }

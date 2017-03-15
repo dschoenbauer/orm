@@ -26,6 +26,7 @@ namespace DSchoenbauer\Orm\Events\Validate\DataType;
 
 use DateTime;
 use DSchoenbauer\Orm\Entity\HasDateFieldsInterface;
+use DSchoenbauer\Orm\Entity\HasDateWithCustomFormatInterface;
 use PHPUnit_Framework_TestCase;
 use stdClass;
 
@@ -76,10 +77,36 @@ class ValidateDateTest extends PHPUnit_Framework_TestCase
         //ISO8601 = "Y-m-d\TH:i:sO";
         $this->assertFalse($this->object->validateValue('2013-13-01'));
     }
-    
+
     public function testValidateBadDateMore()
     {
         //ISO8601 = "Y-m-d\TH:i:sO";
         $this->assertFalse($this->object->validateValue('2013-13-01'));
+    }
+
+    public function testCustomFormats()
+    {
+        $customFormats = [
+            'usDate' => 'm/d/Y',
+            'euDate' => 'Y/m/d'
+        ];
+        $fields = array_keys($customFormats);
+        $fields[] = "default";
+        $entity = $this->getMockBuilder(HasDateWithCustomFormatInterface::class)->getMock();
+        $entity->expects($this->exactly(1))->method('getDateCustomFormat')->willReturn($customFormats);
+        $entity->expects($this->exactly(1))->method('getDateDefaultFormat')->willReturn(\DateTime::ISO8601);
+        $entity->expects($this->exactly(1))->method('getDateFields')->willReturn($fields);
+        $this->object->getFields($entity);
+        
+        //Default
+        $this->assertTrue($this->object->validateValue('2013-01-13', 'default'));
+        $this->assertFalse($this->object->validateValue('2013/13/01', 'default'));
+        //Us Date
+        $this->assertTrue($this->object->validateValue('01/13/2013', 'usDate'));
+        $this->assertTrue($this->object->validateValue('01/13/13', 'usDate'));
+        $this->assertFalse($this->object->validateValue('2013/13/01', 'usDate'));
+        //EU Date
+        $this->assertTrue($this->object->validateValue('2013/13/01', 'euDate'));
+        $this->assertFalse($this->object->validateValue('01/13/2013', 'euDate'));
     }
 }

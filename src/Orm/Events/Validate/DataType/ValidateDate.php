@@ -24,7 +24,9 @@
  */
 namespace DSchoenbauer\Orm\Events\Validate\DataType;
 
+use DateTime;
 use DSchoenbauer\Orm\Entity\HasDateFieldsInterface;
+use DSchoenbauer\Orm\Entity\HasDateWithCustomFormatInterface;
 
 /**
  * Description of ValidateDate
@@ -35,6 +37,7 @@ class ValidateDate extends AbstractValidate
 {
 
     private $defaultDateTimeFormat;
+    private $customDateTimeFormats = [];
 
     /**
      * returns date fields found in the entity
@@ -43,6 +46,9 @@ class ValidateDate extends AbstractValidate
     public function getFields($entity)
     {
         $this->setDefaultDateTimeFormat($entity->getDateDefaultFormat());
+        if ($entity instanceof HasDateWithCustomFormatInterface) {
+            $this->customDateTimeFormats = $entity->getDateCustomFormat();
+        }
         return $entity->getDateFields();
     }
 
@@ -59,17 +65,18 @@ class ValidateDate extends AbstractValidate
      * ensures that a given value is of a given type.
      * @param bool $value true value is valid, false the value is not
      */
-    public function validateValue($value)
+    public function validateValue($value, $field = null)
     {
-        if ($value instanceof \DateTime) {
+        if ($value instanceof DateTime) {
             return true;
         }
 
         if (is_object($value)) {
             return false;
         }
-
-        return \DateTime::createFromFormat($this->getDefaultDateTimeFormat(), $value) instanceof \DateTime;
+        $format = array_key_exists($field, $this->customDateTimeFormats) ? $this->customDateTimeFormats[$field] : $this->getDefaultDateTimeFormat();
+        var_dump($format, $this->customDateTimeFormats, $this->getDefaultDateTimeFormat());
+        return DateTime::createFromFormat($format, $value) instanceof DateTime;
     }
 
     /**
