@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * The MIT License
  *
  * Copyright 2017 David Schoenbauer.
@@ -22,16 +22,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Entity;
+namespace DSchoenbauer\Orm\Exception;
 
 /**
- * Description of HasDateFieldsInterface
- *
- * @author David Schoenbauer <dschoenbauer@gmail.com>
+ * Core interface to capture all exceptions of this library
+ * @author David Schoenbauer
  */
-interface HasDateFieldsInterface
+interface OrmExceptionInterface
 {
-
-    public function getDateFields();
-    public function getDateDefaultFormat();
+    
 }

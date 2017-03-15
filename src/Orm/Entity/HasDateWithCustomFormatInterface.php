@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * The MIT License
  *
  * Copyright 2017 David Schoenbauer.
@@ -25,13 +25,15 @@
 namespace DSchoenbauer\Orm\Entity;
 
 /**
- * Description of HasDateFieldsInterface
+ * Allows for the definition of different date formats for each field
  *
- * @author David Schoenbauer <dschoenbauer@gmail.com>
+ * @author David Schoenbauer
  */
-interface HasDateFieldsInterface
+interface HasDateWithCustomFormatInterface extends HasDateFieldsInterface
 {
-
-    public function getDateFields();
-    public function getDateDefaultFormat();
+    /**
+     * returns an associative array with fields as keys and formats as values
+     * @return array
+     */
+    public function getDateCustomFormat();
 }

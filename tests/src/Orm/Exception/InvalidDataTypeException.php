@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * The MIT License
  *
  * Copyright 2017 David Schoenbauer.
@@ -22,16 +22,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Entity;
+namespace DSchoenbauer\Orm\Exception;
+
+use DSchoenbauer\Exception\Http\ClientError\BadRequestException;
+use PHPUnit_Framework_TestCase;
 
 /**
- * Description of HasDateFieldsInterface
+ * Thrown when a data type is provided other than the required data type
  *
- * @author David Schoenbauer <dschoenbauer@gmail.com>
+ * @author David Schoenbauer
  */
-interface HasDateFieldsInterface
+class InvalidDataTypeExceptionTest extends PHPUnit_Framework_TestCase
 {
-
-    public function getDateFields();
-    public function getDateDefaultFormat();
+    private $object;
+    
+    protected function setUp()
+    {
+        $this->object = new InvalidDataTypeException();
+    }
+    
+    public function testHasCoreInterface(){
+        $this->assertInstanceOf(OrmExceptionInterface::class, $this->object);
+    }
+    
+    public function testHasCorrectBaseException(){
+        $this->assertInstanceOf(BadRequestException::class, $this->object);
+    }
+    
 }

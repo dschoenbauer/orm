@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * The MIT License
  *
  * Copyright 2017 David Schoenbauer.
@@ -22,16 +22,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Entity;
+namespace DSchoenbauer\Orm\Events\Validate\DataType;
+
+use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
 
 /**
- * Description of HasDateFieldsInterface
+ * validates boolean fields are boolean
  *
- * @author David Schoenbauer <dschoenbauer@gmail.com>
+ * @author David Schoenbauer
  */
-interface HasDateFieldsInterface
+class ValidateBoolean extends AbstractValidate
 {
 
-    public function getDateFields();
-    public function getDateDefaultFormat();
+    public function getTypeInterface()
+    {
+        return HasBoolFieldsInterface::class;
+    }
+
+    public function validateValue($value, $field = null)
+    {
+        return is_bool($value);
+    }
+
+    public function getFields($entity)
+    {
+        return $entity->getBoolFields();
+    }
 }
