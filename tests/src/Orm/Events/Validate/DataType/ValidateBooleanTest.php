@@ -24,11 +24,9 @@
  */
 namespace DSchoenbauer\Orm\Events\Validate\DataType;
 
-use DSchoenbauer\Orm\Entity\EntityInterface;
-use DSchoenbauer\Orm\Model;
-use DSchoenbauer\Tests\Orm\Entity\AbstractEntityWithBool;
+use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
 use PHPUnit_Framework_TestCase;
-use Zend\EventManager\Event;
+use stdClass;
 
 /**
  * Description of ValidateBoolean
@@ -45,81 +43,30 @@ class ValidateBooleanTest extends PHPUnit_Framework_TestCase
         $this->object = new ValidateBoolean();
     }
 
-    public function testExecuteNotAModel()
+    public function testGetFields()
     {
-        $event = $this->getMockBuilder(Event::class)->getMock();
-        $event->expects($this->once())->method('getTarget');
-        $this->assertNull($this->object->onExecute($event));
+        $data = ['id', 'calls', 'days', 'hours'];
+        $entity = $this->getMockBuilder(HasBoolFieldsInterface::class)->getMock();
+        $entity->expects($this->once())->method('getBoolFields')->willReturn($data);
+        $this->assertEquals($data, $this->object->getFields($entity));
     }
 
-    public function testExecuteDoesNotHaveBool()
+    public function testGetTypeInterface()
     {
-        $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
-
-        $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
-        $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
-
-        $event = $this->getMockBuilder(Event::class)->getMock();
-        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
-
-        $this->assertNull($this->object->onExecute($event));
+        $this->assertEquals(
+        HasBoolFieldsInterface::class, $this->object->getTypeInterface()
+        );
     }
 
-    public function testExecuteBasicData()
+    public function testValidateValue()
     {
-        $entity = $this->getMockBuilder(AbstractEntityWithBool::class)->getMock();
-        $entity->expects($this->exactly(1))->method('getBoolFields')->willReturn([]);
-
-        $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
-        $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
-        $model->expects($this->exactly(1))->method('getData')->willReturn([]);
-
-        $event = $this->getMockBuilder(Event::class)->getMock();
-        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
-
-        $this->assertNull($this->object->onExecute($event));
-    }
-
-    public function testValidateBoolNoError()
-    {
-        $data = [
-            'boolFalse' => false,
-            'boolTrue' => true,
-            'number' => 1,
-            'letter' => "A",
-        ];
-        $fields = [
-            'boolFalse',
-            'boolTrue'
-        ];
-        $this->assertNull($this->object->validate($data, $fields));
-    }
-    
-    public function testValidateBoolNoErrorEdgeCase()
-    {
-        $data = [
-            'boolFalse' => false,
-            'boolTrue' => true,
-            'numberOt' => 1,
-            'letterAny' => "A",
-            'null' => null,
-        ];
-        $fields = [
-            'boolFalse',
-            'boolTrue',
-            'leterAny',
-        ];
-        $this->assertNull($this->object->validate($data, $fields));
-    }
-    public function testValidateBoolErrorEdgeCase()
-    {
-        $data = [
-            'numberOt' => 1,
-        ];
-        $fields = [
-            'numberOt',
-        ];
-        $this->expectException(\DSchoenbauer\Orm\Exception\InvalidDataTypeException::class);
-        $this->object->validate($data, $fields);
+        $this->assertFalse($this->object->validateValue(1));
+        $this->assertFalse($this->object->validateValue(1.0));
+        $this->assertFalse($this->object->validateValue(0.001));
+        $this->assertFalse($this->object->validateValue('a'));
+        $this->assertFalse($this->object->validateValue(null));
+        $this->assertFalse($this->object->validateValue(new stdClass()));
+        $this->assertTrue($this->object->validateValue(false));
+        $this->assertTrue($this->object->validateValue(true));
     }
 }
