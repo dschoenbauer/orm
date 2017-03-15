@@ -92,7 +92,7 @@ class ValidateBooleanTest extends PHPUnit_Framework_TestCase
             'boolFalse',
             'boolTrue'
         ];
-        $this->assertNull($this->object->validateBool($data, $fields));
+        $this->assertNull($this->object->validate($data, $fields));
     }
     
     public function testValidateBoolNoErrorEdgeCase()
@@ -109,7 +109,7 @@ class ValidateBooleanTest extends PHPUnit_Framework_TestCase
             'boolTrue',
             'leterAny',
         ];
-        $this->assertNull($this->object->validateBool($data, $fields));
+        $this->assertNull($this->object->validate($data, $fields));
     }
     public function testValidateBoolErrorEdgeCase()
     {
@@ -120,6 +120,6 @@ class ValidateBooleanTest extends PHPUnit_Framework_TestCase
             'numberOt',
         ];
         $this->expectException(\DSchoenbauer\Orm\Exception\InvalidDataTypeException::class);
-        $this->object->validateBool($data, $fields);
+        $this->object->validate($data, $fields);
     }
 }

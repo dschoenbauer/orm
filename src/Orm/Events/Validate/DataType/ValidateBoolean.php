@@ -25,39 +25,27 @@
 namespace DSchoenbauer\Orm\Events\Validate\DataType;
 
 use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
-use DSchoenbauer\Orm\Events\AbstractEvent;
-use DSchoenbauer\Orm\Exception\InvalidDataTypeException;
-use DSchoenbauer\Orm\Model;
-use Zend\EventManager\Event;
 
 /**
  * validates boolean fields are boolean
  *
  * @author David Schoenbauer
  */
-class ValidateBoolean extends AbstractEvent
+class ValidateBoolean extends AbstractValidate
 {
 
-    public function onExecute(Event $event)
+    public function getTypeInterface()
     {
-        if (!$event->getTarget() instanceof Model) {
-            return;
-        }
-        /* @var $model Model */
-        $model = $event->getTarget();
-        $entity = $model->getEntity();
-        if (!$entity instanceof HasBoolFieldsInterface) {
-            return;
-        }
-        $this->validateBool($model->getData(), $entity->getBoolFields());
+        return HasBoolFieldsInterface::class;
     }
 
-    public function validateBool(array $data, array $fields)
+    public function validateValue($value)
     {
-        foreach ($fields as $field) {
-            if (array_key_exists($field, $data) && !is_bool($data[$field])) {
-                throw new InvalidDataTypeException($field);
-            }
-        }
+        return is_bool($value);
+    }
+
+    public function getFields($entity)
+    {
+        return $entity->getBoolFields();
     }
 }
