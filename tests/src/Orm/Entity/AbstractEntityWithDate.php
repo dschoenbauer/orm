@@ -39,4 +39,9 @@ class AbstractEntityWithDate extends AbstractEntity implements HasDateFieldsInte
     {
         return ['dateField'];
     }
+
+    public function getDateDefaultFormat()
+    {
+        return \DateTime::ISO8601;
+    }
 }

@@ -58,4 +58,10 @@ HasBoolFieldsInterface, HasDateFieldsInterface, HasNumericFieldsInterface, HasSt
     {
         return ['stringField'];
     }
+
+    public function getDateDefaultFormat()
+    {
+        return \DateTime::ISO8601;
+        
+    }
 }
