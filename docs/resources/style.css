@@ -426,7 +426,6 @@ td.attributes {
 
 .class .methods .name > div > code span, .function .value > code {
 	white-space: nowrap;
-	display: inline-block;
 }
 
 .class .methods td.name > div, .class td.value > div {
@@ -543,10 +542,6 @@ div.tree span.padding {
 .xlang {
 	color: #ff0000;
 	font-weight: bold;
-}
-
-pre.numbers {
-	float: left;
 }
 
 span.l {
