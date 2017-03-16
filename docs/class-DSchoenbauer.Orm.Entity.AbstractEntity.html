@@ -140,7 +140,7 @@
 
 
 	<div class="description">
-	<p>Description of AbstractEntity</p>
+	<p>Provides common functionality all entities could use</p>
 	</div>
 
 	<dl class="tree">
@@ -168,7 +168,7 @@
 
 				<b>Author:</b>
 				David Schoenbauer <a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#x64;&#115;&#x63;h&#111;&#x65;&#110;&#98;&#x61;&#117;&#x65;r&#64;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;">&#x64;&#115;&#x63;h&#111;&#x65;&#110;&#98;&#x61;&#117;&#x65;r&#64;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;</a><br>
-			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Entity.AbstractEntity.html#27-89" title="Go to source code">Orm/Entity/AbstractEntity.php</a>
+			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Entity.AbstractEntity.html#27-120" title="Go to source code">Orm/Entity/AbstractEntity.php</a>
 		<br>
 	</div>
 
@@ -181,24 +181,28 @@
 		<td class="attributes"><code>
 			 public 
 
-			
+			string
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getIdField">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Entity.AbstractEntity.html#39-42" title="Go to source code">getIdField</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Entity.AbstractEntity.html#39-46" title="Go to source code">getIdField</a>( )</code>
 
 		<div class="description short">
-			
+			<p>provides field with primary key</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>provides field with primary key</p>
 
 
 
+				<h4>Returns</h4>
+				<div class="list">
+					string
+				</div>
 
 
 
@@ -213,24 +217,28 @@
 		<td class="attributes"><code>
 			 public 
 
-			
+			string
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getTable">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Entity.AbstractEntity.html#44-47" title="Go to source code">getTable</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Entity.AbstractEntity.html#48-55" title="Go to source code">getTable</a>( )</code>
 
 		<div class="description short">
-			
+			<p>provides which table the entities data is stored in</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>provides which table the entities data is stored in</p>
 
 
 
+				<h4>Returns</h4>
+				<div class="list">
+					string
+				</div>
 
 
 
@@ -245,24 +253,28 @@
 		<td class="attributes"><code>
 			 public 
 
-			
+			string
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getName">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Entity.AbstractEntity.html#49-52" title="Go to source code">getName</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Entity.AbstractEntity.html#57-64" title="Go to source code">getName</a>( )</code>
 
 		<div class="description short">
-			
+			<p>provides a name that can be used to reference the entity</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>provides a name that can be used to reference the entity</p>
 
 
 
+				<h4>Returns</h4>
+				<div class="list">
+					string
+				</div>
 
 
 
@@ -284,17 +296,26 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setIdField">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Entity.AbstractEntity.html#54-58" title="Go to source code">setIdField</a>( <span> <var>$idField</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Entity.AbstractEntity.html#66-75" title="Go to source code">setIdField</a>( <span>string <var>$idField</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>sets field with primary key</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>sets field with primary key</p>
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$idField</var></dt>
+					<dd></dd>
+				</dl></div>
 
+				<h4>Returns</h4>
+				<div class="list">
+					<br>$this
+				</div>
 
 
 
@@ -314,17 +335,26 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setTable">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Entity.AbstractEntity.html#60-64" title="Go to source code">setTable</a>( <span> <var>$table</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Entity.AbstractEntity.html#77-86" title="Go to source code">setTable</a>( <span>string <var>$table</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>sets which table the entities data is stored in</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>sets which table the entities data is stored in</p>
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$table</var></dt>
+					<dd></dd>
+				</dl></div>
 
+				<h4>Returns</h4>
+				<div class="list">
+					<br>$this
+				</div>
 
 
 
@@ -344,17 +374,26 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setName">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Entity.AbstractEntity.html#66-70" title="Go to source code">setName</a>( <span> <var>$name</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Entity.AbstractEntity.html#88-97" title="Go to source code">setName</a>( <span>string <var>$name</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>sets a name that can be used to reference the entity</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>sets a name that can be used to reference the entity</p>
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd></dd>
+				</dl></div>
 
+				<h4>Returns</h4>
+				<div class="list">
+					<br>$this
+				</div>
 
 
 
@@ -367,24 +406,28 @@
 		<td class="attributes"><code>
 			 public 
 
-			
+			array
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getAllFields">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Entity.AbstractEntity.html#72-88" title="Go to source code">getAllFields</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Entity.AbstractEntity.html#99-119" title="Go to source code">getAllFields</a>( )</code>
 
 		<div class="description short">
-			
+			<p>provides an array of all fields the entity has</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>provides an array of all fields the entity has</p>
 
 
 
+				<h4>Returns</h4>
+				<div class="list">
+					array
+				</div>
 
 
 
