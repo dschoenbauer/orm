@@ -131,7 +131,7 @@
 
 
 	<div class="description">
-	<p>Description of Model</p>
+	<p>An object that represents business logic and is available for general consumption</p>
 	</div>
 
 	<dl class="tree">
@@ -164,7 +164,7 @@
 
 				<b>Author:</b>
 				David Schoenbauer<br>
-			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Model.html#31-106" title="Go to source code">Orm/Model.php</a>
+			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Model.html#31-155" title="Go to source code">Orm/Model.php</a>
 		<br>
 	</div>
 
@@ -184,7 +184,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Model.html#46-49" title="Go to source code">__construct</a>( <span><code><a href="class-DSchoenbauer.Orm.Entity.EntityInterface.html">DSchoenbauer\Orm\Entity\EntityInterface</a></code> <var>$entity</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Model.html#46-53" title="Go to source code">__construct</a>( <span><code><a href="class-DSchoenbauer.Orm.Entity.EntityInterface.html">DSchoenbauer\Orm\Entity\EntityInterface</a></code> <var>$entity</var></span> )</code>
 
 		<div class="description short">
 			
@@ -194,6 +194,12 @@
 			
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$entity</var></dt>
+					<dd><p>an entity object houses specific
+information about a given model</p></dd>
+				</dl></div>
 
 
 
@@ -214,14 +220,14 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getEntity">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Model.html#51-57" title="Go to source code">getEntity</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Model.html#55-63" title="Go to source code">getEntity</a>( )</code>
 
 		<div class="description short">
-			
+			<p>provides the entity of the model</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>provides the entity of the model</p>
 
 
 
@@ -231,6 +237,10 @@
 				</div>
 
 
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
 
 
 		</div>
@@ -241,26 +251,39 @@
 		<td class="attributes"><code>
 			 public 
 
-			
+			<code><a href="class-DSchoenbauer.Orm.Model.html">DSchoenbauer\Orm\Model</a></code>
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setEntity">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Model.html#59-63" title="Go to source code">setEntity</a>( <span><code><a href="class-DSchoenbauer.Orm.Entity.EntityInterface.html">DSchoenbauer\Orm\Entity\EntityInterface</a></code> <var>$entity</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Model.html#65-75" title="Go to source code">setEntity</a>( <span><code><a href="class-DSchoenbauer.Orm.Entity.EntityInterface.html">DSchoenbauer\Orm\Entity\EntityInterface</a></code> <var>$entity</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>sets the entity of the model</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>sets the entity of the model</p>
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$entity</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-DSchoenbauer.Orm.Model.html">DSchoenbauer\Orm\Model</a></code>
+				</div>
 
 
-
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
 
 
 		</div>
@@ -271,26 +294,39 @@
 		<td class="attributes"><code>
 			 public 
 
-			
+			<code><a href="class-DSchoenbauer.Orm.Model.html">DSchoenbauer\Orm\Model</a></code>
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_accept">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Model.html#65-69" title="Go to source code">accept</a>( <span><code><a href="class-DSchoenbauer.Orm.VisitorInterface.html">DSchoenbauer\Orm\VisitorInterface</a></code> <var>$visitor</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Model.html#77-87" title="Go to source code">accept</a>( <span><code><a href="class-DSchoenbauer.Orm.VisitorInterface.html">DSchoenbauer\Orm\VisitorInterface</a></code> <var>$visitor</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>Allows the visitor pattern to expand the functionality of the object</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>Allows the visitor pattern to expand the functionality of the object</p>
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$visitor</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-DSchoenbauer.Orm.Model.html">DSchoenbauer\Orm\Model</a></code>
+				</div>
 
 
-
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
 
 
 		</div>
@@ -301,26 +337,34 @@
 		<td class="attributes"><code>
 			 public 
 
-			
+			integer
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getId">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Model.html#71-74" title="Go to source code">getId</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Model.html#89-97" title="Go to source code">getId</a>( )</code>
 
 		<div class="description short">
-			
+			<p>provides a unique identifier value for a given record</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>provides a unique identifier value for a given record</p>
 
 
 
+				<h4>Returns</h4>
+				<div class="list">
+					integer
+				</div>
 
 
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
 
 
 		</div>
@@ -331,26 +375,34 @@
 		<td class="attributes"><code>
 			 public 
 
-			
+			array
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getData">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Model.html#76-79" title="Go to source code">getData</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Model.html#99-107" title="Go to source code">getData</a>( )</code>
 
 		<div class="description short">
-			
+			<p>provides the current record</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>provides the current record</p>
 
 
 
+				<h4>Returns</h4>
+				<div class="list">
+					array
+				</div>
 
 
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
 
 
 		</div>
@@ -361,26 +413,39 @@
 		<td class="attributes"><code>
 			 public 
 
-			
+			<code><a href="class-DSchoenbauer.Orm.Model.html">DSchoenbauer\Orm\Model</a></code>
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setId">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Model.html#81-85" title="Go to source code">setId</a>( <span> <var>$id</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Model.html#109-119" title="Go to source code">setId</a>( <span>integer <var>$id</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>sets a unique identifier value for a given record</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>sets a unique identifier value for a given record</p>
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-DSchoenbauer.Orm.Model.html">DSchoenbauer\Orm\Model</a></code>
+				</div>
 
 
-
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
 
 
 		</div>
@@ -391,26 +456,39 @@
 		<td class="attributes"><code>
 			 public 
 
-			
+			<code><a href="class-DSchoenbauer.Orm.Model.html">DSchoenbauer\Orm\Model</a></code>
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setData">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Model.html#87-91" title="Go to source code">setData</a>( <span> <var>$data</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Model.html#121-131" title="Go to source code">setData</a>( <span>array <var>$data</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>sets the current record</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>sets the current record</p>
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$data</var></dt>
+					<dd>current</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-DSchoenbauer.Orm.Model.html">DSchoenbauer\Orm\Model</a></code>
+				</div>
 
 
-
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
 
 
 		</div>
@@ -428,14 +506,14 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getAttributes">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Model.html#93-99" title="Go to source code">getAttributes</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Model.html#134-142" title="Go to source code">getAttributes</a>( )</code>
 
 		<div class="description short">
-			
+			<p>provides a collection of key value pairs that are specific to a given model</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>provides a collection of key value pairs that are specific to a given model</p>
 
 
 
@@ -445,6 +523,10 @@
 				</div>
 
 
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
 
 
 		</div>
@@ -455,26 +537,39 @@
 		<td class="attributes"><code>
 			 public 
 
-			
+			<code><a href="class-DSchoenbauer.Orm.Model.html">DSchoenbauer\Orm\Model</a></code>
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setAttributes">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Model.html#101-105" title="Go to source code">setAttributes</a>( <span><code><a href="class-DSchoenbauer.Orm.Framework.AttributeCollection.html">DSchoenbauer\Orm\Framework\AttributeCollection</a></code> <var>$attributes</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Model.html#144-154" title="Go to source code">setAttributes</a>( <span><code><a href="class-DSchoenbauer.Orm.Framework.AttributeCollection.html">DSchoenbauer\Orm\Framework\AttributeCollection</a></code> <var>$attributes</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>sets a collection of key value pairs that are specific to a given model</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>sets a collection of key value pairs that are specific to a given model</p>
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$attributes</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-DSchoenbauer.Orm.Model.html">DSchoenbauer\Orm\Model</a></code>
+				</div>
 
 
-
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
 
 
 		</div>

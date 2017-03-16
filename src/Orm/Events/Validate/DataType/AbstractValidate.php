@@ -38,17 +38,26 @@ abstract class AbstractValidate extends AbstractEvent
 {
 
     /**
-     * @return string path of full interface name space
+     * full name space of an interface that defines a given field type
+     * @return string
+     * @since v1.0.0
      */
     abstract public function getTypeInterface();
 
     /**
-     * @return array returns an array of fields that match the given type
+     * returns the fields affected by the entity interface
+     * @param mixed $entity an entity object implements the getTypeInterface
+     * @return array an array of fields that are relevant to the interface
+     * @since v1.0.0
      */
     abstract public function getFields($entity);
 
     /**
-     * Function that returns true if the value is valid
+     * Validates that the value is of the proper type
+     * @param mixed $value value to validate
+     * @param string $field field name
+     * @return boolean
+     * @since v1.0.0
      */
     abstract public function validateValue($value, $field = null);
 

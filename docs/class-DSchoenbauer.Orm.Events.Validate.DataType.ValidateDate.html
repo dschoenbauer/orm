@@ -130,7 +130,7 @@
 
 
 	<div class="description">
-	<p>Description of ValidateDate</p>
+	<p>validates date fields are dates</p>
 	</div>
 
 	<dl class="tree">
@@ -172,7 +172,7 @@
 
 				<b>Author:</b>
 				David Schoenbauer<br>
-			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateDate.html#31-102" title="Go to source code">Orm/Events/Validate/DataType/ValidateDate.php</a>
+			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateDate.html#31-110" title="Go to source code">Orm/Events/Validate/DataType/ValidateDate.php</a>
 		<br>
 	</div>
 
@@ -192,28 +192,32 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getFields">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateDate.html#42-53" title="Go to source code">getFields</a>( <span><code><a href="class-DSchoenbauer.Orm.Entity.HasDateFieldsInterface.html">DSchoenbauer\Orm\Entity\HasDateFieldsInterface</a></code> <var>$entity</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateDate.html#42-55" title="Go to source code">getFields</a>( <span>mixed <var>$entity</var></span> )</code>
 
 		<div class="description short">
-			<p>returns date fields found in the entity</p>
+			<p>returns the fields affected by the entity interface</p>
 		</div>
 
 		<div class="description detailed hidden">
-			<p>returns date fields found in the entity</p>
+			<p>returns the fields affected by the entity interface</p>
 
 
 				<h4>Parameters</h4>
 				<div class="list"><dl>
 					<dt><var>$entity</var></dt>
-					<dd></dd>
+					<dd>an entity object implements the getTypeInterface</dd>
 				</dl></div>
 
 				<h4>Returns</h4>
 				<div class="list">
-					array<br>returns an array of fields that match the given type
+					array<br>an array of fields that are relevant to the interface
 				</div>
 
 
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
 
 
 		</div>
@@ -224,30 +228,34 @@
 		<td class="attributes"><code>
 			 public 
 
-			string;
+			string
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getTypeInterface">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateDate.html#55-62" title="Go to source code">getTypeInterface</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateDate.html#57-65" title="Go to source code">getTypeInterface</a>( )</code>
 
 		<div class="description short">
-			<p>returns an interface path that is the entity is checked for</p>
+			<p>full name space of an interface that defines a given field type</p>
 		</div>
 
 		<div class="description detailed hidden">
-			<p>returns an interface path that is the entity is checked for</p>
+			<p>full name space of an interface that defines a given field type</p>
 
 
 
 				<h4>Returns</h4>
 				<div class="list">
-					string;
+					string
 				</div>
 
 
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
 
 
 		</div>
@@ -258,33 +266,41 @@
 		<td class="attributes"><code>
 			 public 
 
-			
+			boolean
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_validateValue">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateDate.html#64-81" title="Go to source code">validateValue</a>( <span>boolean <var>$value</var></span>, <span> <var>$field</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateDate.html#67-87" title="Go to source code">validateValue</a>( <span>mixed <var>$value</var></span>, <span>string <var>$field</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
-			<p>ensures that a given value is of a given type.</p>
+			<p>Validates that the value is of the proper type</p>
 		</div>
 
 		<div class="description detailed hidden">
-			<p>ensures that a given value is of a given type.</p>
+			<p>Validates that the value is of the proper type</p>
 
 
 				<h4>Parameters</h4>
 				<div class="list"><dl>
 					<dt><var>$value</var></dt>
-					<dd>true value is valid, false the value is not</dd>
+					<dd>value to validate</dd>
 					<dt><var>$field</var></dt>
-					<dd></dd>
+					<dd>field name</dd>
 				</dl></div>
 
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
 
 
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
 
 
 		</div>
@@ -302,14 +318,14 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getDefaultDateTimeFormat">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateDate.html#83-90" title="Go to source code">getDefaultDateTimeFormat</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateDate.html#89-97" title="Go to source code">getDefaultDateTimeFormat</a>( )</code>
 
 		<div class="description short">
-			<p>returns a default Date Time String</p>
+			<p>provides a default Date Time String</p>
 		</div>
 
 		<div class="description detailed hidden">
-			<p>returns a default Date Time String</p>
+			<p>provides a default Date Time String</p>
 
 
 
@@ -319,6 +335,10 @@
 				</div>
 
 
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
 
 
 		</div>
@@ -336,7 +356,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setDefaultDateTimeFormat">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateDate.html#92-101" title="Go to source code">setDefaultDateTimeFormat</a>( <span>string <var>$defaultDateTimeFormat</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateDate.html#99-109" title="Go to source code">setDefaultDateTimeFormat</a>( <span>string <var>$defaultDateTimeFormat</var></span> )</code>
 
 		<div class="description short">
 			
@@ -358,6 +378,10 @@
 				</div>
 
 
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
 
 
 		</div>

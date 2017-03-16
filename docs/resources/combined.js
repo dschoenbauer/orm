@@ -955,7 +955,7 @@ $.fn.selection = function(start, end) {
  * jQuery.fn.sortElements
  * --------------
  * @author James Padolsey (http://james.padolsey.com)
- * @since 0.11
+ * @version 0.11
  * @updated 18-MAR-2010
  * --------------
  * @param Function comparator:
