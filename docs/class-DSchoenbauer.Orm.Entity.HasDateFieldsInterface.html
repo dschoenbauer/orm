@@ -5,7 +5,7 @@
 
 	<title>Interface DSchoenbauer\Orm\Entity\HasDateFieldsInterface</title>
 
-	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
 
 </head>
 
@@ -51,7 +51,23 @@
 						Persistence					</a>
 
 						</li>
-							</ul></li>
+				<li>
+					<a href="namespace-DSchoenbauer.Orm.Events.Validate.html">
+						Validate<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-DSchoenbauer.Orm.Events.Validate.DataType.html">
+						DataType					</a>
+
+						</li>
+							</ul></li></ul></li>
+				<li>
+					<a href="namespace-DSchoenbauer.Orm.Exception.html">
+						Exception					</a>
+
+						</li>
 				<li>
 					<a href="namespace-DSchoenbauer.Orm.Framework.html">
 						Framework					</a>
@@ -75,6 +91,7 @@
 				<li><a href="class-DSchoenbauer.Orm.Entity.EntityInterface.html">EntityInterface</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Entity.HasBoolFieldsInterface.html">HasBoolFieldsInterface</a></li>
 				<li class="active"><a href="class-DSchoenbauer.Orm.Entity.HasDateFieldsInterface.html">HasDateFieldsInterface</a></li>
+				<li><a href="class-DSchoenbauer.Orm.Entity.HasDateWithCustomFormatInterface.html">HasDateWithCustomFormatInterface</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Entity.HasDefaultValuesInterface.html">HasDefaultValuesInterface</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Entity.HasFilterInterface.html">HasFilterInterface</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Entity.HasNumericFieldsInterface.html">HasNumericFieldsInterface</a></li>
@@ -123,13 +140,17 @@
 
 
 	<div class="description">
-	<p>Description of HasDateFieldsInterface</p>
+	<p>provides a way to add date fields to an entity</p>
 	</div>
 
 
 
 
 
+	<div>
+		<h4>Direct known implementers</h4>
+			<a href="class-DSchoenbauer.Orm.Entity.HasDateWithCustomFormatInterface.html">DSchoenbauer\Orm\Entity\HasDateWithCustomFormatInterface</a>
+	</div>
 
 
 
@@ -142,7 +163,7 @@
 
 				<b>Author:</b>
 				David Schoenbauer <a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#x64;&#115;&#x63;h&#111;&#x65;&#110;&#98;&#x61;&#117;&#x65;r&#64;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;">&#x64;&#115;&#x63;h&#111;&#x65;&#110;&#98;&#x61;&#117;&#x65;r&#64;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;</a><br>
-			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Entity.HasDateFieldsInterface.html#27-36" title="Go to source code">Orm/Entity/HasDateFieldsInterface.php</a>
+			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Entity.HasDateFieldsInterface.html#27-49" title="Go to source code">Orm/Entity/HasDateFieldsInterface.php</a>
 		<br>
 	</div>
 
@@ -155,26 +176,76 @@
 		<td class="attributes"><code>
 			 public 
 
-			
+			array
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getDateFields">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Entity.HasDateFieldsInterface.html#35" title="Go to source code">getDateFields</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Entity.HasDateFieldsInterface.html#35-40" title="Go to source code">getDateFields</a>( )</code>
 
 		<div class="description short">
-			
+			<p>provides a way to add date fields to an entity</p>
 		</div>
 
 		<div class="description detailed hidden">
+			<p>provides a way to add date fields to an entity</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					array<br>an array of fields that are date data types
+				</div>
+
+
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getDateDefaultFormat" id="_getDateDefaultFormat">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
 			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getDateDefaultFormat">#</a>
+		<code><a href="source-class-DSchoenbauer.Orm.Entity.HasDateFieldsInterface.html#42-48" title="Go to source code">getDateDefaultFormat</a>( )</code>
+
+		<div class="description short">
+			<p>a default date format that the value must conform to</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>a default date format that the value must conform to</p>
 
 
 
+				<h4>Returns</h4>
+				<div class="list">
+					string<br>Format accepted by date().
+				</div>
 
 
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://php.net/manual/en/function.date.php">date() format</a><br>
+				</div>
 
 
 		</div>

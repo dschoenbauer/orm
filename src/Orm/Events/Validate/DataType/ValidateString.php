@@ -9,7 +9,7 @@ namespace DSchoenbauer\Orm\Events\Validate\DataType;
 use DSchoenbauer\Orm\Entity\HasStringFieldsInterface;
 
 /**
- * Description of ValidateString
+ * validates string fields are strings
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
@@ -17,20 +17,33 @@ class ValidateString extends AbstractValidate
 {
 
     /**
-     *
-     * @param HasStringFieldsInterface $entity
-     * @return array of fields that are this type
+     * returns the fields affected by the entity interface
+     * @param mixed $entity an entity object implements the getTypeInterface
+     * @return array an array of fields that are relevant to the interface
+     * @since v1.0.0
      */
     public function getFields($entity)
     {
         return $entity->getStringFields();
     }
 
+    /**
+     * full name space of an interface that defines a given field type
+     * @return string
+     * @since v1.0.0
+     */
     public function getTypeInterface()
     {
         return HasStringFieldsInterface::class;
     }
 
+    /**
+     * Validates that the value is of the proper type
+     * @param mixed $value value to validate
+     * @param string $field field name
+     * @return boolean
+     * @since v1.0.0
+     */
     public function validateValue($value, $field = null)
     {
         return is_string($value);

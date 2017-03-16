@@ -30,6 +30,7 @@ use DSchoenbauer\Exception\Http\ClientError\BadRequestException;
  * Thrown when a data type is provided other than the required data type
  *
  * @author David Schoenbauer
+ * @since v1.0.0
  */
 class InvalidDataTypeException extends BadRequestException implements OrmExceptionInterface
 {

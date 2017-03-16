@@ -25,7 +25,7 @@
 namespace DSchoenbauer\Orm\Framework;
 
 /**
- * Description of Attribute
+ * An abstract value to be assigned to a given model. 
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
@@ -34,13 +34,20 @@ class Attribute
 
     private $value;
 
+    /**
+     * a value to be stored
+     * @param mixed $value a value to be stored
+     * @since v1.0.0
+     */
     public function __construct($value = null)
     {
         $this->setValue($value);
     }
 
     /**
+     * retrieves a value to be stored
      * @return mixed a value stored
+     * @since v1.0.0
      */
     public function getValue()
     {
@@ -48,8 +55,10 @@ class Attribute
     }
 
     /**
+     * sets a value to be stored
      * @param mixed $value a value to be stored
      * @return $this
+     * @since v1.0.0
      */
     public function setValue($value)
     {

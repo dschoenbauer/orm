@@ -24,6 +24,13 @@ class PdoCreate extends AbstractEvent
     private $adapter;
     private $create;
 
+    /**
+     * 
+     * @param PDO $adapter PDO connection to a db of some sort.
+     * @param Create $create default null, if no create object offered one will
+     * be lazy loaded for you
+     * @since v1.0.0
+     */
     public function __construct(PDO $adapter, Create $create = null)
     {
         $this->setAdapter($adapter)->setCreate($create);
@@ -33,6 +40,7 @@ class PdoCreate extends AbstractEvent
      * event action
      * @param Event $event object passed when event is fired
      * @return void
+     * @since v1.0.0
      */
     public function onExecute(Event $event)
     {
@@ -51,6 +59,7 @@ class PdoCreate extends AbstractEvent
     /**
      * Returns a PHP Data Object
      * @return PDO
+     * @since v1.0.0
      */
     public function getAdapter()
     {
@@ -61,6 +70,7 @@ class PdoCreate extends AbstractEvent
      * PDO connection to a db of some sort.
      * @param PDO $adapter
      * @return $this
+     * @since v1.0.0
      */
     public function setAdapter(PDO $adapter)
     {
@@ -71,6 +81,7 @@ class PdoCreate extends AbstractEvent
     /**
      * object with logic for the Create. If Create is not provided one will be lazy loaded
      * @return Create object that is used for the create logic
+     * @since v1.0.0
      */
     public function getCreate()
     {
@@ -83,6 +94,7 @@ class PdoCreate extends AbstractEvent
     /**
      * @param Create $create object with the create logic
      * @return $this
+     * @since v1.0.0
      */
     public function setCreate(Create $create = null)
     {

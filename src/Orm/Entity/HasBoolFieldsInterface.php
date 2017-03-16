@@ -25,11 +25,16 @@
 namespace DSchoenbauer\Orm\Entity;
 
 /**
- *
+ * provides a way to add boolean fields to an entity
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
 interface HasBoolFieldsInterface
 {
 
+    /**
+     * provides a way to add boolean fields to an entity
+     * @return array an array of fields that are boolean data types
+     * @since v1.0.0
+     */
     public function getBoolFields();
 }

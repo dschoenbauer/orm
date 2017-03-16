@@ -27,6 +27,7 @@ namespace DSchoenbauer\Orm\Exception;
 /**
  * Core interface to capture all exceptions of this library
  * @author David Schoenbauer
+ * @since v1.0.0
  */
 interface OrmExceptionInterface
 {

@@ -25,11 +25,16 @@
 namespace DSchoenbauer\Orm\Entity;
 
 /**
- *
+ * provides a way to add a way to filter / limit the number of records in an entity
  * @author David Schoenbauer <d.schoenbauer@ctimeetingtech.com>
- */
+ **/
 interface HasFilterInterface
 {
 
+    /**
+     * provides a way to filter or limit the number of records in an entity
+     * @return array an array of fields that may be queried for specific content
+     * @since v1.0.0
+     */
     public function getFilters();
 }

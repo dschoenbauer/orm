@@ -34,6 +34,12 @@ use DSchoenbauer\Orm\Enum\ModelEvents;
 class CrudModel extends Model
 {
 
+    /**
+     * Process the addition of a new record
+     * @param array $data
+     * @return array
+     * @since v1.0.0
+     */
     public function create($data)
     {
         $this->setData($data);
@@ -42,6 +48,12 @@ class CrudModel extends Model
         return $this->getData();
     }
 
+    /**
+     * Process the return of a single record
+     * @param integer $id
+     * @return array
+     * @since v1.0.0
+     */
     public function fetch($id)
     {
         $this->setId($id);
@@ -50,6 +62,11 @@ class CrudModel extends Model
         return $this->getData();
     }
 
+    /**
+     * Process the return of a collection of data
+     * @return array
+     * @since v1.0.0
+     */
     public function fetchAll()
     {
         $events = [ModelEvents::FETCH_ALL];
@@ -57,6 +74,13 @@ class CrudModel extends Model
         return $this->getData();
     }
 
+    /**
+     * Process the update of data for a given id
+     * @param integer $id primary id number of the record to be updated
+     * @param array $data an associative array of the data to be updated
+     * @return array
+     * @since v1.0.0
+     */
     public function update($id, $data)
     {
         $this->setId($id)->setData($data);
@@ -65,6 +89,12 @@ class CrudModel extends Model
         return $this->getData();
     }
 
+    /**
+     * Process the removal of a given record
+     * @param integer $id primary ID of a value to be removed
+     * @return boolean returns true on success
+     * @since v1.0.0
+     */
     public function delete($id)
     {
         $this->setId($id);
@@ -73,6 +103,12 @@ class CrudModel extends Model
         return true;
     }
 
+    /**
+     * Attaches given events into the event manager
+     * @param array $events
+     * @return CrudModel
+     * @since v1.0.0
+     */
     protected function processEvents(array $events)
     {
         $this->getEventManager()->trigger(
@@ -83,5 +119,6 @@ class CrudModel extends Model
         foreach ($events as $event) {
             $this->getEventManager()->trigger($event, $this);
         }
+        return $this;
     }
 }

@@ -25,18 +25,31 @@
 namespace DSchoenbauer\Orm\Framework;
 
 /**
- * Description of Attributes
+ * A collection of attributes that define a given object
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
 class AttributeCollection
 {
 
+    /**
+     * returns the value that is housed inside an attribute
+     */
     const BY_VALUE = "byValue";
+    
+    /**
+     * gets the attribute object itself allowing for late binding to a value
+     */
     const BY_REF = "byRef";
 
     private $attributes = [];
 
+    /**
+     * sets a parameter into the collection
+     * @param string $key a key used to retrieve or identify a given value
+     * @param mixed $value a value to be stored
+     * @return $this
+     */
     public function set($key, $value)
     {
         $this->ensureKey($key)->attributes[$key]->setValue($value);
@@ -46,10 +59,11 @@ class AttributeCollection
     /**
      * Retrieves a parameter if the parameter doesn't exist one is created with the default value
      * @param string $key a one word label for the value
-     * @param type $defaultValue a value to use if the parameter is not present
+     * @param mixed $defaultValue a value to use if the parameter is not present
      * @param string $type byRef or byValue : byRef will return the attribute
      * object and byValue will return the attribute value
      * @return mixed type will define what is returned
+     * @since v1.0.0
      */
     public function get($key, $defaultValue = null, $type = self::BY_VALUE)
     {
@@ -62,9 +76,10 @@ class AttributeCollection
 
     /**
      * Validates that the key is present and if it isn't it adds it in
-     * @param type $key
-     * @param type $value
+     * @param string $key a field that will allow to be retrieved later
+     * @param mixed $value a value to be associated with the key
      * @return $this
+     * @since v1.0.0
      */
     private function ensureKey($key, $value = null)
     {
@@ -75,9 +90,10 @@ class AttributeCollection
     }
 
     /**
-     * Validates the existance of a previously set parameter
+     * Validates the existence of a previously set parameter
      * @param string $key
      * @return bool
+     * @since v1.0.0
      */
     public function has($key)
     {

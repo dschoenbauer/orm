@@ -25,12 +25,17 @@
 namespace DSchoenbauer\Orm\Entity;
 
 /**
+ * provides a way to add static fields to an entity
  * A static value is a set value that will never be changed.
- *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
 interface HasStaticValuesInterface
 {
-
+   /**
+     * provides an associative array that has keys of fields and values
+     * @return string if no field is provided by the user this field will define
+     * which field should be sorted on
+     * @since v1.0.0
+     */
     public function getStaticValues();
 }
