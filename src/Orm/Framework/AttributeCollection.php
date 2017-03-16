@@ -46,7 +46,7 @@ class AttributeCollection
     /**
      * Retrieves a parameter if the parameter doesn't exist one is created with the default value
      * @param string $key a one word label for the value
-     * @param type $defaultValue a value to use if the parameter is not present
+     * @param mixed $defaultValue a value to use if the parameter is not present
      * @param string $type byRef or byValue : byRef will return the attribute
      * object and byValue will return the attribute value
      * @return mixed type will define what is returned
@@ -62,8 +62,8 @@ class AttributeCollection
 
     /**
      * Validates that the key is present and if it isn't it adds it in
-     * @param type $key
-     * @param type $value
+     * @param string $key
+     * @param mixed $value
      * @return $this
      */
     private function ensureKey($key, $value = null)
