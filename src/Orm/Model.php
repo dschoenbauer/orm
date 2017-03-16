@@ -98,7 +98,7 @@ class Model
 
     /**
      * provides the current record
-     * @return array
+     * @return mixed
      * @since v1.0.0
      */
     public function getData()
@@ -120,11 +120,11 @@ class Model
 
     /**
      * sets the current record 
-     * @param array $data current 
+     * @param mixed $data current 
      * @return Model
      * @since v1.0.0
      */
-    public function setData(array $data)
+    public function setData($data)
     {
         $this->data = $data;
         return $this;
