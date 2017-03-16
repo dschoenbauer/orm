@@ -81,8 +81,7 @@ class ValidateDate extends AbstractValidate
             return false;
         }
         $format = array_key_exists($field, $this->customDateTimeFormats) ?
-            $this->customDateTimeFormats[$field] :
-            $this->getDefaultDateTimeFormat();
+            $this->customDateTimeFormats[$field] : $this->getDefaultDateTimeFormat();
         return DateTime::createFromFormat($format, $value) instanceof DateTime;
     }
 
