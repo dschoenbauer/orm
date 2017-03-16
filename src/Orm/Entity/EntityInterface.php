@@ -25,7 +25,7 @@
 namespace DSchoenbauer\Orm\Entity;
 
 /**
- * An entity is an object that contains specific information for a given model type
+ * An entity is an object that contains specific information for a given model
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */

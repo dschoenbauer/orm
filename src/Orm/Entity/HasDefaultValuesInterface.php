@@ -25,11 +25,19 @@
 namespace DSchoenbauer\Orm\Entity;
 
 /**
+ * provides a way to add default values for fields to an entity
  * Default values can be overridden. Static Values can not.
  * @author David Schoenbauer <dschoenbauer@gmail.com>
+ * @version v1.0.0
  */
 interface HasDefaultValuesInterface
 {
-
+    
+    /**
+     * provides a way to define values for fields need a default values
+     * @return array an associative array that has a key of the field and a value
+     * that is the value to be used as the default value
+     * @since v1.0.0
+     */
     public function getDefaultValues();
 }

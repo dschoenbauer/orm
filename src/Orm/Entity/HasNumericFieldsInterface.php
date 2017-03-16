@@ -25,11 +25,16 @@
 namespace DSchoenbauer\Orm\Entity;
 
 /**
- *
+ * provides a way to add number fields to an entity
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
 interface HasNumericFieldsInterface
 {
 
+    /**
+     * provides a way to add numeric fields to an entity
+     * @return array an array of fields that are a numeric data types
+     * @since v1.0.0
+     */
     public function getNumericFields();
 }

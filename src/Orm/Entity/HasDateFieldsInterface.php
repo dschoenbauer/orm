@@ -25,7 +25,7 @@
 namespace DSchoenbauer\Orm\Entity;
 
 /**
- * defines that an entity has date fields present
+ * provides a way to add date fields to an entity
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
@@ -33,8 +33,8 @@ interface HasDateFieldsInterface
 {
 
     /**
-     * provides an array of fields that are date fields
-     * @return array an array of fields that are date fields
+     * provides a way to add date fields to an entity
+     * @return array an array of fields that are date data types
      * @since v1.0.0
      */
     public function getDateFields();

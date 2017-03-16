@@ -25,11 +25,16 @@
 namespace DSchoenbauer\Orm\Entity;
 
 /**
- *
+ * provides a way to add required fields to an entity
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
 interface HasRequiredFieldsInterface
 {
 
+    /**
+     * provides a way to require that specific fields are populated
+     * @return array an array of fields that are required
+     * @since v1.0.0
+     */
     public function getRequiredFields();
 }

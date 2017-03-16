@@ -25,15 +25,18 @@
 namespace DSchoenbauer\Orm\Entity;
 
 /**
- * Allows for the definition of different date formats for each field
+ * provides a way to add date fields with customer formats to an entity
  *
  * @author David Schoenbauer
  */
 interface HasDateWithCustomFormatInterface extends HasDateFieldsInterface
 {
     /**
-     * returns an associative array with fields as keys and formats as values
+     * provides an associative array with fields as keys and formats as values
+     * Format accepted by date().
+     * @link http://php.net/manual/en/function.date.php date() format
      * @return array
-     */
+     * @since v1.0.0
+     **/
     public function getDateCustomFormat();
 }
