@@ -39,6 +39,7 @@ abstract class AbstractEntity implements EntityInterface
     /**
      * provides field with primary key
      * @return string
+     * @since v1.0.0
      */
     public function getIdField()
     {
@@ -48,6 +49,7 @@ abstract class AbstractEntity implements EntityInterface
     /**
      * provides which table the entities data is stored in
      * @return string
+     * @since v1.0.0
      */
     public function getTable()
     {
@@ -57,6 +59,7 @@ abstract class AbstractEntity implements EntityInterface
     /**
      * provides a name that can be used to reference the entity
      * @return string
+     * @since v1.0.0
      */
     public function getName()
     {
@@ -67,6 +70,7 @@ abstract class AbstractEntity implements EntityInterface
      * sets field with primary key
      * @param string $idField
      * @return $this
+     * @since v1.0.0
      */
     public function setIdField($idField)
     {
@@ -78,6 +82,7 @@ abstract class AbstractEntity implements EntityInterface
      * sets which table the entities data is stored in
      * @param string $table
      * @return $this
+     * @since v1.0.0
      */
     public function setTable($table)
     {
@@ -89,6 +94,7 @@ abstract class AbstractEntity implements EntityInterface
      * sets a name that can be used to reference the entity
      * @param string $name
      * @return $this
+     * @since v1.0.0
      */
     public function setName($name)
     {
@@ -99,6 +105,7 @@ abstract class AbstractEntity implements EntityInterface
     /**
      * provides an array of all fields the entity has
      * @return array
+     * @since v1.0.0
      */
     public function getAllFields()
     {

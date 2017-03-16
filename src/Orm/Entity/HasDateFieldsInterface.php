@@ -25,13 +25,25 @@
 namespace DSchoenbauer\Orm\Entity;
 
 /**
- * Description of HasDateFieldsInterface
+ * defines that an entity has date fields present
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
 interface HasDateFieldsInterface
 {
 
+    /**
+     * provides an array of fields that are date fields
+     * @return array an array of fields that are date fields
+     * @since v1.0.0
+     */
     public function getDateFields();
+    
+    /**
+     * a default date format that the value must conform to
+     * @return string Format accepted by date().
+     * @link http://php.net/manual/en/function.date.php date() format
+     * @since v1.0.0
+     */
     public function getDateDefaultFormat();
 }
