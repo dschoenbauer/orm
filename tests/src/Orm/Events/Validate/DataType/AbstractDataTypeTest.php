@@ -37,7 +37,7 @@ use Zend\EventManager\Event;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class AbstractValidateTest extends PHPUnit_Framework_TestCase
+class AbstractDataTypeTest extends PHPUnit_Framework_TestCase
 {
 
     private $object;

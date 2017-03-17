@@ -24,20 +24,15 @@
  */
 namespace DSchoenbauer\Orm\Events\Validate\DataType;
 
-use DateTime;
-use DSchoenbauer\Orm\Entity\HasDateFieldsInterface;
-use DSchoenbauer\Orm\Entity\HasDateWithCustomFormatInterface;
+use DSchoenbauer\Orm\Entity\HasStringFieldsInterface;
 
 /**
- * validates date fields are dates
+ * Validates string fields are strings
  *
- * @author David Schoenbauer
+ * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class ValidateDate extends AbstractValidate
+class DataTypeString extends AbstractDataType
 {
-
-    private $defaultDateTimeFormat;
-    private $customDateTimeFormats = [];
 
     /**
      * returns the fields affected by the entity interface
@@ -47,11 +42,7 @@ class ValidateDate extends AbstractValidate
      */
     public function getFields($entity)
     {
-        $this->setDefaultDateTimeFormat($entity->getDateDefaultFormat());
-        if ($entity instanceof HasDateWithCustomFormatInterface) {
-            $this->customDateTimeFormats = $entity->getDateCustomFormat();
-        }
-        return $entity->getDateFields();
+        return $entity->getStringFields();
     }
 
     /**
@@ -61,49 +52,18 @@ class ValidateDate extends AbstractValidate
      */
     public function getTypeInterface()
     {
-        return HasDateFieldsInterface::class;
+        return HasStringFieldsInterface::class;
     }
 
     /**
      * Validates that the value is of the proper type
-     * @param mixed $value value to validate
+     * @param mixed $value value to DataType
      * @param string $field field name
      * @return boolean
      * @since v1.0.0
      */
-    public function validateValue($value, $field = null)
+    public function ValidateValue($value, $field = null)
     {
-        if ($value instanceof DateTime) {
-            return true;
-        }
-
-        if (is_object($value)) {
-            return false;
-        }
-        $format = array_key_exists($field, $this->customDateTimeFormats) ?
-            $this->customDateTimeFormats[$field] : $this->getDefaultDateTimeFormat();
-        return DateTime::createFromFormat($format, $value) instanceof DateTime;
-    }
-
-    /**
-     * provides a default Date Time String
-     * @return string
-     * @since v1.0.0
-     */
-    public function getDefaultDateTimeFormat()
-    {
-        return $this->defaultDateTimeFormat;
-    }
-
-    /**
-     *
-     * @param string $defaultDateTimeFormat a format used to translate to a date
-     * @return $this
-     * @since v1.0.0
-     */
-    public function setDefaultDateTimeFormat($defaultDateTimeFormat)
-    {
-        $this->defaultDateTimeFormat = $defaultDateTimeFormat;
-        return $this;
+        return is_string($value);
     }
 }

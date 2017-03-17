@@ -24,7 +24,7 @@
  */
 namespace DSchoenbauer\Orm\Events\Validate\DataType;
 
-use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
+use DSchoenbauer\Orm\Entity\HasStringFieldsInterface;
 use PHPUnit_Framework_TestCase;
 use stdClass;
 
@@ -33,28 +33,28 @@ use stdClass;
  *
  * @author David Schoenbauer
  */
-class ValidateBooleanTest extends PHPUnit_Framework_TestCase
+class DataTypeStringTest extends PHPUnit_Framework_TestCase
 {
 
     protected $object;
 
     protected function setUp()
     {
-        $this->object = new ValidateBoolean();
+        $this->object = new DataTypeString();
     }
 
     public function testGetFields()
     {
         $data = ['id', 'calls', 'days', 'hours'];
-        $entity = $this->getMockBuilder(HasBoolFieldsInterface::class)->getMock();
-        $entity->expects($this->once())->method('getBoolFields')->willReturn($data);
+        $entity = $this->getMockBuilder(HasStringFieldsInterface::class)->getMock();
+        $entity->expects($this->once())->method('getStringFields')->willReturn($data);
         $this->assertEquals($data, $this->object->getFields($entity));
     }
 
     public function testGetTypeInterface()
     {
         $this->assertEquals(
-        HasBoolFieldsInterface::class, $this->object->getTypeInterface()
+            HasStringFieldsInterface::class, $this->object->getTypeInterface()
         );
     }
 
@@ -63,10 +63,10 @@ class ValidateBooleanTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->object->validateValue(1));
         $this->assertFalse($this->object->validateValue(1.0));
         $this->assertFalse($this->object->validateValue(0.001));
-        $this->assertFalse($this->object->validateValue('a'));
+        $this->assertTrue($this->object->validateValue('a'));
         $this->assertFalse($this->object->validateValue(null));
         $this->assertFalse($this->object->validateValue(new stdClass()));
-        $this->assertTrue($this->object->validateValue(false));
-        $this->assertTrue($this->object->validateValue(true));
+        $this->assertFalse($this->object->validateValue(false));
+        $this->assertFalse($this->object->validateValue(true));
     }
 }

@@ -32,14 +32,14 @@ use PHPUnit_Framework_TestCase;
  *
  * @author David Schoenbauer
  */
-class ValidateNumberTest extends PHPUnit_Framework_TestCase
+class DataTypeNumberTest extends PHPUnit_Framework_TestCase
 {
 
     protected $object;
 
     protected function setUp()
     {
-        $this->object = new ValidateNumber();
+        $this->object = new DataTypeNumber();
     }
 
     public function testGetFields()
