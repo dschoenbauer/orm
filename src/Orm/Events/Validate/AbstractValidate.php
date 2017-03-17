@@ -36,6 +36,7 @@ use Zend\EventManager\Event;
  */
 abstract class AbstractValidate extends AbstractEvent
 {
+    protected $model;
 
     /**
      * full name space of an interface that defines a given field type
@@ -57,25 +58,48 @@ abstract class AbstractValidate extends AbstractEvent
      * @param Event $event Event object passed at time of triggering
      * @throws InvalidDataTypeException thrown when value does not validate
      * @return void
+     * @since v1.0.0
      */
     public function onExecute(Event $event)
     {
         if (!$event->getTarget() instanceof Model) {
             return;
         }
-        /* @v ar $model Model */
-        $model = $event->getTarget();
-        $entity = $model->getEntity();
+        $this->setModel($event->getTarget());
+        $entity = $this->getModel()->getEntity();
         if (!is_a($entity, $this->getTypeInterface())) {
             return;
         }
-        $this->validate($model->getData(), $this->getFields($entity));
+        $this->validate($this->getModel()->getData(), $this->getFields($entity));
     }
 
     /**
      * validates data against list of fields 
      * @param array $data associative array of data to be validated
      * @param array $fields fields that are deemed a given type
+     * @since v1.0.0
      */
     abstract public function validate(array $data, array $fields);
+    
+    /**
+     * provides model for which data type exists
+     * @return Model
+     * @since v1.0.0
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
+     * set model for which data type exists
+     * @param Model $model
+     * @return AbstractValidate
+     * @since v1.0.0
+     */
+    public function setModel(Model $model)
+    {
+        $this->model = $model;
+        return $this;
+    }
 }

@@ -24,20 +24,28 @@
  */
 namespace DSchoenbauer\Orm\Events\Validate\Schema;
 
-use DSchoenbauer\Orm\Events\AbstractEvent;
-use Zend\EventManager\Event;
+use DSchoenbauer\Orm\Entity\HasDefaultValuesInterface;
+use DSchoenbauer\Orm\Events\Validate\AbstractValidate;
 
 /**
  * Adds a default value to a data set at create time
  *
  * @author David Schoenbauer
  */
-class DefaultValue extends AbstractEvent
+class DefaultValue extends AbstractValidate
 {
-    public function onExecute(Event $event)
+    public function getFields($entity)
     {
-        if(!$event->getTarget() instanceof Model){
-            return;
-        }
+        
+    }
+
+    public function getTypeInterface()
+    {
+        return HasDefaultValuesInterface::class;
+    }
+
+    public function validate(array $data, array $fields)
+    {
+
     }
 }

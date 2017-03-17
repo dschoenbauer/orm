@@ -27,7 +27,6 @@ namespace DSchoenbauer\Orm\Events\Validate;
 use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
 use DSchoenbauer\Orm\Events\Validate\AbstractValidate;
-use DSchoenbauer\Orm\Exception\InvalidDataTypeException;
 use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Tests\Orm\Entity\AbstractEntityWithBool;
 use PHPUnit_Framework_TestCase;
@@ -103,5 +102,10 @@ class AbstractValidateTest extends PHPUnit_Framework_TestCase
 
         $this->object->expects($this->once())->method('validate')->with($data, $fields);
         $this->assertNull($this->object->onExecute($event));
+    }
+    
+    public function testModel(){
+        $mockModel = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+        $this->assertSame($mockModel, $this->object->setModel($mockModel)->getModel());
     }
 }
