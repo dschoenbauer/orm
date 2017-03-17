@@ -26,12 +26,13 @@ namespace DSchoenbauer\Orm\Events\Validate;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
-use DSchoenbauer\Orm\Events\Validate\DataType\AbstractValidate;
+use DSchoenbauer\Orm\Events\Validate\AbstractValidate;
 use DSchoenbauer\Orm\Exception\InvalidDataTypeException;
 use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Tests\Orm\Entity\AbstractEntityWithBool;
 use PHPUnit_Framework_TestCase;
 use Zend\EventManager\Event;
+
 /**
  * Description of AbstractValidateTest
  *
@@ -84,28 +85,23 @@ class AbstractValidateTest extends PHPUnit_Framework_TestCase
         $this->assertNull($this->object->onExecute($event));
     }
 
-    public function testValidateAllFieldsChecked()
+    public function testValidateIsGettingAllFields()
     {
-        $data = ['id' => 1, 'calls' => 1, 'NoGood' => 2];
-        $fields = ['id', 'calls'];
-        $this->object->expects($this->exactly(2))->method('validateValue')->with(1)->willReturn(true);
-        $this->object->validate($data, $fields);
-    }
+        $data = ['id' => 1, 'values' => [1, 2, 3]];
+        $fields = ['id', 'values'];
+        $this->object->expects($this->once())->method('getTypeInterface')->willReturn(HasBoolFieldsInterface::class);
+        $this->object->expects($this->once())->method('getFields')->willReturn($fields);
 
-    public function testValidateAllFieldsCheckedMore()
-    {
-        $data = ['id' => 1, 'calls' => 1, 'NoGood' => 2, 'g' => 1, 'h' => 1, 'i' => 1];
-        $fields = ['id', 'calls', 'g', 'h', 'i'];
-        $this->object->expects($this->exactly(5))->method('validateValue')->with(1)->willReturn(true);
-        $this->object->validate($data, $fields);
-    }
+        $entity = $this->getMockBuilder(AbstractEntityWithBool::class)->getMock();
 
-    public function testValidateFieldsError()
-    {
-        $data = ['id' => 1, 'calls' => 1, 'NoGood' => 2, 'g' => 1, 'h' => 1, 'i' => 1];
-        $fields = ['id', 'calls', 'g', 'h', 'i'];
-        $this->object->expects($this->exactly(1))->method('validateValue')->with(1)->willReturn(false);
-        $this->expectException(InvalidDataTypeException::class);
-        $this->object->validate($data, $fields);        
+        $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+        $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
+        $model->expects($this->exactly(1))->method('getData')->willReturn($data);
+
+        $event = $this->getMockBuilder(Event::class)->getMock();
+        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
+
+        $this->object->expects($this->once())->method('validate')->with($data, $fields);
+        $this->assertNull($this->object->onExecute($event));
     }
 }

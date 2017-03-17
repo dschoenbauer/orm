@@ -44,44 +44,7 @@ class AbstractDataTypeTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->object = $this->getMockForAbstractClass(AbstractValidate::class);
-    }
-
-    public function testExecuteNotAModel()
-    {
-        $event = $this->getMockBuilder(Event::class)->getMock();
-        $event->expects($this->once())->method('getTarget');
-        $this->assertNull($this->object->onExecute($event));
-    }
-
-    public function testExecuteDoesNotHaveAnInterface()
-    {
-        $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
-
-        $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
-        $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
-
-        $event = $this->getMockBuilder(Event::class)->getMock();
-        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
-
-        $this->assertNull($this->object->onExecute($event));
-    }
-
-    public function testExecuteBasicData()
-    {
-        $this->object->expects($this->once())->method('getTypeInterface')->willReturn(HasBoolFieldsInterface::class);
-        $this->object->expects($this->once())->method('getFields')->willReturn([]);
-
-        $entity = $this->getMockBuilder(AbstractEntityWithBool::class)->getMock();
-
-        $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
-        $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
-        $model->expects($this->exactly(1))->method('getData')->willReturn([]);
-
-        $event = $this->getMockBuilder(Event::class)->getMock();
-        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
-
-        $this->assertNull($this->object->onExecute($event));
+        $this->object = $this->getMockForAbstractClass(AbstractDataType::class);
     }
 
     public function testValidateAllFieldsChecked()
@@ -106,6 +69,6 @@ class AbstractDataTypeTest extends PHPUnit_Framework_TestCase
         $fields = ['id', 'calls', 'g', 'h', 'i'];
         $this->object->expects($this->exactly(1))->method('validateValue')->with(1)->willReturn(false);
         $this->expectException(InvalidDataTypeException::class);
-        $this->object->validate($data, $fields);        
+        $this->object->validate($data, $fields);
     }
 }

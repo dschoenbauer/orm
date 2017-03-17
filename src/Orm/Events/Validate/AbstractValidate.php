@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Validate\DataType;
+namespace DSchoenbauer\Orm\Events\Validate;
 
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\Exception\InvalidDataTypeException;
@@ -53,15 +53,6 @@ abstract class AbstractValidate extends AbstractEvent
     abstract public function getFields($entity);
 
     /**
-     * Validates that the value is of the proper type
-     * @param mixed $value value to validate
-     * @param string $field field name
-     * @return boolean
-     * @since v1.0.0
-     */
-    abstract public function validateValue($value, $field = null);
-
-    /**
      * method is called when a given event is triggered
      * @param Event $event Event object passed at time of triggering
      * @throws InvalidDataTypeException thrown when value does not validate
@@ -72,7 +63,7 @@ abstract class AbstractValidate extends AbstractEvent
         if (!$event->getTarget() instanceof Model) {
             return;
         }
-        /* @var $model Model */
+        /* @v ar $model Model */
         $model = $event->getTarget();
         $entity = $model->getEntity();
         if (!is_a($entity, $this->getTypeInterface())) {
@@ -82,17 +73,9 @@ abstract class AbstractValidate extends AbstractEvent
     }
 
     /**
-     * checks data against list of fields for valid data types
+     * validates data against list of fields 
      * @param array $data associative array of data to be validated
      * @param array $fields fields that are deemed a given type
-     * @throws InvalidDataTypeException
      */
-    public function validate(array $data, array $fields)
-    {
-        foreach ($fields as $field) {
-            if (array_key_exists($field, $data) && !$this->validateValue($data[$field], $field)) {
-                throw new InvalidDataTypeException($field);
-            }
-        }
-    }
+    abstract public function validate(array $data, array $fields);
 }

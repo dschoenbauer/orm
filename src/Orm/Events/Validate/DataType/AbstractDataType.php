@@ -24,33 +24,16 @@
  */
 namespace DSchoenbauer\Orm\Events\Validate\DataType;
 
-use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Events\Validate\AbstractValidate;
 use DSchoenbauer\Orm\Exception\InvalidDataTypeException;
-use DSchoenbauer\Orm\Model;
-use Zend\EventManager\Event;
 
 /**
  * Framework for validating data types
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-abstract class AbstractDataType extends AbstractEvent
+abstract class AbstractDataType extends AbstractValidate
 {
-
-    /**
-     * full name space of an interface that defines a given field type
-     * @return string
-     * @since v1.0.0
-     */
-    abstract public function getTypeInterface();
-
-    /**
-     * returns the fields affected by the entity interface
-     * @param mixed $entity an entity object implements the getTypeInterface
-     * @return array an array of fields that are relevant to the interface
-     * @since v1.0.0
-     */
-    abstract public function getFields($entity);
 
     /**
      * Validates that the value is of the proper type
@@ -62,32 +45,12 @@ abstract class AbstractDataType extends AbstractEvent
     abstract public function ValidateValue($value, $field = null);
 
     /**
-     * method is called when a given event is triggered
-     * @param Event $event Event object passed at time of triggering
-     * @throws InvalidDataTypeException thrown when value does not DataType
-     * @return void
-     */
-    public function onExecute(Event $event)
-    {
-        if (!$event->getTarget() instanceof Model) {
-            return;
-        }
-        /* @var $model Model */
-        $model = $event->getTarget();
-        $entity = $model->getEntity();
-        if (!is_a($entity, $this->getTypeInterface())) {
-            return;
-        }
-        $this->DataType($model->getData(), $this->getFields($entity));
-    }
-
-    /**
      * checks data against list of fields for valid data types
      * @param array $data associative array of data to be DataTyped
      * @param array $fields fields that are deemed a given type
      * @throws InvalidDataTypeException
      */
-    public function DataType(array $data, array $fields)
+    public function validate(array $data, array $fields)
     {
         foreach ($fields as $field) {
             if (array_key_exists($field, $data) && !$this->ValidateValue($data[$field], $field)) {
