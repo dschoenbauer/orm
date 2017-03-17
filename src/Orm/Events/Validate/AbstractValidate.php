@@ -36,7 +36,9 @@ use Zend\EventManager\Event;
  */
 abstract class AbstractValidate extends AbstractEvent
 {
+
     protected $model;
+    protected $params;
 
     /**
      * full name space of an interface that defines a given field type
@@ -66,6 +68,8 @@ abstract class AbstractValidate extends AbstractEvent
             return;
         }
         $this->setModel($event->getTarget());
+        $this->setParams($event->getParams());
+
         $entity = $this->getModel()->getEntity();
         if (!is_a($entity, $this->getTypeInterface())) {
             return;
@@ -80,7 +84,7 @@ abstract class AbstractValidate extends AbstractEvent
      * @since v1.0.0
      */
     abstract public function validate(array $data, array $fields);
-    
+
     /**
      * provides model for which data type exists
      * @return Model
@@ -100,6 +104,28 @@ abstract class AbstractValidate extends AbstractEvent
     public function setModel(Model $model)
     {
         $this->model = $model;
+        return $this;
+    }
+
+    /**
+     * Get all parameters
+     * @return array|object|ArrayAccess
+     * @since v1.0.0
+     */
+    public function getParams()
+    {
+        return $this->params;
+    }
+
+    /**
+     * Set parameters
+     *
+     * @param  array|ArrayAccess|object $params
+     * @since v1.0.0
+     */
+    public function setParams($params)
+    {
+        $this->params = $params;
         return $this;
     }
 }

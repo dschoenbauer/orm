@@ -102,10 +102,17 @@ class AbstractValidateTest extends PHPUnit_Framework_TestCase
 
         $this->object->expects($this->once())->method('validate')->with($data, $fields);
         $this->assertNull($this->object->onExecute($event));
+        $this->assertSame($model, $this->object->getModel());
     }
     
     public function testModel(){
         $mockModel = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
         $this->assertSame($mockModel, $this->object->setModel($mockModel)->getModel());
     }
+    
+    public function testParam(){
+        $param = ['test' => 1];
+        $this->assertSame($param, $this->object->setParams($param)->getParams());
+    }
+    
 }
