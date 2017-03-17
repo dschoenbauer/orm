@@ -87,6 +87,7 @@ class AbstractValidateTest extends PHPUnit_Framework_TestCase
     public function testValidateIsGettingAllFields()
     {
         $data = ['id' => 1, 'values' => [1, 2, 3]];
+        $params = ['id' => 100, 'values' => [1, 2, 3, 5]];
         $fields = ['id', 'values'];
         $this->object->expects($this->once())->method('getTypeInterface')->willReturn(HasBoolFieldsInterface::class);
         $this->object->expects($this->once())->method('getFields')->willReturn($fields);
@@ -99,10 +100,12 @@ class AbstractValidateTest extends PHPUnit_Framework_TestCase
 
         $event = $this->getMockBuilder(Event::class)->getMock();
         $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
+        $event->expects($this->exactly(1))->method('getParams')->willReturn($params);
 
         $this->object->expects($this->once())->method('validate')->with($data, $fields);
         $this->assertNull($this->object->onExecute($event));
         $this->assertSame($model, $this->object->getModel());
+        $this->assertSame($params, $this->object->getParams());
     }
     
     public function testModel(){
