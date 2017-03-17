@@ -32,10 +32,33 @@ namespace DSchoenbauer\Orm\Enum;
 class ModelEvents
 {
 
+    /**
+     * Called to validate data
+     */
     const VALIDATE = 'validate';
+    
+    /**
+     * Called to create a new record
+     */
     const CREATE = 'create';
+    
+    /**
+     * Called to retrieve a given record
+     */
     const FETCH = "fetch";
+    
+    /**
+     * Called to retrieve a collection of records
+     */
     const FETCH_ALL = "fetchAll";
+    
+    /**
+     * Called to update a record with data
+     */
     const UPDATE = 'update';
+    
+    /**
+     * Called to remove data, be it one or many records
+     */
     const DELETE = 'delete';
 }

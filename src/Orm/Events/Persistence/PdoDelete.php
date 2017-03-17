@@ -33,6 +33,7 @@ class PdoDelete extends AbstractEvent
      * event action
      * @param Event $event object passed when event is fired
      * @return void
+     * @since v1.0.0
      */
     public function onExecute(Event $event)
     {
@@ -50,6 +51,7 @@ class PdoDelete extends AbstractEvent
     /**
      * Returns a PHP Data Object
      * @return PDO
+     * @since v1.0.0
      */
     public function getAdapter()
     {
@@ -60,6 +62,7 @@ class PdoDelete extends AbstractEvent
      * PDO connection to a db of some sort.
      * @param PDO $adapter
      * @return $this
+     * @since v1.0.0
      */
     public function setAdapter(PDO $adapter)
     {
@@ -70,6 +73,7 @@ class PdoDelete extends AbstractEvent
     /**
      * object with logic for the delete. If Delete is not provided one will be lazy loaded
      * @return Delete
+     * @since v1.0.0
      */
     public function getDelete()
     {
@@ -83,6 +87,7 @@ class PdoDelete extends AbstractEvent
      * Object that contains the delete logic
      * @param Delete $delete
      * @return $this
+     * @since v1.0.0
      */
     public function setDelete(Delete $delete = null)
     {

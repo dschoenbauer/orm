@@ -25,11 +25,16 @@
 namespace DSchoenbauer\Orm\Entity;
 
 /**
- *
+ * provides a way to add string fields to an entity
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
 interface HasStringFieldsInterface
 {
 
+    /**
+     * provides a way to add string fields to an entity
+     * @return array an array of fields that are string data types
+     * @since v1.0.0
+     */
     public function getStringFields();
 }

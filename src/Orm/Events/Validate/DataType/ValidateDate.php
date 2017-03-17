@@ -29,7 +29,7 @@ use DSchoenbauer\Orm\Entity\HasDateFieldsInterface;
 use DSchoenbauer\Orm\Entity\HasDateWithCustomFormatInterface;
 
 /**
- * Description of ValidateDate
+ * validates date fields are dates
  *
  * @author David Schoenbauer
  */
@@ -40,8 +40,10 @@ class ValidateDate extends AbstractValidate
     private $customDateTimeFormats = [];
 
     /**
-     * returns date fields found in the entity
-     * @param HasDateFieldsInterface $entity
+     * returns the fields affected by the entity interface
+     * @param mixed $entity an entity object implements the getTypeInterface
+     * @return array an array of fields that are relevant to the interface
+     * @since v1.0.0
      */
     public function getFields($entity)
     {
@@ -53,8 +55,9 @@ class ValidateDate extends AbstractValidate
     }
 
     /**
-     * returns an interface path that is the entity is checked for
-     * @return string;
+     * full name space of an interface that defines a given field type
+     * @return string
+     * @since v1.0.0
      */
     public function getTypeInterface()
     {
@@ -62,8 +65,11 @@ class ValidateDate extends AbstractValidate
     }
 
     /**
-     * ensures that a given value is of a given type.
-     * @param bool $value true value is valid, false the value is not
+     * Validates that the value is of the proper type
+     * @param mixed $value value to validate
+     * @param string $field field name
+     * @return boolean
+     * @since v1.0.0
      */
     public function validateValue($value, $field = null)
     {
@@ -75,14 +81,14 @@ class ValidateDate extends AbstractValidate
             return false;
         }
         $format = array_key_exists($field, $this->customDateTimeFormats) ?
-            $this->customDateTimeFormats[$field] :
-            $this->getDefaultDateTimeFormat();
+            $this->customDateTimeFormats[$field] : $this->getDefaultDateTimeFormat();
         return DateTime::createFromFormat($format, $value) instanceof DateTime;
     }
 
     /**
-     * returns a default Date Time String
+     * provides a default Date Time String
      * @return string
+     * @since v1.0.0
      */
     public function getDefaultDateTimeFormat()
     {
@@ -93,6 +99,7 @@ class ValidateDate extends AbstractValidate
      *
      * @param string $defaultDateTimeFormat a format used to translate to a date
      * @return $this
+     * @since v1.0.0
      */
     public function setDefaultDateTimeFormat($defaultDateTimeFormat)
     {

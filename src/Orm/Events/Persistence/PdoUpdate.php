@@ -33,6 +33,7 @@ class PdoUpdate extends AbstractEvent
      * event action
      * @param Event $event object passed when event is fired
      * @return void
+     * @since v1.0.0
      */
     public function onExecute(Event $event)
     {
@@ -51,6 +52,7 @@ class PdoUpdate extends AbstractEvent
     /**
      * Returns a PHP Data Object
      * @return PDO
+     * @since v1.0.0
      */
     public function getAdapter()
     {
@@ -61,6 +63,7 @@ class PdoUpdate extends AbstractEvent
      * PDO connection to a db of some sort.
      * @param PDO $adapter
      * @return $this
+     * @since v1.0.0
      */
     public function setAdapter($adapter)
     {
@@ -71,6 +74,7 @@ class PdoUpdate extends AbstractEvent
     /**
      * object with logic for the Update. If Update is not provided one will be lazy loaded
      * @return Update
+     * @since v1.0.0
      */
     public function getUpdate()
     {
@@ -84,6 +88,7 @@ class PdoUpdate extends AbstractEvent
      * Object that contains the update logic
      * @param Update $update
      * @return $this
+     * @since v1.0.0
      */
     public function setUpdate(Update $update = null)
     {

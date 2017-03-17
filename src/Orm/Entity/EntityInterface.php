@@ -25,18 +25,38 @@
 namespace DSchoenbauer\Orm\Entity;
 
 /**
- * Description of EntityInterface
+ * An entity is an object that contains specific information for a given model
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
 interface EntityInterface
 {
 
+    /**
+     * provides a name that can be used to reference the entity
+     * @return string
+     * @since v1.0.0
+     */
     public function getName();
 
+    /**
+     * provides field with primary key
+     * @return string
+     * @since v1.0.0
+     */
     public function getIdField();
 
+    /**
+     * provides which table the entities data is stored in
+     * @return string
+     * @since v1.0.0
+     */
     public function getTable();
 
+    /**
+     * provides an array of all fields the entity has
+     * @return array
+     * @since v1.0.0
+     */
     public function getAllFields();
 }

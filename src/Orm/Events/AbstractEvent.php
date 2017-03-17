@@ -39,8 +39,9 @@ abstract class AbstractEvent implements VisitorInterface
     private $events = [];
 
     /**
-     *
+     * provides an opportunity to extend Model's functionality
      * @param Model $model model with which to be listened to
+     * @since v1.0.0
      */
     public function visitModel(Model $model)
     {
@@ -54,7 +55,8 @@ abstract class AbstractEvent implements VisitorInterface
     /**
      * returns a list of event names that this object should be executed
      * @return array
-     */
+     * @since v1.0.0
+     **/
     public function getEvents()
     {
         return $this->events;
@@ -64,6 +66,7 @@ abstract class AbstractEvent implements VisitorInterface
      * defines a list of event names this object will listen for to execute
      * @param array $events array of event to be executed with
      * @return $this
+     * @since v1.0.0
      */
     public function setEvents(array $events)
     {

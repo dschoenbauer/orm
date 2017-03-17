@@ -54,6 +54,7 @@ class PdoSelect extends AbstractEvent
      * event action
      * @param Event $event object passed when event is fired
      * @return void
+     * @since v1.0.0
      */
     public function onExecute(Event $event)
     {
@@ -75,6 +76,7 @@ class PdoSelect extends AbstractEvent
     /**
      * Returns a PHP Data Object
      * @return PDO
+     * @since v1.0.0
      */
     public function getAdapter()
     {
@@ -85,6 +87,7 @@ class PdoSelect extends AbstractEvent
      * PDO connection to a db of some sort.
      * @param PDO $adapter
      * @return $this
+     * @since v1.0.0
      */
     public function setAdapter(PDO $adapter)
     {
@@ -95,6 +98,7 @@ class PdoSelect extends AbstractEvent
     /**
      * object with logic for the Select. If Select is not provided one will be lazy loaded
      * @return Select
+     * @since v1.0.0
      */
     public function getSelect()
     {
@@ -108,6 +112,7 @@ class PdoSelect extends AbstractEvent
      * Object that contains the select logic
      * @param Select $select
      * @return $this
+     * @since v1.0.0
      */
     public function setSelect(Select $select = null)
     {

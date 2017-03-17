@@ -5,7 +5,7 @@
 
 	<title>Interface DSchoenbauer\Orm\Entity\HasStaticValuesInterface</title>
 
-	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
 
 </head>
 
@@ -51,7 +51,23 @@
 						Persistence					</a>
 
 						</li>
-							</ul></li>
+				<li>
+					<a href="namespace-DSchoenbauer.Orm.Events.Validate.html">
+						Validate<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-DSchoenbauer.Orm.Events.Validate.DataType.html">
+						DataType					</a>
+
+						</li>
+							</ul></li></ul></li>
+				<li>
+					<a href="namespace-DSchoenbauer.Orm.Exception.html">
+						Exception					</a>
+
+						</li>
 				<li>
 					<a href="namespace-DSchoenbauer.Orm.Framework.html">
 						Framework					</a>
@@ -75,6 +91,7 @@
 				<li><a href="class-DSchoenbauer.Orm.Entity.EntityInterface.html">EntityInterface</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Entity.HasBoolFieldsInterface.html">HasBoolFieldsInterface</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Entity.HasDateFieldsInterface.html">HasDateFieldsInterface</a></li>
+				<li><a href="class-DSchoenbauer.Orm.Entity.HasDateWithCustomFormatInterface.html">HasDateWithCustomFormatInterface</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Entity.HasDefaultValuesInterface.html">HasDefaultValuesInterface</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Entity.HasFilterInterface.html">HasFilterInterface</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Entity.HasNumericFieldsInterface.html">HasNumericFieldsInterface</a></li>
@@ -123,7 +140,8 @@
 
 
 	<div class="description">
-	<p>A static value is a set value that will never be changed.</p>
+	<p>provides a way to add static fields to an entity
+A static value is a set value that will never be changed.</p>
 	</div>
 
 
@@ -142,7 +160,7 @@
 
 				<b>Author:</b>
 				David Schoenbauer <a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#x64;&#115;&#x63;h&#111;&#x65;&#110;&#98;&#x61;&#117;&#x65;r&#64;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;">&#x64;&#115;&#x63;h&#111;&#x65;&#110;&#98;&#x61;&#117;&#x65;r&#64;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;</a><br>
-			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Entity.HasStaticValuesInterface.html#27-36" title="Go to source code">Orm/Entity/HasStaticValuesInterface.php</a>
+			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Entity.HasStaticValuesInterface.html#27-41" title="Go to source code">Orm/Entity/HasStaticValuesInterface.php</a>
 		<br>
 	</div>
 
@@ -155,26 +173,35 @@
 		<td class="attributes"><code>
 			 public 
 
-			
+			string
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getStaticValues">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Entity.HasStaticValuesInterface.html#35" title="Go to source code">getStaticValues</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Entity.HasStaticValuesInterface.html#34-40" title="Go to source code">getStaticValues</a>( )</code>
 
 		<div class="description short">
-			
+			<p>provides an associative array that has keys of fields and values</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>provides an associative array that has keys of fields and values</p>
 
 
 
+				<h4>Returns</h4>
+				<div class="list">
+					string<br><p>if no field is provided by the user this field will define
+which field should be sorted on</p>
+				</div>
 
 
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
 
 
 		</div>

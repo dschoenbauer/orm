@@ -25,7 +25,7 @@
 namespace DSchoenbauer\Orm\Entity;
 
 /**
- * Description of AbstractEntity
+ * Provides common functionality all entities could use
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
@@ -36,39 +36,77 @@ abstract class AbstractEntity implements EntityInterface
     private $table;
     private $name;
 
+    /**
+     * provides field with primary key
+     * @return string
+     * @since v1.0.0
+     */
     public function getIdField()
     {
         return $this->idField;
     }
 
+    /**
+     * provides which table the entities data is stored in
+     * @return string
+     * @since v1.0.0
+     */
     public function getTable()
     {
         return $this->table;
     }
 
+    /**
+     * provides a name that can be used to reference the entity
+     * @return string
+     * @since v1.0.0
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * sets field with primary key
+     * @param string $idField
+     * @return $this
+     * @since v1.0.0
+     */
     public function setIdField($idField)
     {
         $this->idField = $idField;
         return $this;
     }
 
+    /**
+     * sets which table the entities data is stored in
+     * @param string $table
+     * @return $this
+     * @since v1.0.0
+     */
     public function setTable($table)
     {
         $this->table = $table;
         return $this;
     }
 
+    /**
+     * sets a name that can be used to reference the entity
+     * @param string $name
+     * @return $this
+     * @since v1.0.0
+     */
     public function setName($name)
     {
         $this->name = $name;
         return $this;
     }
 
+    /**
+     * provides an array of all fields the entity has
+     * @return array
+     * @since v1.0.0
+     */
     public function getAllFields()
     {
         $fields = [];

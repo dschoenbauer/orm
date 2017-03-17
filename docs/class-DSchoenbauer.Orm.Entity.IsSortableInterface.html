@@ -5,7 +5,7 @@
 
 	<title>Interface DSchoenbauer\Orm\Entity\IsSortableInterface</title>
 
-	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
 
 </head>
 
@@ -51,7 +51,23 @@
 						Persistence					</a>
 
 						</li>
-							</ul></li>
+				<li>
+					<a href="namespace-DSchoenbauer.Orm.Events.Validate.html">
+						Validate<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-DSchoenbauer.Orm.Events.Validate.DataType.html">
+						DataType					</a>
+
+						</li>
+							</ul></li></ul></li>
+				<li>
+					<a href="namespace-DSchoenbauer.Orm.Exception.html">
+						Exception					</a>
+
+						</li>
 				<li>
 					<a href="namespace-DSchoenbauer.Orm.Framework.html">
 						Framework					</a>
@@ -75,6 +91,7 @@
 				<li><a href="class-DSchoenbauer.Orm.Entity.EntityInterface.html">EntityInterface</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Entity.HasBoolFieldsInterface.html">HasBoolFieldsInterface</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Entity.HasDateFieldsInterface.html">HasDateFieldsInterface</a></li>
+				<li><a href="class-DSchoenbauer.Orm.Entity.HasDateWithCustomFormatInterface.html">HasDateWithCustomFormatInterface</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Entity.HasDefaultValuesInterface.html">HasDefaultValuesInterface</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Entity.HasFilterInterface.html">HasFilterInterface</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Entity.HasNumericFieldsInterface.html">HasNumericFieldsInterface</a></li>
@@ -122,6 +139,9 @@
 	<h1>Interface IsSortableInterface</h1>
 
 
+	<div class="description">
+	<p>provides a way to define whish fields of an entity are sortable</p>
+	</div>
 
 
 
@@ -139,7 +159,7 @@
 
 				<b>Author:</b>
 				David Schoenbauer <a href="&#109;&#x61;i&#108;&#x74;o&#58;&#x64;.&#115;&#x63;h&#111;&#x65;&#110;&#98;&#x61;&#117;&#101;&#x72;&#64;&#99;&#x74;&#105;&#109;&#x65;&#101;&#116;&#x69;&#110;&#103;&#x74;&#101;&#x63;&#x68;&#46;&#x63;&#x6f;&#109;">&#x64;.&#115;&#x63;h&#111;&#x65;&#110;&#98;&#x61;&#117;&#101;&#x72;&#64;&#99;&#x74;&#105;&#109;&#x65;&#101;&#116;&#x69;&#110;&#103;&#x74;&#101;&#x63;&#x68;&#46;&#x63;&#x6f;&#109;</a><br>
-			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Entity.IsSortableInterface.html#27-39" title="Go to source code">Orm/Entity/IsSortableInterface.php</a>
+			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Entity.IsSortableInterface.html#27-57" title="Go to source code">Orm/Entity/IsSortableInterface.php</a>
 		<br>
 	</div>
 
@@ -152,26 +172,34 @@
 		<td class="attributes"><code>
 			 public 
 
-			
+			array
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getSortFields">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Entity.IsSortableInterface.html#34" title="Go to source code">getSortFields</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Entity.IsSortableInterface.html#36-41" title="Go to source code">getSortFields</a>( )</code>
 
 		<div class="description short">
-			
+			<p>provides a list of fields that can be sorted</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>provides a list of fields that can be sorted</p>
 
 
 
+				<h4>Returns</h4>
+				<div class="list">
+					array<br>an array of fields that can be sorted
+				</div>
 
 
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
 
 
 		</div>
@@ -182,26 +210,35 @@
 		<td class="attributes"><code>
 			 public 
 
-			
+			string
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getDefaultSortField">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Entity.IsSortableInterface.html#36" title="Go to source code">getDefaultSortField</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Entity.IsSortableInterface.html#43-49" title="Go to source code">getDefaultSortField</a>( )</code>
 
 		<div class="description short">
-			
+			<p>provides a the default field to sort on</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>provides a the default field to sort on</p>
 
 
 
+				<h4>Returns</h4>
+				<div class="list">
+					string<br><p>if no field is provided by the user this field will define
+which field should be sorted on</p>
+				</div>
 
 
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
 
 
 		</div>
@@ -212,26 +249,34 @@
 		<td class="attributes"><code>
 			 public 
 
-			
+			string
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getDefaultSortDirection">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Entity.IsSortableInterface.html#38" title="Go to source code">getDefaultSortDirection</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Entity.IsSortableInterface.html#51-56" title="Go to source code">getDefaultSortDirection</a>( )</code>
 
 		<div class="description short">
-			
+			<p>defines a default sort order</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>defines a default sort order</p>
 
 
 
+				<h4>Returns</h4>
+				<div class="list">
+					string<br>returns either IsSortableInterface::SORT_ASCENDING or IsSortableInterface::SORT_DESCENDING
+				</div>
 
 
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
 
 
 		</div>
@@ -246,6 +291,57 @@
 
 
 
+	<table class="summary constants" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="SORT_ASCENDING" id="SORT_ASCENDING">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-DSchoenbauer.Orm.Entity.IsSortableInterface.html#33" title="Go to source code"><b>SORT_ASCENDING</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#SORT_ASCENDING" class="anchor">#</a>
+				<code><span class="php-quote">&quot;ASC&quot;</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="SORT_DESCENDING" id="SORT_DESCENDING">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-DSchoenbauer.Orm.Entity.IsSortableInterface.html#34" title="Go to source code"><b>SORT_DESCENDING</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#SORT_DESCENDING" class="anchor">#</a>
+				<code><span class="php-quote">&quot;DESC&quot;</span></code>
+			</div>
+		</td>
+	</tr>
+	</table>
 
 
 
