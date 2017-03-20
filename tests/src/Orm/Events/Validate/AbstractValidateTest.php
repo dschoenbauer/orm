@@ -67,6 +67,28 @@ class AbstractValidateTest extends PHPUnit_Framework_TestCase
         $this->assertNull($this->object->onExecute($event));
     }
 
+    public function testExecutePreFlightCheckFail()
+    {
+        $mock = $this->getMockBuilder(AbstractValidate::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['preExecuteCheck'])
+            ->getMockForAbstractClass();
+
+        $mock->expects($this->exactly(1))->method('preExecuteCheck')->willReturn(false);
+        $mock->expects($this->once())->method('getTypeInterface')->willReturn(HasBoolFieldsInterface::class);
+
+        $entity = $this->getMockBuilder(AbstractEntityWithBool::class)->getMock();
+
+        $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+        $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
+
+        $event = $this->getMockBuilder(Event::class)->getMock();
+        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
+
+        $this->assertNull($mock->onExecute($event));
+
+    }
+
     public function testExecuteBasicData()
     {
         $this->object->expects($this->once())->method('getTypeInterface')->willReturn(HasBoolFieldsInterface::class);
@@ -107,15 +129,16 @@ class AbstractValidateTest extends PHPUnit_Framework_TestCase
         $this->assertSame($model, $this->object->getModel());
         $this->assertSame($params, $this->object->getParams());
     }
-    
-    public function testModel(){
+
+    public function testModel()
+    {
         $mockModel = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
         $this->assertSame($mockModel, $this->object->setModel($mockModel)->getModel());
     }
-    
-    public function testParam(){
+
+    public function testParam()
+    {
         $param = ['test' => 1];
         $this->assertSame($param, $this->object->setParams($param)->getParams());
     }
-    
 }

@@ -74,7 +74,20 @@ abstract class AbstractValidate extends AbstractEvent
         if (!is_a($entity, $this->getTypeInterface())) {
             return;
         }
+        if (!$this->preExecuteCheck()) {
+            return;
+        }
+
         $this->validate($this->getModel()->getData(), $this->getFields($entity));
+    }
+
+    /**
+     * used to check if they validate function is required or relevant
+     * @return boolean
+     */
+    public function preExecuteCheck()
+    {
+        return true;
     }
 
     /**
