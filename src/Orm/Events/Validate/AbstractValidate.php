@@ -94,6 +94,7 @@ abstract class AbstractValidate extends AbstractEvent
      * validates data against list of fields
      * @param array $data associative array of data to be validated
      * @param array $fields fields that are deemed a given type
+     * @return boolean
      * @since v1.0.0
      */
     abstract public function validate(array $data, array $fields);

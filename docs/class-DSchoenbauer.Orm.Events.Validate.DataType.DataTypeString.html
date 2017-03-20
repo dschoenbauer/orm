@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>Class DSchoenbauer\Orm\Events\Validate\DataType\ValidateBoolean</title>
+	<title>Class DSchoenbauer\Orm\Events\Validate\DataType\DataTypeString</title>
 
 	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
 
@@ -62,6 +62,11 @@
 						DataType					</a>
 
 						</li>
+				<li>
+					<a href="namespace-DSchoenbauer.Orm.Events.Validate.Schema.html">
+						Schema					</a>
+
+						</li>
 							</ul></li></ul></li>
 				<li>
 					<a href="namespace-DSchoenbauer.Orm.Exception.html">
@@ -83,11 +88,11 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.AbstractValidate.html">AbstractValidate</a></li>
-				<li class="active"><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateBoolean.html">ValidateBoolean</a></li>
-				<li><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateDate.html">ValidateDate</a></li>
-				<li><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateNumber.html">ValidateNumber</a></li>
-				<li><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateString.html">ValidateString</a></li>
+				<li><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.AbstractDataType.html">AbstractDataType</a></li>
+				<li><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeBoolean.html">DataTypeBoolean</a></li>
+				<li><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeDate.html">DataTypeDate</a></li>
+				<li><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeNumber.html">DataTypeNumber</a></li>
+				<li class="active"><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeString.html">DataTypeString</a></li>
 			</ul>
 
 
@@ -126,11 +131,11 @@
 	</div>
 
 <div id="content" class="class">
-	<h1>Class ValidateBoolean</h1>
+	<h1>Class DataTypeString</h1>
 
 
 	<div class="description">
-	<p>validates boolean fields are boolean</p>
+	<p>Validates string fields are strings</p>
 	</div>
 
 	<dl class="tree">
@@ -144,14 +149,21 @@
 		</dd>
 		<dd style="padding-left:30px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-DSchoenbauer.Orm.Events.Validate.DataType.AbstractValidate.html"><span>DSchoenbauer\Orm\Events\Validate\DataType\AbstractValidate</span></a>
+			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html"><span>DSchoenbauer\Orm\Events\Validate\AbstractValidate</span></a>
 			
 			
 			
 		</dd>
 		<dd style="padding-left:60px">
 			<img src="resources/inherit.png" alt="Extended by">
-<b><span>DSchoenbauer\Orm\Events\Validate\DataType\ValidateBoolean</span></b>			
+			<a href="class-DSchoenbauer.Orm.Events.Validate.DataType.AbstractDataType.html"><span>DSchoenbauer\Orm\Events\Validate\DataType\AbstractDataType</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:90px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>DSchoenbauer\Orm\Events\Validate\DataType\DataTypeString</span></b>			
 			
 			
 		</dd>
@@ -171,8 +183,8 @@
 		
 
 				<b>Author:</b>
-				David Schoenbauer<br>
-			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateBoolean.html#29-69" title="Go to source code">Orm/Events/Validate/DataType/ValidateBoolean.php</a>
+				David Schoenbauer <a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#x64;&#115;&#x63;h&#111;&#x65;&#110;&#98;&#x61;&#117;&#x65;r&#64;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;">&#x64;&#115;&#x63;h&#111;&#x65;&#110;&#98;&#x61;&#117;&#x65;r&#64;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;</a><br>
+			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeString.html#29-69" title="Go to source code">Orm/Events/Validate/DataType/DataTypeString.php</a>
 		<br>
 	</div>
 
@@ -180,6 +192,49 @@
 
 	<table class="summary methods" id="methods">
 	<caption>Methods summary</caption>
+	<tr data-order="getFields" id="_getFields">
+
+		<td class="attributes"><code>
+			 public 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getFields">#</a>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeString.html#37-46" title="Go to source code">getFields</a>( <span>mixed <var>$entity</var></span> )</code>
+
+		<div class="description short">
+			<p>returns the fields affected by the entity interface</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>returns the fields affected by the entity interface</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$entity</var></dt>
+					<dd>an entity object implements the getTypeInterface</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					array<br>an array of fields that are relevant to the interface
+				</div>
+
+
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="getTypeInterface" id="_getTypeInterface">
 
 		<td class="attributes"><code>
@@ -192,7 +247,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getTypeInterface">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateBoolean.html#37-45" title="Go to source code">getTypeInterface</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeString.html#48-56" title="Go to source code">getTypeInterface</a>( )</code>
 
 		<div class="description short">
 			<p>full name space of an interface that defines a given field type</p>
@@ -230,7 +285,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_validateValue">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateBoolean.html#47-57" title="Go to source code">validateValue</a>( <span>mixed <var>$value</var></span>, <span>string <var>$field</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeString.html#58-68" title="Go to source code">validateValue</a>( <span>mixed <var>$value</var></span>, <span>string <var>$field</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			<p>Validates that the value is of the proper type</p>
@@ -243,7 +298,7 @@
 				<h4>Parameters</h4>
 				<div class="list"><dl>
 					<dt><var>$value</var></dt>
-					<dd>value to validate</dd>
+					<dd>value to DataType</dd>
 					<dt><var>$field</var></dt>
 					<dd>field name</dd>
 				</dl></div>
@@ -263,57 +318,26 @@
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="getFields" id="_getFields">
-
-		<td class="attributes"><code>
-			 public 
-
-			array
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_getFields">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateBoolean.html#59-68" title="Go to source code">getFields</a>( <span>mixed <var>$entity</var></span> )</code>
-
-		<div class="description short">
-			<p>returns the fields affected by the entity interface</p>
-		</div>
-
-		<div class="description detailed hidden">
-			<p>returns the fields affected by the entity interface</p>
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$entity</var></dt>
-					<dd>an entity object implements the getTypeInterface</dd>
-				</dl></div>
-
-				<h4>Returns</h4>
-				<div class="list">
-					array<br>an array of fields that are relevant to the interface
-				</div>
-
-
-				<h4>Since</h4>
-				<div class="list">
-						v1.0.0<br>
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
 	</table>
 
 	<table class="summary inherited">
-	<caption>Methods inherited from <a href="class-DSchoenbauer.Orm.Events.Validate.DataType.AbstractValidate.html#methods">DSchoenbauer\Orm\Events\Validate\DataType\AbstractValidate</a></caption>
+	<caption>Methods inherited from <a href="class-DSchoenbauer.Orm.Events.Validate.DataType.AbstractDataType.html#methods">DSchoenbauer\Orm\Events\Validate\DataType\AbstractDataType</a></caption>
 	<tr>
 		<td><code>
-			<a href="class-DSchoenbauer.Orm.Events.Validate.DataType.AbstractValidate.html#_onExecute">onExecute()</a>, 
-			<a href="class-DSchoenbauer.Orm.Events.Validate.DataType.AbstractValidate.html#_validate">validate()</a>
+			<a href="class-DSchoenbauer.Orm.Events.Validate.DataType.AbstractDataType.html#_validate">validate()</a>
+		</code></td>
+	</tr>
+	</table>
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#methods">DSchoenbauer\Orm\Events\Validate\AbstractValidate</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#_getModel">getModel()</a>, 
+			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#_getParams">getParams()</a>, 
+			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#_onExecute">onExecute()</a>, 
+			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#_preExecuteCheck">preExecuteCheck()</a>, 
+			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#_setModel">setModel()</a>, 
+			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#_setParams">setParams()</a>
 		</code></td>
 	</tr>
 	</table>
@@ -339,6 +363,15 @@
 
 
 
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#properties">DSchoenbauer\Orm\Events\Validate\AbstractValidate</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#$model"><var>$model</var></a>, 
+			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#$params"><var>$params</var></a>
+		</code></td>
+	</tr>
+	</table>
 
 
 

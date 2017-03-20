@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class DSchoenbauer\Orm\Events\Validate\AbstractValidate</title>
+
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li class="active">
+					<a href="namespace-DSchoenbauer.html">
+						DSchoenbauer<span></span>
+					</a>
+
+						<ul>
+				<li class="active">
+					<a href="namespace-DSchoenbauer.Orm.html">
+						Orm<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-DSchoenbauer.Orm.Entity.html">
+						Entity					</a>
+
+						</li>
+				<li>
+					<a href="namespace-DSchoenbauer.Orm.Enum.html">
+						Enum					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-DSchoenbauer.Orm.Events.html">
+						Events<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-DSchoenbauer.Orm.Events.Persistence.html">
+						Persistence					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-DSchoenbauer.Orm.Events.Validate.html">
+						Validate<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-DSchoenbauer.Orm.Events.Validate.DataType.html">
+						DataType					</a>
+
+						</li>
+				<li>
+					<a href="namespace-DSchoenbauer.Orm.Events.Validate.Schema.html">
+						Schema					</a>
+
+						</li>
+							</ul></li></ul></li>
+				<li>
+					<a href="namespace-DSchoenbauer.Orm.Exception.html">
+						Exception					</a>
+
+						</li>
+				<li>
+					<a href="namespace-DSchoenbauer.Orm.Framework.html">
+						Framework					</a>
+
+						</li>
+							</ul></li></ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html">AbstractValidate</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-DSchoenbauer.Orm.Events.Validate.html" title="Summary of DSchoenbauer\Orm\Events\Validate"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class AbstractValidate</h1>
+
+
+	<div class="description">
+	<p>Framework for validating data types</p>
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+			<a href="class-DSchoenbauer.Orm.Events.AbstractEvent.html"><span>DSchoenbauer\Orm\Events\AbstractEvent</span></a>
+			
+			 implements 
+				<a href="class-DSchoenbauer.Orm.VisitorInterface.html"><span>DSchoenbauer\Orm\VisitorInterface</span></a>
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>DSchoenbauer\Orm\Events\Validate\AbstractValidate</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+	<div>
+		<h4>Direct known subclasses</h4>
+			<a href="class-DSchoenbauer.Orm.Events.Validate.DataType.AbstractDataType.html">DSchoenbauer\Orm\Events\Validate\DataType\AbstractDataType</a>, 
+			<a href="class-DSchoenbauer.Orm.Events.Validate.Schema.DefaultValue.html">DSchoenbauer\Orm\Events\Validate\Schema\DefaultValue</a>
+	</div>
+
+	<div>
+		<h4>Indirect known subclasses</h4>
+			<a href="class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeBoolean.html">DSchoenbauer\Orm\Events\Validate\DataType\DataTypeBoolean</a>, 
+			<a href="class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeDate.html">DSchoenbauer\Orm\Events\Validate\DataType\DataTypeDate</a>, 
+			<a href="class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeNumber.html">DSchoenbauer\Orm\Events\Validate\DataType\DataTypeNumber</a>, 
+			<a href="class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeString.html">DSchoenbauer\Orm\Events\Validate\DataType\DataTypeString</a>
+	</div>
+
+
+
+
+
+	<div class="info">
+		<b>Abstract</b><br>
+		
+		<b>Namespace:</b> <a href="namespace-DSchoenbauer.html">DSchoenbauer</a>\<a href="namespace-DSchoenbauer.Orm.html">Orm</a>\<a href="namespace-DSchoenbauer.Orm.Events.html">Events</a>\<a href="namespace-DSchoenbauer.Orm.Events.Validate.html">Validate</a><br>
+		
+
+				<b>Author:</b>
+				David Schoenbauer <a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#x64;&#115;&#x63;h&#111;&#x65;&#110;&#98;&#x61;&#117;&#x65;r&#64;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;">&#x64;&#115;&#x63;h&#111;&#x65;&#110;&#98;&#x61;&#117;&#x65;r&#64;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;</a><br>
+			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#32-144" title="Go to source code">Orm/Events/Validate/AbstractValidate.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="getTypeInterface" id="_getTypeInterface">
+
+		<td class="attributes"><code>
+			abstract public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getTypeInterface">#</a>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#43-48" title="Go to source code">getTypeInterface</a>( )</code>
+
+		<div class="description short">
+			<p>full name space of an interface that defines a given field type</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>full name space of an interface that defines a given field type</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					string
+				</div>
+
+
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getFields" id="_getFields">
+
+		<td class="attributes"><code>
+			abstract public 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getFields">#</a>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#50-56" title="Go to source code">getFields</a>( <span>mixed <var>$entity</var></span> )</code>
+
+		<div class="description short">
+			<p>returns the fields affected by the entity interface</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>returns the fields affected by the entity interface</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$entity</var></dt>
+					<dd>an entity object implements the getTypeInterface</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					array<br>an array of fields that are relevant to the interface
+				</div>
+
+
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="onExecute" id="_onExecute">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_onExecute">#</a>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#58-82" title="Go to source code">onExecute</a>( <span>Zend\EventManager\Event <var>$event</var></span> )</code>
+
+		<div class="description short">
+			<p>method is called when a given event is triggered</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>method is called when a given event is triggered</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$event</var></dt>
+					<dd>Event object passed at time of triggering</dd>
+				</dl></div>
+
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><a href="class-DSchoenbauer.Orm.Exception.InvalidDataTypeException.html">DSchoenbauer\Orm\Exception\InvalidDataTypeException</a></code><br>thrown when value does not validate
+				</div>
+
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="preExecuteCheck" id="_preExecuteCheck">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_preExecuteCheck">#</a>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#84-91" title="Go to source code">preExecuteCheck</a>( )</code>
+
+		<div class="description short">
+			<p>used to check if they validate function is required or relevant</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>used to check if they validate function is required or relevant</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="validate" id="_validate">
+
+		<td class="attributes"><code>
+			abstract public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_validate">#</a>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#93-99" title="Go to source code">validate</a>( <span>array <var>$data</var></span>, <span>array <var>$fields</var></span> )</code>
+
+		<div class="description short">
+			<p>validates data against list of fields</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>validates data against list of fields</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$data</var></dt>
+					<dd>associative array of data to be validated</dd>
+					<dt><var>$fields</var></dt>
+					<dd>fields that are deemed a given type</dd>
+				</dl></div>
+
+
+
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getModel" id="_getModel">
+
+		<td class="attributes"><code>
+			 public 
+
+			<code><a href="class-DSchoenbauer.Orm.Model.html">DSchoenbauer\Orm\Model</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getModel">#</a>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#101-109" title="Go to source code">getModel</a>( )</code>
+
+		<div class="description short">
+			<p>provides model for which data type exists</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>provides model for which data type exists</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-DSchoenbauer.Orm.Model.html">DSchoenbauer\Orm\Model</a></code>
+				</div>
+
+
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setModel" id="_setModel">
+
+		<td class="attributes"><code>
+			 public 
+
+			<code><a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html">DSchoenbauer\Orm\Events\Validate\AbstractValidate</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setModel">#</a>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#111-121" title="Go to source code">setModel</a>( <span><code><a href="class-DSchoenbauer.Orm.Model.html">DSchoenbauer\Orm\Model</a></code> <var>$model</var></span> )</code>
+
+		<div class="description short">
+			<p>set model for which data type exists</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>set model for which data type exists</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$model</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html">DSchoenbauer\Orm\Events\Validate\AbstractValidate</a></code>
+				</div>
+
+
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getParams" id="_getParams">
+
+		<td class="attributes"><code>
+			 public 
+
+			array|object|ArrayAccess
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getParams">#</a>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#123-131" title="Go to source code">getParams</a>( )</code>
+
+		<div class="description short">
+			<p>Get all parameters</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Get all parameters</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					array|object|ArrayAccess
+				</div>
+
+
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setParams" id="_setParams">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setParams">#</a>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#133-143" title="Go to source code">setParams</a>( <span>array|ArrayAccess|object <var>$params</var></span> )</code>
+
+		<div class="description short">
+			<p>Set parameters</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Set parameters</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$params</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-DSchoenbauer.Orm.Events.AbstractEvent.html#methods">DSchoenbauer\Orm\Events\AbstractEvent</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-DSchoenbauer.Orm.Events.AbstractEvent.html#_getEvents">getEvents()</a>, 
+			<a href="class-DSchoenbauer.Orm.Events.AbstractEvent.html#_setEvents">setEvents()</a>, 
+			<a href="class-DSchoenbauer.Orm.Events.AbstractEvent.html#_visitModel">visitModel()</a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="model" id="$model">
+		<td class="attributes"><code>
+			protected  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#40" title="Go to source code"><var>$model</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$model" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="params" id="$params">
+		<td class="attributes"><code>
+			protected  
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#41" title="Go to source code"><var>$params</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$params" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

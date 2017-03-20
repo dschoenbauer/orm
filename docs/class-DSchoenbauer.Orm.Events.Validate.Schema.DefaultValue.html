@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>Class DSchoenbauer\Orm\Events\Persistence\PdoSelect</title>
+	<title>Class DSchoenbauer\Orm\Events\Validate\Schema\DefaultValue</title>
 
 	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
 
@@ -46,12 +46,12 @@
 					</a>
 
 						<ul>
-				<li class="active">
+				<li>
 					<a href="namespace-DSchoenbauer.Orm.Events.Persistence.html">
 						Persistence					</a>
 
 						</li>
-				<li>
+				<li class="active">
 					<a href="namespace-DSchoenbauer.Orm.Events.Validate.html">
 						Validate<span></span>
 					</a>
@@ -62,7 +62,7 @@
 						DataType					</a>
 
 						</li>
-				<li>
+				<li class="active">
 					<a href="namespace-DSchoenbauer.Orm.Events.Validate.Schema.html">
 						Schema					</a>
 
@@ -88,10 +88,7 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-DSchoenbauer.Orm.Events.Persistence.PdoCreate.html">PdoCreate</a></li>
-				<li><a href="class-DSchoenbauer.Orm.Events.Persistence.PdoDelete.html">PdoDelete</a></li>
-				<li class="active"><a href="class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html">PdoSelect</a></li>
-				<li><a href="class-DSchoenbauer.Orm.Events.Persistence.PdoUpdate.html">PdoUpdate</a></li>
+				<li class="active"><a href="class-DSchoenbauer.Orm.Events.Validate.Schema.DefaultValue.html">DefaultValue</a></li>
 			</ul>
 
 
@@ -118,7 +115,7 @@
 				<a href="index.html" title="Overview"><span>Overview</span></a>
 			</li>
 			<li>
-				<a href="namespace-DSchoenbauer.Orm.Events.Persistence.html" title="Summary of DSchoenbauer\Orm\Events\Persistence"><span>Namespace</span></a>
+				<a href="namespace-DSchoenbauer.Orm.Events.Validate.Schema.html" title="Summary of DSchoenbauer\Orm\Events\Validate\Schema"><span>Namespace</span></a>
 			</li>
 			<li class="active">
 <span>Class</span>			</li>
@@ -130,11 +127,11 @@
 	</div>
 
 <div id="content" class="class">
-	<h1>Class PdoSelect</h1>
+	<h1>Class DefaultValue</h1>
 
 
 	<div class="description">
-	<p>Event driven hook to select information from a PDO connection</p>
+	<p>Adds a default value to a data set at create time</p>
 	</div>
 
 	<dl class="tree">
@@ -148,7 +145,14 @@
 		</dd>
 		<dd style="padding-left:30px">
 			<img src="resources/inherit.png" alt="Extended by">
-<b><span>DSchoenbauer\Orm\Events\Persistence\PdoSelect</span></b>			
+			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html"><span>DSchoenbauer\Orm\Events\Validate\AbstractValidate</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:60px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>DSchoenbauer\Orm\Events\Validate\Schema\DefaultValue</span></b>			
 			
 			
 		</dd>
@@ -164,12 +168,12 @@
 	<div class="info">
 		
 		
-		<b>Namespace:</b> <a href="namespace-DSchoenbauer.html">DSchoenbauer</a>\<a href="namespace-DSchoenbauer.Orm.html">Orm</a>\<a href="namespace-DSchoenbauer.Orm.Events.html">Events</a>\<a href="namespace-DSchoenbauer.Orm.Events.Persistence.html">Persistence</a><br>
+		<b>Namespace:</b> <a href="namespace-DSchoenbauer.html">DSchoenbauer</a>\<a href="namespace-DSchoenbauer.Orm.html">Orm</a>\<a href="namespace-DSchoenbauer.Orm.Events.html">Events</a>\<a href="namespace-DSchoenbauer.Orm.Events.Validate.html">Validate</a>\<a href="namespace-DSchoenbauer.Orm.Events.Validate.Schema.html">Schema</a><br>
 		
 
 				<b>Author:</b>
 				David Schoenbauer<br>
-			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#35-122" title="Go to source code">Orm/Events/Persistence/PdoSelect.php</a>
+			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Events.Validate.Schema.DefaultValue.html#31-77" title="Go to source code">Orm/Events/Validate/Schema/DefaultValue.php</a>
 		<br>
 	</div>
 
@@ -177,144 +181,37 @@
 
 	<table class="summary methods" id="methods">
 	<caption>Methods summary</caption>
-	<tr data-order="__construct" id="___construct">
+	<tr data-order="getFields" id="_getFields">
 
 		<td class="attributes"><code>
 			 public 
 
-			
+			array
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
-		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#46-51" title="Go to source code">__construct</a>( <span>PDO <var>$adapter</var></span>, <span>DSchoenbauer\Sql\Command\Select <var>$select</var> = <span class="php-keyword1">null</span></span> )</code>
+		<a class="anchor" href="#_getFields">#</a>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.Schema.DefaultValue.html#39-48" title="Go to source code">getFields</a>( <span><code><a href="class-DSchoenbauer.Orm.Entity.HasDefaultValuesInterface.html">DSchoenbauer\Orm\Entity\HasDefaultValuesInterface</a></code> <var>$entity</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>provides an associative array that has a key of the field and a value</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
-
-
-
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="onExecute" id="_onExecute">
-
-		<td class="attributes"><code>
-			 public 
-
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_onExecute">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#53-74" title="Go to source code">onExecute</a>( <span>Zend\EventManager\Event <var>$event</var></span> )</code>
-
-		<div class="description short">
-			<p>event action</p>
-		</div>
-
-		<div class="description detailed hidden">
-			<p>event action</p>
+			<p>provides an associative array that has a key of the field and a value</p>
 
 
 				<h4>Parameters</h4>
 				<div class="list"><dl>
-					<dt><var>$event</var></dt>
-					<dd>object passed when event is fired</dd>
-				</dl></div>
-
-
-
-				<h4>Since</h4>
-				<div class="list">
-						v1.0.0<br>
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="getAdapter" id="_getAdapter">
-
-		<td class="attributes"><code>
-			 public 
-
-			PDO
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_getAdapter">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#76-84" title="Go to source code">getAdapter</a>( )</code>
-
-		<div class="description short">
-			<p>Returns a PHP Data Object</p>
-		</div>
-
-		<div class="description detailed hidden">
-			<p>Returns a PHP Data Object</p>
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					PDO
-				</div>
-
-
-				<h4>Since</h4>
-				<div class="list">
-						v1.0.0<br>
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="setAdapter" id="_setAdapter">
-
-		<td class="attributes"><code>
-			 public 
-
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_setAdapter">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#86-96" title="Go to source code">setAdapter</a>( <span>PDO <var>$adapter</var></span> )</code>
-
-		<div class="description short">
-			<p>PDO connection to a db of some sort.</p>
-		</div>
-
-		<div class="description detailed hidden">
-			<p>PDO connection to a db of some sort.</p>
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$adapter</var></dt>
+					<dt><var>$entity</var></dt>
 					<dd></dd>
 				</dl></div>
 
 				<h4>Returns</h4>
 				<div class="list">
-					<br>$this
+					array
 				</div>
 
 
@@ -327,45 +224,77 @@
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="getSelect" id="_getSelect">
+	<tr data-order="getTypeInterface" id="_getTypeInterface">
 
 		<td class="attributes"><code>
 			 public 
 
-			DSchoenbauer\Sql\Command\Select
+			string
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
-		<a class="anchor" href="#_getSelect">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#98-109" title="Go to source code">getSelect</a>( )</code>
+		<a class="anchor" href="#_getTypeInterface">#</a>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.Schema.DefaultValue.html#50-57" title="Go to source code">getTypeInterface</a>( )</code>
 
 		<div class="description short">
-			<p>object with logic for the Select. If Select is not provided one will be lazy loaded</p>
+			
 		</div>
 
 		<div class="description detailed hidden">
-			<p>object with logic for the Select. If Select is not provided one will be lazy loaded</p>
+			
 
 
 
 				<h4>Returns</h4>
 				<div class="list">
-					DSchoenbauer\Sql\Command\Select
+					string
 				</div>
 
 
-				<h4>Since</h4>
-				<div class="list">
-						v1.0.0<br>
-				</div>
 
 
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="setSelect" id="_setSelect">
+	<tr data-order="preExecuteCheck" id="_preExecuteCheck">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_preExecuteCheck">#</a>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.Schema.DefaultValue.html#59-65" title="Go to source code">preExecuteCheck</a>( )</code>
+
+		<div class="description short">
+			<p>used to check if they validate function is required or relevant</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>used to check if they validate function is required or relevant</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#_preExecuteCheck">DSchoenbauer\Orm\Events\Validate\AbstractValidate::preExecuteCheck()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="validate" id="_validate">
 
 		<td class="attributes"><code>
 			 public 
@@ -376,33 +305,27 @@
 		</td>
 
 		<td class="name"><div>
-		<a class="anchor" href="#_setSelect">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#111-121" title="Go to source code">setSelect</a>( <span>DSchoenbauer\Sql\Command\Select <var>$select</var> = <span class="php-keyword1">null</span></span> )</code>
+		<a class="anchor" href="#_validate">#</a>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.Schema.DefaultValue.html#67-76" title="Go to source code">validate</a>( <span>array <var>$data</var></span>, <span>array <var>$fields</var></span> )</code>
 
 		<div class="description short">
-			<p>Object that contains the select logic</p>
+			
 		</div>
 
 		<div class="description detailed hidden">
-			<p>Object that contains the select logic</p>
+			
 
 
 				<h4>Parameters</h4>
 				<div class="list"><dl>
-					<dt><var>$select</var></dt>
+					<dt><var>$data</var></dt>
+					<dd></dd>
+					<dt><var>$fields</var></dt>
 					<dd></dd>
 				</dl></div>
 
-				<h4>Returns</h4>
-				<div class="list">
-					<br>$this
-				</div>
 
 
-				<h4>Since</h4>
-				<div class="list">
-						v1.0.0<br>
-				</div>
 
 
 		</div>
@@ -410,6 +333,18 @@
 	</tr>
 	</table>
 
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#methods">DSchoenbauer\Orm\Events\Validate\AbstractValidate</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#_getModel">getModel()</a>, 
+			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#_getParams">getParams()</a>, 
+			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#_onExecute">onExecute()</a>, 
+			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#_setModel">setModel()</a>, 
+			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#_setParams">setParams()</a>
+		</code></td>
+	</tr>
+	</table>
 	<table class="summary inherited">
 	<caption>Methods inherited from <a href="class-DSchoenbauer.Orm.Events.AbstractEvent.html#methods">DSchoenbauer\Orm\Events\AbstractEvent</a></caption>
 	<tr>
@@ -432,6 +367,15 @@
 
 
 
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#properties">DSchoenbauer\Orm\Events\Validate\AbstractValidate</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#$model"><var>$model</var></a>, 
+			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#$params"><var>$params</var></a>
+		</code></td>
+	</tr>
+	</table>
 
 
 

@@ -48,7 +48,7 @@ class DefaultValue extends AbstractValidate
     }
 
     /**
-     *
+     * @inheritDoc
      * @return string
      */
     public function getTypeInterface()
