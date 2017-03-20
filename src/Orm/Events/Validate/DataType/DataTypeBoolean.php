@@ -24,45 +24,46 @@
  */
 namespace DSchoenbauer\Orm\Events\Validate\DataType;
 
-use DSchoenbauer\Orm\Entity\HasNumericFieldsInterface;
-use PHPUnit_Framework_TestCase;
+use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
 
 /**
- * Description of ValidateNumber
+ * Validates boolean fields are boolean
  *
  * @author David Schoenbauer
  */
-class ValidateNumberTest extends PHPUnit_Framework_TestCase
+class DataTypeBoolean extends AbstractDataType
 {
 
-    protected $object;
-
-    protected function setUp()
+    /**
+     * full name space of an interface that defines a given field type
+     * @return string
+     * @since v1.0.0
+     */
+    public function getTypeInterface()
     {
-        $this->object = new ValidateNumber();
+        return HasBoolFieldsInterface::class;
     }
 
-    public function testGetFields()
+    /**
+     * Validates that the value is of the proper type
+     * @param mixed $value value to DataType
+     * @param string $field field name
+     * @return boolean
+     * @since v1.0.0
+     */
+    public function validateValue($value, $field = null)
     {
-        $data = ['id', 'calls', 'days', 'hours'];
-        $entity = $this->getMockBuilder(HasNumericFieldsInterface::class)->getMock();
-        $entity->expects($this->once())->method('getNumericFields')->willReturn($data);
-        $this->assertEquals($data, $this->object->getFields($entity));
-    }
-
-    public function testGetTypeInterface()
-    {
-        $this->assertEquals(
-            HasNumericFieldsInterface::class, $this->object->getTypeInterface()
-        );
+        return is_bool($value);
     }
     
-    public function testValidateValue(){
-        $this->assertTrue($this->object->validateValue(1));
-        $this->assertTrue($this->object->validateValue(1.0));
-        $this->assertTrue($this->object->validateValue(0.001));
-        $this->assertFalse($this->object->validateValue('a'));
-        $this->assertFalse($this->object->validateValue(null));
-        $this->assertFalse($this->object->validateValue(new \stdClass()));
+    /**
+     * returns the fields affected by the entity interface
+     * @param mixed $entity an entity object implements the getTypeInterface
+     * @return array an array of fields that are relevant to the interface
+     * @since v1.0.0
+     */
+    public function getFields($entity)
+    {
+        return $entity->getBoolFields();
     }
 }

@@ -25,7 +25,7 @@ class PdoCreate extends AbstractEvent
     private $create;
 
     /**
-     * 
+     *
      * @param PDO $adapter PDO connection to a db of some sort.
      * @param Create $create default null, if no create object offered one will
      * be lazy loaded for you

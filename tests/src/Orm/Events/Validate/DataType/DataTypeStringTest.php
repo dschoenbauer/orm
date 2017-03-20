@@ -24,7 +24,6 @@
  */
 namespace DSchoenbauer\Orm\Events\Validate\DataType;
 
-use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
 use DSchoenbauer\Orm\Entity\HasStringFieldsInterface;
 use PHPUnit_Framework_TestCase;
 use stdClass;
@@ -34,14 +33,14 @@ use stdClass;
  *
  * @author David Schoenbauer
  */
-class ValidateStringTest extends PHPUnit_Framework_TestCase
+class DataTypeStringTest extends PHPUnit_Framework_TestCase
 {
 
     protected $object;
 
     protected function setUp()
     {
-        $this->object = new ValidateString();
+        $this->object = new DataTypeString();
     }
 
     public function testGetFields()

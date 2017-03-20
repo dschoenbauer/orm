@@ -24,38 +24,16 @@
  */
 namespace DSchoenbauer\Orm\Events\Validate\DataType;
 
-use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
+use DSchoenbauer\Orm\Entity\HasNumericFieldsInterface;
 
 /**
- * validates boolean fields are boolean
+ * Validates number fields are numbers
  *
- * @author David Schoenbauer
+ * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class ValidateBoolean extends AbstractValidate
+class DataTypeNumber extends AbstractDataType
 {
 
-    /**
-     * full name space of an interface that defines a given field type
-     * @return string
-     * @since v1.0.0
-     */
-    public function getTypeInterface()
-    {
-        return HasBoolFieldsInterface::class;
-    }
-
-    /**
-     * Validates that the value is of the proper type
-     * @param mixed $value value to validate
-     * @param string $field field name
-     * @return boolean
-     * @since v1.0.0
-     */
-    public function validateValue($value, $field = null)
-    {
-        return is_bool($value);
-    }
-    
     /**
      * returns the fields affected by the entity interface
      * @param mixed $entity an entity object implements the getTypeInterface
@@ -64,6 +42,28 @@ class ValidateBoolean extends AbstractValidate
      */
     public function getFields($entity)
     {
-        return $entity->getBoolFields();
+        return $entity->getNumericFields();
+    }
+
+    /**
+     * full name space of an interface that defines a given field type
+     * @return string
+     * @since v1.0.0
+     */
+    public function getTypeInterface()
+    {
+        return HasNumericFieldsInterface::class;
+    }
+
+    /**
+     * Validates that the value is of the proper type
+     * @param mixed $value value to DataType
+     * @param string $field field name
+     * @return boolean
+     * @since v1.0.0
+     */
+    public function validateValue($value, $field = null)
+    {
+        return is_numeric($value);
     }
 }

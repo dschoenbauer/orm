@@ -35,14 +35,14 @@ use stdClass;
  *
  * @author David Schoenbauer
  */
-class ValidateDateTest extends PHPUnit_Framework_TestCase
+class DataTypeDateTest extends PHPUnit_Framework_TestCase
 {
 
     protected $object;
 
     protected function setUp()
     {
-        $this->object = new ValidateDate();
+        $this->object = new DataTypeDate();
     }
 
     public function testGetFields()

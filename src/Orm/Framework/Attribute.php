@@ -25,7 +25,7 @@
 namespace DSchoenbauer\Orm\Framework;
 
 /**
- * An abstract value to be assigned to a given model. 
+ * An abstract value to be assigned to a given model.
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */

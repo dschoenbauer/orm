@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Validate\DataType;
+namespace DSchoenbauer\Orm\Events\Validate;
 
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\Exception\InvalidDataTypeException;
@@ -36,6 +36,9 @@ use Zend\EventManager\Event;
  */
 abstract class AbstractValidate extends AbstractEvent
 {
+
+    protected $model;
+    protected $params;
 
     /**
      * full name space of an interface that defines a given field type
@@ -53,46 +56,90 @@ abstract class AbstractValidate extends AbstractEvent
     abstract public function getFields($entity);
 
     /**
-     * Validates that the value is of the proper type
-     * @param mixed $value value to validate
-     * @param string $field field name
-     * @return boolean
-     * @since v1.0.0
-     */
-    abstract public function validateValue($value, $field = null);
-
-    /**
      * method is called when a given event is triggered
      * @param Event $event Event object passed at time of triggering
      * @throws InvalidDataTypeException thrown when value does not validate
      * @return void
+     * @since v1.0.0
      */
     public function onExecute(Event $event)
     {
         if (!$event->getTarget() instanceof Model) {
             return;
         }
-        /* @var $model Model */
-        $model = $event->getTarget();
-        $entity = $model->getEntity();
+        $this->setModel($event->getTarget());
+        $this->setParams($event->getParams());
+
+        $entity = $this->getModel()->getEntity();
         if (!is_a($entity, $this->getTypeInterface())) {
             return;
         }
-        $this->validate($model->getData(), $this->getFields($entity));
+        if (!$this->preExecuteCheck()) {
+            return;
+        }
+
+        $this->validate($this->getModel()->getData(), $this->getFields($entity));
     }
 
     /**
-     * checks data against list of fields for valid data types
+     * used to check if they validate function is required or relevant
+     * @return boolean
+     */
+    public function preExecuteCheck()
+    {
+        return true;
+    }
+
+    /**
+     * validates data against list of fields
      * @param array $data associative array of data to be validated
      * @param array $fields fields that are deemed a given type
-     * @throws InvalidDataTypeException
+     * @return boolean
+     * @since v1.0.0
      */
-    public function validate(array $data, array $fields)
+    abstract public function validate(array $data, array $fields);
+
+    /**
+     * provides model for which data type exists
+     * @return Model
+     * @since v1.0.0
+     */
+    public function getModel()
     {
-        foreach ($fields as $field) {
-            if (array_key_exists($field, $data) && !$this->validateValue($data[$field], $field)) {
-                throw new InvalidDataTypeException($field);
-            }
-        }
+        return $this->model;
+    }
+
+    /**
+     * set model for which data type exists
+     * @param Model $model
+     * @return AbstractValidate
+     * @since v1.0.0
+     */
+    public function setModel(Model $model)
+    {
+        $this->model = $model;
+        return $this;
+    }
+
+    /**
+     * Get all parameters
+     * @return array|object|ArrayAccess
+     * @since v1.0.0
+     */
+    public function getParams()
+    {
+        return $this->params;
+    }
+
+    /**
+     * Set parameters
+     *
+     * @param  array|ArrayAccess|object $params
+     * @since v1.0.0
+     */
+    public function setParams($params)
+    {
+        $this->params = $params;
+        return $this;
     }
 }

@@ -44,7 +44,7 @@ class Model
     use EventManagerAwareTrait;
 
     /**
-     * @param EntityInterface $entity an entity object houses specific 
+     * @param EntityInterface $entity an entity object houses specific
      * information about a given model
      */
     public function __construct(EntityInterface $entity)
@@ -119,8 +119,8 @@ class Model
     }
 
     /**
-     * sets the current record 
-     * @param mixed $data current 
+     * sets the current record
+     * @param mixed $data current
      * @return Model
      * @since v1.0.0
      */

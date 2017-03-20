@@ -63,6 +63,11 @@
 						DataType					</a>
 
 						</li>
+				<li>
+					<a href="namespace-DSchoenbauer.Orm.Events.Validate.Schema.html">
+						Schema					</a>
+
+						</li>
 							</ul></li></ul></li>
 				<li>
 					<a href="namespace-DSchoenbauer.Orm.Exception.html">
@@ -92,11 +97,13 @@
 				<li><a href="class-DSchoenbauer.Orm.Events.Persistence.PdoDelete.html">DSchoenbauer\Orm\Events\Persistence\PdoDelete</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html">DSchoenbauer\Orm\Events\Persistence\PdoSelect</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Events.Persistence.PdoUpdate.html">DSchoenbauer\Orm\Events\Persistence\PdoUpdate</a></li>
-				<li><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.AbstractValidate.html">DSchoenbauer\Orm\Events\Validate\DataType\AbstractValidate</a></li>
-				<li><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateBoolean.html">DSchoenbauer\Orm\Events\Validate\DataType\ValidateBoolean</a></li>
-				<li><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateDate.html">DSchoenbauer\Orm\Events\Validate\DataType\ValidateDate</a></li>
-				<li><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateNumber.html">DSchoenbauer\Orm\Events\Validate\DataType\ValidateNumber</a></li>
-				<li><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.ValidateString.html">DSchoenbauer\Orm\Events\Validate\DataType\ValidateString</a></li>
+				<li><a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html">DSchoenbauer\Orm\Events\Validate\AbstractValidate</a></li>
+				<li><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.AbstractDataType.html">DSchoenbauer\Orm\Events\Validate\DataType\AbstractDataType</a></li>
+				<li><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeBoolean.html">DSchoenbauer\Orm\Events\Validate\DataType\DataTypeBoolean</a></li>
+				<li><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeDate.html">DSchoenbauer\Orm\Events\Validate\DataType\DataTypeDate</a></li>
+				<li><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeNumber.html">DSchoenbauer\Orm\Events\Validate\DataType\DataTypeNumber</a></li>
+				<li><a href="class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeString.html">DSchoenbauer\Orm\Events\Validate\DataType\DataTypeString</a></li>
+				<li><a href="class-DSchoenbauer.Orm.Events.Validate.Schema.DefaultValue.html">DSchoenbauer\Orm\Events\Validate\Schema\DefaultValue</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Exception.InvalidDataTypeException.html">DSchoenbauer\Orm\Exception\InvalidDataTypeException</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Framework.Attribute.html">DSchoenbauer\Orm\Framework\Attribute</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Framework.AttributeCollection.html">DSchoenbauer\Orm\Framework\AttributeCollection</a></li>
@@ -199,7 +206,7 @@
 </span><span id="44" class="l"><a href="#44"> 44: </a>    <span class="php-keyword1">use</span> EventManagerAwareTrait;
 </span><span id="45" class="l"><a href="#45"> 45: </a>
 </span><span id="46" class="l"><a href="#46"> 46: </a>    <span class="php-comment">/**
-</span></span><span id="47" class="l"><a href="#47"> 47: </a><span class="php-comment">     * @param EntityInterface $entity an entity object houses specific 
+</span></span><span id="47" class="l"><a href="#47"> 47: </a><span class="php-comment">     * @param EntityInterface $entity an entity object houses specific
 </span></span><span id="48" class="l"><a href="#48"> 48: </a><span class="php-comment">     * information about a given model
 </span></span><span id="49" class="l"><a href="#49"> 49: </a><span class="php-comment">     */</span>
 </span><span id="50" class="l"><a href="#50"> 50: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> __construct(EntityInterface <span class="php-var">$entity</span>)
@@ -274,8 +281,8 @@
 </span><span id="119" class="l"><a href="#119">119: </a>    }
 </span><span id="120" class="l"><a href="#120">120: </a>
 </span><span id="121" class="l"><a href="#121">121: </a>    <span class="php-comment">/**
-</span></span><span id="122" class="l"><a href="#122">122: </a><span class="php-comment">     * sets the current record 
-</span></span><span id="123" class="l"><a href="#123">123: </a><span class="php-comment">     * @param mixed $data current 
+</span></span><span id="122" class="l"><a href="#122">122: </a><span class="php-comment">     * sets the current record
+</span></span><span id="123" class="l"><a href="#123">123: </a><span class="php-comment">     * @param mixed $data current
 </span></span><span id="124" class="l"><a href="#124">124: </a><span class="php-comment">     * @return Model
 </span></span><span id="125" class="l"><a href="#125">125: </a><span class="php-comment">     * @since v1.0.0
 </span></span><span id="126" class="l"><a href="#126">126: </a><span class="php-comment">     */</span>
@@ -316,6 +323,6 @@
 </div>
 </div>
 <script src="resources/combined.js?f7badff2f2de0c3bf398e35dcb6d70ee78436369"></script>
-<script src="elementlist.js?276157bdc9e5553eccd4a6e70213edd5bcd1426b"></script>
+<script src="elementlist.js?e59e1e84eae4ae7fd69e1e615d7fb13ea360e836"></script>
 </body>
 </html>
