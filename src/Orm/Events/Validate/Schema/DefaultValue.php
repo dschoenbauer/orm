@@ -48,7 +48,7 @@ class DefaultValue extends AbstractValidate
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getTypeInterface()
@@ -65,7 +65,7 @@ class DefaultValue extends AbstractValidate
     }
 
     /**
-     * 
+     *
      * @param array $data
      * @param array $fields
      */

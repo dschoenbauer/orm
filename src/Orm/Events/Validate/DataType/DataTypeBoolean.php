@@ -51,7 +51,7 @@ class DataTypeBoolean extends AbstractDataType
      * @return boolean
      * @since v1.0.0
      */
-    public function ValidateValue($value, $field = null)
+    public function validateValue($value, $field = null)
     {
         return is_bool($value);
     }

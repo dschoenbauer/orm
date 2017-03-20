@@ -42,7 +42,7 @@ abstract class AbstractDataType extends AbstractValidate
      * @return boolean
      * @since v1.0.0
      */
-    abstract public function ValidateValue($value, $field = null);
+    abstract public function validateValue($value, $field = null);
 
     /**
      * checks data against list of fields for valid data types
@@ -53,7 +53,7 @@ abstract class AbstractDataType extends AbstractValidate
     public function validate(array $data, array $fields)
     {
         foreach ($fields as $field) {
-            if (array_key_exists($field, $data) && !$this->ValidateValue($data[$field], $field)) {
+            if (array_key_exists($field, $data) && !$this->validateValue($data[$field], $field)) {
                 throw new InvalidDataTypeException($field);
             }
         }
