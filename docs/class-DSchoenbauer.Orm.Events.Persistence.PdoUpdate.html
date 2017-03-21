@@ -169,7 +169,7 @@
 
 				<b>Author:</b>
 				David Schoenbauer <a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#x64;&#115;&#x63;h&#111;&#x65;&#110;&#98;&#x61;&#117;&#x65;r&#64;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;">&#x64;&#115;&#x63;h&#111;&#x65;&#110;&#98;&#x61;&#117;&#x65;r&#64;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;</a><br>
-			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoUpdate.html#16-98" title="Go to source code">Orm/Events/Persistence/PdoUpdate.php</a>
+			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoUpdate.html#16-104" title="Go to source code">Orm/Events/Persistence/PdoUpdate.php</a>
 		<br>
 	</div>
 
@@ -189,7 +189,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoUpdate.html#27-30" title="Go to source code">__construct</a>( <span>PDO <var>$adapter</var></span>, <span>DSchoenbauer\Sql\Command\Update <var>$update</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoUpdate.html#27-36" title="Go to source code">__construct</a>( <span>array <var>$events</var></span>, <span>PDO <var>$adapter</var></span>, <span>DSchoenbauer\Sql\Command\Update <var>$update</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -199,10 +199,21 @@
 			
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$events</var></dt>
+					<dd>An array of event names to bind to</dd>
+					<dt><var>$adapter</var></dt>
+					<dd></dd>
+					<dt><var>$update</var></dt>
+					<dd></dd>
+				</dl></div>
 
 
 
 
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-DSchoenbauer.Orm.Events.AbstractEvent.html#___construct">DSchoenbauer\Orm\Events\AbstractEvent::__construct()</a></code></div>
 
 		</div>
 		</div></td>
@@ -219,7 +230,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_onExecute">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoUpdate.html#32-50" title="Go to source code">onExecute</a>( <span>Zend\EventManager\Event <var>$event</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoUpdate.html#38-56" title="Go to source code">onExecute</a>( <span>Zend\EventManager\Event <var>$event</var></span> )</code>
 
 		<div class="description short">
 			<p>event action</p>
@@ -258,7 +269,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getAdapter">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoUpdate.html#52-60" title="Go to source code">getAdapter</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoUpdate.html#58-66" title="Go to source code">getAdapter</a>( )</code>
 
 		<div class="description short">
 			<p>Returns a PHP Data Object</p>
@@ -296,7 +307,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setAdapter">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoUpdate.html#62-72" title="Go to source code">setAdapter</a>( <span>PDO <var>$adapter</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoUpdate.html#68-78" title="Go to source code">setAdapter</a>( <span>PDO <var>$adapter</var></span> )</code>
 
 		<div class="description short">
 			<p>PDO connection to a db of some sort.</p>
@@ -339,7 +350,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getUpdate">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoUpdate.html#74-85" title="Go to source code">getUpdate</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoUpdate.html#80-91" title="Go to source code">getUpdate</a>( )</code>
 
 		<div class="description short">
 			<p>object with logic for the Update. If Update is not provided one will be lazy loaded</p>
@@ -377,7 +388,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setUpdate">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoUpdate.html#87-97" title="Go to source code">setUpdate</a>( <span>DSchoenbauer\Sql\Command\Update <var>$update</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoUpdate.html#93-103" title="Go to source code">setUpdate</a>( <span>DSchoenbauer\Sql\Command\Update <var>$update</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			<p>Object that contains the update logic</p>
