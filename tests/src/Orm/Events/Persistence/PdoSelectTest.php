@@ -46,7 +46,7 @@ class PdoSelectTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->mockAdapter = $this->getMockBuilder(PDO::class)->disableOriginalConstructor()->getMock();
-        $this->object = new PdoSelect($this->mockAdapter);
+        $this->object = new PdoSelect([], $this->mockAdapter);
     }
 
     public function testAdapterFromContructor()
@@ -63,7 +63,7 @@ class PdoSelectTest extends PHPUnit_Framework_TestCase
     public function testSelectConstructor()
     {
         $mockSelect = $this->getMockBuilder(Select::class)->disableOriginalConstructor()->getMock();
-        $subject = new PdoSelect($this->mockAdapter, $mockSelect);
+        $subject = new PdoSelect([], $this->mockAdapter, $mockSelect);
         $this->assertSame($mockSelect, $subject->getSelect());
     }
 
@@ -77,28 +77,30 @@ class PdoSelectTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(Select::class, $this->object->getSelect());
     }
-    
-    public function testOnExecuteTargetNotModel(){
+
+    public function testOnExecuteTargetNotModel()
+    {
         $event = $this->getMockBuilder(Event::class)->getMock();
         $event->expects($this->once())
             ->method('getTarget')
             ->willReturn(null);
         $this->assertNull($this->object->onExecute($event));
     }
-    
-    public function testOnExecute(){
+
+    public function testOnExecute()
+    {
         $table = "someTable";
-        $fields = ["some","fields"];
+        $fields = ["some", "fields"];
         $idField = "id";
-        
+
         $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
         $model->expects($this->once())->method('getId')->willReturn(1);
-        
+
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
         $entity->expects($this->once())->method('getTable')->willReturn($table);
         $entity->expects($this->once())->method('getAllFields')->willReturn($fields);
         $entity->expects($this->once())->method('getIdField')->willReturn($idField);
-        
+
         $select = $this->getMockBuilder(Select::class)->disableOriginalConstructor()->getMock();
         $select->expects($this->once())->method('setTable')->with($table)->willReturnSelf();
         $select->expects($this->once())->method('setFields')->with($fields)->willReturnSelf();
@@ -106,12 +108,12 @@ class PdoSelectTest extends PHPUnit_Framework_TestCase
         $select->expects($this->once())->method('setFetchFlat')->willReturnSelf();
         $select->expects($this->once())->method('execute')->with($this->mockAdapter);
 
-        
+
         $model->expects($this->once())->method('getEntity')->willReturn($entity);
 
         $event = $this->getMockBuilder(Event::class)->getMock();
         $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
-        
+
         $this->assertNull($this->object->setSelect($select)->onExecute($event));
     }
 }

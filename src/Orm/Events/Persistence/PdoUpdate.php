@@ -24,8 +24,14 @@ class PdoUpdate extends AbstractEvent
     private $adapter;
     private $update;
 
-    public function __construct(PDO $adapter, Update $update = null)
+    /**
+     * @param array $events An array of event names to bind to
+     * @param PDO $adapter
+     * @param Update $update
+     */
+    public function __construct(array $events, PDO $adapter, Update $update = null)
     {
+        parent::__construct($events);
         $this->setAdapter($adapter)->setUpdate($update);
     }
 

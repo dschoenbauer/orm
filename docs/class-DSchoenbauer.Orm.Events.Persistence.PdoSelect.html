@@ -169,7 +169,7 @@
 
 				<b>Author:</b>
 				David Schoenbauer<br>
-			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#35-122" title="Go to source code">Orm/Events/Persistence/PdoSelect.php</a>
+			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#35-127" title="Go to source code">Orm/Events/Persistence/PdoSelect.php</a>
 		<br>
 	</div>
 
@@ -189,7 +189,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#46-51" title="Go to source code">__construct</a>( <span>PDO <var>$adapter</var></span>, <span>DSchoenbauer\Sql\Command\Select <var>$select</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#46-56" title="Go to source code">__construct</a>( <span>array <var>$events</var></span>, <span>PDO <var>$adapter</var></span>, <span>DSchoenbauer\Sql\Command\Select <var>$select</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -199,10 +199,21 @@
 			
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$events</var></dt>
+					<dd>An array of event names to bind to</dd>
+					<dt><var>$adapter</var></dt>
+					<dd></dd>
+					<dt><var>$select</var></dt>
+					<dd></dd>
+				</dl></div>
 
 
 
 
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-DSchoenbauer.Orm.Events.AbstractEvent.html#___construct">DSchoenbauer\Orm\Events\AbstractEvent::__construct()</a></code></div>
 
 		</div>
 		</div></td>
@@ -219,7 +230,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_onExecute">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#53-74" title="Go to source code">onExecute</a>( <span>Zend\EventManager\Event <var>$event</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#58-79" title="Go to source code">onExecute</a>( <span>Zend\EventManager\Event <var>$event</var></span> )</code>
 
 		<div class="description short">
 			<p>event action</p>
@@ -258,7 +269,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getAdapter">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#76-84" title="Go to source code">getAdapter</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#81-89" title="Go to source code">getAdapter</a>( )</code>
 
 		<div class="description short">
 			<p>Returns a PHP Data Object</p>
@@ -296,7 +307,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setAdapter">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#86-96" title="Go to source code">setAdapter</a>( <span>PDO <var>$adapter</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#91-101" title="Go to source code">setAdapter</a>( <span>PDO <var>$adapter</var></span> )</code>
 
 		<div class="description short">
 			<p>PDO connection to a db of some sort.</p>
@@ -339,7 +350,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getSelect">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#98-109" title="Go to source code">getSelect</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#103-114" title="Go to source code">getSelect</a>( )</code>
 
 		<div class="description short">
 			<p>object with logic for the Select. If Select is not provided one will be lazy loaded</p>
@@ -377,7 +388,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setSelect">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#111-121" title="Go to source code">setSelect</a>( <span>DSchoenbauer\Sql\Command\Select <var>$select</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html#116-126" title="Go to source code">setSelect</a>( <span>DSchoenbauer\Sql\Command\Select <var>$select</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			<p>Object that contains the select logic</p>

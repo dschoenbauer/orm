@@ -70,23 +70,6 @@ class DefaultValueTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(HasDefaultValuesInterface::class, $this->object->getTypeInterface());
     }
 
-    public function testValidateNotCreate()
-    {
-        $data = ['id' => 1, 'name' => 'ted'];
-        $fields = ['id' => 999, 'name' => 'rupert', 'ack' => true];
-        $this->object->getModel()->setData($data);
-        $event = $this->getMockBuilder(Event::class)->getMock();
-        
-        $entity = $this->getMockBuilder(HasDefaultValuesInterface::class)->getMock();
-        $entity->expects($this->exactly(0))->method('getDefaultValues')->willReturn($fields);
-
-        $this->object->getModel()->expects($this->any())->method('getEntity')->willReturn($entity);
-        $event->expects($this->any())->method('getTarget')->willReturn($this->object->getModel());
-        $event->expects($this->any())->method('getParams')->willReturn(['events'=>[]]);
-        $this->object->onExecute($event);
-        $this->assertEquals($data, $this->object->getModel()->getData());
-    }
-
     public function testValidateGoldenPath()
     {
         $this->object->setParams(['events' => [ModelEvents::CREATE]]);
@@ -96,7 +79,7 @@ class DefaultValueTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->object->validate($data, $fields));
         $this->assertEquals($default, $this->object->getModel()->getData());
     }
-    
+
     public function testValidateAllValuesProvidedNoDefault()
     {
         $this->object->setParams(['events' => [ModelEvents::CREATE]]);
@@ -105,7 +88,7 @@ class DefaultValueTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->object->validate($data, $fields));
         $this->assertEquals($data, $this->object->getModel()->getData());
     }
-    
+
     public function testValidatePoorFormat()
     {
         $this->object->setParams(['events' => ModelEvents::CREATE]);
@@ -113,5 +96,4 @@ class DefaultValueTest extends PHPUnit_Framework_TestCase
         $fields = ['id' => 999, 'name' => 'rupert', 'ack' => true];
         $this->assertTrue($this->object->validate($data, $fields));
     }
-    
 }

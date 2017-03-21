@@ -31,11 +31,6 @@ namespace DSchoenbauer\Orm\Enum;
  */
 class ModelEvents
 {
-
-    /**
-     * Called to validate data
-     */
-    const VALIDATE = 'validate';
     
     /**
      * Called to create a new record

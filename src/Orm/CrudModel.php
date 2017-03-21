@@ -43,8 +43,8 @@ class CrudModel extends Model
     public function create($data)
     {
         $this->setData($data);
-        $events = [ModelEvents::CREATE, ModelEvents::FETCH];
-        $this->processEvents($events);
+        $this->getEventManager()->trigger(ModelEvents::CREATE, $this);
+        $this->getEventManager()->trigger(ModelEvents::FETCH, $this);
         return $this->getData();
     }
 
@@ -57,8 +57,7 @@ class CrudModel extends Model
     public function fetch($id)
     {
         $this->setId($id);
-        $events = [ModelEvents::FETCH];
-        $this->processEvents($events);
+        $this->getEventManager()->trigger(ModelEvents::FETCH, $this);
         return $this->getData();
     }
 
@@ -69,8 +68,7 @@ class CrudModel extends Model
      */
     public function fetchAll()
     {
-        $events = [ModelEvents::FETCH_ALL];
-        $this->processEvents($events);
+        $this->getEventManager()->trigger(ModelEvents::FETCH_ALL, $this);
         return $this->getData();
     }
 
@@ -84,8 +82,8 @@ class CrudModel extends Model
     public function update($id, $data)
     {
         $this->setId($id)->setData($data);
-        $events = [ModelEvents::UPDATE, ModelEvents::FETCH];
-        $this->processEvents($events);
+        $this->getEventManager()->trigger(ModelEvents::UPDATE, $this);
+        $this->getEventManager()->trigger(ModelEvents::FETCH, $this);
         return $this->getData();
     }
 
@@ -98,27 +96,7 @@ class CrudModel extends Model
     public function delete($id)
     {
         $this->setId($id);
-        $events = [ModelEvents::DELETE];
-        $this->processEvents($events);
+        $this->getEventManager()->trigger(ModelEvents::DELETE, $this);
         return true;
-    }
-
-    /**
-     * Attaches given events into the event manager
-     * @param array $events
-     * @return CrudModel
-     * @since v1.0.0
-     */
-    protected function processEvents(array $events)
-    {
-        $this->getEventManager()->trigger(
-            ModelEvents::VALIDATE,
-            $this,
-            compact('events')
-        );
-        foreach ($events as $event) {
-            $this->getEventManager()->trigger($event, $this);
-        }
-        return $this;
     }
 }

@@ -27,7 +27,7 @@ class PdoDeleteTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->mockAdapter = $this->getMockBuilder(PDO::class)->disableOriginalConstructor()->getMock();
-        $this->object = new PdoDelete($this->mockAdapter);
+        $this->object = new PdoDelete([], $this->mockAdapter);
     }
 
     public function testAdapterFromContructor()
@@ -38,22 +38,20 @@ class PdoDeleteTest extends PHPUnit_Framework_TestCase
     public function testAdapter()
     {
         $mockAdapter = $this->getMockBuilder(PDO::class)->disableOriginalConstructor()->getMock();
-        $this->assertSame($mockAdapter,
-            $this->object->setAdapter($mockAdapter)->getAdapter());
+        $this->assertSame($mockAdapter, $this->object->setAdapter($mockAdapter)->getAdapter());
     }
 
     public function testDeleteConstructor()
     {
         $mockDelete = $this->getMockBuilder(Delete::class)->disableOriginalConstructor()->getMock();
-        $subject = new PdoDelete($this->mockAdapter, $mockDelete);
+        $subject = new PdoDelete([], $this->mockAdapter, $mockDelete);
         $this->assertSame($mockDelete, $subject->getDelete());
     }
 
     public function testDelete()
     {
         $mockDelete = $this->getMockBuilder(Delete::class)->disableOriginalConstructor()->getMock();
-        $this->assertSame($mockDelete,
-            $this->object->setDelete($mockDelete)->getDelete());
+        $this->assertSame($mockDelete, $this->object->setDelete($mockDelete)->getDelete());
     }
 
     public function testDeleteLazyLoad()

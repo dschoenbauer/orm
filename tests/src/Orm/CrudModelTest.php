@@ -48,10 +48,9 @@ class CrudModelTest extends PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $this->mockEventManager->expects($this->exactly(3))
+        $this->mockEventManager->expects($this->exactly(2))
             ->method('trigger')
             ->withConsecutive(
-                [Enum\ModelEvents::VALIDATE, $this->object, ['events' => [Enum\ModelEvents::CREATE, Enum\ModelEvents::FETCH]]],
                 [Enum\ModelEvents::CREATE, $this->object],
                 [Enum\ModelEvents::FETCH, $this->object]);
 
@@ -63,10 +62,9 @@ class CrudModelTest extends PHPUnit_Framework_TestCase
 
     public function testFetch()
     {
-        $this->mockEventManager->expects($this->exactly(2))
+        $this->mockEventManager->expects($this->exactly(1))
             ->method('trigger')
             ->withConsecutive(
-                [Enum\ModelEvents::VALIDATE, $this->object, ['events' => [Enum\ModelEvents::FETCH]]],
                 [Enum\ModelEvents::FETCH, $this->object]);
 
         $this->object->setEventManager($this->mockEventManager);
@@ -78,10 +76,9 @@ class CrudModelTest extends PHPUnit_Framework_TestCase
 
     public function testFetchAll()
     {
-        $this->mockEventManager->expects($this->exactly(2))
+        $this->mockEventManager->expects($this->exactly(1))
             ->method('trigger')
             ->withConsecutive(
-                [Enum\ModelEvents::VALIDATE, $this->object, ['events' => [Enum\ModelEvents::FETCH_ALL]]],
                 [Enum\ModelEvents::FETCH_ALL, $this->object]);
 
         $this->object->setEventManager($this->mockEventManager);
@@ -91,10 +88,9 @@ class CrudModelTest extends PHPUnit_Framework_TestCase
 
     public function testUpdate()
     {
-        $this->mockEventManager->expects($this->exactly(3))
+        $this->mockEventManager->expects($this->exactly(2))
             ->method('trigger')
             ->withConsecutive(
-                [Enum\ModelEvents::VALIDATE, $this->object, ['events' => [Enum\ModelEvents::UPDATE, Enum\ModelEvents::FETCH]]],
                 [Enum\ModelEvents::UPDATE, $this->object],
                 [Enum\ModelEvents::FETCH, $this->object]
         );
@@ -109,10 +105,9 @@ class CrudModelTest extends PHPUnit_Framework_TestCase
 
     public function testDelete()
     {
-        $this->mockEventManager->expects($this->exactly(2))
+        $this->mockEventManager->expects($this->exactly(1))
             ->method('trigger')
             ->withConsecutive(
-                [Enum\ModelEvents::VALIDATE, $this->object, ['events' => [Enum\ModelEvents::DELETE]]],
                 [Enum\ModelEvents::DELETE, $this->object]);
 
         $this->object->setEventManager($this->mockEventManager);

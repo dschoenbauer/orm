@@ -27,7 +27,7 @@ class PdoCreateTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->mockAdapter = $this->getMockBuilder(PDO::class)->disableOriginalConstructor()->getMock();
-        $this->object = new PdoCreate($this->mockAdapter);
+        $this->object = new PdoCreate([], $this->mockAdapter);
     }
 
     public function testAdapterFromContructor()
@@ -38,22 +38,20 @@ class PdoCreateTest extends PHPUnit_Framework_TestCase
     public function testAdapter()
     {
         $mockAdapter = $this->getMockBuilder(PDO::class)->disableOriginalConstructor()->getMock();
-        $this->assertSame($mockAdapter,
-            $this->object->setAdapter($mockAdapter)->getAdapter());
+        $this->assertSame($mockAdapter, $this->object->setAdapter($mockAdapter)->getAdapter());
     }
 
     public function testCreateConstructor()
     {
         $mockCreate = $this->getMockBuilder(Create::class)->disableOriginalConstructor()->getMock();
-        $subject = new PdoCreate($this->mockAdapter, $mockCreate);
+        $subject = new PdoCreate([], $this->mockAdapter, $mockCreate);
         $this->assertSame($mockCreate, $subject->getCreate());
     }
 
     public function testCreate()
     {
         $mockCreate = $this->getMockBuilder(Create::class)->disableOriginalConstructor()->getMock();
-        $this->assertSame($mockCreate,
-            $this->object->setCreate($mockCreate)->getCreate());
+        $this->assertSame($mockCreate, $this->object->setCreate($mockCreate)->getCreate());
     }
 
     public function testCreateLazyLoad()
@@ -74,7 +72,7 @@ class PdoCreateTest extends PHPUnit_Framework_TestCase
     {
         $table = "someTable";
         $idField = "id";
-        $data = ['test'=>1,'some_id'=>2];
+        $data = ['test' => 1, 'some_id' => 2];
 
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
         $entity->expects($this->once())->method('getTable')->willReturn($table);

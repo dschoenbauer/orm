@@ -27,7 +27,7 @@ class PdoUpdateTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->mockAdapter = $this->getMockBuilder(PDO::class)->disableOriginalConstructor()->getMock();
-        $this->object = new PdoUpdate($this->mockAdapter);
+        $this->object = new PdoUpdate([], $this->mockAdapter);
     }
 
     public function testAdapterFromContructor()
@@ -38,22 +38,20 @@ class PdoUpdateTest extends PHPUnit_Framework_TestCase
     public function testAdapter()
     {
         $mockAdapter = $this->getMockBuilder(PDO::class)->disableOriginalConstructor()->getMock();
-        $this->assertSame($mockAdapter,
-            $this->object->setAdapter($mockAdapter)->getAdapter());
+        $this->assertSame($mockAdapter, $this->object->setAdapter($mockAdapter)->getAdapter());
     }
 
     public function testUpdateConstructor()
     {
         $mockUpdate = $this->getMockBuilder(Update::class)->disableOriginalConstructor()->getMock();
-        $subject = new PdoUpdate($this->mockAdapter, $mockUpdate);
+        $subject = new PdoUpdate([], $this->mockAdapter, $mockUpdate);
         $this->assertSame($mockUpdate, $subject->getUpdate());
     }
 
     public function testUpdate()
     {
         $mockUpdate = $this->getMockBuilder(Update::class)->disableOriginalConstructor()->getMock();
-        $this->assertSame($mockUpdate,
-            $this->object->setUpdate($mockUpdate)->getUpdate());
+        $this->assertSame($mockUpdate, $this->object->setUpdate($mockUpdate)->getUpdate());
     }
 
     public function testUpdateLazyLoad()
