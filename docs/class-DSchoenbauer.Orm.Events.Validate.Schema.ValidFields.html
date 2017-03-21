@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>Class DSchoenbauer\Orm\Events\Validate\Schema\DefaultValue</title>
+	<title>Class DSchoenbauer\Orm\Events\Validate\Schema\ValidFields</title>
 
 	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
 
@@ -88,9 +88,9 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li class="active"><a href="class-DSchoenbauer.Orm.Events.Validate.Schema.DefaultValue.html">DefaultValue</a></li>
+				<li><a href="class-DSchoenbauer.Orm.Events.Validate.Schema.DefaultValue.html">DefaultValue</a></li>
 				<li><a href="class-DSchoenbauer.Orm.Events.Validate.Schema.RequiredFields.html">RequiredFields</a></li>
-				<li><a href="class-DSchoenbauer.Orm.Events.Validate.Schema.ValidFields.html">ValidFields</a></li>
+				<li class="active"><a href="class-DSchoenbauer.Orm.Events.Validate.Schema.ValidFields.html">ValidFields</a></li>
 			</ul>
 
 
@@ -129,11 +129,11 @@
 	</div>
 
 <div id="content" class="class">
-	<h1>Class DefaultValue</h1>
+	<h1>Class ValidFields</h1>
 
 
 	<div class="description">
-	<p>Adds a default value to a data set at create time</p>
+	<p>Validates that only fields valid fields are allowed in the data model</p>
 	</div>
 
 	<dl class="tree">
@@ -154,7 +154,7 @@
 		</dd>
 		<dd style="padding-left:60px">
 			<img src="resources/inherit.png" alt="Extended by">
-<b><span>DSchoenbauer\Orm\Events\Validate\Schema\DefaultValue</span></b>			
+<b><span>DSchoenbauer\Orm\Events\Validate\Schema\ValidFields</span></b>			
 			
 			
 		</dd>
@@ -175,7 +175,7 @@
 
 				<b>Author:</b>
 				David Schoenbauer<br>
-			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Events.Validate.Schema.DefaultValue.html#31-77" title="Go to source code">Orm/Events/Validate/Schema/DefaultValue.php</a>
+			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Events.Validate.Schema.ValidFields.html#30-74" title="Go to source code">Orm/Events/Validate/Schema/ValidFields.php</a>
 		<br>
 	</div>
 
@@ -195,20 +195,20 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getFields">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.Schema.DefaultValue.html#39-48" title="Go to source code">getFields</a>( <span><code><a href="class-DSchoenbauer.Orm.Entity.HasDefaultValuesInterface.html">DSchoenbauer\Orm\Entity\HasDefaultValuesInterface</a></code> <var>$entity</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.Schema.ValidFields.html#38-48" title="Go to source code">getFields</a>( <span><code><a href="class-DSchoenbauer.Orm.Entity.EntityInterface.html">DSchoenbauer\Orm\Entity\EntityInterface</a></code> <var>$entity</var></span> )</code>
 
 		<div class="description short">
-			<p>provides an associative array that has a key of the field and a value</p>
+			<p>provides a list of fields that this operation will affect</p>
 		</div>
 
 		<div class="description detailed hidden">
-			<p>provides an associative array that has a key of the field and a value</p>
+			<p>provides a list of fields that this operation will affect</p>
 
 
 				<h4>Parameters</h4>
 				<div class="list"><dl>
 					<dt><var>$entity</var></dt>
-					<dd></dd>
+					<dd>entity object that houses the fields</dd>
 				</dl></div>
 
 				<h4>Returns</h4>
@@ -238,14 +238,14 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getTypeInterface">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.Schema.DefaultValue.html#50-57" title="Go to source code">getTypeInterface</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.Schema.ValidFields.html#50-58" title="Go to source code">getTypeInterface</a>( )</code>
 
 		<div class="description short">
-			
+			<p>Interface that qualifies the entity as valid for this operation</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>Interface that qualifies the entity as valid for this operation</p>
 
 
 
@@ -255,46 +255,11 @@
 				</div>
 
 
-				<h4>Inheritdoc</h4>
+				<h4>Since</h4>
 				<div class="list">
+						v1.0.0<br>
 				</div>
 
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="preExecuteCheck" id="_preExecuteCheck">
-
-		<td class="attributes"><code>
-			 public 
-
-			boolean
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_preExecuteCheck">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.Schema.DefaultValue.html#59-65" title="Go to source code">preExecuteCheck</a>( )</code>
-
-		<div class="description short">
-			<p>used to check if they validate function is required or relevant</p>
-		</div>
-
-		<div class="description detailed hidden">
-			<p>used to check if they validate function is required or relevant</p>
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					boolean
-				</div>
-
-
-
-				<h4>Overrides</h4>
-				<div class="list"><code><a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#_preExecuteCheck">DSchoenbauer\Orm\Events\Validate\AbstractValidate::preExecuteCheck()</a></code></div>
 
 		</div>
 		</div></td>
@@ -311,14 +276,14 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_validate">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.Schema.DefaultValue.html#67-76" title="Go to source code">validate</a>( <span>array <var>$data</var></span>, <span>array <var>$fields</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.Schema.ValidFields.html#60-73" title="Go to source code">validate</a>( <span>array <var>$data</var></span>, <span>array <var>$fields</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>removes any outside fields and saves that data to the model</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>removes any outside fields and saves that data to the model</p>
 
 
 				<h4>Parameters</h4>
@@ -335,6 +300,10 @@
 				</div>
 
 
+				<h4>Since</h4>
+				<div class="list">
+						v1.0.0<br>
+				</div>
 
 
 		</div>
@@ -349,6 +318,7 @@
 			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#_getModel">getModel()</a>, 
 			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#_getParams">getParams()</a>, 
 			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#_onExecute">onExecute()</a>, 
+			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#_preExecuteCheck">preExecuteCheck()</a>, 
 			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#_setModel">setModel()</a>, 
 			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#_setParams">setParams()</a>
 		</code></td>
