@@ -37,6 +37,12 @@ abstract class AbstractEvent implements VisitorInterface
 {
 
     private $events = [];
+    
+    public function __construct(array $events = [])
+    {
+        $this->setEvents($events);
+    }
+    
 
     /**
      * provides an opportunity to extend Model's functionality

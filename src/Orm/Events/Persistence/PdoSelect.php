@@ -43,10 +43,15 @@ class PdoSelect extends AbstractEvent
     private $adapter;
     private $select;
 
-    public function __construct(\PDO $adapter, Select $select = null)
+    /**
+     * @param array $events An array of event names to bind to
+     * @param PDO $adapter
+     * @param Select $select
+     */
+    public function __construct(array $events, \PDO $adapter, Select $select = null)
     {
-        $this->setEvents([ModelEvents::FETCH])
-            ->setAdapter($adapter)
+        parent::__construct($events);
+        $this->setAdapter($adapter)
             ->setSelect($select);
     }
 

@@ -24,8 +24,14 @@ class PdoDelete extends AbstractEvent
     private $adapter;
     private $delete;
 
-    public function __construct(PDO $adapter, Delete $delete = null)
+    /**
+     * @param array $events An array of event names to bind to
+     * @param PDO $adapter
+     * @param Delete $delete
+     */
+    public function __construct(array $events, PDO $adapter, Delete $delete = null)
     {
+        parent::__construct($events);
         $this->setAdapter($adapter)->setDelete($delete);
     }
 

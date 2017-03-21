@@ -26,13 +26,15 @@ class PdoCreate extends AbstractEvent
 
     /**
      *
+     * @param array $events An array of event names to bind to
      * @param PDO $adapter PDO connection to a db of some sort.
      * @param Create $create default null, if no create object offered one will
      * be lazy loaded for you
      * @since v1.0.0
      */
-    public function __construct(PDO $adapter, Create $create = null)
+    public function __construct(array $events, PDO $adapter, Create $create = null)
     {
+        parent::__construct($events);
         $this->setAdapter($adapter)->setCreate($create);
     }
 
