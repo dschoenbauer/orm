@@ -25,7 +25,6 @@
 namespace DSchoenbauer\Orm\Events\Validate\Schema;
 
 use DSchoenbauer\Orm\Entity\HasDefaultValuesInterface;
-use DSchoenbauer\Orm\Enum\ModelEvents;
 use DSchoenbauer\Orm\Events\Validate\AbstractValidate;
 
 /**
@@ -56,13 +55,6 @@ class DefaultValue extends AbstractValidate
         return HasDefaultValuesInterface::class;
     }
     
-    public function preExecuteCheck()
-    {
-        return is_array($params = $this->getParams()) &&
-            array_key_exists('events', $params) &&
-            is_array($params['events']) &&
-            in_array(ModelEvents::CREATE, $params['events']);
-    }
 
     /**
      *
