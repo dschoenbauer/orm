@@ -50,7 +50,7 @@ class RequiredFields extends AbstractValidate
     public function validate(array $data, array $fields)
     {
         $missingKeys = array_diff($fields, array_keys($data));
-        if(count($missingKeys) > 0){
+        if (count($missingKeys) > 0) {
             throw new RequiredFieldMissingException($missingKeys);
         }
         return true;
