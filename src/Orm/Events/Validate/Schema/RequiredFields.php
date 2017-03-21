@@ -24,54 +24,35 @@
  */
 namespace DSchoenbauer\Orm\Events\Validate\Schema;
 
-use DSchoenbauer\Orm\Entity\HasDefaultValuesInterface;
-use DSchoenbauer\Orm\Enum\ModelEvents;
+use DSchoenbauer\Orm\Entity\HasRequiredFieldsInterface;
 use DSchoenbauer\Orm\Events\Validate\AbstractValidate;
+use DSchoenbauer\Orm\Exception\RequiredFieldMissingException;
 
 /**
- * Adds a default value to a data set at create time
+ * Ensures required fields are present
  *
  * @author David Schoenbauer
  */
-class DefaultValue extends AbstractValidate
+class RequiredFields extends AbstractValidate
 {
 
-    /**
-     * provides an associative array that has a key of the field and a value
-     * @param HasDefaultValuesInterface $entity
-     * @return array
-     * @since v1.0.0
-     */
     public function getFields($entity)
     {
-        return $entity->getDefaultValues();
+        /* @var $entity HasRequiredFieldsInterface */
+        return $entity->getRequiredFields();
     }
 
-    /**
-     * @inheritDoc
-     * @return string
-     */
     public function getTypeInterface()
     {
-        return HasDefaultValuesInterface::class;
-    }
-    
-    public function preExecuteCheck()
-    {
-        return is_array($params = $this->getParams()) &&
-            array_key_exists('events', $params) &&
-            is_array($params['events']) &&
-            in_array(ModelEvents::CREATE, $params['events']);
+        return HasRequiredFieldsInterface::class;
     }
 
-    /**
-     *
-     * @param array $data
-     * @param array $fields
-     */
     public function validate(array $data, array $fields)
     {
-        $this->getModel()->setData(array_merge($fields, $data));
+        $missingKeys = array_diff($fields, array_keys($data));
+        if (count($missingKeys) > 0) {
+            throw new RequiredFieldMissingException($missingKeys);
+        }
         return true;
     }
 }

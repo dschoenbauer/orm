@@ -155,7 +155,8 @@
 	<div>
 		<h4>Direct known subclasses</h4>
 			<a href="class-DSchoenbauer.Orm.Events.Validate.DataType.AbstractDataType.html">DSchoenbauer\Orm\Events\Validate\DataType\AbstractDataType</a>, 
-			<a href="class-DSchoenbauer.Orm.Events.Validate.Schema.DefaultValue.html">DSchoenbauer\Orm\Events\Validate\Schema\DefaultValue</a>
+			<a href="class-DSchoenbauer.Orm.Events.Validate.Schema.DefaultValue.html">DSchoenbauer\Orm\Events\Validate\Schema\DefaultValue</a>, 
+			<a href="class-DSchoenbauer.Orm.Events.Validate.Schema.RequiredFields.html">DSchoenbauer\Orm\Events\Validate\Schema\RequiredFields</a>
 	</div>
 
 	<div>
@@ -178,7 +179,7 @@
 
 				<b>Author:</b>
 				David Schoenbauer <a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#x64;&#115;&#x63;h&#111;&#x65;&#110;&#98;&#x61;&#117;&#x65;r&#64;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;">&#x64;&#115;&#x63;h&#111;&#x65;&#110;&#98;&#x61;&#117;&#x65;r&#64;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;</a><br>
-			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#32-144" title="Go to source code">Orm/Events/Validate/AbstractValidate.php</a>
+			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#32-145" title="Go to source code">Orm/Events/Validate/AbstractValidate.php</a>
 		<br>
 	</div>
 
@@ -349,14 +350,14 @@
 		<td class="attributes"><code>
 			abstract public 
 
-			
+			boolean
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_validate">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#93-99" title="Go to source code">validate</a>( <span>array <var>$data</var></span>, <span>array <var>$fields</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#93-100" title="Go to source code">validate</a>( <span>array <var>$data</var></span>, <span>array <var>$fields</var></span> )</code>
 
 		<div class="description short">
 			<p>validates data against list of fields</p>
@@ -374,6 +375,10 @@
 					<dd>fields that are deemed a given type</dd>
 				</dl></div>
 
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
 
 
 				<h4>Since</h4>
@@ -397,7 +402,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getModel">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#101-109" title="Go to source code">getModel</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#102-110" title="Go to source code">getModel</a>( )</code>
 
 		<div class="description short">
 			<p>provides model for which data type exists</p>
@@ -435,7 +440,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setModel">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#111-121" title="Go to source code">setModel</a>( <span><code><a href="class-DSchoenbauer.Orm.Model.html">DSchoenbauer\Orm\Model</a></code> <var>$model</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#112-122" title="Go to source code">setModel</a>( <span><code><a href="class-DSchoenbauer.Orm.Model.html">DSchoenbauer\Orm\Model</a></code> <var>$model</var></span> )</code>
 
 		<div class="description short">
 			<p>set model for which data type exists</p>
@@ -478,7 +483,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getParams">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#123-131" title="Go to source code">getParams</a>( )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#124-132" title="Go to source code">getParams</a>( )</code>
 
 		<div class="description short">
 			<p>Get all parameters</p>
@@ -516,7 +521,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setParams">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#133-143" title="Go to source code">setParams</a>( <span>array|ArrayAccess|object <var>$params</var></span> )</code>
+		<code><a href="source-class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html#134-144" title="Go to source code">setParams</a>( <span>array|ArrayAccess|object <var>$params</var></span> )</code>
 
 		<div class="description short">
 			<p>Set parameters</p>

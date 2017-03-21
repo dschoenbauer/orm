@@ -22,56 +22,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Validate\Schema;
+namespace DSchoenbauer\Orm\Exception;
 
-use DSchoenbauer\Orm\Entity\HasDefaultValuesInterface;
-use DSchoenbauer\Orm\Enum\ModelEvents;
-use DSchoenbauer\Orm\Events\Validate\AbstractValidate;
+use DSchoenbauer\Exception\Http\ClientError\BadRequestException;
+use PHPUnit_Framework_TestCase;
 
 /**
- * Adds a default value to a data set at create time
+ * Thrown when a data type is provided other than the required data type
  *
  * @author David Schoenbauer
  */
-class DefaultValue extends AbstractValidate
+class RequiredFieldMissingExceptionTest extends PHPUnit_Framework_TestCase
 {
 
-    /**
-     * provides an associative array that has a key of the field and a value
-     * @param HasDefaultValuesInterface $entity
-     * @return array
-     * @since v1.0.0
-     */
-    public function getFields($entity)
+    private $object;
+
+    protected function setUp()
     {
-        return $entity->getDefaultValues();
+        $this->object = new RequiredFieldMissingException();
     }
 
-    /**
-     * @inheritDoc
-     * @return string
-     */
-    public function getTypeInterface()
+    public function testHasCoreInterface()
     {
-        return HasDefaultValuesInterface::class;
-    }
-    
-    public function preExecuteCheck()
-    {
-        return is_array($params = $this->getParams()) &&
-            array_key_exists('events', $params) &&
-            is_array($params['events']) &&
-            in_array(ModelEvents::CREATE, $params['events']);
+        $this->assertInstanceOf(OrmExceptionInterface::class, $this->object);
     }
 
-    /**
-     *
-     * @param array $data
-     * @param array $fields
-     */
-    public function validate(array $data, array $fields)
+    public function testHasCorrectBaseException()
     {
-        $this->getModel()->setData(array_merge($fields, $data));
-        return true;
+        $this->assertInstanceOf(BadRequestException::class, $this->object);
+    }
+
+    public function testMissingFields()
+    {
+        $this->assertEquals([], $this->object->getMissingFields());
+        $this->assertEquals(['test'], $this->object->setMissingFields(['test'])->getMissingFields());
     }
 }

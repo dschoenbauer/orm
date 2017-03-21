@@ -22,56 +22,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Validate\Schema;
+namespace DSchoenbauer\Orm\Exception;
 
-use DSchoenbauer\Orm\Entity\HasDefaultValuesInterface;
-use DSchoenbauer\Orm\Enum\ModelEvents;
-use DSchoenbauer\Orm\Events\Validate\AbstractValidate;
+use DSchoenbauer\Exception\Http\ClientError\BadRequestException;
 
 /**
- * Adds a default value to a data set at create time
+ * A required field is not present in the data payload
  *
  * @author David Schoenbauer
+ * @since v1.0.0
  */
-class DefaultValue extends AbstractValidate
+class RequiredFieldMissingException extends BadRequestException implements OrmExceptionInterface
 {
 
+    protected $missingFields;
+
+    public function __construct(array $missingFields = [], $message = "")
+    {
+        $this->setMissingFields($missingFields);
+        parent::__construct($message);
+    }
+
     /**
-     * provides an associative array that has a key of the field and a value
-     * @param HasDefaultValuesInterface $entity
+     * Provides a list of fields that are missing
      * @return array
-     * @since v1.0.0
      */
-    public function getFields($entity)
+    public function getMissingFields()
     {
-        return $entity->getDefaultValues();
+        return $this->missingFields;
     }
 
     /**
-     * @inheritDoc
-     * @return string
+     * sets a list of fields that are missing
+     * @param array $missingFields
+     * @return $this
      */
-    public function getTypeInterface()
+    public function setMissingFields(array $missingFields = [])
     {
-        return HasDefaultValuesInterface::class;
-    }
-    
-    public function preExecuteCheck()
-    {
-        return is_array($params = $this->getParams()) &&
-            array_key_exists('events', $params) &&
-            is_array($params['events']) &&
-            in_array(ModelEvents::CREATE, $params['events']);
-    }
-
-    /**
-     *
-     * @param array $data
-     * @param array $fields
-     */
-    public function validate(array $data, array $fields)
-    {
-        $this->getModel()->setData(array_merge($fields, $data));
-        return true;
+        $this->missingFields = $missingFields;
+        return $this;
     }
 }
