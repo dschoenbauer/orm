@@ -24,16 +24,18 @@
  */
 namespace DSchoenbauer\Orm\Events;
 
+use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Orm\VisitorInterface;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
+use Zend\EventManager\EventManagerInterface;
 
 /**
  * Description of AbstractEventTest
  *
  * @author David Schoenbauer
  */
-class AbstractEventTest extends PHPUnit_Framework_TestCase
+class AbstractEventTest extends TestCase
 {
 
     private $object;
@@ -51,7 +53,7 @@ class AbstractEventTest extends PHPUnit_Framework_TestCase
 
     public function testVisitModel()
     {
-        $eventManagerMock = $this->getMockBuilder(\Zend\EventManager\EventManagerInterface::class)->getMock();
+        $eventManagerMock = $this->getMockBuilder(EventManagerInterface::class)->getMock();
         $eventManagerMock->expects($this->once())
             ->method('attach')
             ->with('test', [$this->object, 'onExecute']);

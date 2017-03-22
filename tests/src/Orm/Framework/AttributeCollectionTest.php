@@ -24,12 +24,14 @@
  */
 namespace DSchoenbauer\Orm\Framework;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Description of AttributeCollection
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class AttributeCollectionTest extends \PHPUnit_Framework_TestCase
+class AttributeCollectionTest extends TestCase
 {
 
     private $object;

@@ -25,7 +25,7 @@
 namespace DSchoenbauer\Orm\Events\Validate\DataType;
 
 use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 
 /**
@@ -33,7 +33,7 @@ use stdClass;
  *
  * @author David Schoenbauer
  */
-class DataTypeBooleanTest extends PHPUnit_Framework_TestCase
+class DataTypeBooleanTest extends TestCase
 {
 
     protected $object;

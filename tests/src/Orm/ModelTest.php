@@ -24,8 +24,11 @@
  */
 namespace DSchoenbauer\Orm;
 
+use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Framework\AttributeCollection;
-use PHPUnit_Framework_TestCase;
+use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Orm\VisitorInterface;
+use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventManager;
 
 /**
@@ -33,7 +36,7 @@ use Zend\EventManager\EventManager;
  *
  * @author David Schoenbauer
  */
-class ModelTest extends PHPUnit_Framework_TestCase
+class ModelTest extends TestCase
 {
 
     private $object;
@@ -47,7 +50,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
 
     private function getMockEntity()
     {
-        return $this->getMockBuilder(Entity\EntityInterface::class)->getMock();
+        return $this->getMockBuilder(EntityInterface::class)->getMock();
     }
 
     public function testEntityThroughConstructor()

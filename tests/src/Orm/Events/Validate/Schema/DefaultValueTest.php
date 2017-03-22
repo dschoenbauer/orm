@@ -27,14 +27,14 @@ namespace DSchoenbauer\Orm\Events\Validate\Schema;
 use DSchoenbauer\Orm\Entity\HasDefaultValuesInterface;
 use DSchoenbauer\Orm\Enum\ModelEvents;
 use DSchoenbauer\Orm\Model;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Description of DefaultValues
  *
  * @author David Schoenbauer
  */
-class DefaultValueTest extends PHPUnit_Framework_TestCase
+class DefaultValueTest extends TestCase
 {
 
     protected $object;
