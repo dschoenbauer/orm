@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>Interface DSchoenbauer\Orm\VisitorInterface</title>
+	<title>Interface DSchoenbauer\Orm\Builder\DirectorInterface</title>
 
 	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
 
@@ -30,7 +30,7 @@
 					</a>
 
 						<ul>
-				<li>
+				<li class="active">
 					<a href="namespace-DSchoenbauer.Orm.Builder.html">
 						Builder					</a>
 
@@ -93,13 +93,14 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-DSchoenbauer.Orm.CrudModel.html">CrudModel</a></li>
-				<li><a href="class-DSchoenbauer.Orm.Model.html">Model</a></li>
+				<li><a href="class-DSchoenbauer.Orm.Builder.ModelDirector.html">ModelDirector</a></li>
+				<li><a href="class-DSchoenbauer.Orm.Builder.PdoModelBuilder.html">PdoModelBuilder</a></li>
 			</ul>
 
 			<h3>Interfaces</h3>
 			<ul>
-				<li class="active"><a href="class-DSchoenbauer.Orm.VisitorInterface.html">VisitorInterface</a></li>
+				<li><a href="class-DSchoenbauer.Orm.Builder.BuilderInterface.html">BuilderInterface</a></li>
+				<li class="active"><a href="class-DSchoenbauer.Orm.Builder.DirectorInterface.html">DirectorInterface</a></li>
 			</ul>
 
 
@@ -125,7 +126,7 @@
 				<a href="index.html" title="Overview"><span>Overview</span></a>
 			</li>
 			<li>
-				<a href="namespace-DSchoenbauer.Orm.html" title="Summary of DSchoenbauer\Orm"><span>Namespace</span></a>
+				<a href="namespace-DSchoenbauer.Orm.Builder.html" title="Summary of DSchoenbauer\Orm\Builder"><span>Namespace</span></a>
 			</li>
 			<li class="active">
 <span>Class</span>			</li>
@@ -137,7 +138,7 @@
 	</div>
 
 <div id="content" class="class">
-	<h1>Interface VisitorInterface</h1>
+	<h1>Interface DirectorInterface</h1>
 
 
 
@@ -147,37 +148,21 @@
 
 	<div>
 		<h4>Direct known implementers</h4>
-			<a href="class-DSchoenbauer.Orm.Events.AbstractEvent.html">DSchoenbauer\Orm\Events\AbstractEvent</a>
+			<a href="class-DSchoenbauer.Orm.Builder.ModelDirector.html">DSchoenbauer\Orm\Builder\ModelDirector</a>
 	</div>
 
-	<div>
-		<h4>Indirect known implementers</h4>
-			<a href="class-DSchoenbauer.Orm.Events.Persistence.PdoCreate.html">DSchoenbauer\Orm\Events\Persistence\PdoCreate</a>, 
-			<a href="class-DSchoenbauer.Orm.Events.Persistence.PdoDelete.html">DSchoenbauer\Orm\Events\Persistence\PdoDelete</a>, 
-			<a href="class-DSchoenbauer.Orm.Events.Validate.Schema.DefaultValue.html">DSchoenbauer\Orm\Events\Validate\Schema\DefaultValue</a>, 
-			<a href="class-DSchoenbauer.Orm.Events.Validate.Schema.RequiredFields.html">DSchoenbauer\Orm\Events\Validate\Schema\RequiredFields</a>, 
-			<a href="class-DSchoenbauer.Orm.Events.Validate.Schema.ValidFields.html">DSchoenbauer\Orm\Events\Validate\Schema\ValidFields</a>, 
-			<a href="class-DSchoenbauer.Orm.Events.Persistence.PdoSelect.html">DSchoenbauer\Orm\Events\Persistence\PdoSelect</a>, 
-			<a href="class-DSchoenbauer.Orm.Events.Persistence.PdoUpdate.html">DSchoenbauer\Orm\Events\Persistence\PdoUpdate</a>, 
-			<a href="class-DSchoenbauer.Orm.Events.Validate.AbstractValidate.html">DSchoenbauer\Orm\Events\Validate\AbstractValidate</a>, 
-			<a href="class-DSchoenbauer.Orm.Events.Validate.DataType.AbstractDataType.html">DSchoenbauer\Orm\Events\Validate\DataType\AbstractDataType</a>, 
-			<a href="class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeBoolean.html">DSchoenbauer\Orm\Events\Validate\DataType\DataTypeBoolean</a>, 
-			<a href="class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeDate.html">DSchoenbauer\Orm\Events\Validate\DataType\DataTypeDate</a>, 
-			<a href="class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeNumber.html">DSchoenbauer\Orm\Events\Validate\DataType\DataTypeNumber</a>, 
-			<a href="class-DSchoenbauer.Orm.Events.Validate.DataType.DataTypeString.html">DSchoenbauer\Orm\Events\Validate\DataType\DataTypeString</a>
-	</div>
 
 
 
 	<div class="info">
 		
 		
-		<b>Namespace:</b> <a href="namespace-DSchoenbauer.html">DSchoenbauer</a>\<a href="namespace-DSchoenbauer.Orm.html">Orm</a><br>
+		<b>Namespace:</b> <a href="namespace-DSchoenbauer.html">DSchoenbauer</a>\<a href="namespace-DSchoenbauer.Orm.html">Orm</a>\<a href="namespace-DSchoenbauer.Orm.Builder.html">Builder</a><br>
 		
 
 				<b>Author:</b>
 				David Schoenbauer<br>
-			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.VisitorInterface.html#27-35" title="Go to source code">Orm/VisitorInterface.php</a>
+			<b>Located at</b> <a href="source-class-DSchoenbauer.Orm.Builder.DirectorInterface.html#27-35" title="Go to source code">Orm/Builder/DirectorInterface.php</a>
 		<br>
 	</div>
 
@@ -185,7 +170,7 @@
 
 	<table class="summary methods" id="methods">
 	<caption>Methods summary</caption>
-	<tr data-order="visitModel" id="_visitModel">
+	<tr data-order="buildModel" id="_buildModel">
 
 		<td class="attributes"><code>
 			 public 
@@ -196,8 +181,8 @@
 		</td>
 
 		<td class="name"><div>
-		<a class="anchor" href="#_visitModel">#</a>
-		<code><a href="source-class-DSchoenbauer.Orm.VisitorInterface.html#34" title="Go to source code">visitModel</a>( <span><code><a href="class-DSchoenbauer.Orm.Model.html">DSchoenbauer\Orm\Model</a></code> <var>$model</var></span> )</code>
+		<a class="anchor" href="#_buildModel">#</a>
+		<code><a href="source-class-DSchoenbauer.Orm.Builder.DirectorInterface.html#34" title="Go to source code">buildModel</a>( <span><code><a href="class-DSchoenbauer.Orm.Builder.BuilderInterface.html">DSchoenbauer\Orm\Builder\BuilderInterface</a></code> <var>$builder</var></span> )</code>
 
 		<div class="description short">
 			
