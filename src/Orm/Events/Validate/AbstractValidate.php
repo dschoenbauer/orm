@@ -27,7 +27,7 @@ namespace DSchoenbauer\Orm\Events\Validate;
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\Exception\InvalidDataTypeException;
 use DSchoenbauer\Orm\Model;
-use Zend\EventManager\Event;
+use Zend\EventManager\EventInterface ;
 
 /**
  * Framework for validating data types
@@ -57,12 +57,12 @@ abstract class AbstractValidate extends AbstractEvent
 
     /**
      * method is called when a given event is triggered
-     * @param Event $event Event object passed at time of triggering
+     * @param Event $event EventInterface object passed at time of triggering
      * @throws InvalidDataTypeException thrown when value does not validate
      * @return void
      * @since v1.0.0
      */
-    public function onExecute(Event $event)
+    public function onExecute(EventInterface $event)
     {
         if (!$event->getTarget() instanceof Model) {
             return;

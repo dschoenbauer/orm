@@ -11,7 +11,7 @@ use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Sql\Command\Update;
 use PDO;
 use PHPUnit_Framework_TestCase;
-use Zend\EventManager\Event;
+use Zend\EventManager\EventInterface ;
 
 /**
  * Description of PdoUpdateTest
@@ -61,7 +61,7 @@ class PdoUpdateTest extends PHPUnit_Framework_TestCase
 
     public function testOnExecuteTargetNotModel()
     {
-        $event = $this->getMockBuilder(Event::class)->getMock();
+        $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->once())
             ->method('getTarget')
             ->willReturn(null);
@@ -90,7 +90,7 @@ class PdoUpdateTest extends PHPUnit_Framework_TestCase
         $select->expects($this->once())->method('execute')->with($this->mockAdapter);
 
 
-        $event = $this->getMockBuilder(Event::class)->getMock();
+        $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
 
         $this->assertNull($this->object->setUpdate($select)->onExecute($event));

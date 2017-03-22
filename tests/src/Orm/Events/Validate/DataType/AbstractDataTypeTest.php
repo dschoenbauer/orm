@@ -30,7 +30,7 @@ use DSchoenbauer\Orm\Exception\InvalidDataTypeException;
 use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Tests\Orm\Entity\AbstractEntityWithBool;
 use PHPUnit_Framework_TestCase;
-use Zend\EventManager\Event;
+use Zend\EventManager\EventInterface ;
 
 /**
  * Description of AbstractValidateTest

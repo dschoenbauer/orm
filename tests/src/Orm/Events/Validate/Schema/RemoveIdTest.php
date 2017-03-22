@@ -26,7 +26,7 @@ namespace DSchoenbauer\Orm\Events\Validate\Schema;
 
 use DSchoenbauer\Orm\Model;
 use PHPUnit\Framework\TestCase;
-use Zend\EventManager\Event;
+use Zend\EventManager\EventInterface ;
 
 /**
  * Description of RemoveIdTest
@@ -45,7 +45,7 @@ class RemoveIdTest extends TestCase
 
     public function testOnExecuteNoModel()
     {
-        $event = $this->getMockBuilder(Event::class)->getMock();
+        $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $this->assertFalse($this->object->onExecute($event));
     }
 
@@ -82,7 +82,7 @@ class RemoveIdTest extends TestCase
         });
         $model->setData($data);
 
-        $event = $this->getMockBuilder(Event::class)->getMock();
+        $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->exactly(1))->method('getTarget')->willReturn($model);
 
         $this->assertTrue($this->object->onExecute($event));

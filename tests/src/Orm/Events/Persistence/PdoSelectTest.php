@@ -30,7 +30,7 @@ use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Sql\Command\Select;
 use PDO;
 use PHPUnit_Framework_TestCase;
-use Zend\EventManager\Event;
+use Zend\EventManager\EventInterface ;
 
 /**
  * Description of PdoSelectTest
@@ -80,7 +80,7 @@ class PdoSelectTest extends PHPUnit_Framework_TestCase
 
     public function testOnExecuteTargetNotModel()
     {
-        $event = $this->getMockBuilder(Event::class)->getMock();
+        $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->once())
             ->method('getTarget')
             ->willReturn(null);
@@ -111,7 +111,7 @@ class PdoSelectTest extends PHPUnit_Framework_TestCase
 
         $model->expects($this->once())->method('getEntity')->willReturn($entity);
 
-        $event = $this->getMockBuilder(Event::class)->getMock();
+        $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
 
         $this->assertNull($this->object->setSelect($select)->onExecute($event));

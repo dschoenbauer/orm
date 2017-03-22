@@ -11,7 +11,7 @@ use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Sql\Command\Create;
 use PDO;
-use Zend\EventManager\Event;
+use Zend\EventManager\EventInterface ;
 
 /**
 * Event driven hook to creates information from a PDO connection
@@ -40,11 +40,11 @@ class PdoCreate extends AbstractEvent
 
     /**
      * event action
-     * @param Event $event object passed when event is fired
+     * @param EventInterface $event object passed when event is fired
      * @return void
      * @since v1.0.0
      */
-    public function onExecute(Event $event)
+    public function onExecute(EventInterface $event)
     {
         if (!$event->getTarget() instanceof Model) {
             return;
