@@ -1,6 +1,6 @@
 {
     "name": "dschoenbauer/orm",
-    "description": "A complete PHP upload suite.",
+    "description": "Object Relational Mapper... This is my vision for an ORM. It uses an event driven process that makes updating information in a persistent manner hopefully easier to understand and maintain.",
     "authors": [
         {
             "name": "David Schoenbauer",
@@ -11,18 +11,27 @@
     "require": {
         "php": ">=5.6.0",
         "dschoenbauer/exception": "^1.0",
-        "zendframework/zend-eventmanager": "3.1.0"
+        "zendframework/zend-eventmanager": "3.1.0",
+        "dschoenbauer/sql": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "5.7.14",
-        "satooshi/php-coveralls": "dev-master"
+        "satooshi/php-coveralls": "dev-master",
+        "squizlabs/php_codesniffer": "^2.8"
     },
     "autoload": {
         "psr-4": {
             "DSchoenbauer\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "DSchoenbauer\\Tests\\": "tests/src/"
+        }
+    },
     "scripts": {
-        "test": "phpunit tests"
+        "test": "phpunit tests",
+        "inspect": "phpcs --standard=PSR2 --colors src/",
+        "inspect-repair": "phpcbf --standard=PSR2 src/"
     }
 }
