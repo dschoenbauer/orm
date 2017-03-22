@@ -79,7 +79,7 @@ class RequiredFieldsTest extends PHPUnit_Framework_TestCase
             "Nothing Wrong" => [['id' => 1, 'name' => 2], ['id', 'name'], true],
             "Only 1 field required" => [['id' => 1, 'name' => 2], ['name'], true],
             "Zero fields required" => [['id' => 1, 'name' => 2], [], true],
-            
+
             "Missing a Required Fields" => [['id' => 1, 'name' => 2], ['ack'], false],
         ];
     }

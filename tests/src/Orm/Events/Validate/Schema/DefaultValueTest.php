@@ -28,7 +28,6 @@ use DSchoenbauer\Orm\Entity\HasDefaultValuesInterface;
 use DSchoenbauer\Orm\Enum\ModelEvents;
 use DSchoenbauer\Orm\Model;
 use PHPUnit_Framework_TestCase;
-use Zend\EventManager\Event;
 
 /**
  * Description of DefaultValues
