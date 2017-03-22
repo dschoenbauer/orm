@@ -11,7 +11,7 @@ use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Sql\Command\Update;
 use DSchoenbauer\Sql\Where\ArrayWhere;
 use PDO;
-use Zend\EventManager\EventInterface ;
+use Zend\EventManager\EventInterface;
 
 /**
  * Event driven hook to update information from a PDO connection

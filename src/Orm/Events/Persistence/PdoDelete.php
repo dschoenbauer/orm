@@ -11,7 +11,7 @@ use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Sql\Command\Delete;
 use DSchoenbauer\Sql\Where\ArrayWhere;
 use PDO;
-use Zend\EventManager\EventInterface ;
+use Zend\EventManager\EventInterface;
 
 /**
  * Event driven hook to delete information from a PDO connection

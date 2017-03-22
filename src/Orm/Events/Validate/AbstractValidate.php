@@ -27,7 +27,7 @@ namespace DSchoenbauer\Orm\Events\Validate;
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\Exception\InvalidDataTypeException;
 use DSchoenbauer\Orm\Model;
-use Zend\EventManager\EventInterface ;
+use Zend\EventManager\EventInterface;
 
 /**
  * Framework for validating data types

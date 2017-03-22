@@ -26,7 +26,7 @@ namespace DSchoenbauer\Orm\Events;
 
 use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Orm\VisitorInterface;
-use Zend\EventManager\EventInterface ;
+use Zend\EventManager\EventInterface;
 
 /**
  * Allows for easier event attachment
