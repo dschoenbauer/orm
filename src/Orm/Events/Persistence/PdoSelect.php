@@ -24,7 +24,6 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence;
 
-use DSchoenbauer\Orm\Enum\ModelEvents;
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Sql\Command\Select;
