@@ -29,14 +29,14 @@ use DSchoenbauer\Tests\Orm\Entity\AbstractEntityWithBool;
 use DSchoenbauer\Tests\Orm\Entity\AbstractEntityWithDate;
 use DSchoenbauer\Tests\Orm\Entity\AbstractEntityWithNumber;
 use DSchoenbauer\Tests\Orm\Entity\AbstractEntityWithString;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Description of AbstractEntityTest
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class AbstractEntityTest extends PHPUnit_Framework_TestCase
+class AbstractEntityTest extends TestCase
 {
 
     private $object;

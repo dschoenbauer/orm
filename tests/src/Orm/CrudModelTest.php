@@ -24,7 +24,9 @@
  */
 namespace DSchoenbauer\Orm;
 
-use PHPUnit_Framework_TestCase;
+use DSchoenbauer\Orm\Entity\EntityInterface;
+use DSchoenbauer\Orm\Enum\ModelEvents;
+use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventManager;
 
 /**
@@ -32,7 +34,7 @@ use Zend\EventManager\EventManager;
  *
  * @author David Schoenbauer
  */
-class CrudModelTest extends PHPUnit_Framework_TestCase
+class CrudModelTest extends TestCase
 {
 
     protected $object;
@@ -41,7 +43,7 @@ class CrudModelTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->entity = $this->getMockBuilder(Entity\EntityInterface::class)->getMock();
+        $this->entity = $this->getMockBuilder(EntityInterface::class)->getMock();
         $this->object = new CrudModel($this->entity);
         $this->mockEventManager = $this->getMockBuilder(EventManager::class)->getMock();
     }
@@ -51,8 +53,8 @@ class CrudModelTest extends PHPUnit_Framework_TestCase
         $this->mockEventManager->expects($this->exactly(2))
             ->method('trigger')
             ->withConsecutive(
-                [Enum\ModelEvents::CREATE, $this->object],
-                [Enum\ModelEvents::FETCH, $this->object]);
+                [ModelEvents::CREATE, $this->object],
+                [ModelEvents::FETCH, $this->object]);
 
         $this->object->setEventManager($this->mockEventManager);
         $data = ['test' => 'value'];
@@ -65,7 +67,7 @@ class CrudModelTest extends PHPUnit_Framework_TestCase
         $this->mockEventManager->expects($this->exactly(1))
             ->method('trigger')
             ->withConsecutive(
-                [Enum\ModelEvents::FETCH, $this->object]);
+                [ModelEvents::FETCH, $this->object]);
 
         $this->object->setEventManager($this->mockEventManager);
         $id = 1447;
@@ -79,7 +81,7 @@ class CrudModelTest extends PHPUnit_Framework_TestCase
         $this->mockEventManager->expects($this->exactly(1))
             ->method('trigger')
             ->withConsecutive(
-                [Enum\ModelEvents::FETCH_ALL, $this->object]);
+                [ModelEvents::FETCH_ALL, $this->object]);
 
         $this->object->setEventManager($this->mockEventManager);
         $data = ['test' => 'value'];
@@ -91,8 +93,8 @@ class CrudModelTest extends PHPUnit_Framework_TestCase
         $this->mockEventManager->expects($this->exactly(2))
             ->method('trigger')
             ->withConsecutive(
-                [Enum\ModelEvents::UPDATE, $this->object],
-                [Enum\ModelEvents::FETCH, $this->object]
+                [ModelEvents::UPDATE, $this->object],
+                [ModelEvents::FETCH, $this->object]
         );
 
         $this->object->setEventManager($this->mockEventManager);
@@ -108,7 +110,7 @@ class CrudModelTest extends PHPUnit_Framework_TestCase
         $this->mockEventManager->expects($this->exactly(1))
             ->method('trigger')
             ->withConsecutive(
-                [Enum\ModelEvents::DELETE, $this->object]);
+                [ModelEvents::DELETE, $this->object]);
 
         $this->object->setEventManager($this->mockEventManager);
         $id = 1447;

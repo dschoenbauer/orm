@@ -24,20 +24,15 @@
  */
 namespace DSchoenbauer\Orm\Events\Validate\DataType;
 
-use DSchoenbauer\Orm\Entity\EntityInterface;
-use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
 use DSchoenbauer\Orm\Exception\InvalidDataTypeException;
-use DSchoenbauer\Orm\Model;
-use DSchoenbauer\Tests\Orm\Entity\AbstractEntityWithBool;
-use PHPUnit_Framework_TestCase;
-use Zend\EventManager\Event;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Description of AbstractValidateTest
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class AbstractDataTypeTest extends PHPUnit_Framework_TestCase
+class AbstractDataTypeTest extends TestCase
 {
 
     private $object;

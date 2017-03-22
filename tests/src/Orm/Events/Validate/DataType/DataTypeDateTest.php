@@ -27,7 +27,6 @@ namespace DSchoenbauer\Orm\Events\Validate\DataType;
 use DateTime;
 use DSchoenbauer\Orm\Entity\HasDateFieldsInterface;
 use DSchoenbauer\Orm\Entity\HasDateWithCustomFormatInterface;
-use PHPUnit_Framework_TestCase;
 use stdClass;
 
 /**
@@ -35,7 +34,7 @@ use stdClass;
  *
  * @author David Schoenbauer
  */
-class DataTypeDateTest extends PHPUnit_Framework_TestCase
+class DataTypeDateTest extends \PHPUnit\Framework\TestCase
 {
 
     protected $object;

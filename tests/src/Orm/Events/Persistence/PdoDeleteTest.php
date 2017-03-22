@@ -10,7 +10,7 @@ use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Sql\Command\Delete;
 use PDO;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\EventManager\Event;
 
 /**
@@ -18,7 +18,7 @@ use Zend\EventManager\Event;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class PdoDeleteTest extends PHPUnit_Framework_TestCase
+class PdoDeleteTest extends TestCase
 {
 
     private $object;
