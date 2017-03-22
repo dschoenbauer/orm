@@ -29,15 +29,15 @@ use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
 use DSchoenbauer\Orm\Events\Validate\AbstractValidate;
 use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Tests\Orm\Entity\AbstractEntityWithBool;
-use \PHPUnit\Framework\TestCase;
-use Zend\EventManager\Event;
+use PHPUnit\Framework\TestCase;
+use Zend\EventManager\EventInterface;
 
 /**
  * Description of AbstractValidateTest
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class AbstractValidateTest extends \PHPUnit\Framework\TestCase
+class AbstractValidateTest extends TestCase
 {
 
     private $object;
@@ -49,7 +49,7 @@ class AbstractValidateTest extends \PHPUnit\Framework\TestCase
 
     public function testExecuteNotAModel()
     {
-        $event = $this->getMockBuilder(Event::class)->getMock();
+        $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->once())->method('getTarget');
         $this->assertNull($this->object->onExecute($event));
     }
@@ -61,7 +61,7 @@ class AbstractValidateTest extends \PHPUnit\Framework\TestCase
         $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
         $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
 
-        $event = $this->getMockBuilder(Event::class)->getMock();
+        $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
 
         $this->assertNull($this->object->onExecute($event));
@@ -82,7 +82,7 @@ class AbstractValidateTest extends \PHPUnit\Framework\TestCase
         $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
         $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
 
-        $event = $this->getMockBuilder(Event::class)->getMock();
+        $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
 
         $this->assertNull($mock->onExecute($event));
@@ -100,7 +100,7 @@ class AbstractValidateTest extends \PHPUnit\Framework\TestCase
         $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
         $model->expects($this->exactly(1))->method('getData')->willReturn([]);
 
-        $event = $this->getMockBuilder(Event::class)->getMock();
+        $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
 
         $this->assertNull($this->object->onExecute($event));
@@ -120,7 +120,7 @@ class AbstractValidateTest extends \PHPUnit\Framework\TestCase
         $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
         $model->expects($this->exactly(1))->method('getData')->willReturn($data);
 
-        $event = $this->getMockBuilder(Event::class)->getMock();
+        $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
         $event->expects($this->exactly(1))->method('getParams')->willReturn($params);
 

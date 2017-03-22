@@ -26,7 +26,7 @@ namespace DSchoenbauer\Orm\Events;
 
 use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Orm\VisitorInterface;
-use Zend\EventManager\Event;
+use Zend\EventManager\EventInterface ;
 
 /**
  * Allows for easier event attachment
@@ -56,7 +56,7 @@ abstract class AbstractEvent implements VisitorInterface
         }
     }
 
-    abstract public function onExecute(Event $event);
+    abstract public function onExecute(EventInterface $event);
 
     /**
      * returns a list of event names that this object should be executed

@@ -26,7 +26,7 @@ namespace DSchoenbauer\Orm\Events\Validate\Schema;
 
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\Model;
-use Zend\EventManager\Event;
+use Zend\EventManager\EventInterface ;
 
 /**
  * Removes primary id key from data set
@@ -36,7 +36,7 @@ use Zend\EventManager\Event;
 class RemoveId extends AbstractEvent
 {
 
-    public function onExecute(Event $event)
+    public function onExecute(EventInterface $event)
     {
         /* @var $model Model */
         $model = $event->getTarget();

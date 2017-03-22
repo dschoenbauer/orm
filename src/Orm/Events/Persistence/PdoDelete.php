@@ -11,7 +11,7 @@ use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Sql\Command\Delete;
 use DSchoenbauer\Sql\Where\ArrayWhere;
 use PDO;
-use Zend\EventManager\Event;
+use Zend\EventManager\EventInterface ;
 
 /**
  * Event driven hook to delete information from a PDO connection
@@ -37,11 +37,11 @@ class PdoDelete extends AbstractEvent
 
     /**
      * event action
-     * @param Event $event object passed when event is fired
+     * @param EventInterface $event object passed when event is fired
      * @return void
      * @since v1.0.0
      */
-    public function onExecute(Event $event)
+    public function onExecute(EventInterface $event)
     {
         if (!$event->getTarget() instanceof Model) {
             return;
