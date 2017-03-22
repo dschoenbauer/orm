@@ -41,7 +41,7 @@ use DSchoenbauer\Orm\Events\Validate\Schema\ValidFields;
 use PDO;
 
 /**
- * 
+ *
  *
  * @author David Schoenbauer
  */
@@ -70,7 +70,6 @@ class PdoModelBuilder implements BuilderInterface
 
     public function buildFinalOutput()
     {
-        
     }
 
     public function buildPersistence()
