@@ -11,7 +11,7 @@ use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Sql\Command\Create;
 use PDO;
-use Zend\EventManager\EventInterface ;
+use Zend\EventManager\EventInterface;
 
 /**
 * Event driven hook to creates information from a PDO connection

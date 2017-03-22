@@ -26,7 +26,7 @@ namespace DSchoenbauer\Orm\Events\Validate\Schema;
 
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\Model;
-use Zend\EventManager\EventInterface ;
+use Zend\EventManager\EventInterface;
 
 /**
  * Removes primary id key from data set

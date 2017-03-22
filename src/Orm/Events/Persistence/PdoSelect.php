@@ -29,7 +29,7 @@ use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Sql\Command\Select;
 use DSchoenbauer\Sql\Where\ArrayWhere;
 use PDO;
-use Zend\EventManager\EventInterface ;
+use Zend\EventManager\EventInterface;
 
 /**
  * Event driven hook to select information from a PDO connection
