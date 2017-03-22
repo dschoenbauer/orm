@@ -25,14 +25,16 @@
 namespace DSchoenbauer\Orm\Exception;
 
 use DSchoenbauer\Exception\Http\ClientError\BadRequestException;
-use PHPUnit_Framework_TestCase;
+use DSchoenbauer\Orm\Exception\InvalidDataTypeException;
+use DSchoenbauer\Orm\Exception\OrmExceptionInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Thrown when a data type is provided other than the required data type
  *
  * @author David Schoenbauer
  */
-class InvalidDataTypeExceptionTest extends PHPUnit_Framework_TestCase
+class InvalidDataTypeExceptionTest extends TestCase
 {
     private $object;
     

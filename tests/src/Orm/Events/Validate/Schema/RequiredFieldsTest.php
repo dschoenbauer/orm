@@ -26,15 +26,14 @@ namespace DSchoenbauer\Orm\Events\Validate\Schema;
 
 use DSchoenbauer\Orm\Entity\HasRequiredFieldsInterface;
 use DSchoenbauer\Orm\Exception\RequiredFieldMissingException;
-use DSchoenbauer\Orm\Model;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Ensures required fields are present
  *
  * @author David Schoenbauer
  */
-class RequiredFieldsTest extends PHPUnit_Framework_TestCase
+class RequiredFieldsTest extends TestCase
 {
 
     protected $object;
@@ -59,9 +58,9 @@ class RequiredFieldsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider validateDataProvider
-     * @param type $data
-     * @param type $fields
-     * @param type $result
+     * @param array $data
+     * @param array $fields
+     * @param boolean $result
      */
     public function testValidate($data, $fields, $result)
     {

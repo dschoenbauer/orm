@@ -10,15 +10,15 @@ use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Sql\Command\Update;
 use PDO;
-use PHPUnit_Framework_TestCase;
-use Zend\EventManager\EventInterface ;
+use PHPUnit\Framework\TestCase;
+use Zend\EventManager\EventInterface;
 
 /**
  * Description of PdoUpdateTest
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class PdoUpdateTest extends PHPUnit_Framework_TestCase
+class PdoUpdateTest extends TestCase
 {
 
     private $object;

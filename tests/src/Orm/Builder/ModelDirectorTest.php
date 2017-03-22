@@ -24,12 +24,14 @@
  */
 namespace DSchoenbauer\Orm\Builder;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Description of ModelDirector
  *
  * @author David Schoenbauer
  */
-class ModelDirectorTest extends \PHPUnit\Framework\TestCase
+class ModelDirectorTest extends TestCase
 {
     /* @var $bject ModelDirector */
 

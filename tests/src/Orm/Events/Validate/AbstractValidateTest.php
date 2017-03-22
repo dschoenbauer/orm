@@ -29,15 +29,15 @@ use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
 use DSchoenbauer\Orm\Events\Validate\AbstractValidate;
 use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Tests\Orm\Entity\AbstractEntityWithBool;
-use PHPUnit_Framework_TestCase;
-use Zend\EventManager\EventInterface ;
+use PHPUnit\Framework\TestCase;
+use Zend\EventManager\EventInterface;
 
 /**
  * Description of AbstractValidateTest
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class AbstractValidateTest extends PHPUnit_Framework_TestCase
+class AbstractValidateTest extends TestCase
 {
 
     private $object;

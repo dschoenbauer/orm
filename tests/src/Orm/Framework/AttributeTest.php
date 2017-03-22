@@ -24,19 +24,21 @@
  */
 namespace DSchoenbauer\Orm\Framework;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Description of AttributeTest
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class AttributeTest extends \PHPUnit_Framework_TestCase
+class AttributeTest extends TestCase
 {
 
     private $object;
 
     protected function setUp()
     {
-        $this->object = new \DSchoenbauer\Orm\Framework\Attribute();
+        $this->object = new Attribute();
     }
 
     public function testValue()

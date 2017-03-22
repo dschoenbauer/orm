@@ -10,7 +10,7 @@ use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Sql\Command\Create;
 use PDO;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventInterface;
 
 /**
@@ -18,7 +18,7 @@ use Zend\EventManager\EventInterface;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class PdoCreateTest extends PHPUnit_Framework_TestCase
+class PdoCreateTest extends TestCase
 {
 
     private $object;

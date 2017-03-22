@@ -25,14 +25,16 @@
 namespace DSchoenbauer\Orm\Events\Validate\DataType;
 
 use DSchoenbauer\Orm\Entity\HasNumericFieldsInterface;
-use PHPUnit_Framework_TestCase;
+use DSchoenbauer\Orm\Events\Validate\DataType\DataTypeNumber;
+use PHPUnit\Framework\TestCase;
+use stdClass;
 
 /**
  * Description of ValidateNumber
  *
  * @author David Schoenbauer
  */
-class DataTypeNumberTest extends PHPUnit_Framework_TestCase
+class DataTypeNumberTest extends TestCase
 {
 
     protected $object;
@@ -63,6 +65,6 @@ class DataTypeNumberTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->object->validateValue(0.001));
         $this->assertFalse($this->object->validateValue('a'));
         $this->assertFalse($this->object->validateValue(null));
-        $this->assertFalse($this->object->validateValue(new \stdClass()));
+        $this->assertFalse($this->object->validateValue(new stdClass()));
     }
 }

@@ -26,14 +26,14 @@ namespace DSchoenbauer\Orm\Events\Validate\Schema;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Model;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Description of ValidFields
  *
  * @author David Schoenbauer
  */
-class ValidFieldsTest extends PHPUnit_Framework_TestCase
+class ValidFieldsTest extends TestCase
 {
 
     protected $object;

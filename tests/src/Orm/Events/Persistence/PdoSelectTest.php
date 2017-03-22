@@ -29,15 +29,15 @@ use DSchoenbauer\Orm\Events\Persistence\PdoSelect;
 use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Sql\Command\Select;
 use PDO;
-use PHPUnit_Framework_TestCase;
 use Zend\EventManager\EventInterface ;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Description of PdoSelectTest
  *
  * @author David Schoenbauer
  */
-class PdoSelectTest extends PHPUnit_Framework_TestCase
+class PdoSelectTest extends TestCase
 {
 
     private $object;
