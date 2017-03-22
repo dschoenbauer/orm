@@ -36,12 +36,13 @@ use DSchoenbauer\Orm\Events\Validate\DataType\DataTypeDate;
 use DSchoenbauer\Orm\Events\Validate\DataType\DataTypeNumber;
 use DSchoenbauer\Orm\Events\Validate\DataType\DataTypeString;
 use DSchoenbauer\Orm\Events\Validate\Schema\DefaultValue;
+use DSchoenbauer\Orm\Events\Validate\Schema\RemoveId;
 use DSchoenbauer\Orm\Events\Validate\Schema\RequiredFields;
 use DSchoenbauer\Orm\Events\Validate\Schema\ValidFields;
 use PDO;
 
 /**
- *
+ * Builds a standard model
  *
  * @author David Schoenbauer
  */
@@ -85,6 +86,7 @@ class PdoModelBuilder implements BuilderInterface
     public function buildValidations()
     {
         $this->getModel()
+            ->accept(new RemoveId([ModelEvents::CREATE, ModelEvents::UPDATE]))
             ->accept(new ValidFields([ModelEvents::CREATE, ModelEvents::UPDATE]))
             ->accept(new DefaultValue([ModelEvents::CREATE]))
             ->accept(new RequiredFields([ModelEvents::CREATE, ModelEvents::UPDATE]))
