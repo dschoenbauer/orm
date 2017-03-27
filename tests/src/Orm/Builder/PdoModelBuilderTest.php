@@ -70,7 +70,7 @@ class PdoModelBuilderTest extends TestCase
     
     public function testBuildValidations(){
         $model = $this->getMockBuilder(CrudModel::class)->disableOriginalConstructor()->getMock();
-        $model->expects($this->exactly(10))->method('accept')->willReturnSelf();
+        $model->expects($this->exactly(9))->method('accept')->willReturnSelf();
         $this->object->setModel($model)->buildValidations();
     }
     
