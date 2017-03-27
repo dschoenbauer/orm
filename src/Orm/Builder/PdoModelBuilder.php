@@ -35,6 +35,8 @@ use DSchoenbauer\Orm\Events\Validate\DataType\DataTypeBoolean;
 use DSchoenbauer\Orm\Events\Validate\DataType\DataTypeDate;
 use DSchoenbauer\Orm\Events\Validate\DataType\DataTypeNumber;
 use DSchoenbauer\Orm\Events\Validate\DataType\DataTypeString;
+use DSchoenbauer\Orm\Events\Validate\Schema\AliasEntityCollection;
+use DSchoenbauer\Orm\Events\Validate\Schema\AliasEntitySingle;
 use DSchoenbauer\Orm\Events\Validate\Schema\DefaultValue;
 use DSchoenbauer\Orm\Events\Validate\Schema\RemoveId;
 use DSchoenbauer\Orm\Events\Validate\Schema\RequiredFields;
@@ -71,6 +73,9 @@ class PdoModelBuilder implements BuilderInterface
 
     public function buildFinalOutput()
     {
+        $this->getModel()
+            ->accept(new AliasEntityCollection([ModelEvents::FETCH_ALL], AliasEntityCollection::APPLY_ALIAS))
+            ->accept(new AliasEntitySingle([ModelEvents::FETCH_ALL], AliasEntitySingle::APPLY_ALIAS));
     }
 
     public function buildPersistence()
@@ -86,17 +91,18 @@ class PdoModelBuilder implements BuilderInterface
     public function buildValidations()
     {
         $this->getModel()
+            ->accept(new AliasEntityCollection([ModelEvents::CREATE, ModelEvents::UPDATE], AliasEntityCollection::REMOVE_ALIAS))
+            ->accept(new AliasEntitySingle([ModelEvents::CREATE, ModelEvents::UPDATE], AliasEntitySingle::REMOVE_ALIAS))
             ->accept(new RemoveId([ModelEvents::CREATE, ModelEvents::UPDATE]))
             ->accept(new ValidFields([ModelEvents::CREATE, ModelEvents::UPDATE]))
             ->accept(new DefaultValue([ModelEvents::CREATE]))
             ->accept(new RequiredFields([ModelEvents::CREATE, ModelEvents::UPDATE]))
-        
             ->accept(new DataTypeBoolean([ModelEvents::CREATE, ModelEvents::UPDATE]))
             ->accept(new DataTypeDate([ModelEvents::CREATE, ModelEvents::UPDATE]))
             ->accept(new DataTypeNumber([ModelEvents::CREATE, ModelEvents::UPDATE]))
             ->accept(new DataTypeString([ModelEvents::CREATE, ModelEvents::UPDATE]))
-            
-            ;
+
+        ;
     }
 
     /**
