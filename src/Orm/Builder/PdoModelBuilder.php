@@ -75,7 +75,7 @@ class PdoModelBuilder implements BuilderInterface
     {
         $this->getModel()
             ->accept(new AliasEntityCollection([ModelEvents::FETCH_ALL], AliasEntityCollection::APPLY_ALIAS))
-            ->accept(new AliasEntitySingle([ModelEvents::FETCH_ALL], AliasEntitySingle::APPLY_ALIAS));
+            ->accept(new AliasEntitySingle([ModelEvents::FETCH], AliasEntitySingle::APPLY_ALIAS));
     }
 
     public function buildPersistence()
@@ -91,7 +91,6 @@ class PdoModelBuilder implements BuilderInterface
     public function buildValidations()
     {
         $this->getModel()
-            ->accept(new AliasEntityCollection([ModelEvents::CREATE, ModelEvents::UPDATE], AliasEntityCollection::REMOVE_ALIAS))
             ->accept(new AliasEntitySingle([ModelEvents::CREATE, ModelEvents::UPDATE], AliasEntitySingle::REMOVE_ALIAS))
             ->accept(new RemoveId([ModelEvents::CREATE, ModelEvents::UPDATE]))
             ->accept(new ValidFields([ModelEvents::CREATE, ModelEvents::UPDATE]))
