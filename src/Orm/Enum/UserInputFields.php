@@ -25,7 +25,7 @@
 namespace DSchoenbauer\Orm\Enum;
 
 /**
- * A collection of default user fields that contain 
+ * A collection of default user fields that contain
  *
  * @author David Schoenbauer
  */
@@ -33,5 +33,4 @@ class UserInputFields
 {
 
     const ALIAS = 'alias';
-
 }

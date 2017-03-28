@@ -62,7 +62,10 @@ class AliasUserInput implements VisitorInterface
         return [
             $field => [
                 'filter' => FILTER_SANITIZE_STRING,
-                'flags' => FILTER_REQUIRE_ARRAY | FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_STRIP_BACKTICK,
+                'flags' => FILTER_REQUIRE_ARRAY |
+                FILTER_FLAG_STRIP_LOW |
+                FILTER_FLAG_STRIP_HIGH |
+                FILTER_FLAG_STRIP_BACKTICK,
                 'options' => []
             ]
         ];
@@ -86,8 +89,7 @@ class AliasUserInput implements VisitorInterface
         return $this->field;
     }
 
-    public
-        function setField($field)
+    public function setField($field)
     {
         $this->field = $field;
         return $this;
