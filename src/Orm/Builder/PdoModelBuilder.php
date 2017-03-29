@@ -37,10 +37,13 @@ use DSchoenbauer\Orm\Events\Validate\DataType\DataTypeNumber;
 use DSchoenbauer\Orm\Events\Validate\DataType\DataTypeString;
 use DSchoenbauer\Orm\Events\Validate\Schema\AliasEntityCollection;
 use DSchoenbauer\Orm\Events\Validate\Schema\AliasEntitySingle;
+use DSchoenbauer\Orm\Events\Validate\Schema\AliasUserCollection;
+use DSchoenbauer\Orm\Events\Validate\Schema\AliasUserSingle;
 use DSchoenbauer\Orm\Events\Validate\Schema\DefaultValue;
 use DSchoenbauer\Orm\Events\Validate\Schema\RemoveId;
 use DSchoenbauer\Orm\Events\Validate\Schema\RequiredFields;
 use DSchoenbauer\Orm\Events\Validate\Schema\ValidFields;
+use DSchoenbauer\Orm\Inputs\AliasUserInput;
 use PDO;
 
 /**
@@ -75,7 +78,10 @@ class PdoModelBuilder implements BuilderInterface
     {
         $this->getModel()
             ->accept(new AliasEntityCollection([ModelEvents::FETCH_ALL], AliasEntityCollection::APPLY_ALIAS))
-            ->accept(new AliasEntitySingle([ModelEvents::FETCH], AliasEntitySingle::APPLY_ALIAS));
+            ->accept(new AliasUserCollection([ModelEvents::FETCH], AliasEntitySingle::APPLY_ALIAS))
+            ->accept(new AliasEntitySingle([ModelEvents::FETCH], AliasEntitySingle::APPLY_ALIAS))
+            ->accept(new AliasUserSingle([ModelEvents::FETCH], AliasEntitySingle::APPLY_ALIAS))
+            ;
     }
 
     public function buildPersistence()
@@ -91,6 +97,8 @@ class PdoModelBuilder implements BuilderInterface
     public function buildValidations()
     {
         $this->getModel()
+            ->accept(new AliasUserInput())
+            ->accept(new AliasUserSingle([ModelEvents::CREATE, ModelEvents::UPDATE], AliasEntitySingle::REMOVE_ALIAS))
             ->accept(new AliasEntitySingle([ModelEvents::CREATE, ModelEvents::UPDATE], AliasEntitySingle::REMOVE_ALIAS))
             ->accept(new RemoveId([ModelEvents::CREATE, ModelEvents::UPDATE]))
             ->accept(new ValidFields([ModelEvents::CREATE, ModelEvents::UPDATE]))
