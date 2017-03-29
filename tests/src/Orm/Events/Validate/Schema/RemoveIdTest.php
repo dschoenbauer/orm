@@ -26,9 +26,9 @@ namespace DSchoenbauer\Orm\Events\Validate\Schema;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Events\Validate\Schema\RemoveId;
-use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Orm\ModelInterface;
 use PHPUnit\Framework\TestCase;
-use Zend\EventManager\EventInterface ;
+use Zend\EventManager\EventInterface;
 
 /**
  * Description of RemoveIdTest
@@ -73,7 +73,7 @@ class RemoveIdTest extends TestCase
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
         $entity->expects($this->once())->method('getIdField')->willReturn($idField);
 
-        $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
         $model->expects($this->exactly(2))->method('setData')->willReturnCallback(function($data) {
             $this->data = $data;

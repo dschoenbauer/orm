@@ -28,7 +28,7 @@ use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Enum\ModelAttributes;
 use DSchoenbauer\Orm\Framework\Attribute;
 use DSchoenbauer\Orm\Framework\AttributeCollection;
-use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Orm\ModelInterface;
 
 /**
  * Description of AlaisUserCollection
@@ -40,7 +40,7 @@ class AliasUserCollection extends AliasEntityCollection
 
     private $attribute;
 
-    public function visitModel(Model $model)
+    public function visitModel(ModelInterface $model)
     {
         parent::visitModel($model);
         //Get the reference to the object so we have access to the value when it finally does get assigned

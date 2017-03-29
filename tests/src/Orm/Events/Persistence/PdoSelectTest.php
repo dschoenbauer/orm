@@ -26,11 +26,11 @@ namespace DSchoenbauer\Orm\Events\Persistence;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Events\Persistence\PdoSelect;
-use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Select;
 use PDO;
-use Zend\EventManager\EventInterface ;
 use PHPUnit\Framework\TestCase;
+use Zend\EventManager\EventInterface;
 
 /**
  * Description of PdoSelectTest
@@ -93,7 +93,7 @@ class PdoSelectTest extends TestCase
         $fields = ["some", "fields"];
         $idField = "id";
 
-        $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->once())->method('getId')->willReturn(1);
 
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();

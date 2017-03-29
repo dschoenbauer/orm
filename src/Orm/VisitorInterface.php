@@ -31,5 +31,5 @@ namespace DSchoenbauer\Orm;
 interface VisitorInterface
 {
 
-    public function visitModel(Model $model);
+    public function visitModel(ModelInterface $model);
 }

@@ -7,7 +7,7 @@
 namespace DSchoenbauer\Orm\Events\Persistence;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
-use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Create;
 use PDO;
 use PHPUnit\Framework\TestCase;
@@ -77,7 +77,7 @@ class PdoCreateTest extends TestCase
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
         $entity->expects($this->once())->method('getTable')->willReturn($table);
 
-        $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->once())->method('getEntity')->willReturn($entity);
         $model->expects($this->once())->method('getData')->willReturn($data);
 

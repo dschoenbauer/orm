@@ -25,7 +25,7 @@
 namespace DSchoenbauer\Orm\Events;
 
 use DSchoenbauer\Orm\Events\AbstractEvent;
-use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Orm\VisitorInterface;
 use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventManagerInterface;
@@ -57,7 +57,7 @@ class AbstractEventTest extends TestCase
         $eventManagerMock->expects($this->once())
             ->method('attach')
             ->with('test', [$this->object, 'onExecute']);
-        $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->any())
             ->method('accept')
             ->willReturnCallback(function(VisitorInterface $event) use ($model) {

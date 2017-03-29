@@ -28,7 +28,7 @@ use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Enum\ModelAttributes;
 use DSchoenbauer\Orm\Framework\Attribute;
 use DSchoenbauer\Orm\Framework\AttributeCollection;
-use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Orm\ModelInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -65,7 +65,7 @@ class AliasUserCollectionTest extends TestCase
 
     public function testVisitModel()
     {
-        $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $attributeCollection = $this->getMockBuilder(AttributeCollection::class)->getMock();
         $attribute = $this->getAttribute('test');
         $attributeCollection

@@ -25,7 +25,7 @@
 namespace DSchoenbauer\Orm\Events\Validate\Schema;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
-use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Orm\ModelInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -64,7 +64,7 @@ class ValidFieldsTest extends TestCase
      */
     public function testValidate($fields, $data, $result)
     {
-        $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->once())->method('setData')->willReturnCallback(function($data) {
             $this->_data = $data;
             return $this;

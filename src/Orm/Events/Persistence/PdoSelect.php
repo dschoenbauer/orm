@@ -25,7 +25,7 @@
 namespace DSchoenbauer\Orm\Events\Persistence;
 
 use DSchoenbauer\Orm\Events\AbstractEvent;
-use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Select;
 use DSchoenbauer\Sql\Where\ArrayWhere;
 use PDO;
@@ -62,10 +62,10 @@ class PdoSelect extends AbstractEvent
      */
     public function onExecute(EventInterface $event)
     {
-        if (!$event->getTarget() instanceof Model) {
+        if (!$event->getTarget() instanceof ModelInterface) {
             return; //Nothing to do with this event
         }
-        /* @var $model Model */
+        /* @var $model ModelInterface */
         $model = $event->getTarget();
         $entity = $model->getEntity();
         $model->setData(

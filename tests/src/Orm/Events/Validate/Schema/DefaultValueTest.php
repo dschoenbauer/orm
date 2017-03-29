@@ -26,7 +26,7 @@ namespace DSchoenbauer\Orm\Events\Validate\Schema;
 
 use DSchoenbauer\Orm\Entity\HasDefaultValuesInterface;
 use DSchoenbauer\Orm\Enum\ModelEvents;
-use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Orm\ModelInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -41,7 +41,7 @@ class DefaultValueTest extends TestCase
 
     protected function setUp()
     {
-        $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->any())->method('setData')->willReturnCallback(function($value) {
             $this->data = $value;
             return $this;

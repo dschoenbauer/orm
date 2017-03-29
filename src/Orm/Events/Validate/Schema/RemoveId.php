@@ -25,7 +25,7 @@
 namespace DSchoenbauer\Orm\Events\Validate\Schema;
 
 use DSchoenbauer\Orm\Events\AbstractEvent;
-use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Orm\ModelInterface;
 use Zend\EventManager\EventInterface;
 
 /**
@@ -38,9 +38,9 @@ class RemoveId extends AbstractEvent
 
     public function onExecute(EventInterface $event)
     {
-        /* @var $model Model */
+        /* @var $model ModelInterface */
         $model = $event->getTarget();
-        if (!$model instanceof Model) {
+        if (!$model instanceof ModelInterface) {
             return false;
         }
         $data = $model->getData();
