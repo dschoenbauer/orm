@@ -27,7 +27,7 @@ namespace DSchoenbauer\Orm\Inputs;
 use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Enum\ModelAttributes;
 use DSchoenbauer\Orm\Framework\AttributeCollection;
-use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Orm\ModelInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -126,7 +126,7 @@ class AliasUserInputTest extends TestCase
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
         $entity->expects($this->once())->method('getAllFields')->willReturn(['idx']);
 
-        $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->once())->method('getAttributes')->willReturn($attributes);
         $model->expects($this->once())->method('getEntity')->willReturn($entity);
 

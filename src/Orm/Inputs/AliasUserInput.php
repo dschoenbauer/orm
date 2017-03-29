@@ -26,7 +26,7 @@ namespace DSchoenbauer\Orm\Inputs;
 
 use DSchoenbauer\Orm\Enum\ModelAttributes;
 use DSchoenbauer\Orm\Enum\UserInputFields;
-use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Orm\VisitorInterface;
 
 /**
@@ -45,7 +45,7 @@ class AliasUserInput implements VisitorInterface
         $this->setField($field);
     }
 
-    public function visitModel(Model $model)
+    public function visitModel(ModelInterface $model)
     {
         $userFields = $this->getUsersInput($this->getField());
         $validatedFields = $this->filterAliases($userFields, $model->getEntity()->getAllFields());

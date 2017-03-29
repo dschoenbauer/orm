@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * The MIT License
  *
  * Copyright 2017 David Schoenbauer.
@@ -26,130 +26,83 @@ namespace DSchoenbauer\Orm;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Framework\AttributeCollection;
-use Zend\EventManager\EventManagerAwareTrait;
 
 /**
- * An object that represents business logic and is available for general consumption
  *
  * @author David Schoenbauer
  */
-class Model implements ModelInterface
+interface ModelInterface
 {
 
-    private $id;
-    private $data;
-    private $attributes;
-    private $entity;
-
-    use EventManagerAwareTrait;
-
     /**
-     * @param EntityInterface $entity an entity object houses specific
-     * information about a given model
+     * Retrieve the event manager
+     *
+     * Lazy-loads an EventManager instance if none registered.
+     *
+     * @return EventManagerInterface
      */
-    public function __construct(EntityInterface $entity)
-    {
-        $this->setAttributes(new AttributeCollection())->setEntity($entity);
-    }
+    public function getEventManager();
 
-    /**
-     * provides the entity of the model
-     * @return EntityInterface
-     * @since v1.0.0
-     */
-    public function getEntity()
-    {
-        return $this->entity;
-    }
+    public function getEntity();
 
     /**
      * sets the entity of the model
      * @param EntityInterface $entity
-     * @return Model
-     * @since v1.0.0
-     */
-    public function setEntity(EntityInterface $entity)
-    {
-        $this->entity = $entity;
-        return $this;
-    }
-
-    /**
-     * Allows the visitor pattern to expand the functionality of the object
-     * @param \DSchoenbauer\Orm\VisitorInterface $visitor
      * @return ModelInterface
      * @since v1.0.0
      */
-    public function accept(VisitorInterface $visitor)
-    {
-        $visitor->visitModel($this);
-        return $this;
-    }
+    public function setEntity(EntityInterface $entity);
+
+    /**
+     * Allows the visitor pattern to expand the functionality of the object
+     * @param VisitorInterface $visitor
+     * @return ModelInterface
+     * @since v1.0.0
+     */
+    public function accept(VisitorInterface $visitor);
 
     /**
      * provides a unique identifier value for a given record
      * @return integer
      * @since v1.0.0
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    public function getId();
 
     /**
      * provides the current record
      * @return mixed
      * @since v1.0.0
      */
-    public function getData()
-    {
-        return $this->data;
-    }
+    public function getData();
 
     /**
      * sets a unique identifier value for a given record
      * @param integer $id
-     * @return Model
+     * @return ModelInterface
      * @since v1.0.0
      */
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
+    public function setId($id);
 
     /**
      * sets the current record
      * @param mixed $data current
-     * @return Model
+     * @return ModelInterface
      * @since v1.0.0
      */
-    public function setData($data)
-    {
-        $this->data = $data;
-        return $this;
-    }
-
+    public function setData($data);
 
     /**
      * provides a collection of key value pairs that are specific to a given model
      * @return AttributeCollection
      * @since v1.0.0
      */
-    public function getAttributes()
-    {
-        return $this->attributes;
-    }
+    public function getAttributes();
 
     /**
      * sets a collection of key value pairs that are specific to a given model
      * @param AttributeCollection $attributes
-     * @return Model
+     * @return ModelInterface
      * @since v1.0.0
      */
-    public function setAttributes(AttributeCollection $attributes)
-    {
-        $this->attributes = $attributes;
-        return $this;
-    }
+    public function setAttributes(AttributeCollection $attributes);
 }

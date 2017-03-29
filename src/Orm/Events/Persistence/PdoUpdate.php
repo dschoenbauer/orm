@@ -7,7 +7,7 @@
 namespace DSchoenbauer\Orm\Events\Persistence;
 
 use DSchoenbauer\Orm\Events\AbstractEvent;
-use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Update;
 use DSchoenbauer\Sql\Where\ArrayWhere;
 use PDO;
@@ -43,10 +43,10 @@ class PdoUpdate extends AbstractEvent
      */
     public function onExecute(EventInterface $event)
     {
-        if (!$event->getTarget() instanceof Model) {
+        if (!$event->getTarget() instanceof ModelInterface) {
             return;
         }
-        /* @var $model Model */
+        /* @var $model ModelInterface */
         $model = $event->getTarget();
         $entity = $model->getEntity();
         $this->getUpdate()

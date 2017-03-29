@@ -8,7 +8,7 @@
 namespace DSchoenbauer\Orm\Events\Persistence;
 
 use DSchoenbauer\Orm\Events\AbstractEvent;
-use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Create;
 use PDO;
 use Zend\EventManager\EventInterface;
@@ -46,10 +46,10 @@ class PdoCreate extends AbstractEvent
      */
     public function onExecute(EventInterface $event)
     {
-        if (!$event->getTarget() instanceof Model) {
+        if (!$event->getTarget() instanceof ModelInterface) {
             return;
         }
-        /* @var $model Model */
+        /* @var $model ModelInterface */
         $model = $event->getTarget();
         $entity = $model->getEntity();
         $this->getCreate()

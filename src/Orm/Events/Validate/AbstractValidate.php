@@ -24,9 +24,10 @@
  */
 namespace DSchoenbauer\Orm\Events\Validate;
 
+use ArrayAccess;
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\Exception\InvalidDataTypeException;
-use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Orm\ModelInterface;
 use Zend\EventManager\EventInterface;
 
 /**
@@ -64,7 +65,7 @@ abstract class AbstractValidate extends AbstractEvent
      */
     public function onExecute(EventInterface $event)
     {
-        if (!$event->getTarget() instanceof Model) {
+        if (!$event->getTarget() instanceof ModelInterface) {
             return;
         }
         $this->setModel($event->getTarget());
@@ -101,7 +102,7 @@ abstract class AbstractValidate extends AbstractEvent
 
     /**
      * provides model for which data type exists
-     * @return Model
+     * @return ModelInterface
      * @since v1.0.0
      */
     public function getModel()
@@ -111,11 +112,11 @@ abstract class AbstractValidate extends AbstractEvent
 
     /**
      * set model for which data type exists
-     * @param Model $model
+     * @param ModelInterface $model
      * @return AbstractValidate
      * @since v1.0.0
      */
-    public function setModel(Model $model)
+    public function setModel(ModelInterface $model)
     {
         $this->model = $model;
         return $this;

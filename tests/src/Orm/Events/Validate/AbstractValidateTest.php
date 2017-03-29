@@ -27,7 +27,7 @@ namespace DSchoenbauer\Orm\Events\Validate;
 use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
 use DSchoenbauer\Orm\Events\Validate\AbstractValidate;
-use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Tests\Orm\Entity\AbstractEntityWithBool;
 use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventInterface;
@@ -58,7 +58,7 @@ class AbstractValidateTest extends TestCase
     {
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
 
-        $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
 
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
@@ -79,7 +79,7 @@ class AbstractValidateTest extends TestCase
 
         $entity = $this->getMockBuilder(AbstractEntityWithBool::class)->getMock();
 
-        $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
 
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
@@ -96,7 +96,7 @@ class AbstractValidateTest extends TestCase
 
         $entity = $this->getMockBuilder(AbstractEntityWithBool::class)->getMock();
 
-        $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
         $model->expects($this->exactly(1))->method('getData')->willReturn([]);
 
@@ -116,7 +116,7 @@ class AbstractValidateTest extends TestCase
 
         $entity = $this->getMockBuilder(AbstractEntityWithBool::class)->getMock();
 
-        $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
         $model->expects($this->exactly(1))->method('getData')->willReturn($data);
 
@@ -132,7 +132,7 @@ class AbstractValidateTest extends TestCase
 
     public function testModel()
     {
-        $mockModel = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+        $mockModel = $this->getMockBuilder(ModelInterface::class)->getMock();
         $this->assertSame($mockModel, $this->object->setModel($mockModel)->getModel());
     }
 

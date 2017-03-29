@@ -24,7 +24,7 @@
  */
 namespace DSchoenbauer\Orm\Events;
 
-use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Orm\VisitorInterface;
 use Zend\EventManager\EventInterface;
 
@@ -46,10 +46,10 @@ abstract class AbstractEvent implements VisitorInterface
 
     /**
      * provides an opportunity to extend Model's functionality
-     * @param Model $model model with which to be listened to
+     * @param ModelInterface $model model with which to be listened to
      * @since v1.0.0
      */
-    public function visitModel(Model $model)
+    public function visitModel(ModelInterface $model)
     {
         foreach ($this->getEvents() as $event) {
             $model->getEventManager()->attach($event, [$this, 'onExecute']);
