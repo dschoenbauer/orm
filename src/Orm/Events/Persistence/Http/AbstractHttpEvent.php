@@ -60,7 +60,7 @@ abstract class AbstractHttpEvent extends AbstractEvent
      */
     public function getClient()
     {
-        if(!$this->client){
+        if (!$this->client) {
             $this->setClient(new Client());
         }
         return $this->client;
@@ -91,7 +91,7 @@ abstract class AbstractHttpEvent extends AbstractEvent
         $this->run($model);
     }
 
-    abstract function run(ModelInterface $model);
+    abstract public function run(ModelInterface $model);
 
     public function buildUri(ModelInterface $model)
     {

@@ -37,12 +37,13 @@ class DataExtractorFactory
     
     public function __construct($loadDefaults = true)
     {
-        if($loadDefaults){
+        if ($loadDefaults) {
             $this->loadDefaults();
         }
     }
     
-    public function loadDefaults(){
+    public function loadDefaults()
+    {
         $this->add(new Json());
     }
 

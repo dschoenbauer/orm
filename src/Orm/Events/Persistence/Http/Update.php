@@ -25,6 +25,7 @@
 namespace DSchoenbauer\Orm\Events\Persistence\Http;
 
 use DSchoenbauer\Orm\ModelInterface;
+use Zend\Http\Request;
 
 /**
  * Description of Update
@@ -33,8 +34,17 @@ use DSchoenbauer\Orm\ModelInterface;
  */
 class Update extends AbstractHttpEvent
 {
-    
+    protected $method = Request::METHOD_PUT;
+
     public function run(ModelInterface $model)
     {
+        $uri = $this->buildUri($model);
+        $response = $this->getClient()->setMethod($this->getMethod())
+            ->setParameterPost($model->getData())
+            ->setUri($uri)
+            ->send();
+        if ($response->isSuccess()) {
+            $model->setData($this->getDataExtractorFactory()->getData($response));
+        }
     }
 }

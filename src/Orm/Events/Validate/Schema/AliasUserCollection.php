@@ -44,7 +44,11 @@ class AliasUserCollection extends AliasEntityCollection
     {
         parent::visitModel($model);
         //Get the reference to the object so we have access to the value when it finally does get assigned
-        $this->setAttribute($model->getAttributes()->get(ModelAttributes::FIELD_ALIASES, [], AttributeCollection::BY_REF));
+        $this->setAttribute(
+            $model
+                ->getAttributes()
+                ->get(ModelAttributes::FIELD_ALIASES, [], AttributeCollection::BY_REF)
+        );
     }
 
     public function getTypeInterface()
