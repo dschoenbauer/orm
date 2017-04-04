@@ -22,56 +22,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Validate\Schema;
+namespace DSchoenbauer\Orm\Events\Persistence\Http\DataExtract;
 
-use DSchoenbauer\Orm\Entity\EntityInterface;
-use DSchoenbauer\Orm\Enum\ModelAttributes;
-use DSchoenbauer\Orm\Framework\Attribute;
-use DSchoenbauer\Orm\Framework\AttributeCollection;
-use DSchoenbauer\Orm\ModelInterface;
+use Zend\Http\Response;
 
 /**
- * Description of AlaisUserCollection
+ * Description of ResponseFactory
  *
  * @author David Schoenbauer
  */
-class AliasUserCollection extends AliasEntityCollection
+class DataExtractorFactory
 {
-
-    private $attribute;
-
-    public function visitModel(ModelInterface $model)
+    protected $extractors = [];
+    
+    public function __construct($loadDefaults = true)
     {
-        parent::visitModel($model);
-        //Get the reference to the object so we have access to the value when it finally does get assigned
-        $this->setAttribute(
-            $model
-                ->getAttributes()
-                ->get(ModelAttributes::FIELD_ALIASES, [], AttributeCollection::BY_REF)
-        );
+        if ($loadDefaults) {
+            $this->loadDefaults();
+        }
+    }
+    
+    public function loadDefaults()
+    {
+        $this->add(new Json());
     }
 
-    public function getTypeInterface()
+
+    public function getData(Response $response)
     {
-        return EntityInterface::class;
+        $extractors = $this->getExtractors();
+        /* @var $extractor DataExtractorInterface */
+        foreach ($extractors as $extractor) {
+            if ($extractor->match($response)) {
+                return $extractor->extract($response);
+            }
+        }
     }
 
-    public function getFields($entity)
+    public function add(DataExtractorInterface $dataExtractor)
     {
-        return $this->getAttribute()->getValue();
-    }
-
-    /**
-     * @return Attribute
-     */
-    public function getAttribute()
-    {
-        return $this->attribute;
-    }
-
-    public function setAttribute(Attribute $attribute)
-    {
-        $this->attribute = $attribute;
+        $this->extractors[] = $dataExtractor;
         return $this;
+    }
+
+    public function getExtractors()
+    {
+        return $this->extractors;
     }
 }

@@ -22,56 +22,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Validate\Schema;
+namespace DSchoenbauer\Orm\Events\Persistence\Http\DataExtract;
 
-use DSchoenbauer\Orm\Entity\EntityInterface;
-use DSchoenbauer\Orm\Enum\ModelAttributes;
-use DSchoenbauer\Orm\Framework\Attribute;
-use DSchoenbauer\Orm\Framework\AttributeCollection;
-use DSchoenbauer\Orm\ModelInterface;
+use Zend\Http\Response;
 
 /**
- * Description of AlaisUserCollection
+ * Description of Json
  *
  * @author David Schoenbauer
  */
-class AliasUserCollection extends AliasEntityCollection
+class Json implements DataExtractorInterface
 {
 
-    private $attribute;
-
-    public function visitModel(ModelInterface $model)
+    public function extract(Response $response)
     {
-        parent::visitModel($model);
-        //Get the reference to the object so we have access to the value when it finally does get assigned
-        $this->setAttribute(
-            $model
-                ->getAttributes()
-                ->get(ModelAttributes::FIELD_ALIASES, [], AttributeCollection::BY_REF)
-        );
+        return \json_decode($response->getBody(), true);
     }
 
-    public function getTypeInterface()
+    public function match(Response $response)
     {
-        return EntityInterface::class;
-    }
-
-    public function getFields($entity)
-    {
-        return $this->getAttribute()->getValue();
-    }
-
-    /**
-     * @return Attribute
-     */
-    public function getAttribute()
-    {
-        return $this->attribute;
-    }
-
-    public function setAttribute(Attribute $attribute)
-    {
-        $this->attribute = $attribute;
-        return $this;
+        return strpos(strtolower($response->getHeaders()->get('Content-type')->getFieldValue()), "json") !== false;
     }
 }

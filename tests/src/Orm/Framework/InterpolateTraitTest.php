@@ -22,56 +22,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Validate\Schema;
+namespace DSchoenbauer\Orm\Framework;
 
-use DSchoenbauer\Orm\Entity\EntityInterface;
-use DSchoenbauer\Orm\Enum\ModelAttributes;
-use DSchoenbauer\Orm\Framework\Attribute;
-use DSchoenbauer\Orm\Framework\AttributeCollection;
-use DSchoenbauer\Orm\ModelInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
- * Description of AlaisUserCollection
+ * Description of InterpolateTraitTest
  *
  * @author David Schoenbauer
  */
-class AliasUserCollection extends AliasEntityCollection
+class InterpolateTraitTest extends TestCase
 {
 
-    private $attribute;
+    protected $object;
 
-    public function visitModel(ModelInterface $model)
+    protected function setUp()
     {
-        parent::visitModel($model);
-        //Get the reference to the object so we have access to the value when it finally does get assigned
-        $this->setAttribute(
-            $model
-                ->getAttributes()
-                ->get(ModelAttributes::FIELD_ALIASES, [], AttributeCollection::BY_REF)
-        );
-    }
-
-    public function getTypeInterface()
-    {
-        return EntityInterface::class;
-    }
-
-    public function getFields($entity)
-    {
-        return $this->getAttribute()->getValue();
+        $this->object = $this->getMockForTrait(InterpolateTrait::class);
     }
 
     /**
-     * @return Attribute
+     * @dataProvider dataProvider
+     * @param type $message
+     * @param type $context
+     * @param type $result
      */
-    public function getAttribute()
+    public function testInterpolate($message, $context, $result)
     {
-        return $this->attribute;
+        $this->assertEquals($result, $this->object->interpolate($message, $context));
     }
 
-    public function setAttribute(Attribute $attribute)
+    public function dataProvider()
     {
-        $this->attribute = $attribute;
-        return $this;
+        return [
+            "Golden Path" => ["This {a} {is} test", ['is' => 'a', 'a' => 'is'], "This is a test"],
+            "No Match" => ["This is {id}", ['is' => 'a', 'a' => 'is'], "This is {id}"],
+            "Nested Right" => ["{message}", ['message' => 'embedded {id}', 'id' => 1], "embedded {id}"],
+            "Nested Left" => ["{message}", ['id' => 1, 'message' => 'embedded {id}'], "embedded {id}"],
+        ];
     }
 }

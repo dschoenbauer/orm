@@ -50,11 +50,11 @@ class CrudModelTest extends TestCase
 
     public function testCreate()
     {
-        $this->mockEventManager->expects($this->exactly(2))
+        $this->mockEventManager->expects($this->exactly(1))
             ->method('trigger')
             ->withConsecutive(
-                [ModelEvents::CREATE, $this->object],
-                [ModelEvents::FETCH, $this->object]);
+                [ModelEvents::CREATE, $this->object]
+        );
 
         $this->object->setEventManager($this->mockEventManager);
         $data = ['test' => 'value'];
@@ -90,11 +90,10 @@ class CrudModelTest extends TestCase
 
     public function testUpdate()
     {
-        $this->mockEventManager->expects($this->exactly(2))
+        $this->mockEventManager->expects($this->exactly(1))
             ->method('trigger')
             ->withConsecutive(
-                [ModelEvents::UPDATE, $this->object],
-                [ModelEvents::FETCH, $this->object]
+                [ModelEvents::UPDATE, $this->object]
         );
 
         $this->object->setEventManager($this->mockEventManager);

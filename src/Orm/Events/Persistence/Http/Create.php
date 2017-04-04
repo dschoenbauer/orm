@@ -22,56 +22,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Validate\Schema;
+namespace DSchoenbauer\Orm\Events\Persistence\Http;
 
-use DSchoenbauer\Orm\Entity\EntityInterface;
-use DSchoenbauer\Orm\Enum\ModelAttributes;
-use DSchoenbauer\Orm\Framework\Attribute;
-use DSchoenbauer\Orm\Framework\AttributeCollection;
+use DSchoenbauer\Orm\Entity\IsHttpInterface;
 use DSchoenbauer\Orm\ModelInterface;
+use Zend\Http\Request;
 
 /**
- * Description of AlaisUserCollection
+ * Description of Create
  *
  * @author David Schoenbauer
  */
-class AliasUserCollection extends AliasEntityCollection
+class Create extends AbstractHttpEvent
 {
 
-    private $attribute;
+    protected $method = Request::METHOD_POST;
 
-    public function visitModel(ModelInterface $model)
+    public function run(ModelInterface $model)
     {
-        parent::visitModel($model);
-        //Get the reference to the object so we have access to the value when it finally does get assigned
-        $this->setAttribute(
-            $model
-                ->getAttributes()
-                ->get(ModelAttributes::FIELD_ALIASES, [], AttributeCollection::BY_REF)
-        );
+        $response = $this->getClient()
+            ->setUri($this->buildUri($model))
+            ->setParameterPost($model->getData())
+            ->setMethod($this->getMethod())
+            ->send();
+        if ($response->isSuccess()) {
+            $model->setData($this->getDataExtractorFactory()->getData($response));
+            $this->crossFillId($model);
+        }
     }
 
-    public function getTypeInterface()
+    public function crossFillId(ModelInterface $model)
     {
-        return EntityInterface::class;
+        $data = $model->getData();
+        if (array_key_exists($idField = $model->getEntity()->getIdField(), $data)) {
+            $model->setId($data[$idField]);
+        }
     }
 
-    public function getFields($entity)
+    public function getUri(IsHttpInterface $entity)
     {
-        return $this->getAttribute()->getValue();
-    }
-
-    /**
-     * @return Attribute
-     */
-    public function getAttribute()
-    {
-        return $this->attribute;
-    }
-
-    public function setAttribute(Attribute $attribute)
-    {
-        $this->attribute = $attribute;
-        return $this;
+        return $entity->getCollectionUrl();
     }
 }

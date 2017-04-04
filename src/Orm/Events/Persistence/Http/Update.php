@@ -22,56 +22,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Validate\Schema;
+namespace DSchoenbauer\Orm\Events\Persistence\Http;
 
-use DSchoenbauer\Orm\Entity\EntityInterface;
-use DSchoenbauer\Orm\Enum\ModelAttributes;
-use DSchoenbauer\Orm\Framework\Attribute;
-use DSchoenbauer\Orm\Framework\AttributeCollection;
 use DSchoenbauer\Orm\ModelInterface;
+use Zend\Http\Request;
 
 /**
- * Description of AlaisUserCollection
+ * Description of Update
  *
  * @author David Schoenbauer
  */
-class AliasUserCollection extends AliasEntityCollection
+class Update extends AbstractHttpEvent
 {
+    protected $method = Request::METHOD_PUT;
 
-    private $attribute;
-
-    public function visitModel(ModelInterface $model)
+    public function run(ModelInterface $model)
     {
-        parent::visitModel($model);
-        //Get the reference to the object so we have access to the value when it finally does get assigned
-        $this->setAttribute(
-            $model
-                ->getAttributes()
-                ->get(ModelAttributes::FIELD_ALIASES, [], AttributeCollection::BY_REF)
-        );
-    }
-
-    public function getTypeInterface()
-    {
-        return EntityInterface::class;
-    }
-
-    public function getFields($entity)
-    {
-        return $this->getAttribute()->getValue();
-    }
-
-    /**
-     * @return Attribute
-     */
-    public function getAttribute()
-    {
-        return $this->attribute;
-    }
-
-    public function setAttribute(Attribute $attribute)
-    {
-        $this->attribute = $attribute;
-        return $this;
+        $uri = $this->buildUri($model);
+        $response = $this->getClient()->setMethod($this->getMethod())
+            ->setParameterPost($model->getData())
+            ->setUri($uri)
+            ->send();
+        if ($response->isSuccess()) {
+            $model->setData($this->getDataExtractorFactory()->getData($response));
+        }
     }
 }

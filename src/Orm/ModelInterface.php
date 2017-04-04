@@ -43,6 +43,9 @@ interface ModelInterface
      */
     public function getEventManager();
 
+    /**
+     * @return EntityInterface Description
+     */
     public function getEntity();
 
     /**
