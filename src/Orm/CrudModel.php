@@ -44,7 +44,6 @@ class CrudModel extends Model
     {
         $this->setData($data);
         $this->getEventManager()->trigger(ModelEvents::CREATE, $this);
-        $this->getEventManager()->trigger(ModelEvents::FETCH, $this);
         return $this->getData();
     }
 
@@ -83,7 +82,6 @@ class CrudModel extends Model
     {
         $this->setId($id)->setData($data);
         $this->getEventManager()->trigger(ModelEvents::UPDATE, $this);
-        $this->getEventManager()->trigger(ModelEvents::FETCH, $this);
         return $this->getData();
     }
 
