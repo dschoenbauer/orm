@@ -22,55 +22,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Builder;
+namespace DSchoenbauer\Orm\Builder\Component;
 
-use DSchoenbauer\Orm\Builder\Component\DataValidation;
-use DSchoenbauer\Orm\Builder\Component\PdoPersistence;
-use DSchoenbauer\Orm\CrudModel;
-use DSchoenbauer\Orm\Entity\EntityInterface;
+use DSchoenbauer\Orm\Enum\ModelEvents;
+use DSchoenbauer\Orm\Events\Persistence\PdoCreate;
+use DSchoenbauer\Orm\Events\Persistence\PdoDelete;
+use DSchoenbauer\Orm\Events\Persistence\PdoSelect;
+use DSchoenbauer\Orm\Events\Persistence\PdoUpdate;
+use DSchoenbauer\Orm\ModelInterface;
+use DSchoenbauer\Orm\VisitorInterface;
 use PDO;
 
 /**
- * Builds a standard model
+ * Description of PdoPersistence
  *
  * @author David Schoenbauer
  */
-class PdoModelBuilder implements BuilderInterface
+class PdoPersistence implements VisitorInterface
 {
 
-    /**
-     * @var PDO
-     */
     protected $adapter;
 
-    /**
-     * @var CrudModel
-     */
-    protected $model;
-
-    public function __construct(\PDO $adapter, EntityInterface $entity)
+    public function __construct($adapter)
     {
-        $this->setAdapter($adapter)->setModel(new CrudModel($entity));
+        $this->setAdapter($adapter);
     }
 
-    public function build()
-    {
-        return $this->getModel();
-    }
-
-    public function addFinalOutput()
-    {
-    }
-
-    public function addPersistence()
+    public function visitModel(ModelInterface $model)
     {
         $adapter = $this->getAdapter();
-        $this->getModel()->accept(new PdoPersistence($adapter));
-    }
-
-    public function addValidations()
-    {
-        $this->getModel()->accept(new DataValidation());
+        $model
+            ->accept(new PdoCreate([ModelEvents::CREATE], $adapter))
+            ->accept(new PdoSelect([ModelEvents::FETCH], $adapter))
+            ->accept(new PdoUpdate([ModelEvents::UPDATE], $adapter))
+            ->accept(new PdoDelete([ModelEvents::DELETE], $adapter));
     }
 
     /**
@@ -81,31 +66,9 @@ class PdoModelBuilder implements BuilderInterface
         return $this->adapter;
     }
 
-    /**
-     * @param PDO $adapter
-     * @return $this
-     */
     public function setAdapter(PDO $adapter)
     {
         $this->adapter = $adapter;
-        return $this;
-    }
-
-    /**
-     * @return CrudModel
-     */
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    /**
-     * @param CrudModel $model
-     * @return $this
-     */
-    public function setModel(CrudModel $model)
-    {
-        $this->model = $model;
         return $this;
     }
 }

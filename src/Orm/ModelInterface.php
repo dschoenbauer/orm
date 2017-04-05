@@ -80,11 +80,11 @@ interface ModelInterface
 
     /**
      * sets a unique identifier value for a given record
-     * @param integer $id
+     * @param integer $idx
      * @return ModelInterface
      * @since v1.0.0
      */
-    public function setId($id);
+    public function setId($idx);
 
     /**
      * sets the current record

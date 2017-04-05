@@ -22,37 +22,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Builder;
-
-use PHPUnit\Framework\TestCase;
+namespace DSchoenbauer\Orm\Enum;
 
 /**
- * Description of ModelDirector
+ * higher values execute earliest.
  *
  * @author David Schoenbauer
  */
-class ModelDirectorTest extends TestCase
+class EventPriorities
 {
-    /* @var $bject ModelDirector */
-
-    protected $object;
-
-    protected function setUp()
-    {
-        $this->object = new ModelDirector();
-    }
-
-    public function testBuildModelBuild()
-    {
-        $builder = $this->getMockBuilder(BuilderInterface::class)->getMock();
-        $builder->expects($this->once())->method('addValidations');
-        $builder->expects($this->once())->method('addPersistence');
-        $builder->expects($this->once())->method('addFinalOutput');
-        $builder->expects($this->once())->method('build')->willReturn(true);
-        $this->assertTrue($this->object->buildModel($builder));
-    }
-    
-    public function testInterface(){
-        $this->assertInstanceOf(DirectorInterface::class, $this->object);
-    }
+    const EARLIEST = 300;
+    const EARLIER = 200;
+    const EARLY = 100;
+    const ON_TIME = 1;
+    const LATE = -100;
+    const LATER = -200;
+    const LATEST = -300;
 }

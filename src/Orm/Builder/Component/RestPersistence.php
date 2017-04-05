@@ -22,75 +22,58 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events;
+namespace DSchoenbauer\Orm\Builder\Component;
 
 use DSchoenbauer\Orm\Enum\EventPriorities;
+use DSchoenbauer\Orm\Enum\ModelEvents;
+use DSchoenbauer\Orm\Events\Persistence\Http\Create;
+use DSchoenbauer\Orm\Events\Persistence\Http\Delete;
+use DSchoenbauer\Orm\Events\Persistence\Http\Select;
+use DSchoenbauer\Orm\Events\Persistence\Http\SelectAll;
+use DSchoenbauer\Orm\Events\Persistence\Http\Update;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Orm\VisitorInterface;
-use Zend\EventManager\EventInterface;
+use Zend\Http\Client;
 
 /**
- * Allows for easier event attachment
+ * Description of RestPersistence
  *
  * @author David Schoenbauer
  */
-abstract class AbstractEvent implements VisitorInterface
+class RestPersistence implements VisitorInterface
 {
+    protected $client;
 
-    private $events = [];
-    private $priority = EventPriorities::ON_TIME;
-
-    public function __construct(array $events = [], $priority = EventPriorities::ON_TIME)
+    public function __construct(Client $client = null)
     {
-        $this
-            ->setEvents($events)
-            ->setPriority($priority);
+        $this->setClient($client);
     }
+    
 
-    /**
-     * provides an opportunity to extend Model's functionality
-     * @param ModelInterface $model model with which to be listened to
-     * @since v1.0.0
-     */
     public function visitModel(ModelInterface $model)
     {
-        foreach ($this->getEvents() as $event) {
-            $model->getEventManager()->attach($event, [$this, 'onExecute']);
-        }
+        $client = $this->getClient();
+        $model->accept(new Create([ModelEvents::CREATE], EventPriorities::ON_TIME, $client));
+        $model->accept(new Select([ModelEvents::FETCH], EventPriorities::ON_TIME, $client));
+        $model->accept(new SelectAll([ModelEvents::FETCH_ALL], EventPriorities::ON_TIME, $client));
+        $model->accept(new Update([ModelEvents::UPDATE], EventPriorities::ON_TIME, $client));
+        $model->accept(new Delete([ModelEvents::DELETE], EventPriorities::ON_TIME, $client));
     }
-
-    abstract public function onExecute(EventInterface $event);
-
+    
     /**
-     * returns a list of event names that this object should be executed
-     * @return array
-     * @since v1.0.0
-     * */
-    public function getEvents()
-    {
-        return $this->events;
-    }
-
-    /**
-     * defines a list of event names this object will listen for to execute
-     * @param array $events array of event to be executed with
-     * @return $this
-     * @since v1.0.0
+     * @return Client
      */
-    public function setEvents(array $events)
+    public function getClient()
     {
-        $this->events = $events;
-        return $this;
+        if (!$this->client instanceof Client) {
+            $this->setClient(new Client());
+        }
+        return $this->client;
     }
 
-    public function getPriority()
+    public function setClient(Client $client = null)
     {
-        return $this->priority;
-    }
-
-    public function setPriority($priority)
-    {
-        $this->priority = $priority;
+        $this->client = $client;
         return $this;
     }
 }

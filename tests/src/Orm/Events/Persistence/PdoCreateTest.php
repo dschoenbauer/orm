@@ -44,7 +44,7 @@ class PdoCreateTest extends TestCase
     public function testCreateConstructor()
     {
         $mockCreate = $this->getMockBuilder(Create::class)->disableOriginalConstructor()->getMock();
-        $subject = new PdoCreate([], $this->mockAdapter, $mockCreate);
+        $subject = new PdoCreate([], $this->mockAdapter, 0, $mockCreate);
         $this->assertSame($mockCreate, $subject->getCreate());
     }
 

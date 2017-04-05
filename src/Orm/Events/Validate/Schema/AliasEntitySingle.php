@@ -24,7 +24,8 @@
  */
 namespace DSchoenbauer\Orm\Events\Validate\Schema;
 
-use DSchoenbauer\Orm\Entity\HasFieldAliases;
+use DSchoenbauer\Orm\Entity\HasFieldAliasesInterface;
+use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Events\Validate\AbstractValidate;
 
 /**
@@ -40,10 +41,14 @@ class AliasEntitySingle extends AbstractValidate
 
     protected $applyAlias = self::REMOVE_ALIAS;
 
-    public function __construct(array $events = array(), $applyAlias = self::REMOVE_ALIAS)
-    {
+    public function __construct(
+        array $events = array(),
+        $applyAlias = self::REMOVE_ALIAS,
+        $priority = EventPriorities::ON_TIME
+    ) {
+    
         $this->setApplyAlias($applyAlias);
-        parent::__construct($events);
+        parent::__construct($events, $priority);
     }
 
     public function getFields($entity)
@@ -57,7 +62,7 @@ class AliasEntitySingle extends AbstractValidate
 
     public function getTypeInterface()
     {
-        return HasFieldAliases::class;
+        return HasFieldAliasesInterface::class;
     }
 
     public function validate(array $data, array $fields)

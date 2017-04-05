@@ -6,6 +6,7 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence;
 
+use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Update;
@@ -29,9 +30,14 @@ class PdoUpdate extends AbstractEvent
      * @param PDO $adapter
      * @param Update $update
      */
-    public function __construct(array $events, PDO $adapter, Update $update = null)
-    {
-        parent::__construct($events);
+    public function __construct(
+        array $events,
+        PDO $adapter,
+        $priority = EventPriorities::ON_TIME,
+        Update $update = null
+    ) {
+    
+        parent::__construct($events, $priority);
         $this->setAdapter($adapter)->setUpdate($update);
     }
 

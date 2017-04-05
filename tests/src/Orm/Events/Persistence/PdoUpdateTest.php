@@ -44,7 +44,7 @@ class PdoUpdateTest extends TestCase
     public function testUpdateConstructor()
     {
         $mockUpdate = $this->getMockBuilder(Update::class)->disableOriginalConstructor()->getMock();
-        $subject = new PdoUpdate([], $this->mockAdapter, $mockUpdate);
+        $subject = new PdoUpdate([], $this->mockAdapter, 0, $mockUpdate);
         $this->assertSame($mockUpdate, $subject->getUpdate());
     }
 

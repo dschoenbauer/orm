@@ -24,6 +24,7 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence;
 
+use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Select;
@@ -47,9 +48,14 @@ class PdoSelect extends AbstractEvent
      * @param PDO $adapter
      * @param Select $select
      */
-    public function __construct(array $events, \PDO $adapter, Select $select = null)
-    {
-        parent::__construct($events);
+    public function __construct(
+        array $events,
+        \PDO $adapter,
+        $priority = EventPriorities::ON_TIME,
+        Select $select = null
+    ) {
+    
+        parent::__construct($events, $priority);
         $this->setAdapter($adapter)
             ->setSelect($select);
     }

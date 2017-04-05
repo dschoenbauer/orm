@@ -49,13 +49,13 @@ class CrudModel extends Model
 
     /**
      * Process the return of a single record
-     * @param integer $id
+     * @param integer $idx
      * @return array
      * @since v1.0.0
      */
-    public function fetch($id)
+    public function fetch($idx)
     {
-        $this->setId($id);
+        $this->setId($idx);
         $this->getEventManager()->trigger(ModelEvents::FETCH, $this);
         return $this->getData();
     }
@@ -73,27 +73,27 @@ class CrudModel extends Model
 
     /**
      * Process the update of data for a given id
-     * @param integer $id primary id number of the record to be updated
+     * @param integer $idx primary id number of the record to be updated
      * @param array $data an associative array of the data to be updated
      * @return array
      * @since v1.0.0
      */
-    public function update($id, $data)
+    public function update($idx, $data)
     {
-        $this->setId($id)->setData($data);
+        $this->setId($idx)->setData($data);
         $this->getEventManager()->trigger(ModelEvents::UPDATE, $this);
         return $this->getData();
     }
 
     /**
      * Process the removal of a given record
-     * @param integer $id primary ID of a value to be removed
+     * @param integer $idx primary ID of a value to be removed
      * @return boolean returns true on success
      * @since v1.0.0
      */
-    public function delete($id)
+    public function delete($idx)
     {
-        $this->setId($id);
+        $this->setId($idx);
         $this->getEventManager()->trigger(ModelEvents::DELETE, $this);
         return true;
     }

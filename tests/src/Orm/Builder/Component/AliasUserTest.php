@@ -22,37 +22,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Builder;
+namespace DSchoenbauer\Orm\Builder\Component;
 
-use PHPUnit\Framework\TestCase;
+use DSchoenbauer\Tests\Orm\Builder\Component\AbstractComponentTestCase;
 
 /**
- * Description of ModelDirector
+ * Description of AliasUserTest
  *
  * @author David Schoenbauer
  */
-class ModelDirectorTest extends TestCase
+class AliasUserTest extends AbstractComponentTestCase
 {
-    /* @var $bject ModelDirector */
-
     protected $object;
-
+    
     protected function setUp()
     {
-        $this->object = new ModelDirector();
-    }
-
-    public function testBuildModelBuild()
-    {
-        $builder = $this->getMockBuilder(BuilderInterface::class)->getMock();
-        $builder->expects($this->once())->method('addValidations');
-        $builder->expects($this->once())->method('addPersistence');
-        $builder->expects($this->once())->method('addFinalOutput');
-        $builder->expects($this->once())->method('build')->willReturn(true);
-        $this->assertTrue($this->object->buildModel($builder));
-    }
-    
-    public function testInterface(){
-        $this->assertInstanceOf(DirectorInterface::class, $this->object);
+        $this->setCalls(4);
+        $this->object = new AliasUser();
     }
 }

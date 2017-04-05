@@ -58,7 +58,7 @@ class AbstractHttpEventTest extends TestCase
 
     public function testMethodOnConstructor()
     {
-        $this->object = $this->getMockForAbstractClass(AbstractHttpEvent::class, [[], null, "test"]);
+        $this->object = $this->getMockForAbstractClass(AbstractHttpEvent::class, [[],0 , null, "test"]);
         $this->assertEquals("test", $this->object->getMethod());
     }
 

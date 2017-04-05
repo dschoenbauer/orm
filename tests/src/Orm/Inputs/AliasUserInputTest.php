@@ -28,6 +28,7 @@ use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Enum\ModelAttributes;
 use DSchoenbauer\Orm\Framework\AttributeCollection;
 use DSchoenbauer\Orm\ModelInterface;
+use DSchoenbauer\Orm\VisitorInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -63,6 +64,10 @@ class AliasUserInputTest extends TestCase
     {
         $field = 'test';
         $this->assertEquals($field, $this->object->setField($field)->getField());
+    }
+    
+    public function testInterface(){
+        $this->assertInstanceOf(VisitorInterface::class, $this->object);
     }
 
     /**

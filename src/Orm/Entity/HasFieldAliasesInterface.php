@@ -22,37 +22,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Builder;
-
-use PHPUnit\Framework\TestCase;
+namespace DSchoenbauer\Orm\Entity;
 
 /**
- * Description of ModelDirector
+ * Allows fields to be renamed from a provided alias to a system field name
  *
  * @author David Schoenbauer
  */
-class ModelDirectorTest extends TestCase
+interface HasFieldAliasesInterface
 {
-    /* @var $bject ModelDirector */
 
-    protected $object;
-
-    protected function setUp()
-    {
-        $this->object = new ModelDirector();
-    }
-
-    public function testBuildModelBuild()
-    {
-        $builder = $this->getMockBuilder(BuilderInterface::class)->getMock();
-        $builder->expects($this->once())->method('addValidations');
-        $builder->expects($this->once())->method('addPersistence');
-        $builder->expects($this->once())->method('addFinalOutput');
-        $builder->expects($this->once())->method('build')->willReturn(true);
-        $this->assertTrue($this->object->buildModel($builder));
-    }
-    
-    public function testInterface(){
-        $this->assertInstanceOf(DirectorInterface::class, $this->object);
-    }
+    /**
+     * @return array associative array that has a key of the client key and a
+     *      value of the system key
+     * @since v1.0.0
+     */
+    public function getFieldAliases();
 }

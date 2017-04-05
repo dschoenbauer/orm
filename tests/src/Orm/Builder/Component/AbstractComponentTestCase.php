@@ -22,37 +22,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Builder;
+namespace DSchoenbauer\Tests\Orm\Builder\Component;
 
+use DSchoenbauer\Orm\ModelInterface;
+use DSchoenbauer\Orm\VisitorInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Description of ModelDirector
+ * Description of AbstractComponentTestCase
  *
  * @author David Schoenbauer
  */
-class ModelDirectorTest extends TestCase
+class AbstractComponentTestCase extends TestCase
 {
-    /* @var $bject ModelDirector */
-
+    private $calls = 0;
     protected $object;
 
-    protected function setUp()
-    {
-        $this->object = new ModelDirector();
+
+    public function testVisitModel(){
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
+        $model->expects($this->exactly($this->getCalls()))->method('accept')->willReturnSelf();
+        $this->object->visitModel($model);
     }
 
-    public function testBuildModelBuild()
-    {
-        $builder = $this->getMockBuilder(BuilderInterface::class)->getMock();
-        $builder->expects($this->once())->method('addValidations');
-        $builder->expects($this->once())->method('addPersistence');
-        $builder->expects($this->once())->method('addFinalOutput');
-        $builder->expects($this->once())->method('build')->willReturn(true);
-        $this->assertTrue($this->object->buildModel($builder));
-    }
-    
     public function testInterface(){
-        $this->assertInstanceOf(DirectorInterface::class, $this->object);
+        $this->assertInstanceOf(VisitorInterface::class, $this->object);
+    }
+
+
+    public function getCalls()
+    {
+        return $this->calls;
+    }
+
+    public function setCalls($calls)
+    {
+        $this->calls = $calls;
+        return $this;
     }
 }

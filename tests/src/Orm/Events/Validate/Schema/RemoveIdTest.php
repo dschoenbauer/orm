@@ -27,6 +27,7 @@ namespace DSchoenbauer\Orm\Events\Validate\Schema;
 use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Events\Validate\Schema\RemoveId;
 use DSchoenbauer\Orm\ModelInterface;
+use DSchoenbauer\Orm\VisitorInterface;
 use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventInterface;
 
@@ -43,6 +44,10 @@ class RemoveIdTest extends TestCase
     protected function setUp()
     {
         $this->object = new RemoveId();
+    }
+    
+    public function testInterface(){
+        $this->assertInstanceOf(VisitorInterface::class, $this->object);
     }
 
     public function testOnExecuteNoModel()
