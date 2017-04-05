@@ -22,37 +22,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Builder;
+namespace DSchoenbauer\Orm\Builder\Component;
 
-use PHPUnit\Framework\TestCase;
+use DSchoenbauer\Orm\Enum\EventPriorities;
+use DSchoenbauer\Orm\Enum\ModelEvents;
+use DSchoenbauer\Orm\Events\Validate\Schema\AliasEntityCollection;
+use DSchoenbauer\Orm\Events\Validate\Schema\AliasEntitySingle;
+use DSchoenbauer\Orm\ModelInterface;
+use DSchoenbauer\Orm\VisitorInterface;
 
 /**
- * Description of ModelDirector
+ * Description of AliasEntity
  *
  * @author David Schoenbauer
  */
-class ModelDirectorTest extends TestCase
+class AliasEntity implements VisitorInterface
 {
-    /* @var $bject ModelDirector */
-
-    protected $object;
-
-    protected function setUp()
-    {
-        $this->object = new ModelDirector();
-    }
-
-    public function testBuildModelBuild()
-    {
-        $builder = $this->getMockBuilder(BuilderInterface::class)->getMock();
-        $builder->expects($this->once())->method('addValidations');
-        $builder->expects($this->once())->method('addPersistence');
-        $builder->expects($this->once())->method('addFinalOutput');
-        $builder->expects($this->once())->method('build')->willReturn(true);
-        $this->assertTrue($this->object->buildModel($builder));
-    }
     
-    public function testInterface(){
-        $this->assertInstanceOf(DirectorInterface::class, $this->object);
+    public function visitModel(ModelInterface $model)
+    {
+        $removeAlias = AliasEntityCollection::REMOVE_ALIAS;
+        $removePriority = EventPriorities::EARLIEST;
+        
+        $applyAlias = AliasEntityCollection::APPLY_ALIAS;
+        $applyPriority = EventPriorities::LATER;
+        $model
+            ->accept(new AliasEntitySingle([ModelEvents::CREATE, ModelEvents::UPDATE], $removeAlias, $removePriority))
+            ->accept(new AliasEntityCollection([ModelEvents::FETCH_ALL], $applyAlias, $applyPriority))
+            ->accept(new AliasEntitySingle([ModelEvents::FETCH], $applyAlias, $applyPriority));
     }
 }

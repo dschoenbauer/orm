@@ -24,7 +24,7 @@
  */
 namespace DSchoenbauer\Orm\Events\Validate\Schema;
 
-use DSchoenbauer\Orm\Entity\HasFieldAliases;
+use DSchoenbauer\Orm\Entity\HasFieldAliasesInterface;
 use DSchoenbauer\Orm\ModelInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -51,7 +51,7 @@ class AliasEntitySingleTest extends TestCase
 
     public function testTypeInterface()
     {
-        $this->assertEquals(HasFieldAliases::class, $this->object->getTypeInterface());
+        $this->assertEquals(HasFieldAliasesInterface::class, $this->object->getTypeInterface());
     }
 
     /**
@@ -62,7 +62,7 @@ class AliasEntitySingleTest extends TestCase
      */
     public function testGetFields($mappings, $applyAlias, $results)
     {
-        $entity = $this->getMockBuilder(HasFieldAliases::class)->getMock();
+        $entity = $this->getMockBuilder(HasFieldAliasesInterface::class)->getMock();
         $entity->expects($this->once())->method('getFieldAliases')->willReturn($mappings);
 
         $this->assertEquals($results, $this->object->setApplyAlias($applyAlias)->getFields($entity));

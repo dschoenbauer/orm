@@ -1,5 +1,4 @@
 <?php
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -7,6 +6,7 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence;
 
+use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Create;
@@ -14,7 +14,7 @@ use PDO;
 use Zend\EventManager\EventInterface;
 
 /**
-* Event driven hook to creates information from a PDO connection
+ * Event driven hook to creates information from a PDO connection
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
@@ -32,10 +32,15 @@ class PdoCreate extends AbstractEvent
      * be lazy loaded for you
      * @since v1.0.0
      */
-    public function __construct(array $events, PDO $adapter, Create $create = null)
-    {
+    public function __construct(
+        array $events,
+        PDO $adapter,
+        $priority = EventPriorities::ON_TIME,
+        Create $create = null
+    ) {
+    
         parent::__construct($events);
-        $this->setAdapter($adapter)->setCreate($create);
+        $this->setAdapter($adapter)->setCreate($create, $priority);
     }
 
     /**

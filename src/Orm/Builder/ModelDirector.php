@@ -34,9 +34,9 @@ class ModelDirector implements DirectorInterface
     
     public function buildModel(BuilderInterface $builder)
     {
-        $builder->buildValidations();
-        $builder->buildPersistence();
-        $builder->buildFinalOutput();
+        $builder->addValidations();
+        $builder->addPersistence();
+        $builder->addFinalOutput();
         return $builder->build();
     }
 }

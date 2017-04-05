@@ -36,7 +36,7 @@ use Zend\EventManager\EventManagerAwareTrait;
 class Model implements ModelInterface
 {
 
-    private $id;
+    private $idx;
     private $data;
     private $attributes;
     private $entity;
@@ -93,7 +93,7 @@ class Model implements ModelInterface
      */
     public function getId()
     {
-        return $this->id;
+        return $this->idx;
     }
 
     /**
@@ -108,13 +108,13 @@ class Model implements ModelInterface
 
     /**
      * sets a unique identifier value for a given record
-     * @param integer $id
+     * @param integer $idx
      * @return Model
      * @since v1.0.0
      */
-    public function setId($id)
+    public function setId($idx)
     {
-        $this->id = $id;
+        $this->idx = $idx;
         return $this;
     }
 

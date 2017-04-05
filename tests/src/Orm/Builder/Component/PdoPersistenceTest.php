@@ -22,37 +22,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Builder;
+namespace DSchoenbauer\Orm\Builder\Component;
 
-use PHPUnit\Framework\TestCase;
+use DSchoenbauer\Tests\Orm\Builder\Component\AbstractComponentTestCase;
 
 /**
- * Description of ModelDirector
+ * Description of PdoPersistenceTest
  *
  * @author David Schoenbauer
  */
-class ModelDirectorTest extends TestCase
+class PdoPersistenceTest extends AbstractComponentTestCase
 {
-    /* @var $bject ModelDirector */
-
     protected $object;
+
 
     protected function setUp()
     {
-        $this->object = new ModelDirector();
-    }
-
-    public function testBuildModelBuild()
-    {
-        $builder = $this->getMockBuilder(BuilderInterface::class)->getMock();
-        $builder->expects($this->once())->method('addValidations');
-        $builder->expects($this->once())->method('addPersistence');
-        $builder->expects($this->once())->method('addFinalOutput');
-        $builder->expects($this->once())->method('build')->willReturn(true);
-        $this->assertTrue($this->object->buildModel($builder));
+        $adapter = $this->getMockBuilder(\PDO::class)->disableOriginalConstructor()->getMock();
+        $this->setCalls(4);
+        $this->object = new PdoPersistence($adapter);
     }
     
-    public function testInterface(){
-        $this->assertInstanceOf(DirectorInterface::class, $this->object);
+    public function testAdapter(){
+        $this->assertInstanceOf(\PDO::class, $this->object->getAdapter());
+        
+        $adapter = $this->getMockBuilder(\PDO::class)->disableOriginalConstructor()->getMock();
+        $this->assertSame($adapter, $this->object->setAdapter($adapter)->getAdapter());
     }
 }
