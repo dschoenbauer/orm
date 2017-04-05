@@ -24,6 +24,7 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence\Http;
 
+use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Entity\IsHttpInterface;
 use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Events\AbstractEvent;
@@ -54,8 +55,8 @@ abstract class AbstractHttpEvent extends AbstractEvent
         $method = null
     ) {
     
-        $this->setClient($client, $priority);
-        parent::__construct($events);
+        $this->setClient($client);
+        parent::__construct($events, $priority);
         if ($method) {
             $this->setMethod($method);
         }
@@ -91,6 +92,10 @@ abstract class AbstractHttpEvent extends AbstractEvent
         }
         /* @var $entity IsHttp */
         $entity = $model->getEntity();
+        if (!$entity instanceof EntityInterface) {
+            return;
+        }
+        
         if (!$entity instanceof IsHttpInterface) {
             return;
         }
@@ -140,7 +145,7 @@ abstract class AbstractHttpEvent extends AbstractEvent
     }
 
     /**
-     * @param type $dataExtractorFactory
+     * @param DataExtractorFactory $dataExtractorFactory
      * @return $this
      */
     public function setDataExtractorFactory($dataExtractorFactory)

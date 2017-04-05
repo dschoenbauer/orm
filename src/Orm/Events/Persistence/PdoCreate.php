@@ -39,8 +39,9 @@ class PdoCreate extends AbstractEvent
         Create $create = null
     ) {
     
-        parent::__construct($events);
-        $this->setAdapter($adapter)->setCreate($create, $priority);
+
+        parent::__construct($events, $priority);
+        $this->setAdapter($adapter)->setCreate($create);
     }
 
     /**

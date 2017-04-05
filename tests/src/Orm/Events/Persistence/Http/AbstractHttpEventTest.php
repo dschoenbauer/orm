@@ -111,6 +111,15 @@ class AbstractHttpEventTest extends TestCase
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->exactly(1))
             ->method('getTarget')
+            ->willReturn($this->getModel(0, [], new \stdClass()));
+        $this->object->onExecute($event);
+    }
+    
+    public function testOnExecuteNotCorrectEntityChild()
+    {
+        $event = $this->getMockBuilder(EventInterface::class)->getMock();
+        $event->expects($this->exactly(1))
+            ->method('getTarget')
             ->willReturn($this->getModel(0, [], $this->getAbstractEntity('id')));
         $this->object->onExecute($event);
     }
