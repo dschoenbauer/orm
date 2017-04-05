@@ -25,6 +25,7 @@
 namespace DSchoenbauer\Orm\Events\Persistence\Http;
 
 use DSchoenbauer\Orm\Entity\IsHttpInterface;
+use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\Events\Persistence\Http\DataExtract\DataExtractorFactory;
 use DSchoenbauer\Orm\Framework\InterpolateTrait;
@@ -46,9 +47,14 @@ abstract class AbstractHttpEvent extends AbstractEvent
 
     use InterpolateTrait;
 
-    public function __construct(array $events = array(), Client $client = null, $method = null)
-    {
-        $this->setClient($client);
+    public function __construct(
+        array $events = array(),
+        $priority = EventPriorities::ON_TIME,
+        Client $client = null,
+        $method = null
+    ) {
+    
+        $this->setClient($client, $priority);
         parent::__construct($events);
         if ($method) {
             $this->setMethod($method);
@@ -109,7 +115,7 @@ abstract class AbstractHttpEvent extends AbstractEvent
         $data[$model->getEntity()->getIdField()] = $model->getId();
         return $data;
     }
-    
+
     public function getMethod()
     {
         return $this->method;
@@ -120,7 +126,7 @@ abstract class AbstractHttpEvent extends AbstractEvent
         $this->method = $method;
         return $this;
     }
-    
+
     /**
      *
      * @return DataExtractorFactory

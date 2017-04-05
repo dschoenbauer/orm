@@ -63,7 +63,7 @@ class PdoSelectTest extends TestCase
     public function testSelectConstructor()
     {
         $mockSelect = $this->getMockBuilder(Select::class)->disableOriginalConstructor()->getMock();
-        $subject = new PdoSelect([], $this->mockAdapter, $mockSelect);
+        $subject = new PdoSelect([], $this->mockAdapter, 0, $mockSelect);
         $this->assertSame($mockSelect, $subject->getSelect());
     }
 

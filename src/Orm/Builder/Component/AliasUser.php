@@ -22,20 +22,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Entity;
+namespace DSchoenbauer\Orm\Builder\Component;
+
+use DSchoenbauer\Orm\Enum\EventPriorities;
+use DSchoenbauer\Orm\Enum\ModelEvents;
+use DSchoenbauer\Orm\Events\Validate\Schema\AliasEntitySingle;
+use DSchoenbauer\Orm\Events\Validate\Schema\AliasUserCollection;
+use DSchoenbauer\Orm\Events\Validate\Schema\AliasUserSingle;
+use DSchoenbauer\Orm\Inputs\AliasUserInput;
+use DSchoenbauer\Orm\ModelInterface;
+use DSchoenbauer\Orm\VisitorInterface;
 
 /**
- * Allows fields to be renamed from a provided alias to a system field name
+ * Description of AliasUser
  *
  * @author David Schoenbauer
  */
-interface HasFieldAliases
+class AliasUser implements VisitorInterface
 {
 
-    /**
-     * @return array associative array that has a key of the client key and a
-     *      value of the system key
-     * @since v1.0.0
-     */
-    public function getFieldAliases();
+    public function visitModel(ModelInterface $model)
+    {
+        $removeAlias = AliasUserCollection::REMOVE_ALIAS;
+        $removePriority = EventPriorities::EARLIEST;
+        
+        $applyAlias = AliasUserCollection::APPLY_ALIAS;
+        $applyPriority = EventPriorities::LATER;
+
+        $model
+            ->accept(new AliasUserInput())
+            ->accept(new AliasUserSingle([ModelEvents::CREATE, ModelEvents::UPDATE], $removeAlias, $removePriority))
+            ->accept(new AliasUserSingle([ModelEvents::FETCH], $applyAlias, $applyPriority))
+            ->accept(new AliasUserCollection([ModelEvents::FETCH], $applyAlias, $applyPriority));
+    }
 }

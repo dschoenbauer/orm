@@ -1,4 +1,5 @@
 <?php
+
 /*
  * The MIT License
  *
@@ -22,37 +23,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Builder;
+namespace DSchoenbauer\Orm\Builder\Component;
 
-use PHPUnit\Framework\TestCase;
+use DSchoenbauer\Orm\Builder\Component\RestPersistence;
+use DSchoenbauer\Tests\Orm\Builder\Component\AbstractComponentTestCase;
+use Zend\Http\Client;
 
 /**
- * Description of ModelDirector
+ * Description of RestPersistenceTest
  *
  * @author David Schoenbauer
  */
-class ModelDirectorTest extends TestCase
+class RestPersistenceTest extends AbstractComponentTestCase
 {
-    /* @var $bject ModelDirector */
 
     protected $object;
 
     protected function setUp()
     {
-        $this->object = new ModelDirector();
+        $this->object = new RestPersistence();
+        $this->setCalls(5);
     }
 
-    public function testBuildModelBuild()
+    public function testClientLazyLoad()
     {
-        $builder = $this->getMockBuilder(BuilderInterface::class)->getMock();
-        $builder->expects($this->once())->method('addValidations');
-        $builder->expects($this->once())->method('addPersistence');
-        $builder->expects($this->once())->method('addFinalOutput');
-        $builder->expects($this->once())->method('build')->willReturn(true);
-        $this->assertTrue($this->object->buildModel($builder));
+        $this->assertInstanceOf(Client::class, $this->object->getClient());
     }
-    
-    public function testInterface(){
-        $this->assertInstanceOf(DirectorInterface::class, $this->object);
+
+    public function testClient()
+    {
+        $client = $this->getMockBuilder(Client::class)->getMock();
+        $this->assertSame($client, $this->object->setClient($client)->getClient());
     }
 }

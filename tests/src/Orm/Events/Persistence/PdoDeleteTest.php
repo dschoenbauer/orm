@@ -44,7 +44,7 @@ class PdoDeleteTest extends TestCase
     public function testDeleteConstructor()
     {
         $mockDelete = $this->getMockBuilder(Delete::class)->disableOriginalConstructor()->getMock();
-        $subject = new PdoDelete([], $this->mockAdapter, $mockDelete);
+        $subject = new PdoDelete([], $this->mockAdapter, 0, $mockDelete);
         $this->assertSame($mockDelete, $subject->getDelete());
     }
 

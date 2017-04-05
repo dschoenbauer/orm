@@ -24,6 +24,7 @@
  */
 namespace DSchoenbauer\Orm\Events;
 
+use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Orm\VisitorInterface;
@@ -56,7 +57,7 @@ class AbstractEventTest extends TestCase
         $eventManagerMock = $this->getMockBuilder(EventManagerInterface::class)->getMock();
         $eventManagerMock->expects($this->once())
             ->method('attach')
-            ->with('test', [$this->object, 'onExecute']);
+            ->with('test', [$this->object, 'onExecute'], 1);
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->any())
             ->method('accept')
@@ -69,4 +70,13 @@ class AbstractEventTest extends TestCase
         $this->assertInstanceOf(VisitorInterface::class, $this->object);
         $model->accept($this->object->setEvents(['test']));
     }
+    
+    public function testDefaultPriority(){
+        $this->assertEquals(EventPriorities::ON_TIME, $this->object->getPriority());
+    }
+    
+    public function testPriority(){
+        $this->assertEquals(10000, $this->object->setPriority(10000)->getPriority());
+    }
+        
 }

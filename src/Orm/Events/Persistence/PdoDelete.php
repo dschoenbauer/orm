@@ -6,6 +6,7 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence;
 
+use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Delete;
@@ -29,9 +30,14 @@ class PdoDelete extends AbstractEvent
      * @param PDO $adapter
      * @param Delete $delete
      */
-    public function __construct(array $events, PDO $adapter, Delete $delete = null)
-    {
-        parent::__construct($events);
+    public function __construct(
+        array $events,
+        PDO $adapter,
+        $priority = EventPriorities::ON_TIME,
+        Delete $delete = null
+    ) {
+    
+        parent::__construct($events, $priority);
         $this->setAdapter($adapter)->setDelete($delete);
     }
 
