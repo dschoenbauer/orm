@@ -33,9 +33,12 @@ class PdoCreate extends AbstractEvent
      * @since v1.0.0
      */
     public function __construct(
-    array $events, PDO $adapter, $priority = EventPriorities::ON_TIME, Create $create = null
-    )
-    {
+        array $events,
+        PDO $adapter,
+        $priority = EventPriorities::ON_TIME,
+        Create $create = null
+    ) {
+    
 
         parent::__construct($events, $priority);
         $this->setAdapter($adapter)->setCreate($create);
