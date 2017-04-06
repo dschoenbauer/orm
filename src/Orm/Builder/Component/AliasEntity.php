@@ -24,10 +24,10 @@
  */
 namespace DSchoenbauer\Orm\Builder\Component;
 
-use DSchoenbauer\Orm\Enum\EventPriorities;
+use DSchoenbauer\Orm\Enum\EventPriorities as EP;
 use DSchoenbauer\Orm\Enum\ModelEvents;
-use DSchoenbauer\Orm\Events\Filter\AliasEntityCollection;
-use DSchoenbauer\Orm\Events\Filter\AliasEntitySingle;
+use DSchoenbauer\Orm\Events\Filter\AliasEntityCollection as Collection;
+use DSchoenbauer\Orm\Events\Filter\AliasEntitySingle as Single;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Orm\VisitorInterface;
 
@@ -38,17 +38,12 @@ use DSchoenbauer\Orm\VisitorInterface;
  */
 class AliasEntity implements VisitorInterface
 {
-    
+
     public function visitModel(ModelInterface $model)
     {
-        $removeAlias = AliasEntityCollection::REMOVE_ALIAS;
-        $removePriority = EventPriorities::EARLIEST;
-        
-        $applyAlias = AliasEntityCollection::APPLY_ALIAS;
-        $applyPriority = EventPriorities::LATER;
         $model
-            ->accept(new AliasEntitySingle([ModelEvents::CREATE, ModelEvents::UPDATE], $removeAlias, $removePriority))
-            ->accept(new AliasEntityCollection([ModelEvents::FETCH_ALL], $applyAlias, $applyPriority))
-            ->accept(new AliasEntitySingle([ModelEvents::FETCH], $applyAlias, $applyPriority));
+            ->accept(new Single([ModelEvents::CREATE, ModelEvents::UPDATE], Single::REMOVE_ALIAS, EP::EARLIEST))
+            ->accept(new Collection([ModelEvents::FETCH_ALL], Collection::APPLY_ALIAS, EP::LATER))
+            ->accept(new Single([ModelEvents::FETCH], Single::APPLY_ALIAS, EP::LATER));
     }
 }
