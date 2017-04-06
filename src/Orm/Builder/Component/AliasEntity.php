@@ -26,8 +26,8 @@ namespace DSchoenbauer\Orm\Builder\Component;
 
 use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Enum\ModelEvents;
-use DSchoenbauer\Orm\Events\Validate\Schema\AliasEntityCollection;
-use DSchoenbauer\Orm\Events\Validate\Schema\AliasEntitySingle;
+use DSchoenbauer\Orm\Events\Filter\AliasEntityCollection;
+use DSchoenbauer\Orm\Events\Filter\AliasEntitySingle;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Orm\VisitorInterface;
 

@@ -22,17 +22,47 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Validate\Schema;
+namespace DSchoenbauer\Orm\Events\Filter;
+
+use DSchoenbauer\Orm\Entity\HasStaticValuesInterface;
+use DSchoenbauer\Orm\Events\Validate\AbstractValidate;
 
 /**
- * Description of AliasUserSingle
+ * Adds a default value to a data set at create time
  *
  * @author David Schoenbauer
  */
-class AliasUserSingle extends AliasUserCollection
+class StaticValue extends AbstractValidate
 {
+
+    /**
+     * provides an associative array that has a key of the field and a value
+     * @param HasStaticValuesInterface $entity
+     * @return array
+     * @since v1.0.0
+     */
+    public function getFields($entity)
+    {
+        return $entity->getStaticValues();
+    }
+
+    /**
+     * @inheritDoc
+     * @return string
+     */
+    public function getTypeInterface()
+    {
+        return HasStaticValuesInterface::class;
+    }
+
+    /**
+     *
+     * @param array $data
+     * @param array $fields
+     */
     public function validate(array $data, array $fields)
     {
-        $this->getModel()->setData($this->aliasRow($data, $fields));
+        $this->getModel()->setData(array_merge($data, $fields));
+        return true;
     }
 }

@@ -26,12 +26,12 @@ namespace DSchoenbauer\Orm\Builder\Component;
 
 use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Enum\ModelEvents;
-use DSchoenbauer\Orm\Events\Validate\Schema\AliasEntitySingle;
-use DSchoenbauer\Orm\Events\Validate\Schema\AliasUserCollection;
-use DSchoenbauer\Orm\Events\Validate\Schema\AliasUserSingle;
+use DSchoenbauer\Orm\Events\Filter\AliasUserCollection;
+use DSchoenbauer\Orm\Events\Filter\AliasUserSingle;
 use DSchoenbauer\Orm\Inputs\AliasUserInput;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Orm\VisitorInterface;
+
 
 /**
  * Description of AliasUser

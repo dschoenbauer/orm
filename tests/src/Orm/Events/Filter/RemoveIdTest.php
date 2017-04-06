@@ -22,10 +22,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Validate\Schema;
+namespace DSchoenbauer\Orm\Events\Filter;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
-use DSchoenbauer\Orm\Events\Validate\Schema\RemoveId;
+use DSchoenbauer\Orm\Events\Filter\RemoveId;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Orm\VisitorInterface;
 use PHPUnit\Framework\TestCase;
