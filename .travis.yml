@@ -11,12 +11,14 @@ before_script:
   #- phpenv config-rm xdebug.ini
   - composer self-update
   - composer install --prefer-source --no-interaction
+  - wget https://scrutinizer-ci.com/ocular.phar
 
 # Commands you want to run that will verify your build.
 script: ./vendor/bin/phpunit tests -c ./tests/configuration.xml --coverage-clover ./tests/logs/clover.xml
 
 after_script:
   - php vendor/bin/coveralls -v
+  - php ocular.phar code-coverage:upload --format=php-clover ./tests/logs/clover.xml
 
 # allow_failures: Allow this build to fail under the specified environments.
 # fast_finish: If your build fails do not continue trying to build, just stop.
