@@ -49,9 +49,12 @@ abstract class AbstractHttpEvent extends AbstractEvent
     use InterpolateTrait;
 
     public function __construct(
-    array $events = array(), $priority = EventPriorities::ON_TIME, Client $client = null, $method = null
-    )
-    {
+        array $events = array(),
+        $priority = EventPriorities::ON_TIME,
+        Client $client = null,
+        $method = null
+    ) {
+    
 
         $this->setClient($client);
         parent::__construct($events, $priority);
