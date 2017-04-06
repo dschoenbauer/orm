@@ -33,7 +33,8 @@ interface HasStaticValuesInterface
 {
    /**
      * provides an associative array that has keys of fields and values
-     * @return array returns a key value (associative) array of values that will persist through all inserts, and updates
+     * @return array returns a key value (associative) array of values that
+     * will persist through all inserts, and updates
      * @since v1.0.0
      */
     public function getStaticValues();

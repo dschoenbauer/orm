@@ -49,7 +49,8 @@ class Update extends AbstractHttpEvent
         }
     }
     
-    public function runExtra(ModelInterface $model){
+    public function runExtra(ModelInterface $model)
+    {
         //void;
     }
 }
