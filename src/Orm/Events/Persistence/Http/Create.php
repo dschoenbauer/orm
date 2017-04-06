@@ -33,22 +33,14 @@ use Zend\Http\Request;
  *
  * @author David Schoenbauer
  */
-class Create extends AbstractHttpEvent
+class Create extends Update
 {
 
     protected $method = Request::METHOD_POST;
-
-    public function run(ModelInterface $model)
+    
+    public function runExtra(ModelInterface $model)
     {
-        $response = $this->getClient()
-            ->setUri($this->buildUri($model))
-            ->setParameterPost($model->getData())
-            ->setMethod($this->getMethod())
-            ->send();
-        if ($response->isSuccess()) {
-            $model->setData($this->getDataExtractorFactory()->getData($response));
             $this->crossFillId($model);
-        }
     }
 
     public function crossFillId(ModelInterface $model)
