@@ -22,12 +22,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Persistence;
+namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
-use DSchoenbauer\Orm\Events\Persistence\PdoSelect;
+use DSchoenbauer\Orm\Events\Persistence\Pdo\Select;
 use DSchoenbauer\Orm\ModelInterface;
-use DSchoenbauer\Sql\Command\Select;
+use DSchoenbauer\Sql\Command\Select as SelectCommand;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventInterface;
@@ -37,7 +37,7 @@ use Zend\EventManager\EventInterface;
  *
  * @author David Schoenbauer
  */
-class PdoSelectTest extends TestCase
+class SelectTest extends TestCase
 {
 
     private $object;
@@ -46,7 +46,7 @@ class PdoSelectTest extends TestCase
     protected function setUp()
     {
         $this->mockAdapter = $this->getMockBuilder(PDO::class)->disableOriginalConstructor()->getMock();
-        $this->object = new PdoSelect([], $this->mockAdapter);
+        $this->object = new Select([], $this->mockAdapter);
     }
 
     public function testAdapterFromContructor()
@@ -60,22 +60,15 @@ class PdoSelectTest extends TestCase
         $this->assertSame($mockAdapter, $this->object->setAdapter($mockAdapter)->getAdapter());
     }
 
-    public function testSelectConstructor()
-    {
-        $mockSelect = $this->getMockBuilder(Select::class)->disableOriginalConstructor()->getMock();
-        $subject = new PdoSelect([], $this->mockAdapter, 0, $mockSelect);
-        $this->assertSame($mockSelect, $subject->getSelect());
-    }
-
     public function testSelect()
     {
-        $mockSelect = $this->getMockBuilder(Select::class)->disableOriginalConstructor()->getMock();
+        $mockSelect = $this->getMockBuilder(SelectCommand::class)->disableOriginalConstructor()->getMock();
         $this->assertSame($mockSelect, $this->object->setSelect($mockSelect)->getSelect());
     }
 
     public function testSelectLazyLoad()
     {
-        $this->assertInstanceOf(Select::class, $this->object->getSelect());
+        $this->assertInstanceOf(SelectCommand::class, $this->object->getSelect());
     }
 
     public function testOnExecuteTargetNotModel()
@@ -101,7 +94,7 @@ class PdoSelectTest extends TestCase
         $entity->expects($this->once())->method('getAllFields')->willReturn($fields);
         $entity->expects($this->once())->method('getIdField')->willReturn($idField);
 
-        $select = $this->getMockBuilder(Select::class)->disableOriginalConstructor()->getMock();
+        $select = $this->getMockBuilder(SelectCommand::class)->disableOriginalConstructor()->getMock();
         $select->expects($this->once())->method('setTable')->with($table)->willReturnSelf();
         $select->expects($this->once())->method('setFields')->with($fields)->willReturnSelf();
         $select->expects($this->once())->method('setWhere')->willReturnSelf();

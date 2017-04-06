@@ -4,12 +4,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-namespace DSchoenbauer\Orm\Events\Persistence;
+namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
 
 use DSchoenbauer\Orm\Enum\EventPriorities;
-use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\ModelInterface;
-use DSchoenbauer\Sql\Command\Delete;
+use DSchoenbauer\Sql\Command\Delete as DeleteCommand;
 use DSchoenbauer\Sql\Where\ArrayWhere;
 use PDO;
 use Zend\EventManager\EventInterface;
@@ -19,27 +18,10 @@ use Zend\EventManager\EventInterface;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class PdoDelete extends AbstractEvent
+class Delete extends AbstractPdoEvent
 {
 
-    private $adapter;
     private $delete;
-
-    /**
-     * @param array $events An array of event names to bind to
-     * @param PDO $adapter
-     * @param Delete $delete
-     */
-    public function __construct(
-        array $events,
-        PDO $adapter,
-        $priority = EventPriorities::ON_TIME,
-        Delete $delete = null
-    ) {
-    
-        parent::__construct($events, $priority);
-        $this->setAdapter($adapter)->setDelete($delete);
-    }
 
     /**
      * event action
@@ -60,37 +42,16 @@ class PdoDelete extends AbstractEvent
             ->setWhere(new ArrayWhere([$entity->getIdField() => $model->getId()]))
             ->execute($this->getAdapter());
     }
-    /**
-     * Returns a PHP Data Object
-     * @return PDO
-     * @since v1.0.0
-     */
-    public function getAdapter()
-    {
-        return $this->adapter;
-    }
-
-        /**
-     * PDO connection to a db of some sort.
-     * @param PDO $adapter
-     * @return $this
-     * @since v1.0.0
-     */
-    public function setAdapter(PDO $adapter)
-    {
-        $this->adapter = $adapter;
-        return $this;
-    }
 
     /**
      * object with logic for the delete. If Delete is not provided one will be lazy loaded
-     * @return Delete
+     * @return DeleteCommand
      * @since v1.0.0
      */
     public function getDelete()
     {
         if (!$this->delete) {
-            $this->setDelete(new Delete(null));
+            $this->setDelete(new DeleteCommand(null));
         }
         return $this->delete;
     }
@@ -101,7 +62,7 @@ class PdoDelete extends AbstractEvent
      * @return $this
      * @since v1.0.0
      */
-    public function setDelete(Delete $delete = null)
+    public function setDelete(DeleteCommand $delete = null)
     {
         $this->delete = $delete;
         return $this;

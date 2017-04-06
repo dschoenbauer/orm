@@ -4,14 +4,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-namespace DSchoenbauer\Orm\Events\Persistence;
+namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
 
-use DSchoenbauer\Orm\Enum\EventPriorities;
-use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\ModelInterface;
-use DSchoenbauer\Sql\Command\Update;
+use DSchoenbauer\Sql\Command\Update as UpdateCommand;
 use DSchoenbauer\Sql\Where\ArrayWhere;
-use PDO;
 use Zend\EventManager\EventInterface;
 
 /**
@@ -19,27 +16,11 @@ use Zend\EventManager\EventInterface;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class PdoUpdate extends AbstractEvent
+class Update extends AbstractPdoEvent
 {
 
-    private $adapter;
     private $update;
 
-    /**
-     * @param array $events An array of event names to bind to
-     * @param PDO $adapter
-     * @param Update $update
-     */
-    public function __construct(
-        array $events,
-        PDO $adapter,
-        $priority = EventPriorities::ON_TIME,
-        Update $update = null
-    ) {
-    
-        parent::__construct($events, $priority);
-        $this->setAdapter($adapter)->setUpdate($update);
-    }
 
     /**
      * event action
@@ -61,48 +42,27 @@ class PdoUpdate extends AbstractEvent
             ->execute($this->getAdapter());
     }
 
-    /**
-     * Returns a PHP Data Object
-     * @return PDO
-     * @since v1.0.0
-     */
-    public function getAdapter()
-    {
-        return $this->adapter;
-    }
-
-    /**
-     * PDO connection to a db of some sort.
-     * @param PDO $adapter
-     * @return $this
-     * @since v1.0.0
-     */
-    public function setAdapter($adapter)
-    {
-        $this->adapter = $adapter;
-        return $this;
-    }
 
     /**
      * object with logic for the Update. If Update is not provided one will be lazy loaded
-     * @return Update
+     * @return UpdateCommand
      * @since v1.0.0
      */
     public function getUpdate()
     {
-        if (!$this->update instanceof Update) {
-            $this->setUpdate(new Update(null, []));
+        if (!$this->update instanceof UpdateCommand) {
+            $this->setUpdate(new UpdateCommand(null, []));
         }
         return $this->update;
     }
 
     /**
      * Object that contains the update logic
-     * @param Update $update
+     * @param UpdateCommand $update
      * @return $this
      * @since v1.0.0
      */
-    public function setUpdate(Update $update = null)
+    public function setUpdate(UpdateCommand $update = null)
     {
         $this->update = $update;
         return $this;

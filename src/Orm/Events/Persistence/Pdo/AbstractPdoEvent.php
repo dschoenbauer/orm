@@ -22,50 +22,53 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Builder\Component;
+namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
 
-use DSchoenbauer\Orm\Enum\ModelEvents;
-use DSchoenbauer\Orm\Events\Persistence\Pdo\Create;
-use DSchoenbauer\Orm\Events\Persistence\Pdo\Delete;
-use DSchoenbauer\Orm\Events\Persistence\Pdo\Select;
-use DSchoenbauer\Orm\Events\Persistence\Pdo\Update;
-use DSchoenbauer\Orm\ModelInterface;
-use DSchoenbauer\Orm\VisitorInterface;
+use DSchoenbauer\Orm\Enum\EventPriorities;
+use DSchoenbauer\Orm\Events\AbstractEvent;
 use PDO;
 
 /**
- * Description of PdoPersistence
+ * Description of AbstractPdoEvent
  *
  * @author David Schoenbauer
  */
-class PdoPersistence implements VisitorInterface
+abstract class AbstractPdoEvent extends AbstractEvent
 {
 
-    protected $adapter;
+    private $adapter;
 
-    public function __construct($adapter)
+    /**
+     *
+     * @param array $events An array of event names to bind to
+     * @param PDO $adapter PDO connection to a db of some sort.
+     * be lazy loaded for you
+     * @since v1.0.0
+     */
+    public function __construct(array $events, PDO $adapter, $priority = EventPriorities::ON_TIME)
     {
+
+
+        parent::__construct($events, $priority);
         $this->setAdapter($adapter);
     }
 
-    public function visitModel(ModelInterface $model)
-    {
-        $adapter = $this->getAdapter();
-        $model
-            ->accept(new Create([ModelEvents::CREATE], $adapter))
-            ->accept(new Select([ModelEvents::FETCH], $adapter))
-            ->accept(new Update([ModelEvents::UPDATE], $adapter))
-            ->accept(new Delete([ModelEvents::DELETE], $adapter));
-    }
-
     /**
+     * Returns a PHP Data Object
      * @return PDO
+     * @since v1.0.0
      */
     public function getAdapter()
     {
         return $this->adapter;
     }
 
+    /**
+     * PDO connection to a db of some sort.
+     * @param PDO $adapter
+     * @return $this
+     * @since v1.0.0
+     */
     public function setAdapter(PDO $adapter)
     {
         $this->adapter = $adapter;

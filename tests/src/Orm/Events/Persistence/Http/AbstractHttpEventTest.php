@@ -94,11 +94,15 @@ class AbstractHttpEventTest extends TestCase
         $this->assertEquals('test', $this->object->getUri($entity));
     }
 
-    public function testBuildUrl()
+    public function testBuildUri()
     {
         $this->object->buildUri($this->getModel(1, ['id' => 1], $this->getIsHttp('id', 'http://test.com')));
     }
-
+    
+    public function testBuildUriBadEntity(){
+        $this->assertEquals(null,$this->object->buildUri($this->getModel(1, ['id' => 1], null)));
+    }
+    
     public function testOnExecuteNotCorrectTarget()
     {
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
