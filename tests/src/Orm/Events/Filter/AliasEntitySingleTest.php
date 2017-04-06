@@ -22,9 +22,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Validate\Schema;
+namespace DSchoenbauer\Orm\Events\Filter;
 
 use DSchoenbauer\Orm\Entity\HasFieldAliasesInterface;
+use DSchoenbauer\Orm\Events\Filter\AliasEntitySingle;
 use DSchoenbauer\Orm\ModelInterface;
 use PHPUnit\Framework\TestCase;
 

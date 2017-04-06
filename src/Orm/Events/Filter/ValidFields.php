@@ -22,56 +22,53 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Validate\Schema;
+namespace DSchoenbauer\Orm\Events\Filter;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
-use DSchoenbauer\Orm\Enum\ModelAttributes;
-use DSchoenbauer\Orm\Framework\Attribute;
-use DSchoenbauer\Orm\Framework\AttributeCollection;
-use DSchoenbauer\Orm\ModelInterface;
+use DSchoenbauer\Orm\Events\Validate\AbstractValidate;
 
 /**
- * Description of AlaisUserCollection
+ * Validates that only fields valid fields are allowed in the data model
  *
  * @author David Schoenbauer
  */
-class AliasUserCollection extends AliasEntityCollection
+class ValidFields extends AbstractValidate
 {
 
-    private $attribute;
-
-    public function visitModel(ModelInterface $model)
+    /**
+     * provides a list of fields that this operation will affect
+     * @param EntityInterface $entity entity object that houses the fields
+     * @return array
+     * @since v1.0.0
+     */
+    public function getFields($entity)
     {
-        parent::visitModel($model);
-        //Get the reference to the object so we have access to the value when it finally does get assigned
-        $this->setAttribute(
-            $model
-                ->getAttributes()
-                ->get(ModelAttributes::FIELD_ALIASES, [], AttributeCollection::BY_REF)
-        );
+        /* @var $entity EntityInterface */
+        return $entity->getAllFields();
     }
 
+    /**
+     * Interface that qualifies the entity as valid for this operation
+     * @return string
+     * @since v1.0.0
+     */
     public function getTypeInterface()
     {
         return EntityInterface::class;
     }
 
-    public function getFields($entity)
-    {
-        return $this->getAttribute()->getValue();
-    }
-
     /**
-     * @return Attribute
+     * removes any outside fields and saves that data to the model
+     * @param array $data
+     * @param array $fields
+     * @return boolean
+     * @since v1.0.0
      */
-    public function getAttribute()
+    public function validate(array $data, array $fields)
     {
-        return $this->attribute;
-    }
-
-    public function setAttribute(Attribute $attribute)
-    {
-        $this->attribute = $attribute;
-        return $this;
+        $filledFields = array_fill_keys($fields, null);
+        $filteredData = array_intersect_key($data, $filledFields);
+        $this->getModel()->setData($filteredData);
+        return true;
     }
 }

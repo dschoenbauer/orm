@@ -26,14 +26,14 @@ namespace DSchoenbauer\Orm\Builder\Component;
 
 use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Enum\ModelEvents;
+use DSchoenbauer\Orm\Events\Filter\DefaultValue;
+use DSchoenbauer\Orm\Events\Filter\RemoveId;
+use DSchoenbauer\Orm\Events\Filter\ValidFields;
 use DSchoenbauer\Orm\Events\Validate\DataType\DataTypeBoolean;
 use DSchoenbauer\Orm\Events\Validate\DataType\DataTypeDate;
 use DSchoenbauer\Orm\Events\Validate\DataType\DataTypeNumber;
 use DSchoenbauer\Orm\Events\Validate\DataType\DataTypeString;
-use DSchoenbauer\Orm\Events\Validate\Schema\DefaultValue;
-use DSchoenbauer\Orm\Events\Validate\Schema\RemoveId;
 use DSchoenbauer\Orm\Events\Validate\Schema\RequiredFields;
-use DSchoenbauer\Orm\Events\Validate\Schema\ValidFields;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Orm\VisitorInterface;
 

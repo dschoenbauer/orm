@@ -22,48 +22,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Validate\Schema;
-
-use DSchoenbauer\Orm\Entity\HasDefaultValuesInterface;
-use DSchoenbauer\Orm\Events\Validate\AbstractValidate;
+namespace DSchoenbauer\Orm\Events\Filter;
 
 /**
- * Adds a default value to a data set at create time
+ * Description of AliasUserSingle
  *
  * @author David Schoenbauer
  */
-class DefaultValue extends AbstractValidate
+class AliasUserSingle extends AliasUserCollection
 {
-
-    /**
-     * provides an associative array that has a key of the field and a value
-     * @param HasDefaultValuesInterface $entity
-     * @return array
-     * @since v1.0.0
-     */
-    public function getFields($entity)
-    {
-        return $entity->getDefaultValues();
-    }
-
-    /**
-     * @inheritDoc
-     * @return string
-     */
-    public function getTypeInterface()
-    {
-        return HasDefaultValuesInterface::class;
-    }
-    
-
-    /**
-     *
-     * @param array $data
-     * @param array $fields
-     */
     public function validate(array $data, array $fields)
     {
-        $this->getModel()->setData(array_merge($fields, $data));
-        return true;
+        $this->getModel()->setData($this->aliasRow($data, $fields));
     }
 }

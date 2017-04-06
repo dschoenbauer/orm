@@ -22,22 +22,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Validate\Schema;
+namespace DSchoenbauer\Orm\Events\Filter;
+
+use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\ModelInterface;
+use Zend\EventManager\EventInterface;
 
 /**
- * Provides field renaming capability to an array of arrays
+ * Removes primary id key from data set
  *
  * @author David Schoenbauer
  */
-class AliasEntityCollection extends AliasEntitySingle
+class RemoveId extends AbstractEvent
 {
 
-    public function validate(array $data, array $fields)
+    public function onExecute(EventInterface $event)
     {
-        $output = [];
-        foreach ($data as $key => $value) {
-            $output[$key] = $this->aliasRow($value, $fields);
+        /* @var $model ModelInterface */
+        $model = $event->getTarget();
+        if (!$model instanceof ModelInterface) {
+            return false;
         }
-        $this->getModel()->setData($output);
+        $data = $model->getData();
+        $idField = $model->getEntity()->getIdField();
+        unset($data[$idField]);
+
+        $model->setData($data);
+        return true;
     }
 }

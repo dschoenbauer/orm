@@ -45,6 +45,12 @@ class Update extends AbstractHttpEvent
             ->send();
         if ($response->isSuccess()) {
             $model->setData($this->getDataExtractorFactory()->getData($response));
+            $this->runExtra($model);
         }
+    }
+    
+    public function runExtra(ModelInterface $model)
+    {
+        //void;
     }
 }

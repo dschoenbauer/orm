@@ -22,9 +22,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Validate\Schema;
+namespace DSchoenbauer\Orm\Events\Filter;
 
-use DSchoenbauer\Orm\Entity\HasStaticValuesInterface;
+use DSchoenbauer\Orm\Entity\HasDefaultValuesInterface;
 use DSchoenbauer\Orm\Events\Validate\AbstractValidate;
 
 /**
@@ -32,18 +32,18 @@ use DSchoenbauer\Orm\Events\Validate\AbstractValidate;
  *
  * @author David Schoenbauer
  */
-class StaticValue extends AbstractValidate
+class DefaultValue extends AbstractValidate
 {
 
     /**
      * provides an associative array that has a key of the field and a value
-     * @param HasStaticValuesInterface $entity
+     * @param HasDefaultValuesInterface $entity
      * @return array
      * @since v1.0.0
      */
     public function getFields($entity)
     {
-        return $entity->getStaticValues();
+        return $entity->getDefaultValues();
     }
 
     /**
@@ -52,8 +52,9 @@ class StaticValue extends AbstractValidate
      */
     public function getTypeInterface()
     {
-        return HasStaticValuesInterface::class;
+        return HasDefaultValuesInterface::class;
     }
+    
 
     /**
      *
@@ -62,7 +63,7 @@ class StaticValue extends AbstractValidate
      */
     public function validate(array $data, array $fields)
     {
-        $this->getModel()->setData(array_merge($data, $fields));
+        $this->getModel()->setData(array_merge($fields, $data));
         return true;
     }
 }
