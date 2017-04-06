@@ -4,11 +4,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-namespace DSchoenbauer\Orm\Events\Persistence;
+namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\ModelInterface;
-use DSchoenbauer\Sql\Command\Update;
+use DSchoenbauer\Sql\Command\Update as UpdateCommand;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventInterface;
@@ -18,7 +18,7 @@ use Zend\EventManager\EventInterface;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class PdoUpdateTest extends TestCase
+class UpdateTest extends TestCase
 {
 
     private $object;
@@ -27,7 +27,7 @@ class PdoUpdateTest extends TestCase
     protected function setUp()
     {
         $this->mockAdapter = $this->getMockBuilder(PDO::class)->disableOriginalConstructor()->getMock();
-        $this->object = new PdoUpdate([], $this->mockAdapter);
+        $this->object = new Update([], $this->mockAdapter);
     }
 
     public function testAdapterFromContructor()
@@ -41,22 +41,15 @@ class PdoUpdateTest extends TestCase
         $this->assertSame($mockAdapter, $this->object->setAdapter($mockAdapter)->getAdapter());
     }
 
-    public function testUpdateConstructor()
-    {
-        $mockUpdate = $this->getMockBuilder(Update::class)->disableOriginalConstructor()->getMock();
-        $subject = new PdoUpdate([], $this->mockAdapter, 0, $mockUpdate);
-        $this->assertSame($mockUpdate, $subject->getUpdate());
-    }
-
     public function testUpdate()
     {
-        $mockUpdate = $this->getMockBuilder(Update::class)->disableOriginalConstructor()->getMock();
+        $mockUpdate = $this->getMockBuilder(UpdateCommand::class)->disableOriginalConstructor()->getMock();
         $this->assertSame($mockUpdate, $this->object->setUpdate($mockUpdate)->getUpdate());
     }
 
     public function testUpdateLazyLoad()
     {
-        $this->assertInstanceOf(Update::class, $this->object->getUpdate());
+        $this->assertInstanceOf(UpdateCommand::class, $this->object->getUpdate());
     }
 
     public function testOnExecuteTargetNotModel()
@@ -83,7 +76,7 @@ class PdoUpdateTest extends TestCase
         $model->expects($this->once())->method('getId')->willReturn(1);
         $model->expects($this->once())->method('getData')->willReturn($data);
 
-        $select = $this->getMockBuilder(Update::class)->disableOriginalConstructor()->getMock();
+        $select = $this->getMockBuilder(UpdateCommand::class)->disableOriginalConstructor()->getMock();
         $select->expects($this->once())->method('setTable')->with($table)->willReturnSelf();
         $select->expects($this->once())->method('setData')->with($data)->willReturnSelf();
         $select->expects($this->once())->method('setWhere')->willReturnSelf();

@@ -22,14 +22,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Persistence;
+namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
 
-use DSchoenbauer\Orm\Enum\EventPriorities;
-use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\ModelInterface;
-use DSchoenbauer\Sql\Command\Select;
+use DSchoenbauer\Sql\Command\Select as SelectCommand;
 use DSchoenbauer\Sql\Where\ArrayWhere;
-use PDO;
 use Zend\EventManager\EventInterface;
 
 /**
@@ -37,28 +34,10 @@ use Zend\EventManager\EventInterface;
  *
  * @author David Schoenbauer
  */
-class PdoSelect extends AbstractEvent
+class Select extends AbstractPdoEvent
 {
 
-    private $adapter;
     private $select;
-
-    /**
-     * @param array $events An array of event names to bind to
-     * @param PDO $adapter
-     * @param Select $select
-     */
-    public function __construct(
-        array $events,
-        \PDO $adapter,
-        $priority = EventPriorities::ON_TIME,
-        Select $select = null
-    ) {
-    
-        parent::__construct($events, $priority);
-        $this->setAdapter($adapter)
-            ->setSelect($select);
-    }
 
     /**
      * event action
@@ -84,47 +63,25 @@ class PdoSelect extends AbstractEvent
     }
 
     /**
-     * Returns a PHP Data Object
-     * @return PDO
-     * @since v1.0.0
-     */
-    public function getAdapter()
-    {
-        return $this->adapter;
-    }
-
-    /**
-     * PDO connection to a db of some sort.
-     * @param PDO $adapter
-     * @return $this
-     * @since v1.0.0
-     */
-    public function setAdapter(PDO $adapter)
-    {
-        $this->adapter = $adapter;
-        return $this;
-    }
-
-    /**
      * object with logic for the Select. If Select is not provided one will be lazy loaded
-     * @return Select
+     * @return SelectCommand
      * @since v1.0.0
      */
     public function getSelect()
     {
-        if (!$this->select instanceof Select) {
-            $this->select = new Select("");
+        if (!$this->select instanceof SelectCommand) {
+            $this->select = new SelectCommand("");
         }
         return $this->select;
     }
 
     /**
      * Object that contains the select logic
-     * @param Select $select
+     * @param SelectCommand $select
      * @return $this
      * @since v1.0.0
      */
-    public function setSelect(Select $select = null)
+    public function setSelect(SelectCommand $select = null)
     {
         $this->select = $select;
         return $this;

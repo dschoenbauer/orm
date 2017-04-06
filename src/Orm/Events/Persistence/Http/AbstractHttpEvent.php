@@ -49,12 +49,10 @@ abstract class AbstractHttpEvent extends AbstractEvent
     use InterpolateTrait;
 
     public function __construct(
-        array $events = array(),
-        $priority = EventPriorities::ON_TIME,
-        Client $client = null,
-        $method = null
-    ) {
-    
+    array $events = array(), $priority = EventPriorities::ON_TIME, Client $client = null, $method = null
+    )
+    {
+
         $this->setClient($client);
         parent::__construct($events, $priority);
         if ($method) {
@@ -102,7 +100,12 @@ abstract class AbstractHttpEvent extends AbstractEvent
 
     public function buildUri(ModelInterface $model)
     {
-        return $this->interpolate($this->getUri($model->getEntity()), $this->getData($model));
+        $entity = $model->getEntity();
+        if (!$entity instanceof EntityInterface || !$entity instanceof IsHttpInterface) {
+            return;
+        }
+        $uri = $this->getUri($entity);
+        return $this->interpolate($uri, $this->getData($model));
     }
 
     public function getUri(IsHttpInterface $entity)

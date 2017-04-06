@@ -4,11 +4,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-namespace DSchoenbauer\Orm\Events\Persistence;
+namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\ModelInterface;
-use DSchoenbauer\Sql\Command\Create;
+use DSchoenbauer\Sql\Command\Create as CreateCommand;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventInterface;
@@ -18,7 +18,7 @@ use Zend\EventManager\EventInterface;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class PdoCreateTest extends TestCase
+class CreateTest extends TestCase
 {
 
     private $object;
@@ -27,7 +27,7 @@ class PdoCreateTest extends TestCase
     protected function setUp()
     {
         $this->mockAdapter = $this->getMockBuilder(PDO::class)->disableOriginalConstructor()->getMock();
-        $this->object = new PdoCreate([], $this->mockAdapter);
+        $this->object = new Create([], $this->mockAdapter);
     }
 
     public function testAdapterFromContructor()
@@ -41,22 +41,15 @@ class PdoCreateTest extends TestCase
         $this->assertSame($mockAdapter, $this->object->setAdapter($mockAdapter)->getAdapter());
     }
 
-    public function testCreateConstructor()
-    {
-        $mockCreate = $this->getMockBuilder(Create::class)->disableOriginalConstructor()->getMock();
-        $subject = new PdoCreate([], $this->mockAdapter, 0, $mockCreate);
-        $this->assertSame($mockCreate, $subject->getCreate());
-    }
-
     public function testCreate()
     {
-        $mockCreate = $this->getMockBuilder(Create::class)->disableOriginalConstructor()->getMock();
+        $mockCreate = $this->getMockBuilder(CreateCommand::class)->disableOriginalConstructor()->getMock();
         $this->assertSame($mockCreate, $this->object->setCreate($mockCreate)->getCreate());
     }
 
     public function testCreateLazyLoad()
     {
-        $this->assertInstanceOf(Create::class, $this->object->getCreate());
+        $this->assertInstanceOf(CreateCommand::class, $this->object->getCreate());
     }
 
     public function testOnExecuteTargetNotModel()
@@ -81,7 +74,7 @@ class PdoCreateTest extends TestCase
         $model->expects($this->once())->method('getEntity')->willReturn($entity);
         $model->expects($this->once())->method('getData')->willReturn($data);
 
-        $create = $this->getMockBuilder(Create::class)->disableOriginalConstructor()->getMock();
+        $create = $this->getMockBuilder(CreateCommand::class)->disableOriginalConstructor()->getMock();
         $create->expects($this->once())->method('setData')->with($data)->willReturnSelf();
         $create->expects($this->once())->method('setTable')->with($table)->willReturnSelf();
         $create->expects($this->once())->method('execute')->with($this->mockAdapter);

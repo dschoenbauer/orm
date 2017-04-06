@@ -4,11 +4,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-namespace DSchoenbauer\Orm\Events\Persistence;
+namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\ModelInterface;
-use DSchoenbauer\Sql\Command\Delete;
+use DSchoenbauer\Sql\Command\Delete as DeleteCommand;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventInterface;
@@ -18,7 +18,7 @@ use Zend\EventManager\EventInterface;
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-class PdoDeleteTest extends TestCase
+class DeleteTest extends TestCase
 {
 
     private $object;
@@ -27,7 +27,7 @@ class PdoDeleteTest extends TestCase
     protected function setUp()
     {
         $this->mockAdapter = $this->getMockBuilder(PDO::class)->disableOriginalConstructor()->getMock();
-        $this->object = new PdoDelete([], $this->mockAdapter);
+        $this->object = new Delete([], $this->mockAdapter);
     }
 
     public function testAdapterFromContructor()
@@ -41,22 +41,15 @@ class PdoDeleteTest extends TestCase
         $this->assertSame($mockAdapter, $this->object->setAdapter($mockAdapter)->getAdapter());
     }
 
-    public function testDeleteConstructor()
-    {
-        $mockDelete = $this->getMockBuilder(Delete::class)->disableOriginalConstructor()->getMock();
-        $subject = new PdoDelete([], $this->mockAdapter, 0, $mockDelete);
-        $this->assertSame($mockDelete, $subject->getDelete());
-    }
-
     public function testDelete()
     {
-        $mockDelete = $this->getMockBuilder(Delete::class)->disableOriginalConstructor()->getMock();
+        $mockDelete = $this->getMockBuilder(DeleteCommand::class)->disableOriginalConstructor()->getMock();
         $this->assertSame($mockDelete, $this->object->setDelete($mockDelete)->getDelete());
     }
 
     public function testDeleteLazyLoad()
     {
-        $this->assertInstanceOf(Delete::class, $this->object->getDelete());
+        $this->assertInstanceOf(DeleteCommand::class, $this->object->getDelete());
     }
 
     public function testOnExecuteTargetNotModel()
@@ -81,7 +74,7 @@ class PdoDeleteTest extends TestCase
         $model->expects($this->once())->method('getEntity')->willReturn($entity);
         $model->expects($this->once())->method('getId')->willReturn(1);
 
-        $delete = $this->getMockBuilder(Delete::class)->disableOriginalConstructor()->getMock();
+        $delete = $this->getMockBuilder(DeleteCommand::class)->disableOriginalConstructor()->getMock();
         $delete->expects($this->once())->method('setTable')->with($table)->willReturnSelf();
         $delete->expects($this->once())->method('setWhere')->willReturnSelf();
         $delete->expects($this->once())->method('execute')->with($this->mockAdapter);
