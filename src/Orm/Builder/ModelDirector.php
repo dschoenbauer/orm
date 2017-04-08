@@ -31,7 +31,11 @@ namespace DSchoenbauer\Orm\Builder;
  */
 class ModelDirector implements DirectorInterface
 {
-    
+    /**
+     * 
+     * @param \DSchoenbauer\Orm\Builder\BuilderInterface $builder
+     * @return \DSchoenbauer\Orm\CrudModel
+     */
     public function buildModel(BuilderInterface $builder)
     {
         $builder->addValidations();
