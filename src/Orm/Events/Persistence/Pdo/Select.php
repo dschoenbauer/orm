@@ -57,7 +57,8 @@ class Select extends AbstractPdoEvent
             $this->getSelect()
                 ->setTable($entity->getTable())
                 ->setFields($entity->getAllFields())
-                ->setWhere(new ArrayWhere([$entity->getIdField() => $model->getId()]))->setFetchFlat()
+                ->setWhere(new ArrayWhere([$entity->getIdField() => $model->getId()]))
+                ->setFetchFlat()
                 ->execute($this->getAdapter())
         );
     }
