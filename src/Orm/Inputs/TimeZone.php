@@ -22,15 +22,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Enum;
+namespace DSchoenbauer\Orm\Inputs;
+
+use DateTimeZone;
+use DSchoenbauer\Orm\Enum\ModelAttributes;
+use DSchoenbauer\Orm\ModelInterface;
+use DSchoenbauer\Orm\VisitorInterface;
 
 /**
- * Description of ModelAttributes
+ * Description of TimeZone
  *
  * @author David Schoenbauer
  */
-class ModelAttributes
+class TimeZone implements VisitorInterface
 {
-    const FIELD_ALIASES = 'field_aliases';
-    const TIME_ZONE = 'time_zone';
+
+    public function visitModel(ModelInterface $model)
+    {
+        //A passive setting of parameter
+        $model->getAttributes()->get(ModelAttributes::TIME_ZONE, new DateTimeZone('UTC'));
+    }
 }

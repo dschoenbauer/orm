@@ -25,8 +25,10 @@
 namespace DSchoenbauer\Orm\Events\Filter\DataType;
 
 use DateTime;
+use DateTimeZone;
 use DSchoenbauer\Orm\Entity\HasDateFieldsInterface;
 use DSchoenbauer\Orm\Entity\HasDateWithCustomFormatInterface;
+use DSchoenbauer\Orm\Enum\ModelAttributes;
 use DSchoenbauer\Orm\Events\Filter\AbstractEventFilter;
 use DSchoenbauer\Orm\Exception\InvalidDataTypeException;
 use DSchoenbauer\Orm\ModelInterface;
@@ -41,14 +43,18 @@ class Date extends AbstractEventFilter
 
     public function filter(array $data)
     {
-
+        $timeZone = $this->getModel()->getAttributes()->get(ModelAttributes::TIME_ZONE, new DateTimeZone('UTC'));
         $formats = $this->getDateFormats($this->getModel());
+        return $this->formatDate($data, $formats, $timeZone);
+    }
 
+    public function formatDate(array $data, array $formats, DateTimeZone $timeZone)
+    {
         foreach ($formats as $field => $format) {
             if (!array_key_exists($field, $data) || $data[$field] instanceof DateTime) {
                 continue;
             }
-            if (!$protoDateTime = DateTime::createFromFormat($format, $data[$field])) {
+            if (!$protoDateTime = DateTime::createFromFormat($format, $data[$field], $timeZone)) {
                 throw new InvalidDataTypeException();
             }
             $data[$field] = $protoDateTime;
