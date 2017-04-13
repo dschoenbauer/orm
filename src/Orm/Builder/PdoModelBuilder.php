@@ -28,6 +28,8 @@ use DSchoenbauer\Orm\Builder\Component\DataValidation;
 use DSchoenbauer\Orm\Builder\Component\PdoPersistence;
 use DSchoenbauer\Orm\CrudModel;
 use DSchoenbauer\Orm\Entity\EntityInterface;
+use DSchoenbauer\Orm\Enum\ModelEvents;
+use DSchoenbauer\Orm\Events\Framework\CrossTrigger;
 use PDO;
 
 /**
@@ -60,6 +62,7 @@ class PdoModelBuilder implements BuilderInterface
 
     public function addFinalOutput()
     {
+        $this->getModel()->accept(new CrossTrigger([ModelEvents::CREATE, ModelEvents::UPDATE], [ModelEvents::FETCH]));
     }
 
     public function addPersistence()

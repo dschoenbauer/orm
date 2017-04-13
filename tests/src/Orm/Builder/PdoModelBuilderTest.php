@@ -76,7 +76,7 @@ class PdoModelBuilderTest extends TestCase
     
     public function testBuildFinalOutput(){
         $model = $this->getMockBuilder(CrudModel::class)->disableOriginalConstructor()->getMock();
-        $model->expects($this->exactly(0))->method('accept')->willReturnSelf();
+        $model->expects($this->exactly(1))->method('accept')->willReturnSelf();
         $this->object->setModel($model)->addFinalOutput();
     }
     
