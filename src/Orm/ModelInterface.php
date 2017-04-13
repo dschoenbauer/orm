@@ -26,6 +26,7 @@ namespace DSchoenbauer\Orm;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Framework\AttributeCollection;
+use Zend\EventManager\EventManagerInterface;
 
 /**
  *

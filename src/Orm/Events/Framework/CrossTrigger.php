@@ -22,25 +22,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Builder;
+namespace DSchoenbauer\Orm\Events\Framework;
+
+use DSchoenbauer\Orm\Enum\EventPriorities;
+use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\ModelInterface;
+use Zend\EventManager\EventInterface;
 
 /**
- * Description of ModelDirector
+ * Description of CrossTrigger
  *
  * @author David Schoenbauer
  */
-class ModelDirector implements DirectorInterface
+class CrossTrigger extends AbstractEvent
 {
-    /**
-     *
-     * @param \DSchoenbauer\Orm\Builder\BuilderInterface $builder
-     * @return \DSchoenbauer\Orm\CrudModel
-     */
-    public function buildModel(BuilderInterface $builder)
+
+    private $targetEvents = [];
+
+    public function __construct(array $events = [], array $targetEvents = [], $priority = EventPriorities::LATEST)
     {
-        $builder->addValidations();
-        $builder->addPersistence();
-        $builder->addFinalOutput();
-        return $builder->build();
+        parent::__construct($events, $priority);
+        $this->setTargetEvents($targetEvents);
+    }
+
+    public function onExecute(EventInterface $event)
+    {
+        $model = $event->getTarget();
+        if (!$model instanceof ModelInterface) {
+            return false;
+        }
+        $targetEvents = $this->getTargetEvents();
+        foreach ($targetEvents as $targetEvent) {
+            $model->getEventManager()->trigger($targetEvent, $model);
+        }
+        return true;
+    }
+
+    public function getTargetEvents()
+    {
+        return $this->targetEvents;
+    }
+
+    public function setTargetEvents(array $targetEvents)
+    {
+        $this->targetEvents = $targetEvents;
+        return $this;
     }
 }
