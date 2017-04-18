@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "da9e511d5d1d1d85df7201f1a8848355",
+    "content-hash": "6d186780e0dd9ae585143db832261e0b",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -36,6 +36,53 @@
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
             "time": "2017-02-14T19:40:03+00:00"
+        },
+        {
+            "name": "dschoenbauer/dot-notation",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dschoenbauer/dot-notation.git",
+                "reference": "70adfe193d18c983e5d649c549fe2f0dbf465d56"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dschoenbauer/dot-notation/zipball/70adfe193d18c983e5d649c549fe2f0dbf465d56",
+                "reference": "70adfe193d18c983e5d649c549fe2f0dbf465d56",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "5.6.2",
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DSchoenbauer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Schoenbauer",
+                    "email": "dschoenbauer@gmail.com"
+                }
+            ],
+            "description": "Given a complicated data structure, allows easy and safe access to data via dot notation. This library is a compilation of other Dot Notation libraries, taking the best feature from each and incorpating them here.",
+            "keywords": [
+                "access",
+                "array",
+                "data",
+                "dot",
+                "notation"
+            ],
+            "time": "2016-12-02T22:59:15+00:00"
         },
         {
             "name": "dschoenbauer/exception",
