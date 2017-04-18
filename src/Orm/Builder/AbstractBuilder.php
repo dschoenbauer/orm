@@ -24,51 +24,62 @@
  */
 namespace DSchoenbauer\Orm\Builder;
 
-use DSchoenbauer\Orm\Builder\Component\PdoPersistence;
+use DSchoenbauer\Orm\Builder\Component\DataValidation;
 use DSchoenbauer\Orm\CrudModel;
 use DSchoenbauer\Orm\Entity\EntityInterface;
-use PDO;
+use DSchoenbauer\Orm\Enum\ModelEvents;
+use DSchoenbauer\Orm\Events\Framework\CrossTrigger;
 
 /**
- * Builds a standard model
+ * Description of AbstractBuilder
  *
  * @author David Schoenbauer
  */
-class PdoModelBuilder extends AbstractBuilder
+abstract class AbstractBuilder
 {
 
     /**
-     * @var PDO
+     * @var CrudModel
      */
-    protected $adapter;
+    protected $model;
 
-    public function __construct(\PDO $adapter, EntityInterface $entity)
+    public function __construct(EntityInterface $entity)
     {
-        parent::__construct($entity);
-        $this->setAdapter($adapter)->setModel(new CrudModel($entity));
+        $this->setModel(new CrudModel($entity));
     }
 
-    public function addPersistence()
+    public function build()
     {
-        $adapter = $this->getAdapter();
-        $this->getModel()->accept(new PdoPersistence($adapter));
+        return $this->getModel();
+    }
+
+    public function addFinalOutput()
+    {
+        $this->getModel()->accept(new CrossTrigger([ModelEvents::CREATE, ModelEvents::UPDATE], [ModelEvents::FETCH]));
+    }
+
+    abstract public function addPersistence();
+
+    public function addValidations()
+    {
+        $this->getModel()->accept(new DataValidation());
     }
 
     /**
-     * @return PDO
+     * @return CrudModel
      */
-    public function getAdapter()
+    public function getModel()
     {
-        return $this->adapter;
+        return $this->model;
     }
 
     /**
-     * @param PDO $adapter
+     * @param CrudModel $model
      * @return $this
      */
-    public function setAdapter(PDO $adapter)
+    public function setModel(CrudModel $model)
     {
-        $this->adapter = $adapter;
+        $this->model = $model;
         return $this;
     }
 }

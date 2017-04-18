@@ -24,51 +24,28 @@
  */
 namespace DSchoenbauer\Orm\Builder;
 
-use DSchoenbauer\Orm\Builder\Component\PdoPersistence;
 use DSchoenbauer\Orm\CrudModel;
 use DSchoenbauer\Orm\Entity\EntityInterface;
-use PDO;
+use PHPUnit\Framework\TestCase;
 
 /**
- * Builds a standard model
+ * Description of RestModelBuilderTest
  *
  * @author David Schoenbauer
  */
-class PdoModelBuilder extends AbstractBuilder
+class RestModelBuilderTest extends TestCase
 {
-
-    /**
-     * @var PDO
-     */
-    protected $adapter;
-
-    public function __construct(\PDO $adapter, EntityInterface $entity)
+    protected $object;
+    
+    protected function setUp()
     {
-        parent::__construct($entity);
-        $this->setAdapter($adapter)->setModel(new CrudModel($entity));
+        $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
+        $this->object = new RestModelBuilder($entity);
     }
-
-    public function addPersistence()
-    {
-        $adapter = $this->getAdapter();
-        $this->getModel()->accept(new PdoPersistence($adapter));
-    }
-
-    /**
-     * @return PDO
-     */
-    public function getAdapter()
-    {
-        return $this->adapter;
-    }
-
-    /**
-     * @param PDO $adapter
-     * @return $this
-     */
-    public function setAdapter(PDO $adapter)
-    {
-        $this->adapter = $adapter;
-        return $this;
+    
+    public function testPersistence(){
+        $model = $this->getMockBuilder(CrudModel::class)->disableOriginalConstructor()->getMock();
+        $model->expects($this->exactly(1))->method('accept')->willReturnSelf();
+        $this->object->setModel($model)->addPersistence();
     }
 }

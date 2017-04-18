@@ -24,51 +24,18 @@
  */
 namespace DSchoenbauer\Orm\Builder;
 
-use DSchoenbauer\Orm\Builder\Component\PdoPersistence;
-use DSchoenbauer\Orm\CrudModel;
-use DSchoenbauer\Orm\Entity\EntityInterface;
-use PDO;
+use DSchoenbauer\Orm\Builder\Component\RestPersistence;
+use Zend\Http\Client;
 
 /**
- * Builds a standard model
+ * Description of RestModelBuilder
  *
  * @author David Schoenbauer
  */
-class PdoModelBuilder extends AbstractBuilder
+class RestModelBuilder extends AbstractBuilder
 {
-
-    /**
-     * @var PDO
-     */
-    protected $adapter;
-
-    public function __construct(\PDO $adapter, EntityInterface $entity)
-    {
-        parent::__construct($entity);
-        $this->setAdapter($adapter)->setModel(new CrudModel($entity));
-    }
-
     public function addPersistence()
     {
-        $adapter = $this->getAdapter();
-        $this->getModel()->accept(new PdoPersistence($adapter));
-    }
-
-    /**
-     * @return PDO
-     */
-    public function getAdapter()
-    {
-        return $this->adapter;
-    }
-
-    /**
-     * @param PDO $adapter
-     * @return $this
-     */
-    public function setAdapter(PDO $adapter)
-    {
-        $this->adapter = $adapter;
-        return $this;
+        $this->getModel()->accept(new RestPersistence(new Client()));
     }
 }
