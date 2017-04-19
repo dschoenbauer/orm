@@ -35,7 +35,7 @@ use DSchoenbauer\Orm\Events\Framework\CrossTrigger;
  *
  * @author David Schoenbauer
  */
-abstract class AbstractBuilder
+abstract class AbstractBuilder implements BuilderInterface
 {
 
     /**

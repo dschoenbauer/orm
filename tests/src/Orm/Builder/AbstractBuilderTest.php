@@ -57,6 +57,12 @@ class AbstractBuilderTest extends TestCase
         return $this;
     }
     
+    
+    
+    public function testHasProperInterface(){
+        $this->assertInstanceOf(BuilderInterface::class, $this->getObject());
+    }
+    
     public function testCrudModel(){
         $model = $this->getMockBuilder(CrudModel::class)->disableOriginalConstructor()->getMock();
         $this->assertSame($model, $this->object->setModel($model)->getModel());
