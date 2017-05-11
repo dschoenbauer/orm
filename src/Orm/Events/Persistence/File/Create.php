@@ -24,10 +24,7 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence\File;
 
-use DSchoenbauer\Orm\Entity\EntityInterface;
-use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\ModelInterface;
-use Zend\EventManager\EventInterface;
 
 /**
  * Description of Create
