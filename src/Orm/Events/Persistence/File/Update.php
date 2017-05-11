@@ -26,42 +26,24 @@ namespace DSchoenbauer\Orm\Events\Persistence\File;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Enum\EventPriorities;
+use DSchoenbauer\Orm\Exception\RecordNotFoundException;
 use DSchoenbauer\Orm\ModelInterface;
 use Zend\EventManager\EventInterface;
 
 /**
- * Description of Create
+ * Description of Update
  *
  * @author David Schoenbauer
  */
-class Create extends AbstractFileEvent
+class Update extends AbstractFileEvent
 {
 
     public function processAction(ModelInterface $model, array $existingData)
     {
-        $data = $this->addData($existingData, $model);
-        return $this->saveFile($data, $model->getEntity()) !== false;
-    }
-
-    public function addData(array $existingData, ModelInterface $model)
-    {
-        //Add the new record to the existing.
-        $existingData[] = $model->getData();
-        //Get the Id of the new record
-        $idx = $this->getId($existingData);
-        //Set the Id of the new record
-        if (is_array($existingData[$idx])) {
-            $existingData[$idx][$model->getEntity()->getIdField()] = $idx;
+        if (!array_key_exists($model->getId(), $existingData)) {
+            throw new RecordNotFoundException();
         }
-        $model->setId($idx);
-        $model->setData($existingData[$idx]);
-        //return the new record with the id
-        return $existingData;
-    }
-
-    public function getId(array $array)
-    {
-        end($array);
-        return key($array);
+        $existingData[$model->getId()] = $model->getData();
+        return $this->saveFile($existingData, $model->getEntity());
     }
 }

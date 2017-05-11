@@ -32,11 +32,11 @@ use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventInterface;
 
 /**
- * Description of SelectTest
+ * Description of UpdateTest
  *
  * @author David Schoenbauer
  */
-class SelectTest extends TestCase
+class UpdateTest extends TestCase
 {
 
     protected $object;
@@ -46,8 +46,30 @@ class SelectTest extends TestCase
 
     protected function setUp()
     {
+        $testFileTemplate = 'update.json.orig';
+        $testFile = 'update.json';
         $this->testPath = str_replace('/', DIRECTORY_SEPARATOR, dirname(__FILE__) . '/../../../../../files/');
-        $this->object = new Select();
+        copy($this->testPath . $testFileTemplate, $this->testPath . $testFile);
+        $this->object = new Update();
+    }
+
+    protected function tearDown()
+    {
+        $testFile = 'update.json';
+        @unlink($this->testPath . $testFile);
+    }
+
+    public function testOnExecuteNoModel()
+    {
+        $event = $this->getMockBuilder(EventInterface::class)->getMock();
+        $this->assertFalse($this->object->onExecute($event));
+    }
+
+    public function testOnExecuteModelNoEntity()
+    {
+        $event = $this->getMockBuilder(EventInterface::class)->getMock();
+        $event->expects($this->any())->method('getTarget')->willReturn($this->getModel(0, [], null));
+        $this->assertFalse($this->object->onExecute($event));
     }
 
     public function testOnExecuteRecordNotFound()
@@ -59,33 +81,20 @@ class SelectTest extends TestCase
         $this->object->onExecute($event);
     }
 
-    public function testOnExecuteRecordFound()
+    public function testProcessAction()
     {
-        $entity = $this->getEntity('id', 'select');
-        $event = $this->getMockBuilder(EventInterface::class)->getMock();
+        $record = ["id" => 0, "name" => "Andy"];
+        $results = [
+            ["id" => 0, "name" => "Andy"],
+            ["id" => 1, "name" => "Wayne"],
+            ["id" => 2, "name" => "Michael"],
+            ["id" => 3, "name" => "Debra"],
+            ["id" => 4, "name" => "Paul"]
+        ];
         $this->object->setPath($this->testPath);
-        $model = $this->getModel(0, [], $entity);
-        $event->expects($this->any())->method('getTarget')->willReturn($model);
-        $this->assertTrue($this->object->onExecute($event));
-        $this->assertEquals(['row' => 1, 'id' => 0], $model->getData());
-    }
-
-    public function testOnExecuteRecordFoundLarge()
-    {
-        $entity = $this->getEntity('id', 'select');
-        $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $this->object->setPath($this->testPath);
-        $model = $this->getModel(10, [], $entity);
-        $event->expects($this->any())->method('getTarget')->willReturn($model);
-        $this->assertTrue($this->object->onExecute($event));
-        $this->assertEquals(['row' => 11, 'id' => 10], $model->getData());
-    }
-
-    public function getEntity($idField = 'id', $tableName = 'test')
-    {
-        $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
-        $entity->expects($this->any())->method('getIdField')->willReturn($idField);
-        $entity->expects($this->any())->method('getTable')->willReturn($tableName);
-        return $entity;
+        $model = $this->getModel(0, $record, $this->getAbstractEntity('id', 'update'));
+        $existingData = $this->object->loadFile($model->getEntity());
+        $this->object->processAction($model, $existingData);
+        $this->assertEquals($results, $this->object->loadFile($model->getEntity()));
     }
 }

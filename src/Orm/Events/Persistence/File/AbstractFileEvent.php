@@ -25,17 +25,29 @@
 namespace DSchoenbauer\Orm\Events\Persistence\File;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
+use DSchoenbauer\Orm\Enum\EventPriorities;
+use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\Exception\InvalidPathException;
+use DSchoenbauer\Orm\ModelInterface;
+use Zend\EventManager\EventInterface;
 
 /**
- * Description of FileNameTrait
+ * Description of AbstractFileEvent
  *
  * @author David Schoenbauer
  */
-trait FileTrait
+abstract class AbstractFileEvent extends AbstractEvent
 {
 
-    protected $path = "." . DIRECTORY_SEPARATOR;
+    public function __construct(
+        array $events = [],
+        $priority = EventPriorities::ON_TIME,
+        $path = '.' . DIRECTORY_SEPARATOR
+    ) {
+
+        parent::__construct($events, $priority);
+        $this->setPath($path);
+    }
 
     /**
      * loads data from an array
@@ -77,12 +89,26 @@ trait FileTrait
      */
     public function setPath($path)
     {
-        $path = trim(str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path), '\\/');
-        $path .= DIRECTORY_SEPARATOR;
-        if (!is_dir($path)) {
+        $verifiedPath = trim(str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path), '\\/') . DIRECTORY_SEPARATOR;
+        if (!is_dir($verifiedPath)) {
             throw new InvalidPathException();
         }
-        $this->path = $path;
+        $this->path = $verifiedPath;
         return $this;
+    }
+
+    abstract public function processAction(ModelInterface $model, array $existingData);
+
+    public function onExecute(EventInterface $event)
+    {
+        if (!$event->getTarget() instanceof ModelInterface ||
+            !$event->getTarget()->getEntity() instanceof EntityInterface
+        ) {
+            return false; //Nothing to do with this event
+        }
+        /* @var $model ModelInterface */
+        $model = $event->getTarget();
+        $existingData = $this->loadFile($model->getEntity());
+        return $this->processAction($model, $existingData);
     }
 }

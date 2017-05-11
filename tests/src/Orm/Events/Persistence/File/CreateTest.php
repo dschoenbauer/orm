@@ -39,55 +39,22 @@ use Zend\EventManager\EventInterface;
 class CreateTest extends TestCase
 {
 
-    const TEST_PATH = './files/';
     const TABLE_NAME = 'create';
 
     use TestModelTrait;
 
     protected $object;
+    protected $testPath;
 
     protected function setUp()
     {
+        $this->testPath = str_replace('/', DIRECTORY_SEPARATOR, dirname(__FILE__) . '/../../../../../files/');
         $this->object = new Create();
     }
 
     protected function tearDown()
     {
-        @unlink(self::TEST_PATH . self::TABLE_NAME . '.json');
-    }
-
-    public function testHasProperParent()
-    {
-        $this->assertInstanceOf(AbstractEvent::class, $this->object);
-    }
-
-    public function testEventsDefaultEmptyPassed()
-    {
-        $this->assertEquals([], $this->object->getEvents());
-    }
-
-    public function testEventsDefaultPriority()
-    {
-        $this->assertEquals(EventPriorities::ON_TIME, $this->object->getPriority());
-    }
-
-    public function testEventsDefaultPath()
-    {
-        $this->assertEquals('.' . DIRECTORY_SEPARATOR, $this->object->getPath());
-    }
-
-    public function testNoDefaultValues()
-    {
-        $object = new Create(['test'], -10, '../.');
-        $this->assertEquals(['test'], $object->getEvents());
-        $this->assertEquals(-10, $object->getPriority());
-        $this->assertEquals('..' . DIRECTORY_SEPARATOR . '.' . DIRECTORY_SEPARATOR, $object->getPath());
-    }
-
-    public function testOnExecuteNoModel()
-    {
-        $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $this->assertFalse($this->object->onExecute($event));
+        @unlink($this->testPath . self::TABLE_NAME . '.json');
     }
 
     public function testOnExecuteModelNoEntity()
@@ -103,7 +70,7 @@ class CreateTest extends TestCase
         $entity = $this->getAbstractEntity('id', self::TABLE_NAME);
         $model = $this->getModel(null, ['row' => 1], $entity);
         $event->expects($this->any())->method('getTarget')->willReturn($model);
-        $this->assertTrue($this->object->setPath(self::TEST_PATH)->onExecute($event));
+        $this->assertTrue($this->object->setPath($this->testPath)->onExecute($event));
         $this->assertEquals(['id' => 0, 'row' => 1], $model->getData(), 'Model Data');
         $this->assertEquals(0, $model->getId(), 'Id');
     }
@@ -114,7 +81,7 @@ class CreateTest extends TestCase
         $entity = $this->getAbstractEntity('id', self::TABLE_NAME);
         $model = $this->getModel(null, 'two', $entity);
         $event->expects($this->any())->method('getTarget')->willReturn($model);
-        $this->assertTrue($this->object->setPath(self::TEST_PATH)->onExecute($event));
+        $this->assertTrue($this->object->setPath($this->testPath)->onExecute($event));
         $this->assertEquals("two", $model->getData(), 'Model Data');
         $this->assertEquals(0, $model->getId(), 'Id');
     }
@@ -133,7 +100,7 @@ class CreateTest extends TestCase
     {
         $data = [1, 2, 3, 4];
         $this->assertEquals(3, $this->object->getId($data));
-    }
+    }   
 
     public function testGetIdAdd()
     {
@@ -149,11 +116,11 @@ class CreateTest extends TestCase
         $this->assertEquals(3, $this->object->getId($data));
     }
 
-    public function getEntity($idField = 'id', $tableName = 'test')
-    {
-        $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
-        $entity->expects($this->any())->method('getIdField')->willReturn($idField);
-        $entity->expects($this->any())->method('getTable')->willReturn($tableName);
-        return $entity;
-    }
+//    public function getEntity($idField = 'id', $tableName = 'test')
+//    {
+//        $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
+//        $entity->expects($this->any())->method('getIdField')->willReturn($idField);
+//        $entity->expects($this->any())->method('getTable')->willReturn($tableName);
+//        return $entity;
+//    }
 }

@@ -33,38 +33,38 @@ use PHPUnit\Framework\TestCase;
  *
  * @author David Schoenbauer
  */
-class FileTraitTest extends TestCase
+class AbstractFileEventTest extends TestCase
 {
 
     /**
-     * @var FileNameTrait
+     * @var AbstractFileEvent
      */
     private $object;
+    private $testPath;
 
     protected function setUp()
     {
-        $this->object = $this->getMockForTrait(FileTrait::class);
+        $this->testPath = str_replace('/', DIRECTORY_SEPARATOR, dirname(__FILE__) . '/../../../../../files/');
+        $this->object = $this->getMockForAbstractClass(\DSchoenbauer\Orm\Events\Persistence\File\AbstractFileEvent::class);
     }
 
     public function testLoadFile()
     {
-        $path = dirname(__FILE__);
-        $this->assertEquals(['test' => true], $this->object->setPath($path)->loadFile($this->getEntity('test')));
+        $this->assertEquals(['test' => true], $this->object->setPath($this->testPath)->loadFile($this->getEntity('test')));
     }
 
     public function testLoadFileBadJson()
     {
-        $path = dirname(__FILE__);
-        $this->assertEquals([], $this->object->setPath($path)->loadFile($this->getEntity('broke')));
+        $this->assertEquals([], $this->object->setPath($this->testPath)->loadFile($this->getEntity('broke')));
     }
 
     public function testSaveFile()
     {
-        $path = dirname(__FILE__);
+     
         $data = ['test' => true];
         $result = '{"test":true}';
         $entity = $this->getEntity('save');
-        $this->assertTrue($this->object->setPath($path)->saveFile($data, $entity));
+        $this->assertTrue($this->object->setPath($this->testPath)->saveFile($data, $entity));
         $contents = file_get_contents($this->object->getFileName($entity));
         $this->assertEquals($result, $contents);
     }
@@ -122,7 +122,6 @@ class FileTraitTest extends TestCase
 
     protected function tearDown()
     {
-        $path = dirname(__FILE__);
-        @unlink($path . DIRECTORY_SEPARATOR . 'save.json');
+        @unlink($this->testPath . 'save.json');
     }
 }

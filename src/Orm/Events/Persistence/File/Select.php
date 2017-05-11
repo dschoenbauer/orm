@@ -26,7 +26,6 @@ namespace DSchoenbauer\Orm\Events\Persistence\File;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Enum\EventPriorities;
-use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\Exception\RecordNotFoundException;
 use DSchoenbauer\Orm\ModelInterface;
 use Zend\EventManager\EventInterface;
@@ -36,39 +35,16 @@ use Zend\EventManager\EventInterface;
  *
  * @author David Schoenbauer
  */
-class Select extends AbstractEvent
+class Select extends AbstractFileEvent
 {
 
-    use FileTrait;
-
-    public function __construct(array $events = [], $priority = EventPriorities::ON_TIME, $path = '.' . DIRECTORY_SEPARATOR)
+    public function processAction(ModelInterface $model, array $existingData)
     {
-        parent::__construct($events, $priority);
-        $this->setPath($path);
-    }
-
-    /**
-     * event action
-     * @param EventInterface $event object passed when event is fired
-     * @return void
-     * @since v1.0.0
-     */
-    public function onExecute(EventInterface $event)
-    {
-        if (
-            !$event->getTarget() instanceof ModelInterface ||
-            !$event->getTarget()->getEntity() instanceOf EntityInterface
-        ) {
-            return false; //Nothing to do with this event
-        }
-        /* @var $model ModelInterface */
-        $model = $event->getTarget();
-        $entity = $model->getEntity();
-        $data = $this->loadFile($entity);
-        if (!array_key_exists($model->getId(), $data)) {
+        $id = $model->getId();
+        if (!array_key_exists($id, $existingData)) {
             throw new RecordNotFoundException();
         }
-        $model->setData($data[$model->getId()]);
+        $model->setData($existingData[$id]);
         return true;
     }
 }
