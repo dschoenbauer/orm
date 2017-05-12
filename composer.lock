@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "aa3f5efe6ec6d0b9af7913439011df1f",
+    "content-hash": "4079a2f88d64e93f2704f7afed1d8c44",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -36,6 +36,28 @@
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
             "time": "2017-02-14T19:40:03+00:00"
+        },
+        {
+            "name": "digitronac/coverage-checker",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/digitronac/coverage-checker.git",
+                "reference": "10b7c2c6328960d0035f4989164ffc3540ddc5fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/digitronac/coverage-checker/zipball/10b7c2c6328960d0035f4989164ffc3540ddc5fe",
+                "reference": "10b7c2c6328960d0035f4989164ffc3540ddc5fe",
+                "shasum": ""
+            },
+            "bin": [
+                "coverage-checker.php"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "coverage checker",
+            "time": "2014-02-24T11:40:17+00:00"
         },
         {
             "name": "dschoenbauer/dot-notation",
