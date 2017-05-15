@@ -40,9 +40,11 @@ abstract class AbstractFileEvent extends AbstractEvent
 {
 
     public function __construct(
-    array $events = [], $priority = EventPriorities::ON_TIME, $path = '.' . DIRECTORY_SEPARATOR
-    )
-    {
+        array $events = [],
+        $priority = EventPriorities::ON_TIME,
+        $path = '.' . DIRECTORY_SEPARATOR
+    ) {
+    
 
         parent::__construct($events, $priority);
         $this->setPath($path);
@@ -113,14 +115,14 @@ abstract class AbstractFileEvent extends AbstractEvent
 
     public function canonicalize($address)
     {
-        $addressArray = explode(DIRECTORY_SEPARATOR, str_replace(["/", "\\"], DIRECTORY_SEPARATOR, trim($address, "\\/")));
-        $keys = array_keys($addressArray, '..');
+        $dataArray = explode(DIRECTORY_SEPARATOR, str_replace(["/", "\\"], DIRECTORY_SEPARATOR, trim($address, "\\/")));
+        $keys = array_keys($dataArray, '..');
 
-        foreach ($keys AS $keypos => $key) {
-            array_splice($addressArray, $key - ($keypos * 2 + 1), 2);
+        foreach ($keys as $keypos => $key) {
+            array_splice($dataArray, $key - ($keypos * 2 + 1), 2);
         }
 
-        $path = str_replace('.' . DIRECTORY_SEPARATOR, '', implode(DIRECTORY_SEPARATOR, $addressArray));
+        $path = str_replace('.' . DIRECTORY_SEPARATOR, '', implode(DIRECTORY_SEPARATOR, $dataArray));
         if (!is_dir($path)) {
             return false;
         }
