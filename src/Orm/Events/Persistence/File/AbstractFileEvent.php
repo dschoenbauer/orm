@@ -40,10 +40,9 @@ abstract class AbstractFileEvent extends AbstractEvent
 {
 
     public function __construct(
-        array $events = [],
-        $priority = EventPriorities::ON_TIME,
-        $path = '.' . DIRECTORY_SEPARATOR
-    ) {
+    array $events = [], $priority = EventPriorities::ON_TIME, $path = '.' . DIRECTORY_SEPARATOR
+    )
+    {
 
         parent::__construct($events, $priority);
         $this->setPath($path);
@@ -89,8 +88,8 @@ abstract class AbstractFileEvent extends AbstractEvent
      */
     public function setPath($path)
     {
-        $verifiedPath = trim(str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path), '\\/') . DIRECTORY_SEPARATOR;
-        if (!is_dir($verifiedPath)) {
+        $verifiedPath = $this->canonicalize($path);
+        if ($verifiedPath === false) {
             throw new InvalidPathException();
         }
         $this->path = $verifiedPath;
@@ -110,5 +109,21 @@ abstract class AbstractFileEvent extends AbstractEvent
         $model = $event->getTarget();
         $existingData = $this->loadFile($model->getEntity());
         return $this->processAction($model, $existingData);
+    }
+
+    public function canonicalize($address)
+    {
+        $addressArray = explode(DIRECTORY_SEPARATOR, str_replace(["/", "\\"], DIRECTORY_SEPARATOR, trim($address, "\\/")));
+        $keys = array_keys($addressArray, '..');
+
+        foreach ($keys AS $keypos => $key) {
+            array_splice($addressArray, $key - ($keypos * 2 + 1), 2);
+        }
+
+        $path = str_replace('.' . DIRECTORY_SEPARATOR, '', implode(DIRECTORY_SEPARATOR, $addressArray));
+        if (!is_dir($path)) {
+            return false;
+        }
+        return $path . DIRECTORY_SEPARATOR;
     }
 }

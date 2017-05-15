@@ -60,7 +60,7 @@ class AbstractFileEventTest extends TestCase
 
     public function testSaveFile()
     {
-     
+
         $data = ['test' => true];
         $result = '{"test":true}';
         $entity = $this->getEntity('save');
@@ -106,11 +106,15 @@ class AbstractFileEventTest extends TestCase
         $this->assertEquals("." . DIRECTORY_SEPARATOR, $this->object->setPath(".\\")->getPath());
     }
 
-    public function testPathIsADir()
+    public function testPathIsADirGood()
+    {
+        $this->assertEquals("." . DIRECTORY_SEPARATOR, $this->object->setPath("./")->getPath());
+    }
+
+    public function testPathIsADirBad()
     {
         $this->expectException(InvalidPathException::class);
-        $this->assertEquals("." . DIRECTORY_SEPARATOR, $this->object->setPath("./")->getPath());
-        $this->object->setPath("." . DIRECTORY_SEPARATOR . "notAPath");
+        $this->object->setPath("./notAPath");
     }
 
     protected function getEntity($table)
