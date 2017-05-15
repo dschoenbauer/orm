@@ -46,6 +46,7 @@ abstract class AbstractFileEvent extends AbstractEvent
     ) {
     
 
+
         parent::__construct($events, $priority);
         $this->setPath($path);
     }
@@ -91,8 +92,8 @@ abstract class AbstractFileEvent extends AbstractEvent
     public function setPath($path)
     {
         $verifiedPath = $this->canonicalize($path);
-        if ($verifiedPath === false) {
-            throw new InvalidPathException();
+        if (!is_dir($verifiedPath)) {
+            throw new InvalidPathException($verifiedPath);
         }
         $this->path = $verifiedPath;
         return $this;
@@ -115,17 +116,15 @@ abstract class AbstractFileEvent extends AbstractEvent
 
     public function canonicalize($address)
     {
-        $dataArray = explode(DIRECTORY_SEPARATOR, str_replace(["/", "\\"], DIRECTORY_SEPARATOR, trim($address, "\\/")));
-        $keys = array_keys($dataArray, '..');
+        $data = explode(DIRECTORY_SEPARATOR, str_replace(["/", "\\"], DIRECTORY_SEPARATOR, rtrim($address, "\\/")));
+        $keys = array_keys($data, '..');
 
         foreach ($keys as $keypos => $key) {
-            array_splice($dataArray, $key - ($keypos * 2 + 1), 2);
+            array_splice($data, $key - ($keypos * 2 + 1), 2);
         }
 
-        $path = str_replace('.' . DIRECTORY_SEPARATOR, '', implode(DIRECTORY_SEPARATOR, $dataArray));
-        if (!is_dir($path)) {
-            return false;
-        }
+        $path = str_replace('.' . DIRECTORY_SEPARATOR, '', implode(DIRECTORY_SEPARATOR, $data));
+
         return $path . DIRECTORY_SEPARATOR;
     }
 }

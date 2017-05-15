@@ -117,6 +117,12 @@ class AbstractFileEventTest extends TestCase
         $this->object->setPath("./notAPath");
     }
 
+    public function testCanonicalizeHasRootKey()
+    {
+        $path = DIRECTORY_SEPARATOR . 'test' . DIRECTORY_SEPARATOR;
+        $this->assertEquals($path, $this->object->canonicalize($path));
+    }
+
     protected function getEntity($table)
     {
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
