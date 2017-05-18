@@ -66,4 +66,21 @@ class SelectTest extends TestCase
 
         $this->object->setClient($client)->run($model);
     }
+
+    public function testRunFail()
+    {
+        $this->expectException(\DSchoenbauer\Orm\Exception\HttpErrorException::class);
+        $this->expectExceptionCode(500);
+        $this->expectExceptionMessage('{"test":1,"id":1999}');
+        
+        $data = ['test' => 1, 'id' => 1999];
+        $model = $this->getModel(1999, $data, $this->getIsHttp('id', 'entity', 'collection'));
+
+        $client = $this->getMockBuilder(Client::class)->getMock();
+        $client->expects($this->once())->method('setMethod')->with(Request::METHOD_GET)->willReturnSelf();
+        $client->expects($this->once())->method('setUri')->with('entity')->willReturnSelf();
+        $client->expects($this->once())->method('send')->willReturn($this->getResponse('somethingJson', json_encode($data), false, 500));
+
+        $this->object->setClient($client)->run($model);
+    }
 }

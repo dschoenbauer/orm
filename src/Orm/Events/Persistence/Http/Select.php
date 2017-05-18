@@ -41,6 +41,6 @@ class Select extends AbstractHttpEvent
     {
         $url = $this->buildUri($model);
         $this->getClient()->setMethod($this->getMethod())->setUri($url);
-        $model->setData($this->getDataExtractorFactory()->getData($this->getClient()->send()));
+        $model->setData($this->getDataExtractorFactory()->getData($this->checkForError($this->getClient()->send())));
     }
 }
