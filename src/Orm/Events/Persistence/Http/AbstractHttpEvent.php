@@ -29,10 +29,12 @@ use DSchoenbauer\Orm\Entity\IsHttpInterface;
 use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\Events\Persistence\Http\DataExtract\DataExtractorFactory;
+use DSchoenbauer\Orm\Exception\HttpErrorException;
 use DSchoenbauer\Orm\Framework\InterpolateTrait;
 use DSchoenbauer\Orm\ModelInterface;
 use Zend\EventManager\EventInterface;
 use Zend\Http\Client;
+use Zend\Http\Response;
 
 /**
  * Description of AbstractHttpEvent
@@ -54,8 +56,6 @@ abstract class AbstractHttpEvent extends AbstractEvent
         Client $client = null,
         $method = null
     ) {
-    
-
         $this->setClient($client);
         parent::__construct($events, $priority);
         if ($method) {
@@ -154,5 +154,19 @@ abstract class AbstractHttpEvent extends AbstractEvent
     {
         $this->dataExtractorFactory = $dataExtractorFactory;
         return $this;
+    }
+
+    /**
+     * Checks for errors returned in the response.
+     * @param Response $response
+     * @return Response
+     * @throws HttpErrorException
+     */
+    public function checkForError(Response $response)
+    {
+        if ($response->isSuccess()) {
+            return $response;
+        }
+        throw new HttpErrorException($response->getBody(), $response->getStatusCode());
     }
 }
