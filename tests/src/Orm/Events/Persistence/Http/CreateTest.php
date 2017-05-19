@@ -24,6 +24,7 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence\Http;
 
+use DSchoenbauer\Orm\Exception\HttpErrorException;
 use DSchoenbauer\Tests\Orm\Events\Persistence\Http\DataExtract\TestResponseTrait;
 use DSchoenbauer\Tests\Orm\Events\Persistence\Http\TestModelTrait;
 use PHPUnit\Framework\TestCase;
@@ -70,7 +71,6 @@ class CreateTest extends TestCase
         $data = ['id' => 1999, 'test' => 100];
 
         $response = $this->getResponse('something/json', \json_encode($data));
-        $response->expects($this->once())->method('isSuccess')->willReturn(true);
 
         $client = $this->getMockBuilder(Client::class)->getMock();
         $client->expects($this->once())->method('setUri')->with('bobsYourUncle')->willReturnSelf();
@@ -80,6 +80,26 @@ class CreateTest extends TestCase
 
         $model = $this->getModel(0, $data, $this->getIsHttp('id', 'bobsYourAunt', 'bobsYourUncle'));
         $model->expects($this->once())->method('setId')->with(1999);
+
+        $this->object->setClient($client)->run($model);
+    }
+
+    public function testRunFail()
+    {
+        $data = ['id' => 1999, 'test' => 100];
+
+        $this->expectException(HttpErrorException::class);
+        $this->expectExceptionCode(500);
+        $this->expectExceptionMessage(\json_encode($data));
+        $response = $this->getResponse('something/json', \json_encode($data), 500);
+
+        $client = $this->getMockBuilder(Client::class)->getMock();
+        $client->expects($this->once())->method('setUri')->with('bobsYourUncle')->willReturnSelf();
+        $client->expects($this->once())->method('setParameterPost')->with($data)->willReturnSelf();
+        $client->expects($this->once())->method('setMethod')->with(Request::METHOD_POST)->willReturnSelf();
+        $client->expects($this->once())->method('send')->willReturn($response);
+
+        $model = $this->getModel(0, $data, $this->getIsHttp('id', 'bobsYourAunt', 'bobsYourUncle'));
 
         $this->object->setClient($client)->run($model);
     }

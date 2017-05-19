@@ -22,25 +22,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Persistence\Http;
+namespace DSchoenbauer\Orm\Exception;
 
-use DSchoenbauer\Orm\ModelInterface;
-use Zend\Http\Request;
+use DSchoenbauer\Exception\Http\ServerError\ServerErrorException;
 
 /**
- * Description of Select
+ * Description of HttpErrorException
  *
  * @author David Schoenbauer
  */
-class Select extends AbstractHttpEvent
+class HttpErrorException extends ServerErrorException implements OrmExceptionInterface
 {
-
-    protected $method = Request::METHOD_GET;
-
-    public function run(ModelInterface $model)
-    {
-        $url = $this->buildUri($model);
-        $this->getClient()->setMethod($this->getMethod())->setUri($url);
-        $model->setData($this->getDataExtractorFactory()->getData($this->checkForError($this->getClient()->send())));
-    }
+    
 }

@@ -22,25 +22,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Persistence\Http;
+namespace DSchoenbauer\Orm\Exception;
 
-use DSchoenbauer\Orm\ModelInterface;
-use Zend\Http\Request;
+use DSchoenbauer\Exception\Http\ServerError\ServerErrorException;
+use PHPUnit\Framework\TestCase;
 
 /**
- * Description of Select
+ * Description of HttpErrorExceptionTest
  *
  * @author David Schoenbauer
  */
-class Select extends AbstractHttpEvent
+class HttpErrorExceptionTest extends TestCase
 {
 
-    protected $method = Request::METHOD_GET;
+    protected $object;
 
-    public function run(ModelInterface $model)
+    protected function setUp()
     {
-        $url = $this->buildUri($model);
-        $this->getClient()->setMethod($this->getMethod())->setUri($url);
-        $model->setData($this->getDataExtractorFactory()->getData($this->checkForError($this->getClient()->send())));
+        $this->object = new HttpErrorException();
+    }
+    
+    public function testProperInterface(){
+        $this->assertInstanceOf(OrmExceptionInterface::class, $this->object);
+    }
+    
+    public function testProperParent(){
+        $this->assertInstanceOf(ServerErrorException::class, $this->object);
     }
 }

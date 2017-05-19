@@ -39,6 +39,8 @@ use Zend\EventManager\EventInterface;
 abstract class AbstractFileEvent extends AbstractEvent
 {
 
+    private $path;
+
     public function __construct(
         array $events = [],
         $priority = EventPriorities::ON_TIME,
@@ -114,6 +116,10 @@ abstract class AbstractFileEvent extends AbstractEvent
         return $this->processAction($model, $existingData);
     }
 
+    /**
+     * @param string $address
+     * @return string
+     */
     public function canonicalize($address)
     {
         $data = explode(DIRECTORY_SEPARATOR, str_replace(["/", "\\"], DIRECTORY_SEPARATOR, rtrim($address, "\\/")));
