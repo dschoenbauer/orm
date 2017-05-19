@@ -40,10 +40,10 @@ class Delete extends AbstractHttpEvent
     public function run(ModelInterface $model)
     {
         $uri = $this->buildUri($model);
-        $response = $this->getClient()
-            ->setUri($uri)
-            ->setMethod($this->getMethod())
-            ->send();
+        $response = $this->checkForError($this->getClient()
+                ->setUri($uri)
+                ->setMethod($this->getMethod())
+                ->send());
         $model->getAttributes()->set('response', $response);
     }
 }

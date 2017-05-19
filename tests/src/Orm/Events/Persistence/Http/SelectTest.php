@@ -79,7 +79,7 @@ class SelectTest extends TestCase
         $client = $this->getMockBuilder(Client::class)->getMock();
         $client->expects($this->once())->method('setMethod')->with(Request::METHOD_GET)->willReturnSelf();
         $client->expects($this->once())->method('setUri')->with('entity')->willReturnSelf();
-        $client->expects($this->once())->method('send')->willReturn($this->getResponse('somethingJson', json_encode($data), false, 500));
+        $client->expects($this->once())->method('send')->willReturn($this->getResponse('somethingJson', json_encode($data), 500));
 
         $this->object->setClient($client)->run($model);
     }

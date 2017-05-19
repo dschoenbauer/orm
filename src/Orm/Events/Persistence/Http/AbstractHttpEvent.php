@@ -56,6 +56,7 @@ abstract class AbstractHttpEvent extends AbstractEvent
         Client $client = null,
         $method = null
     ) {
+    
         $this->setClient($client);
         parent::__construct($events, $priority);
         if ($method) {
@@ -162,9 +163,9 @@ abstract class AbstractHttpEvent extends AbstractEvent
      * @return Response
      * @throws HttpErrorException
      */
-    public function checkForError(Response $response)
+    public function checkForError(Response $response, array $successStatusCodes = [200, 202, 204])
     {
-        if ($response->isSuccess()) {
+        if (in_array($response->getStatusCode(), $successStatusCodes)) {
             return $response;
         }
         throw new HttpErrorException($response->getBody(), $response->getStatusCode());

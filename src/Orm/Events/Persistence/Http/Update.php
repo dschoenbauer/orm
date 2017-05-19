@@ -34,21 +34,20 @@ use Zend\Http\Request;
  */
 class Update extends AbstractHttpEvent
 {
+
     protected $method = Request::METHOD_PUT;
 
     public function run(ModelInterface $model)
     {
         $uri = $this->buildUri($model);
-        $response = $this->getClient()->setMethod($this->getMethod())
-            ->setParameterPost($model->getData())
-            ->setUri($uri)
-            ->send();
-        if ($response->isSuccess()) {
-            $model->setData($this->getDataExtractorFactory()->getData($response));
-            $this->runExtra($model);
-        }
+        $response = $this->checkForError($this->getClient()->setMethod($this->getMethod())
+                ->setParameterPost($model->getData())
+                ->setUri($uri)
+                ->send());
+        $model->setData($this->getDataExtractorFactory()->getData($response));
+        $this->runExtra($model);
     }
-    
+
     public function runExtra(ModelInterface $model)
     {
         //void;

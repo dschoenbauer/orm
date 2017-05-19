@@ -27,6 +27,8 @@ namespace DSchoenbauer\Orm\Events\Persistence\Http;
 use DSchoenbauer\Orm\Entity\IsHttpInterface;
 use DSchoenbauer\Orm\Events\Persistence\Http\DataExtract\DataExtractorFactory;
 use DSchoenbauer\Orm\Events\Persistence\Http\DataExtract\DataExtractorInterface;
+use DSchoenbauer\Orm\Exception\HttpErrorException;
+use DSchoenbauer\Tests\Orm\Events\Persistence\Http\DataExtract\TestResponseTrait;
 use DSchoenbauer\Tests\Orm\Events\Persistence\Http\TestModelTrait;
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -45,6 +47,7 @@ class AbstractHttpEventTest extends TestCase
 
 use TestModelTrait;
 
+    use TestResponseTrait;
     protected $object;
 
     protected function setUp()
@@ -142,24 +145,16 @@ use TestModelTrait;
 
     public function testCheckForErrorIsError()
     {
-        $response = $this->getResponse();
+        $response = $this->getResponse("someHeader");
         $this->assertSame($response, $this->object->checkForError($response));
     }
 
     public function testCheckForErrorNoError()
     {
-        $this->expectException(\DSchoenbauer\Orm\Exception\HttpErrorException::class);
+        $this->expectException(HttpErrorException::class);
         $this->expectExceptionCode(500);
         $this->expectExceptionMessage("some body");
-        $this->assertTrue($this->object->checkForError($this->getResponse(false, 500, "some body")));
+        $this->assertTrue($this->object->checkForError($this->getResponse("","some body", 500)));
     }
 
-    public function getResponse($isSuccess = true, $statusCode = 200, $body = 'ok')
-    {
-        $response = $this->getMockBuilder(Response::class)->getMock();
-        $response->expects($this->any())->method('isSuccess')->willReturn($isSuccess);
-        $response->expects($this->any())->method('getStatusCode')->willReturn($statusCode);
-        $response->expects($this->any())->method('getBody')->willReturn($body);
-        return $response;
-    }
 }
