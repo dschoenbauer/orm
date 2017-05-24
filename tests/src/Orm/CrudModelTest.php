@@ -62,6 +62,23 @@ class CrudModelTest extends TestCase
         $this->assertEquals($data, $this->object->getData());
     }
 
+    public function testCreateOnError()
+    {
+        $this->mockEventManager->expects($this->exactly(2))
+            ->method('trigger')
+            ->withConsecutive(
+                [ModelEvents::CREATE, $this->object], [ModelEvents::ERROR, $this->object]
+            )->willReturnCallback(function() {
+            static $i = 0;
+            if ($i == 0) {
+                $i++;
+                throw new \Exception();
+            }
+        });
+        $this->object->setEventManager($this->mockEventManager);
+        $this->object->create(['test' => 'value']);
+    }
+
     public function testFetch()
     {
         $this->mockEventManager->expects($this->exactly(1))
@@ -76,6 +93,24 @@ class CrudModelTest extends TestCase
         $this->assertEquals($id, $this->object->getId());
     }
 
+    public function testFetchOnError()
+    {
+        $this->mockEventManager->expects($this->exactly(2))
+            ->method('trigger')
+            ->withConsecutive(
+                [ModelEvents::FETCH, $this->object], [ModelEvents::ERROR, $this->object]
+            )->willReturnCallback(function() {
+            static $i = 0;
+            if ($i == 0) {
+                $i++;
+                throw new \Exception();
+            }
+        });
+
+        $this->object->setEventManager($this->mockEventManager);
+        $this->object->fetch(1447);
+    }
+
     public function testFetchAll()
     {
         $this->mockEventManager->expects($this->exactly(1))
@@ -86,6 +121,23 @@ class CrudModelTest extends TestCase
         $this->object->setEventManager($this->mockEventManager);
         $data = ['test' => 'value'];
         $this->assertEquals($data, $this->object->setData($data)->fetchAll());
+    }
+
+    public function testFetchAllOnError()
+    {
+        $this->mockEventManager->expects($this->exactly(2))
+            ->method('trigger')
+            ->withConsecutive(
+                [ModelEvents::FETCH_ALL, $this->object], [ModelEvents::ERROR, $this->object]
+            )->willReturnCallback(function() {
+            static $i = 0;
+            if ($i == 0) {
+                $i++;
+                throw new \Exception();
+            }
+        });
+        $this->object->setEventManager($this->mockEventManager);
+        $this->object->fetchAll();
     }
 
     public function testUpdate()
@@ -104,6 +156,24 @@ class CrudModelTest extends TestCase
         $this->assertEquals($id, $this->object->getId());
     }
 
+    public function testUpdateOnError()
+    {
+        $this->mockEventManager->expects($this->exactly(2))
+            ->method('trigger')
+            ->withConsecutive(
+                [ModelEvents::UPDATE, $this->object], [ModelEvents::ERROR, $this->object]
+            )->willReturnCallback(function() {
+            static $i = 0;
+            if ($i == 0) {
+                $i++;
+                throw new \Exception();
+            }
+        });
+
+        $this->object->setEventManager($this->mockEventManager);
+        $this->object->update(1447, ['test' => 'value']);
+    }
+
     public function testDelete()
     {
         $this->mockEventManager->expects($this->exactly(1))
@@ -115,5 +185,23 @@ class CrudModelTest extends TestCase
         $id = 1447;
         $this->assertTrue($this->object->delete($id));
         $this->assertEquals($id, $this->object->getId());
+    }
+
+    public function testDeleteOnError()
+    {
+        $this->mockEventManager->expects($this->exactly(2))
+            ->method('trigger')
+            ->withConsecutive(
+                [ModelEvents::DELETE, $this->object],
+                [ModelEvents::ERROR, $this->object]
+            )->willReturnCallback(function() {
+            static $i = 0;
+            if ($i == 0) {
+                $i++;
+                throw new \Exception();
+            }
+        });
+        $this->object->setEventManager($this->mockEventManager);
+        $this->object->delete(1447);
     }
 }

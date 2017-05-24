@@ -25,6 +25,7 @@
 namespace DSchoenbauer\Orm;
 
 use DSchoenbauer\Orm\Enum\ModelEvents;
+use Exception;
 
 /**
  * Extends core model adding a basic set of methods triggering key events for crud operations
@@ -42,9 +43,13 @@ class CrudModel extends Model
      */
     public function create($data)
     {
-        $this->setData($data);
-        $this->getEventManager()->trigger(ModelEvents::CREATE, $this);
-        return $this->getData();
+        try {
+            $this->setData($data);
+            $this->getEventManager()->trigger(ModelEvents::CREATE, $this);
+            return $this->getData();
+        } catch (\Exception $exc) {
+            $this->manageExceptions($exc);
+        }
     }
 
     /**
@@ -55,9 +60,13 @@ class CrudModel extends Model
      */
     public function fetch($idx)
     {
-        $this->setId($idx);
-        $this->getEventManager()->trigger(ModelEvents::FETCH, $this);
-        return $this->getData();
+        try {
+            $this->setId($idx);
+            $this->getEventManager()->trigger(ModelEvents::FETCH, $this);
+            return $this->getData();
+        } catch (\Exception $exc) {
+            $this->manageExceptions($exc);
+        }
     }
 
     /**
@@ -67,8 +76,12 @@ class CrudModel extends Model
      */
     public function fetchAll()
     {
-        $this->getEventManager()->trigger(ModelEvents::FETCH_ALL, $this);
-        return $this->getData();
+        try {
+            $this->getEventManager()->trigger(ModelEvents::FETCH_ALL, $this);
+            return $this->getData();
+        } catch (Exception $exc) {
+            $this->manageExceptions($exc);
+        }
     }
 
     /**
@@ -80,9 +93,13 @@ class CrudModel extends Model
      */
     public function update($idx, $data)
     {
-        $this->setId($idx)->setData($data);
-        $this->getEventManager()->trigger(ModelEvents::UPDATE, $this);
-        return $this->getData();
+        try {
+            $this->setId($idx)->setData($data);
+            $this->getEventManager()->trigger(ModelEvents::UPDATE, $this);
+            return $this->getData();
+        } catch (Exception $exc) {
+            $this->manageExceptions($exc);
+        }
     }
 
     /**
@@ -93,8 +110,17 @@ class CrudModel extends Model
      */
     public function delete($idx)
     {
-        $this->setId($idx);
-        $this->getEventManager()->trigger(ModelEvents::DELETE, $this);
-        return true;
+        try {
+            $this->setId($idx);
+            $this->getEventManager()->trigger(ModelEvents::DELETE, $this);
+            return true;
+        } catch (Exception $exc) {
+            $this->manageExceptions($exc);
+        }
+    }
+    
+    private function manageExceptions(\Exception $exc)
+    {
+            $this->getEventManager()->trigger(ModelEvents::ERROR, $this);
     }
 }
