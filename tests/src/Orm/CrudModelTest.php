@@ -64,15 +64,17 @@ class CrudModelTest extends TestCase
 
     public function testCreateOnError()
     {
+        $exc = new \Exception();
         $this->mockEventManager->expects($this->exactly(2))
             ->method('trigger')
             ->withConsecutive(
-                [ModelEvents::CREATE, $this->object], [ModelEvents::ERROR, $this->object]
-            )->willReturnCallback(function() {
+                [ModelEvents::CREATE, $this->object], 
+                [ModelEvents::ERROR, $this->object, ['event' => ModelEvents::CREATE, 'exception' => $exc]]
+            )->willReturnCallback(function() use ($exc){
             static $i = 0;
             if ($i == 0) {
                 $i++;
-                throw new \Exception();
+                throw new $exc;
             }
         });
         $this->object->setEventManager($this->mockEventManager);
@@ -95,15 +97,16 @@ class CrudModelTest extends TestCase
 
     public function testFetchOnError()
     {
+        $exc = new \Exception();
         $this->mockEventManager->expects($this->exactly(2))
             ->method('trigger')
             ->withConsecutive(
-                [ModelEvents::FETCH, $this->object], [ModelEvents::ERROR, $this->object]
-            )->willReturnCallback(function() {
+                [ModelEvents::FETCH, $this->object], [ModelEvents::ERROR, $this->object, ['event' => ModelEvents::FETCH, 'exception' => $exc]]
+            )->willReturnCallback(function() use ($exc) {
             static $i = 0;
             if ($i == 0) {
                 $i++;
-                throw new \Exception();
+                throw $exc;
             }
         });
 
@@ -125,15 +128,17 @@ class CrudModelTest extends TestCase
 
     public function testFetchAllOnError()
     {
+        $exc = new \Exception();
         $this->mockEventManager->expects($this->exactly(2))
             ->method('trigger')
             ->withConsecutive(
-                [ModelEvents::FETCH_ALL, $this->object], [ModelEvents::ERROR, $this->object]
-            )->willReturnCallback(function() {
+                [ModelEvents::FETCH_ALL, $this->object], 
+                [ModelEvents::ERROR, $this->object, ['event' => ModelEvents::FETCH_ALL, 'exception' => $exc]]
+            )->willReturnCallback(function() use($exc) {
             static $i = 0;
             if ($i == 0) {
                 $i++;
-                throw new \Exception();
+                throw new $exc;
             }
         });
         $this->object->setEventManager($this->mockEventManager);
@@ -158,15 +163,16 @@ class CrudModelTest extends TestCase
 
     public function testUpdateOnError()
     {
+        $exc = new \Exception();
         $this->mockEventManager->expects($this->exactly(2))
             ->method('trigger')
             ->withConsecutive(
-                [ModelEvents::UPDATE, $this->object], [ModelEvents::ERROR, $this->object]
-            )->willReturnCallback(function() {
+                [ModelEvents::UPDATE, $this->object], [ModelEvents::ERROR, $this->object, ['event' => ModelEvents::UPDATE, 'exception' => $exc]]
+            )->willReturnCallback(function() use ($exc) {
             static $i = 0;
             if ($i == 0) {
                 $i++;
-                throw new \Exception();
+                throw $exc;
             }
         });
 
@@ -189,16 +195,16 @@ class CrudModelTest extends TestCase
 
     public function testDeleteOnError()
     {
+        $exc = new \Exception();
         $this->mockEventManager->expects($this->exactly(2))
             ->method('trigger')
             ->withConsecutive(
-                [ModelEvents::DELETE, $this->object],
-                [ModelEvents::ERROR, $this->object]
-            )->willReturnCallback(function() {
+                [ModelEvents::DELETE, $this->object], [ModelEvents::ERROR, $this->object, ['event' => ModelEvents::DELETE, 'exception' => $exc]]
+            )->willReturnCallback(function() use ($exc) {
             static $i = 0;
             if ($i == 0) {
                 $i++;
-                throw new \Exception();
+                throw $exc;
             }
         });
         $this->object->setEventManager($this->mockEventManager);

@@ -48,7 +48,7 @@ class CrudModel extends Model
             $this->getEventManager()->trigger(ModelEvents::CREATE, $this);
             return $this->getData();
         } catch (\Exception $exc) {
-            $this->manageExceptions($exc);
+            $this->manageExceptions($exc, ModelEvents::CREATE);
         }
     }
 
@@ -65,7 +65,7 @@ class CrudModel extends Model
             $this->getEventManager()->trigger(ModelEvents::FETCH, $this);
             return $this->getData();
         } catch (\Exception $exc) {
-            $this->manageExceptions($exc);
+            $this->manageExceptions($exc, ModelEvents::FETCH);
         }
     }
 
@@ -80,7 +80,7 @@ class CrudModel extends Model
             $this->getEventManager()->trigger(ModelEvents::FETCH_ALL, $this);
             return $this->getData();
         } catch (Exception $exc) {
-            $this->manageExceptions($exc);
+            $this->manageExceptions($exc, ModelEvents::FETCH_ALL);
         }
     }
 
@@ -98,7 +98,7 @@ class CrudModel extends Model
             $this->getEventManager()->trigger(ModelEvents::UPDATE, $this);
             return $this->getData();
         } catch (Exception $exc) {
-            $this->manageExceptions($exc);
+            $this->manageExceptions($exc, ModelEvents::UPDATE);
         }
     }
 
@@ -115,12 +115,12 @@ class CrudModel extends Model
             $this->getEventManager()->trigger(ModelEvents::DELETE, $this);
             return true;
         } catch (Exception $exc) {
-            $this->manageExceptions($exc);
+            $this->manageExceptions($exc, ModelEvents::DELETE);
         }
     }
-    
-    private function manageExceptions(\Exception $exc)
+
+    private function manageExceptions(\Exception $exception, $event)
     {
-            $this->getEventManager()->trigger(ModelEvents::ERROR, $this);
+        $this->getEventManager()->trigger(ModelEvents::ERROR, $this, compact('event', 'exception'));
     }
 }
