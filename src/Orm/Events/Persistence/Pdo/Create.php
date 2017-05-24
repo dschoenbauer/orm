@@ -6,8 +6,10 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
 
+use DSchoenbauer\Orm\Exception\RecordNotFoundException;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Create as CreateCommand;
+use DSchoenbauer\Sql\Exception\NoRecordsAffectedException;
 use Zend\EventManager\EventInterface;
 
 /**
@@ -31,13 +33,18 @@ class Create extends AbstractPdoEvent
         if (!$event->getTarget() instanceof ModelInterface) {
             return;
         }
-        /* @var $model ModelInterface */
-        $model = $event->getTarget();
-        $entity = $model->getEntity();
-        $this->getCreate()
-            ->setTable($entity->getTable())
-            ->setData($model->getData())
-            ->execute($this->getAdapter());
+        try {
+            /* @var $model ModelInterface */
+            $model = $event->getTarget();
+            $entity = $model->getEntity();
+            $this->getCreate()
+                ->setIsStrict()
+                ->setTable($entity->getTable())
+                ->setData($model->getData())
+                ->execute($this->getAdapter());
+        } catch (NoRecordsAffectedException $exc) {
+            throw new RecordNotFoundException();
+        }
     }
 
     /**

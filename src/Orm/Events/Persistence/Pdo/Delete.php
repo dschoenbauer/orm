@@ -6,11 +6,11 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
 
-use DSchoenbauer\Orm\Enum\EventPriorities;
+use DSchoenbauer\Orm\Exception\RecordNotFoundException;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Delete as DeleteCommand;
+use DSchoenbauer\Sql\Exception\NoRecordsAffectedException;
 use DSchoenbauer\Sql\Where\ArrayWhere;
-use PDO;
 use Zend\EventManager\EventInterface;
 
 /**
@@ -34,13 +34,18 @@ class Delete extends AbstractPdoEvent
         if (!$event->getTarget() instanceof ModelInterface) {
             return;
         }
-        /* @var $model ModelInterface */
-        $model = $event->getTarget();
-        $entity = $model->getEntity();
-        $this->getDelete()
-            ->setTable($entity->getTable())
-            ->setWhere(new ArrayWhere([$entity->getIdField() => $model->getId()]))
-            ->execute($this->getAdapter());
+        try {
+            /* @var $model ModelInterface */
+            $model = $event->getTarget();
+            $entity = $model->getEntity();
+            $this->getDelete()
+                ->setIsStrict()
+                ->setTable($entity->getTable())
+                ->setWhere(new ArrayWhere([$entity->getIdField() => $model->getId()]))
+                ->execute($this->getAdapter());
+        } catch (NoRecordsAffectedException $exc) {
+            throw new RecordNotFoundException();
+        }
     }
 
     /**

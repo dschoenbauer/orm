@@ -26,8 +26,10 @@ namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Events\Persistence\Pdo\Select;
+use DSchoenbauer\Orm\Exception\RecordNotFoundException;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Select as SelectCommand;
+use DSchoenbauer\Sql\Exception\NoRecordsAffectedException;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventInterface;
@@ -95,6 +97,7 @@ class SelectTest extends TestCase
         $entity->expects($this->once())->method('getIdField')->willReturn($idField);
 
         $select = $this->getMockBuilder(SelectCommand::class)->disableOriginalConstructor()->getMock();
+        $select->expects($this->once())->method('setIsStrict')->willReturnSelf();
         $select->expects($this->once())->method('setTable')->with($table)->willReturnSelf();
         $select->expects($this->once())->method('setFields')->with($fields)->willReturnSelf();
         $select->expects($this->once())->method('setWhere')->willReturnSelf();
@@ -108,5 +111,37 @@ class SelectTest extends TestCase
         $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
 
         $this->assertNull($this->object->setSelect($select)->onExecute($event));
+    }
+    
+    public function testOnExecuteNoRecord()
+    {
+        $table = "someTable";
+        $fields = ["some", "fields"];
+        $idField = "id";
+
+        $this->expectException(RecordNotFoundException::class);
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
+        $model->expects($this->once())->method('getId')->willReturn(1);
+
+        $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
+        $entity->expects($this->once())->method('getTable')->willReturn($table);
+        $entity->expects($this->once())->method('getAllFields')->willReturn($fields);
+        $entity->expects($this->once())->method('getIdField')->willReturn($idField);
+
+        $select = $this->getMockBuilder(SelectCommand::class)->disableOriginalConstructor()->getMock();
+        $select->expects($this->once())->method('setIsStrict')->willReturnSelf();
+        $select->expects($this->once())->method('setTable')->with($table)->willReturnSelf();
+        $select->expects($this->once())->method('setFields')->with($fields)->willReturnSelf();
+        $select->expects($this->once())->method('setWhere')->willReturnSelf();
+        $select->expects($this->once())->method('setFetchFlat')->willReturnSelf();
+        $select->expects($this->once())->method('execute')->with($this->mockAdapter)->willThrowException(new NoRecordsAffectedException());
+
+
+        $model->expects($this->once())->method('getEntity')->willReturn($entity);
+
+        $event = $this->getMockBuilder(EventInterface::class)->getMock();
+        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
+
+        $this->object->setSelect($select)->onExecute($event);
     }
 }

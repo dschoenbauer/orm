@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4079a2f88d64e93f2704f7afed1d8c44",
+    "content-hash": "97e15a8147924d490d7b7b5553102497",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -145,16 +145,16 @@
         },
         {
             "name": "dschoenbauer/sql",
-            "version": "v1.0.2",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dschoenbauer/sql.git",
-                "reference": "99f95b0cd141f3b7ab5c3d666c00b54f6865f9fb"
+                "reference": "08cee3f2ffe05dc7ecf794c2edce2aa522657538"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dschoenbauer/sql/zipball/99f95b0cd141f3b7ab5c3d666c00b54f6865f9fb",
-                "reference": "99f95b0cd141f3b7ab5c3d666c00b54f6865f9fb",
+                "url": "https://api.github.com/repos/dschoenbauer/sql/zipball/08cee3f2ffe05dc7ecf794c2edce2aa522657538",
+                "reference": "08cee3f2ffe05dc7ecf794c2edce2aa522657538",
                 "shasum": ""
             },
             "require": {
@@ -183,7 +183,7 @@
                 }
             ],
             "description": "Object oriented approch to Sql statement generation with a focus on building requirements for PDO",
-            "time": "2017-04-07T21:24:15+00:00"
+            "time": "2017-05-24T17:29:05+00:00"
         },
         {
             "name": "psr/container",
