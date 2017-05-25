@@ -47,7 +47,9 @@ class String extends AbstractEventFilter
     public function formatString($data, $fields)
     {
         foreach ($fields as $field) {
-            if (array_key_exists($field, $data) && (!is_object($data[$field]) || method_exists($data[$field],'__toString'))) {
+            if (array_key_exists($field, $data) && (!is_object($data[$field]) ||
+                method_exists($data[$field], '__toString'))
+            ) {
                 $data[$field] = (string) $data[$field];
             }
         }

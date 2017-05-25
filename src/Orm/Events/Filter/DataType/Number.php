@@ -24,20 +24,28 @@
  */
 namespace DSchoenbauer\Orm\Events\Filter\DataType;
 
+use DSchoenbauer\Orm\Entity\HasNumericFieldsInterface;
+use DSchoenbauer\Orm\ModelInterface;
+
 /**
  * Description of Number
  *
  * @author David Schoenbauer
  */
-class Number extends \DSchoenbauer\Orm\Events\Filter\AbstractEventFilter
+class Number extends Boolean
 {
 
-    public function filter(array $data)
+    public function getFields(ModelInterface $model)
     {
-        
+        $fields = [];
+        if ($model->getEntity() instanceof HasNumericFieldsInterface) {
+            $fields = $model->getEntity()->getNumericFields();
+        }
+        return $fields;
     }
-    
-    public function format(){
-        
+
+    protected function convertValue($value)
+    {
+        return $value += 0;
     }
 }

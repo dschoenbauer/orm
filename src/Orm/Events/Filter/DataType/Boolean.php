@@ -24,12 +24,45 @@
  */
 namespace DSchoenbauer\Orm\Events\Filter\DataType;
 
+use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
+use DSchoenbauer\Orm\Events\Filter\AbstractEventFilter;
+use DSchoenbauer\Orm\ModelInterface;
+
 /**
  * Description of Boolean
  *
  * @author David Schoenbauer
  */
-class Boolean
+class Boolean extends AbstractEventFilter
 {
-    //put your code here
+
+    public function filter(array $data)
+    {
+        $fields = $this->getFields($this->getModel());
+        return $this->formatValue($data, $fields);
+    }
+
+    public function formatValue($data, $fields)
+    {
+        foreach ($fields as $field) {
+            if (array_key_exists($field, $data)) {
+                $data[$field] = $this->convertValue($data[$field]);
+            }
+        }
+        return $data;
+    }
+
+    protected function convertValue($value)
+    {
+        return boolval($value);
+    }
+
+    public function getFields(ModelInterface $model)
+    {
+        $fields = [];
+        if ($model->getEntity() instanceof HasBoolFieldsInterface) {
+            $fields = $model->getEntity()->getBoolFields();
+        }
+        return $fields;
+    }
 }
