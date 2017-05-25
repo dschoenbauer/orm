@@ -7,8 +7,10 @@
 namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
+use DSchoenbauer\Orm\Exception\RecordNotFoundException;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Create as CreateCommand;
+use DSchoenbauer\Sql\Exception\NoRecordsAffectedCreateException;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventInterface;
@@ -75,6 +77,7 @@ class CreateTest extends TestCase
         $model->expects($this->once())->method('getData')->willReturn($data);
 
         $create = $this->getMockBuilder(CreateCommand::class)->disableOriginalConstructor()->getMock();
+        $create->expects($this->once())->method('setIsStrict')->willReturnSelf();
         $create->expects($this->once())->method('setData')->with($data)->willReturnSelf();
         $create->expects($this->once())->method('setTable')->with($table)->willReturnSelf();
         $create->expects($this->once())->method('execute')->with($this->mockAdapter);
@@ -84,5 +87,32 @@ class CreateTest extends TestCase
         $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
 
         $this->assertNull($this->object->setCreate($create)->onExecute($event));
+    }
+
+    public function testOnExecuteNoRecord()
+    {
+        $table = "someTable";
+        $idField = "id";
+        $data = ['test' => 1, 'some_id' => 2];
+
+        $this->expectException(RecordNotFoundException::class);
+        $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
+        $entity->expects($this->once())->method('getTable')->willReturn($table);
+
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
+        $model->expects($this->once())->method('getEntity')->willReturn($entity);
+        $model->expects($this->once())->method('getData')->willReturn($data);
+
+        $create = $this->getMockBuilder(CreateCommand::class)->disableOriginalConstructor()->getMock();
+        $create->expects($this->once())->method('setIsStrict')->willReturnSelf();
+        $create->expects($this->once())->method('setData')->with($data)->willReturnSelf();
+        $create->expects($this->once())->method('setTable')->with($table)->willReturnSelf();
+        $create->expects($this->once())->method('execute')->with($this->mockAdapter)->willThrowException(new NoRecordsAffectedCreateException());
+
+
+        $event = $this->getMockBuilder(EventInterface::class)->getMock();
+        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
+
+        $this->object->setCreate($create)->onExecute($event);
     }
 }
