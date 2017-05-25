@@ -22,15 +22,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Enum;
+namespace DSchoenbauer\Orm\Events\Filter\DataType;
+
+use DSchoenbauer\Orm\Entity\HasStringFieldsInterface;
+use DSchoenbauer\Orm\Events\Filter\AbstractEventFilter;
 
 /**
- * Description of ModelAttributes
+ * Description of String
  *
  * @author David Schoenbauer
  */
-class ModelAttributes
+class StringFilter extends AbstractEventFilter
 {
-    const FIELD_ALIASES = 'field_aliases';
-    const TIME_ZONE = 'time_zone';
+
+    public function filter(array $data)
+    {
+        $entity = $this->getModel()->getEntity();
+        if (!$entity instanceof HasStringFieldsInterface) {
+            return $data;
+        }
+        return $this->formatString($data, $entity->getStringFields());
+    }
+
+    public function formatString($data, $fields)
+    {
+        foreach ($fields as $field) {
+            if (array_key_exists($field, $data) && (!is_object($data[$field]) ||
+                method_exists($data[$field], '__toString'))
+            ) {
+                $data[$field] = (string) $data[$field];
+            }
+        }
+        return $data;
+    }
 }

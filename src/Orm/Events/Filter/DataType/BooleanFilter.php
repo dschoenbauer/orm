@@ -22,15 +22,47 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Enum;
+namespace DSchoenbauer\Orm\Events\Filter\DataType;
+
+use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
+use DSchoenbauer\Orm\Events\Filter\AbstractEventFilter;
+use DSchoenbauer\Orm\ModelInterface;
 
 /**
- * Description of ModelAttributes
+ * Description of Boolean
  *
  * @author David Schoenbauer
  */
-class ModelAttributes
+class BooleanFilter extends AbstractEventFilter
 {
-    const FIELD_ALIASES = 'field_aliases';
-    const TIME_ZONE = 'time_zone';
+
+    public function filter(array $data)
+    {
+        $fields = $this->getFields($this->getModel());
+        return $this->formatValue($data, $fields);
+    }
+
+    public function formatValue($data, $fields)
+    {
+        foreach ($fields as $field) {
+            if (array_key_exists($field, $data)) {
+                $data[$field] = $this->convertValue($data[$field]);
+            }
+        }
+        return $data;
+    }
+
+    protected function convertValue($value)
+    {
+        return boolval($value);
+    }
+
+    public function getFields(ModelInterface $model)
+    {
+        $fields = [];
+        if ($model->getEntity() instanceof HasBoolFieldsInterface) {
+            $fields = $model->getEntity()->getBoolFields();
+        }
+        return $fields;
+    }
 }

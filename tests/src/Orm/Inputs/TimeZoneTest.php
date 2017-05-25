@@ -22,15 +22,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Enum;
+namespace DSchoenbauer\Orm\Inputs;
+
+use DateTimeZone;
+use DSchoenbauer\Orm\Enum\ModelAttributes;
+use DSchoenbauer\Orm\Framework\AttributeCollection;
+use DSchoenbauer\Tests\Orm\Events\Persistence\Http\TestModelTrait;
+use PHPUnit\Framework\TestCase;
 
 /**
- * Description of ModelAttributes
+ * Description of TimeZoneTest
  *
  * @author David Schoenbauer
  */
-class ModelAttributes
+class TimeZoneTest extends TestCase
 {
-    const FIELD_ALIASES = 'field_aliases';
-    const TIME_ZONE = 'time_zone';
+
+    protected $object;
+
+    use TestModelTrait;
+
+    protected function setUp()
+    {
+        $this->object = new TimeZone();
+    }
+
+    public function testVisitModel()
+    {
+        $model = $this->getModel();
+        $model->expects($this->any())->method('getAttributes')->willReturn(new AttributeCollection());
+        $this->object->visitModel($model);
+        $this->assertEquals(new DateTimeZone('UTC'), $model->getAttributes()->get(ModelAttributes::TIME_ZONE));
+    }
 }

@@ -22,15 +22,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Enum;
+namespace DSchoenbauer\Orm\Events\Filter\DataType;
+
+use DSchoenbauer\Orm\Entity\HasNumericFieldsInterface;
+use DSchoenbauer\Orm\ModelInterface;
 
 /**
- * Description of ModelAttributes
+ * Description of Number
  *
  * @author David Schoenbauer
  */
-class ModelAttributes
+class NumberFilter extends BooleanFilter
 {
-    const FIELD_ALIASES = 'field_aliases';
-    const TIME_ZONE = 'time_zone';
+
+    public function getFields(ModelInterface $model)
+    {
+        $fields = [];
+        if ($model->getEntity() instanceof HasNumericFieldsInterface) {
+            $fields = $model->getEntity()->getNumericFields();
+        }
+        return $fields;
+    }
+
+    protected function convertValue($value)
+    {
+        return $value += 0;
+    }
 }
