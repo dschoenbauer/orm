@@ -47,16 +47,23 @@ trait TestModelTrait
     {
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->any())->method('getId')->willReturn($idValue);
-        $model->expects($this->any())->method('getData')->willReturn($data);
+        $model->expects($this->any())->method('setData')->willReturnCallback(function($data) use ($model) {
+            $this->_data = $data;
+            return $model;
+        });
+        $model->expects($this->any())->method('getData')->willReturnCallback(function() {
+            return $this->_data;
+        });
         $model->expects($this->any())->method('getEntity')->willReturn($entity);
-
+        $model->setData($data);
         return $model;
     }
 
-    public function getAbstractEntity($idField = null)
+    public function getAbstractEntity($idField = null, $tableName = null)
     {
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
         $entity->expects($this->any())->method('getIdField')->willReturn($idField);
+        $entity->expects($this->any())->method('getTable')->willReturn($tableName);
         return $entity;
     }
 

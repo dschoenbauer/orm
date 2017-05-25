@@ -24,7 +24,6 @@
  */
 namespace DSchoenbauer\Orm\Builder;
 
-use DSchoenbauer\Orm\Builder\Component\DataValidation;
 use DSchoenbauer\Orm\Builder\Component\PdoPersistence;
 use DSchoenbauer\Orm\CrudModel;
 use DSchoenbauer\Orm\Entity\EntityInterface;
@@ -35,7 +34,7 @@ use PDO;
  *
  * @author David Schoenbauer
  */
-class PdoModelBuilder implements BuilderInterface
+class PdoModelBuilder extends AbstractBuilder
 {
 
     /**
@@ -43,34 +42,16 @@ class PdoModelBuilder implements BuilderInterface
      */
     protected $adapter;
 
-    /**
-     * @var CrudModel
-     */
-    protected $model;
-
     public function __construct(\PDO $adapter, EntityInterface $entity)
     {
+        parent::__construct($entity);
         $this->setAdapter($adapter)->setModel(new CrudModel($entity));
-    }
-
-    public function build()
-    {
-        return $this->getModel();
-    }
-
-    public function addFinalOutput()
-    {
     }
 
     public function addPersistence()
     {
         $adapter = $this->getAdapter();
         $this->getModel()->accept(new PdoPersistence($adapter));
-    }
-
-    public function addValidations()
-    {
-        $this->getModel()->accept(new DataValidation());
     }
 
     /**
@@ -88,24 +69,6 @@ class PdoModelBuilder implements BuilderInterface
     public function setAdapter(PDO $adapter)
     {
         $this->adapter = $adapter;
-        return $this;
-    }
-
-    /**
-     * @return CrudModel
-     */
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    /**
-     * @param CrudModel $model
-     * @return $this
-     */
-    public function setModel(CrudModel $model)
-    {
-        $this->model = $model;
         return $this;
     }
 }

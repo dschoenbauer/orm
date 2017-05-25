@@ -62,6 +62,25 @@ class CrudModelTest extends TestCase
         $this->assertEquals($data, $this->object->getData());
     }
 
+    public function testCreateOnError()
+    {
+        $exc = new \Exception();
+        $this->mockEventManager->expects($this->exactly(2))
+            ->method('trigger')
+            ->withConsecutive(
+                [ModelEvents::CREATE, $this->object], 
+                [ModelEvents::ERROR, $this->object, ['event' => ModelEvents::CREATE, 'exception' => $exc]]
+            )->willReturnCallback(function() use ($exc){
+            static $i = 0;
+            if ($i == 0) {
+                $i++;
+                throw new $exc;
+            }
+        });
+        $this->object->setEventManager($this->mockEventManager);
+        $this->object->create(['test' => 'value']);
+    }
+
     public function testFetch()
     {
         $this->mockEventManager->expects($this->exactly(1))
@@ -76,6 +95,25 @@ class CrudModelTest extends TestCase
         $this->assertEquals($id, $this->object->getId());
     }
 
+    public function testFetchOnError()
+    {
+        $exc = new \Exception();
+        $this->mockEventManager->expects($this->exactly(2))
+            ->method('trigger')
+            ->withConsecutive(
+                [ModelEvents::FETCH, $this->object], [ModelEvents::ERROR, $this->object, ['event' => ModelEvents::FETCH, 'exception' => $exc]]
+            )->willReturnCallback(function() use ($exc) {
+            static $i = 0;
+            if ($i == 0) {
+                $i++;
+                throw $exc;
+            }
+        });
+
+        $this->object->setEventManager($this->mockEventManager);
+        $this->object->fetch(1447);
+    }
+
     public function testFetchAll()
     {
         $this->mockEventManager->expects($this->exactly(1))
@@ -86,6 +124,25 @@ class CrudModelTest extends TestCase
         $this->object->setEventManager($this->mockEventManager);
         $data = ['test' => 'value'];
         $this->assertEquals($data, $this->object->setData($data)->fetchAll());
+    }
+
+    public function testFetchAllOnError()
+    {
+        $exc = new \Exception();
+        $this->mockEventManager->expects($this->exactly(2))
+            ->method('trigger')
+            ->withConsecutive(
+                [ModelEvents::FETCH_ALL, $this->object], 
+                [ModelEvents::ERROR, $this->object, ['event' => ModelEvents::FETCH_ALL, 'exception' => $exc]]
+            )->willReturnCallback(function() use($exc) {
+            static $i = 0;
+            if ($i == 0) {
+                $i++;
+                throw new $exc;
+            }
+        });
+        $this->object->setEventManager($this->mockEventManager);
+        $this->object->fetchAll();
     }
 
     public function testUpdate()
@@ -104,6 +161,25 @@ class CrudModelTest extends TestCase
         $this->assertEquals($id, $this->object->getId());
     }
 
+    public function testUpdateOnError()
+    {
+        $exc = new \Exception();
+        $this->mockEventManager->expects($this->exactly(2))
+            ->method('trigger')
+            ->withConsecutive(
+                [ModelEvents::UPDATE, $this->object], [ModelEvents::ERROR, $this->object, ['event' => ModelEvents::UPDATE, 'exception' => $exc]]
+            )->willReturnCallback(function() use ($exc) {
+            static $i = 0;
+            if ($i == 0) {
+                $i++;
+                throw $exc;
+            }
+        });
+
+        $this->object->setEventManager($this->mockEventManager);
+        $this->object->update(1447, ['test' => 'value']);
+    }
+
     public function testDelete()
     {
         $this->mockEventManager->expects($this->exactly(1))
@@ -115,5 +191,23 @@ class CrudModelTest extends TestCase
         $id = 1447;
         $this->assertTrue($this->object->delete($id));
         $this->assertEquals($id, $this->object->getId());
+    }
+
+    public function testDeleteOnError()
+    {
+        $exc = new \Exception();
+        $this->mockEventManager->expects($this->exactly(2))
+            ->method('trigger')
+            ->withConsecutive(
+                [ModelEvents::DELETE, $this->object], [ModelEvents::ERROR, $this->object, ['event' => ModelEvents::DELETE, 'exception' => $exc]]
+            )->willReturnCallback(function() use ($exc) {
+            static $i = 0;
+            if ($i == 0) {
+                $i++;
+                throw $exc;
+            }
+        });
+        $this->object->setEventManager($this->mockEventManager);
+        $this->object->delete(1447);
     }
 }

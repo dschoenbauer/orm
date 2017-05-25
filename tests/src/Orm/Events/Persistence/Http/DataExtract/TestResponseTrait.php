@@ -37,7 +37,7 @@ use Zend\Http\Response;
 trait TestResponseTrait
 {
 
-    public function getResponse($header, $body = "")
+    public function getResponse($header, $body = "", $statusCode = 200)
     {
         $responseMock = $this->getMockBuilder(Response::class)->getMock();
         $headersMock = $this->getMockBuilder(Headers::class)->getMock();
@@ -58,6 +58,10 @@ trait TestResponseTrait
         $responseMock->expects($this->any())
             ->method('getBody')
             ->willReturn($body);
+        
+        $responseMock->expects($this->any())
+            ->method('getStatusCode')
+            ->willReturn($statusCode);
 
         return $responseMock;
     }

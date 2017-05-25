@@ -6,8 +6,10 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
 
+use DSchoenbauer\Orm\Exception\RecordNotFoundException;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Update as UpdateCommand;
+use DSchoenbauer\Sql\Exception\NoRecordsAffectedException;
 use DSchoenbauer\Sql\Where\ArrayWhere;
 use Zend\EventManager\EventInterface;
 
@@ -21,7 +23,6 @@ class Update extends AbstractPdoEvent
 
     private $update;
 
-
     /**
      * event action
      * @param EventInterface $event object passed when event is fired
@@ -33,15 +34,19 @@ class Update extends AbstractPdoEvent
         if (!$event->getTarget() instanceof ModelInterface) {
             return;
         }
-        /* @var $model ModelInterface */
-        $model = $event->getTarget();
-        $entity = $model->getEntity();
-        $this->getUpdate()
-            ->setTable($entity->getTable())->setData($model->getData())
-            ->setWhere(new ArrayWhere([$entity->getIdField() => $model->getId()]))
-            ->execute($this->getAdapter());
+        try {
+            /* @var $model ModelInterface */
+            $model = $event->getTarget();
+            $entity = $model->getEntity();
+            $this->getUpdate()
+                ->setIsStrict()
+                ->setTable($entity->getTable())->setData($model->getData())
+                ->setWhere(new ArrayWhere([$entity->getIdField() => $model->getId()]))
+                ->execute($this->getAdapter());
+        } catch (NoRecordsAffectedException $exc) {
+            throw new RecordNotFoundException();
+        }
     }
-
 
     /**
      * object with logic for the Update. If Update is not provided one will be lazy loaded

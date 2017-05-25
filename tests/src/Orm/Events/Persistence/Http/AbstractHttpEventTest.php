@@ -27,10 +27,14 @@ namespace DSchoenbauer\Orm\Events\Persistence\Http;
 use DSchoenbauer\Orm\Entity\IsHttpInterface;
 use DSchoenbauer\Orm\Events\Persistence\Http\DataExtract\DataExtractorFactory;
 use DSchoenbauer\Orm\Events\Persistence\Http\DataExtract\DataExtractorInterface;
+use DSchoenbauer\Orm\Exception\HttpErrorException;
+use DSchoenbauer\Tests\Orm\Events\Persistence\Http\DataExtract\TestResponseTrait;
 use DSchoenbauer\Tests\Orm\Events\Persistence\Http\TestModelTrait;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use Zend\EventManager\EventInterface;
 use Zend\Http\Client;
+use Zend\Http\Response;
 
 /**
  * Description of AbstractHttpEventTest
@@ -41,9 +45,10 @@ class AbstractHttpEventTest extends TestCase
 {
     /* @var $object AbstractHttpEvent */
 
-    use TestModelTrait;
+use TestModelTrait;
+
+    use TestResponseTrait;
     protected $object;
-    
 
     protected function setUp()
     {
@@ -58,7 +63,7 @@ class AbstractHttpEventTest extends TestCase
 
     public function testMethodOnConstructor()
     {
-        $this->object = $this->getMockForAbstractClass(AbstractHttpEvent::class, [[],0 , null, "test"]);
+        $this->object = $this->getMockForAbstractClass(AbstractHttpEvent::class, [[], 0, null, "test"]);
         $this->assertEquals("test", $this->object->getMethod());
     }
 
@@ -98,11 +103,12 @@ class AbstractHttpEventTest extends TestCase
     {
         $this->object->buildUri($this->getModel(1, ['id' => 1], $this->getIsHttp('id', 'http://test.com')));
     }
-    
-    public function testBuildUriBadEntity(){
-        $this->assertEquals(null,$this->object->buildUri($this->getModel(1, ['id' => 1], null)));
+
+    public function testBuildUriBadEntity()
+    {
+        $this->assertEquals(null, $this->object->buildUri($this->getModel(1, ['id' => 1], null)));
     }
-    
+
     public function testOnExecuteNotCorrectTarget()
     {
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
@@ -115,10 +121,10 @@ class AbstractHttpEventTest extends TestCase
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->exactly(1))
             ->method('getTarget')
-            ->willReturn($this->getModel(0, [], new \stdClass()));
+            ->willReturn($this->getModel(0, [], new stdClass()));
         $this->object->onExecute($event);
     }
-    
+
     public function testOnExecuteNotCorrectEntityChild()
     {
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
@@ -127,7 +133,7 @@ class AbstractHttpEventTest extends TestCase
             ->willReturn($this->getModel(0, [], $this->getAbstractEntity('id')));
         $this->object->onExecute($event);
     }
-    
+
     public function testOnExecuteCorrectEntity()
     {
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
@@ -135,6 +141,20 @@ class AbstractHttpEventTest extends TestCase
             ->method('getTarget')
             ->willReturn($this->getModel(0, [], $this->getIsHttp('id')));
         $this->object->onExecute($event);
+    }
+
+    public function testCheckForErrorIsError()
+    {
+        $response = $this->getResponse("someHeader");
+        $this->assertSame($response, $this->object->checkForError($response));
+    }
+
+    public function testCheckForErrorNoError()
+    {
+        $this->expectException(HttpErrorException::class);
+        $this->expectExceptionCode(500);
+        $this->expectExceptionMessage("some body");
+        $this->assertTrue($this->object->checkForError($this->getResponse("","some body", 500)));
     }
 
 }

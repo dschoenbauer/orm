@@ -24,8 +24,10 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
 
+use DSchoenbauer\Orm\Exception\RecordNotFoundException;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Select as SelectCommand;
+use DSchoenbauer\Sql\Exception\NoRecordsAffectedException;
 use DSchoenbauer\Sql\Where\ArrayWhere;
 use Zend\EventManager\EventInterface;
 
@@ -50,17 +52,22 @@ class Select extends AbstractPdoEvent
         if (!$event->getTarget() instanceof ModelInterface) {
             return; //Nothing to do with this event
         }
-        /* @var $model ModelInterface */
-        $model = $event->getTarget();
-        $entity = $model->getEntity();
-        $model->setData(
-            $this->getSelect()
-                ->setTable($entity->getTable())
-                ->setFields($entity->getAllFields())
-                ->setWhere(new ArrayWhere([$entity->getIdField() => $model->getId()]))
-                ->setFetchFlat()
-                ->execute($this->getAdapter())
-        );
+        try {
+            /* @var $model ModelInterface */
+            $model = $event->getTarget();
+            $entity = $model->getEntity();
+            $model->setData(
+                $this->getSelect()
+                    ->setIsStrict()
+                    ->setTable($entity->getTable())
+                    ->setFields($entity->getAllFields())
+                    ->setWhere(new ArrayWhere([$entity->getIdField() => $model->getId()]))
+                    ->setFetchFlat()
+                    ->execute($this->getAdapter())
+            );
+        } catch (NoRecordsAffectedException $exc) {
+            throw new RecordNotFoundException();
+        }
     }
 
     /**

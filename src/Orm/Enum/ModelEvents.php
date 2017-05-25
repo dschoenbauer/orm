@@ -56,4 +56,9 @@ class ModelEvents
      * Called to remove data, be it one or many records
      */
     const DELETE = 'delete';
+    
+    /**
+     * Event called when an exception occurs
+     */
+    const ERROR = 'error';
 }
