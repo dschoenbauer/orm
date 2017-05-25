@@ -33,7 +33,7 @@ use DSchoenbauer\Orm\ModelInterface;
  *
  * @author David Schoenbauer
  */
-class Boolean extends AbstractEventFilter
+class BooleanFilter extends AbstractEventFilter
 {
 
     public function filter(array $data)

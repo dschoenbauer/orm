@@ -38,7 +38,7 @@ use DSchoenbauer\Orm\ModelInterface;
  *
  * @author David Schoenbauer
  */
-class Date extends AbstractEventFilter
+class DateFilter extends AbstractEventFilter
 {
 
     public function filter(array $data)

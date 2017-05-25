@@ -32,7 +32,7 @@ use DSchoenbauer\Orm\Events\Filter\AbstractEventFilter;
  *
  * @author David Schoenbauer
  */
-class String extends AbstractEventFilter
+class StringFilter extends AbstractEventFilter
 {
 
     public function filter(array $data)

@@ -33,7 +33,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @author David Schoenbauer
  */
-class StringTest extends TestCase
+class StringFilterTest extends TestCase
 {
 
     use TestModelTrait;
@@ -46,7 +46,7 @@ class StringTest extends TestCase
         $mockEntity->expects($this->any())->method('getStringFields')->willReturn(['test1', 'test2', 'test3']);
         $model = $this->getModel(0, [], $mockEntity);
 
-        $this->object = new String();
+        $this->object = new StringFilter();
         $this->object->setModel($model);
     }
 

@@ -32,7 +32,7 @@ use DSchoenbauer\Orm\ModelInterface;
  *
  * @author David Schoenbauer
  */
-class Number extends Boolean
+class NumberFilter extends BooleanFilter
 {
 
     public function getFields(ModelInterface $model)

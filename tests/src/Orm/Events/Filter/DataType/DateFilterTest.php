@@ -38,7 +38,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @author David Schoenbauer
  */
-class DateTest extends TestCase
+class DateFilterTest extends TestCase
 {
 
     use TestModelTrait;
@@ -51,7 +51,7 @@ class DateTest extends TestCase
         $attributes->expects($this->any())->method('get')->willReturnArgument(1);
         $model = $this->getModel();
         $model->expects($this->any())->method('getAttributes')->willReturn($attributes);
-        $this->object = new Date();
+        $this->object = new DateFilter();
         $this->object->setModel($model);
     }
 

@@ -24,16 +24,16 @@
  */
 namespace DSchoenbauer\Orm\Events\Filter\DataType;
 
-use DSchoenbauer\Orm\Entity\HasNumericFieldsInterface;
+use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
 use DSchoenbauer\Tests\Orm\Events\Persistence\Http\TestModelTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Description of NumberTest
+ * Description of BooleanTest
  *
  * @author David Schoenbauer
  */
-class NumberTest extends TestCase
+class BooleanFilterTest extends TestCase
 {
 
     use TestModelTrait;
@@ -42,14 +42,14 @@ class NumberTest extends TestCase
 
     protected function setUp()
     {
-        $this->object = new Number();
+        $this->object = new BooleanFilter();
     }
 
     public function testGetFields()
     {
-        $fields = ['countOfMom', 'countOfDad', 'countOfSiblings'];
-        $entity = $this->getMockBuilder(HasNumericFieldsInterface::class)->getMock();
-        $entity->expects($this->once())->method('getNumericFields')->willReturn($fields);
+        $fields = ['hasMom', 'hasDad', 'hasSiblings'];
+        $entity = $this->getMockBuilder(HasBoolFieldsInterface::class)->getMock();
+        $entity->expects($this->once())->method('getBoolFields')->willReturn($fields);
         $model = $this->getModel(0, [], $entity);
 
         $this->assertEquals($fields, $this->object->getFields($model));
@@ -72,11 +72,12 @@ class NumberTest extends TestCase
     public function dataProviderFormat()
     {
         return [
-            'Passive Text' => [['id' => 1, 'xtraNumeric' => 'sure', 'number' => 1], ['id', 'number', 'xtraNumeric'], ['id' => 1, 'xtraNumeric' => 0, 'number' => 1]],
-            'Float' => [['id' => 1, 'xtraNumeric' => '1.01', 'number' => 1.01], ['id', 'number', 'xtraNumeric'], ['id' => 1, 'xtraNumeric' => 1.01, 'number' => 1.01]],
-            'Int' => [['id' => 1, 'xtraNumeric' => '1', 'number' => 1], ['id', 'number', 'xtraNumeric'], ['id' => 1, 'xtraNumeric' => 1, 'number' => 1]],
-            'Small' => [['id' => 1, 'xtraNumeric' => '0.0001', 'number' => 0.0001], ['id', 'number', 'xtraNumeric'], ['id' => 1, 'xtraNumeric' => 0.0001, 'number' => 0.0001]],
-            'Large' => [['id' => 1, 'xtraNumeric' => '10000', 'number' => 10000], ['id', 'number', 'xtraNumeric'], ['id' => 1, 'xtraNumeric' => 10000, 'number' => 10000]],
+            'Passive Text' => [['id' => 1, 'bool' => 'sure', 'number' => 1], ['bool'], ['id' => 1, 'bool' => true, 'number' => 1]],
+            'True Text' => [['id' => 1, 'bool' => 'true', 'number' => 1], ['bool'], ['id' => 1, 'bool' => true, 'number' => 1]],
+            'False Text' => [['id' => 1, 'bool' => 'false', 'number' => 1], ['bool'], ['id' => 1, 'bool' => true, 'number' => 1]],
+            'Null' => [['id' => 1, 'bool' => null, 'number' => 1], ['bool'], ['id' => 1, 'bool' => false, 'number' => 1]],
+            'Numeric False' => [['id' => 1, 'bool' => 0, 'number' => 1], ['bool'], ['id' => 1, 'bool' => false, 'number' => 1]],
+            'Numeric True' => [['id' => 1, 'bool' => 1234, 'number' => 1], ['bool'], ['id' => 1, 'bool' => true, 'number' => 1]],
         ];
     }
 
@@ -85,8 +86,8 @@ class NumberTest extends TestCase
      */
     public function testFilter($data, $fields, $result)
     {
-        $entity = $this->getMockBuilder(HasNumericFieldsInterface::class)->getMock();
-        $entity->expects($this->once())->method('getNumericFields')->willReturn($fields);
+        $entity = $this->getMockBuilder(HasBoolFieldsInterface::class)->getMock();
+        $entity->expects($this->once())->method('getBoolFields')->willReturn($fields);
         $model = $this->getModel(0, $data, $entity);
         $this->assertEquals($result, $this->object->setModel($model)->filter($data));
     }
