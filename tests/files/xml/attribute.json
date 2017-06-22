@@ -1,0 +1,9 @@
+{
+    "person": {
+        "attrib": {
+            "gender": "female"
+        },
+        "firstname": "Anna",
+        "lastname": "Smith"
+    }
+}
