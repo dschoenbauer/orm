@@ -25,6 +25,7 @@
 namespace DSchoenbauer\Orm\Events\Filter\DataType;
 
 use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
+use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Events\Filter\AbstractEventFilter;
 use DSchoenbauer\Orm\ModelInterface;
 
@@ -38,6 +39,12 @@ class BooleanFilter extends AbstractEventFilter
 
     protected $trueResult = true;
     protected $falseResult = false;
+
+    public function __construct(array $events = array(), $trueResult = true, $falseResult = false, $priority = EventPriorities::ON_TIME)
+    {
+        $this->setTrueResult($trueResult)->setFalseResult($falseResult);
+        parent::__construct($events, $priority);
+    }
 
     public function filter(array $data)
     {

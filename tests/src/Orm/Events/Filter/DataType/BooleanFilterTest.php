@@ -111,4 +111,10 @@ class BooleanFilterTest extends TestCase
     {
         $this->assertFalse($this->object->getFalseResult());
     }
+    
+    public function testConstructorExpectedResults(){
+        $object = new BooleanFilter([], 1, 0);
+        $this->assertEquals(1, $object->getTrueResult());
+        $this->assertEquals(0, $object->getFalseResult());
+    }
 }
