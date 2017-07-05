@@ -36,6 +36,9 @@ use DSchoenbauer\Orm\ModelInterface;
 class BooleanFilter extends AbstractEventFilter
 {
 
+    protected $trueResult = true;
+    protected $falseResult = false;
+
     public function filter(array $data)
     {
         $fields = $this->getFields($this->getModel());
@@ -54,7 +57,7 @@ class BooleanFilter extends AbstractEventFilter
 
     protected function convertValue($value)
     {
-        return boolval($value);
+        return boolval($value) ? $this->getTrueResult() : $this->getFalseResult();
     }
 
     public function getFields(ModelInterface $model)
@@ -64,5 +67,27 @@ class BooleanFilter extends AbstractEventFilter
             $fields = $model->getEntity()->getBoolFields();
         }
         return $fields;
+    }
+
+    public function getTrueResult()
+    {
+        return $this->trueResult;
+    }
+
+    public function getFalseResult()
+    {
+        return $this->falseResult;
+    }
+
+    public function setTrueResult($trueResult)
+    {
+        $this->trueResult = $trueResult;
+        return $this;
+    }
+
+    public function setFalseResult($falseResult)
+    {
+        $this->falseResult = $falseResult;
+        return $this;
     }
 }

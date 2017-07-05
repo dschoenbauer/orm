@@ -91,4 +91,24 @@ class BooleanFilterTest extends TestCase
         $model = $this->getModel(0, $data, $entity);
         $this->assertEquals($result, $this->object->setModel($model)->filter($data));
     }
+
+    public function testTrueResult()
+    {
+        $this->assertEquals('1', $this->object->setTrueResult('1')->getTrueResult());
+    }
+
+    public function testTrueResultDefault()
+    {
+        $this->assertTrue($this->object->getTrueResult());
+    }
+
+    public function testFalseResult()
+    {
+        $this->assertEquals('0', $this->object->setFalseResult('0')->getFalseResult());
+    }
+
+    public function testFalseResultDefault()
+    {
+        $this->assertFalse($this->object->getFalseResult());
+    }
 }
