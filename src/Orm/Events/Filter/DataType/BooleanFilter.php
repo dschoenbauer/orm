@@ -40,8 +40,12 @@ class BooleanFilter extends AbstractEventFilter
     protected $trueResult = true;
     protected $falseResult = false;
 
-    public function __construct(array $events = array(), $trueResult = true, $falseResult = false, $priority = EventPriorities::ON_TIME)
-    {
+    public function __construct(
+        array $events = array(),
+        $trueResult = true,
+        $falseResult = false,
+        $priority = EventPriorities::ON_TIME
+    ) {
         $this->setTrueResult($trueResult)->setFalseResult($falseResult);
         parent::__construct($events, $priority);
     }
