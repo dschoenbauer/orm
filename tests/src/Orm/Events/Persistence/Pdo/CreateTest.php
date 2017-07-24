@@ -29,6 +29,7 @@ class CreateTest extends TestCase
     protected function setUp()
     {
         $this->mockAdapter = $this->getMockBuilder(PDO::class)->disableOriginalConstructor()->getMock();
+        $this->mockAdapter->expects($this->any())->method('lastInsertId')->willReturn(1);
         $this->object = new Create([], $this->mockAdapter);
     }
 
@@ -75,6 +76,7 @@ class CreateTest extends TestCase
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->once())->method('getEntity')->willReturn($entity);
         $model->expects($this->once())->method('getData')->willReturn($data);
+        $model->expects($this->once())->method('setId')->willReturn(1);
 
         $create = $this->getMockBuilder(CreateCommand::class)->disableOriginalConstructor()->getMock();
         $create->expects($this->once())->method('setIsStrict')->willReturnSelf();

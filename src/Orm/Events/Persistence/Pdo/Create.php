@@ -37,11 +37,12 @@ class Create extends AbstractPdoEvent
             /* @var $model ModelInterface */
             $model = $event->getTarget();
             $entity = $model->getEntity();
-            $this->getCreate()
+            $idx = $this->getCreate()
                 ->setIsStrict()
                 ->setTable($entity->getTable())
                 ->setData($model->getData())
                 ->execute($this->getAdapter());
+            $model->setId($idx);
         } catch (NoRecordsAffectedException $exc) {
             throw new RecordNotFoundException();
         }
