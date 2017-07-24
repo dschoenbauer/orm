@@ -46,10 +46,10 @@ class CrudModel extends Model
         try {
             $this->setData($data);
             $this->getEventManager()->trigger(ModelEvents::CREATE, $this);
-            return $this->getData();
         } catch (\Exception $exc) {
             $this->manageExceptions($exc, ModelEvents::CREATE);
         }
+        return $this->getData();
     }
 
     /**
@@ -63,10 +63,10 @@ class CrudModel extends Model
         try {
             $this->setId($idx);
             $this->getEventManager()->trigger(ModelEvents::FETCH, $this);
-            return $this->getData();
         } catch (\Exception $exc) {
             $this->manageExceptions($exc, ModelEvents::FETCH);
         }
+        return $this->getData();
     }
 
     /**
@@ -78,10 +78,10 @@ class CrudModel extends Model
     {
         try {
             $this->getEventManager()->trigger(ModelEvents::FETCH_ALL, $this);
-            return $this->getData();
         } catch (Exception $exc) {
             $this->manageExceptions($exc, ModelEvents::FETCH_ALL);
         }
+        return $this->getData();
     }
 
     /**
@@ -96,10 +96,10 @@ class CrudModel extends Model
         try {
             $this->setId($idx)->setData($data);
             $this->getEventManager()->trigger(ModelEvents::UPDATE, $this);
-            return $this->getData();
         } catch (Exception $exc) {
             $this->manageExceptions($exc, ModelEvents::UPDATE);
         }
+        return $this->getData();
     }
 
     /**
@@ -116,6 +116,7 @@ class CrudModel extends Model
             return true;
         } catch (Exception $exc) {
             $this->manageExceptions($exc, ModelEvents::DELETE);
+            return false;
         }
     }
 
