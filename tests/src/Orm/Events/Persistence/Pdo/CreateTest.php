@@ -75,18 +75,19 @@ class CreateTest extends TestCase
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->once())->method('getEntity')->willReturn($entity);
         $model->expects($this->once())->method('getData')->willReturn($data);
+        $model->expects($this->once())->method('setId')->with(1);
 
         $create = $this->getMockBuilder(CreateCommand::class)->disableOriginalConstructor()->getMock();
         $create->expects($this->once())->method('setIsStrict')->willReturnSelf();
         $create->expects($this->once())->method('setData')->with($data)->willReturnSelf();
         $create->expects($this->once())->method('setTable')->with($table)->willReturnSelf();
-        $create->expects($this->once())->method('execute')->with($this->mockAdapter);
+        $create->expects($this->once())->method('execute')->with($this->mockAdapter)->willReturn(1);
 
 
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
 
-        $this->assertNull($this->object->setCreate($create)->onExecute($event));
+        $this->assertTrue($this->object->setCreate($create)->onExecute($event));
     }
 
     public function testOnExecuteNoRecord()
