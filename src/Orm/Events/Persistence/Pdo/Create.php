@@ -46,6 +46,7 @@ class Create extends AbstractPdoEvent
         } catch (NoRecordsAffectedException $exc) {
             throw new RecordNotFoundException();
         }
+        return true;
     }
 
     /**
