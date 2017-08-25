@@ -25,7 +25,9 @@
 namespace DSchoenbauer\Orm\Events\Logger;
 
 use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Framework\AttributeCollection;
 use DSchoenbauer\Tests\Orm\Events\Persistence\Http\TestModelTrait;
+use Exception;
 use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventInterface;
 
@@ -68,14 +70,24 @@ class ErrorLogTest extends TestCase
     {
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $model = $this->getModel();
+        
+        $attributes = $this->getMockBuilder(AttributeCollection::class)->getMock();
+        $model->expects($this->any())->method('getAttributes')->willReturn($attributes);
         $event->expects($this->any())->method('getTarget')->willReturn($model);
-        $event->expects($this->any())->method('getParam')->willReturnOnConsecutiveCalls(new \Exception('message'), "eventName");
+        $event->expects($this->any())->method('getParam')->willReturnOnConsecutiveCalls(new Exception('message'), "eventName");
         $data = [
             'success' => false,
             'event' => 'eventName',
             'message' => 'message',
+            'name' => 'Exception',
         ];
         $this->assertTrue($this->object->onExecute($event));
         $this->assertEquals($data, $model->getData());
+    }
+    
+    public function testConvertToName()
+    {
+        $this->assertEquals("Error Log Test",$this->object->convertToName($this));
+        $this->assertEquals("Error Log",$this->object->convertToName($this->object));
     }
 }
