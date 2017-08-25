@@ -70,7 +70,7 @@ class ErrorLogTest extends TestCase
     {
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $model = $this->getModel();
-        
+
         $attributes = $this->getMockBuilder(AttributeCollection::class)->getMock();
         $model->expects($this->any())->method('getAttributes')->willReturn($attributes);
         $event->expects($this->any())->method('getTarget')->willReturn($model);
@@ -84,10 +84,10 @@ class ErrorLogTest extends TestCase
         $this->assertTrue($this->object->onExecute($event));
         $this->assertEquals($data, $model->getData());
     }
-    
+
     public function testConvertToName()
     {
-        $this->assertEquals("Error Log Test",$this->object->convertToName($this));
-        $this->assertEquals("Error Log",$this->object->convertToName($this->object));
+        $this->assertEquals("Error Log Test", $this->object->convertToName($this));
+        $this->assertEquals("Error Log", $this->object->convertToName($this->object));
     }
 }
