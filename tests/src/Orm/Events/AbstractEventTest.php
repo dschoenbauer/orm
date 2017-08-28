@@ -24,11 +24,16 @@
  */
 namespace DSchoenbauer\Orm\Events;
 
+use DSchoenbauer\Exception\Platform\InvalidArgumentException;
+use DSchoenbauer\Exception\Platform\LogicException;
+use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Orm\VisitorInterface;
+use DSchoenbauer\Tests\Orm\Events\Persistence\Http\TestModelTrait;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use Zend\EventManager\EventManagerInterface;
 
 /**
@@ -38,6 +43,10 @@ use Zend\EventManager\EventManagerInterface;
  */
 class AbstractEventTest extends TestCase
 {
+
+    use TestModelTrait;
+
+    /* @var $object AbstractEvent */
 
     private $object;
 
@@ -70,13 +79,46 @@ class AbstractEventTest extends TestCase
         $this->assertInstanceOf(VisitorInterface::class, $this->object);
         $model->accept($this->object->setEvents(['test']));
     }
-    
-    public function testDefaultPriority(){
+
+    public function testDefaultPriority()
+    {
         $this->assertEquals(EventPriorities::ON_TIME, $this->object->getPriority());
     }
-    
-    public function testPriority(){
+
+    public function testPriority()
+    {
         $this->assertEquals(10000, $this->object->setPriority(10000)->getPriority());
     }
-        
+
+    public function testValidateModelModelBadException()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("ModelInterface is expected");
+        $this->object->validateModel(new stdClass(), "notAnEntity", true);
+    }
+
+    public function testValidateModelModelBadBoolean()
+    {
+        $this->assertFalse($this->object->validateModel(new stdClass(), "notanentity"));
+        $this->assertFalse($this->object->validateModel(new stdClass(), "notanentity"), false);
+    }
+
+    public function testValidateModelEntityBadException()
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage("Entity must implement or extend notanentity");
+        $this->assertFalse($this->object->validateModel($this->getModel(), "notanentity", true));
+    }
+
+    public function testValidateModelEntityBadBoolean()
+    {
+        $this->assertFalse($this->object->validateModel($this->getModel(), "notanentity"));
+        $this->assertFalse($this->object->validateModel($this->getModel(), "notanentity", false));
+    }
+
+    public function testValidateModelEntityGood()
+    {
+        $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
+        $this->assertTrue($this->object->validateModel($this->getModel(0, [], $entity), EntityInterface::class));
+    }
 }
