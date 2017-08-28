@@ -24,6 +24,8 @@
  */
 namespace DSchoenbauer\Orm\Events;
 
+use DSchoenbauer\Exception\Platform\InvalidArgumentException;
+use DSchoenbauer\Exception\Platform\LogicException;
 use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Orm\VisitorInterface;
@@ -92,5 +94,24 @@ abstract class AbstractEvent implements VisitorInterface
     {
         $this->priority = $priority;
         return $this;
+    }
+
+    public function validateModel($model, $expectedEntity, $returnException = false)
+    {
+        if (!$model instanceof ModelInterface) {
+            if ($returnException) {
+                throw new InvalidArgumentException('ModelInterface is expected');
+            } else {
+                return false;
+            }
+        }
+        if (!is_subclass_of($model->getEntity(), $expectedEntity)) {
+            if ($returnException) {
+                throw new LogicException("Entity must implement or extend $expectedEntity");
+            } else {
+                return false;
+            }
+        }
+        return true;
     }
 }

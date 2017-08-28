@@ -41,6 +41,7 @@ class ErrorLog extends AbstractEvent
     const KEY_SUCCESS = 'success';
     const KEY_EVENT = 'event';
     const KEY_MESSAGE = 'message';
+    const KEY_NAME = "name";
 
     use InterpolateTrait;
 
@@ -56,7 +57,18 @@ class ErrorLog extends AbstractEvent
             self::KEY_SUCCESS => false,
             self::KEY_EVENT => $event,
             self::KEY_MESSAGE => $exception->getMessage(),
+            self::KEY_NAME => $this->convertToName($exception),
         ]);
+        $model->getAttributes()->set('status', $exception->getCode());
         return true;
+    }
+
+    public function convertToName($exc)
+    {
+        $fullName = get_class($exc);
+        $inPieces = explode('\\', $fullName);
+        $file = array_pop($inPieces);
+        $matches = preg_split('/(?=[A-Z])/', $file);
+        return trim(implode(' ', $matches));
     }
 }
