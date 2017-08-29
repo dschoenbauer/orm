@@ -24,6 +24,7 @@
  */
 namespace DSchoenbauer\Orm\Events\Filter;
 
+use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\ModelInterface;
 use Zend\EventManager\EventInterface;
@@ -40,7 +41,7 @@ class RemoveId extends AbstractEvent
     {
         /* @var $model ModelInterface */
         $model = $event->getTarget();
-        if (!$model instanceof ModelInterface) {
+        if (!$this->validateModel($model, EntityInterface::class)) {
             return false;
         }
         $data = $model->getData();

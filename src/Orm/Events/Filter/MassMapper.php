@@ -56,13 +56,10 @@ class MassMapper extends AbstractEvent
     public function onExecute(EventInterface $event)
     {
         $model = $event->getTarget();
-        if (!$model instanceof ModelInterface) {
+        if (!$this->validateModel($model, MassMappingInterface::class)) {
             return false;
         }
         $entity = $model->getEntity();
-        if (!$entity instanceof MassMappingInterface) {
-            return false;
-        }
         $model->setData($this->mapData($entity->getMapping(), $model->getData()));
         return true;
     }

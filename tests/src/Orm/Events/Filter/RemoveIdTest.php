@@ -76,21 +76,21 @@ class RemoveIdTest extends TestCase
     {
 
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
-        $entity->expects($this->once())->method('getIdField')->willReturn($idField);
+        $entity->expects($this->any())->method('getIdField')->willReturn($idField);
 
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
-        $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
-        $model->expects($this->exactly(2))->method('setData')->willReturnCallback(function($data) {
+        $model->expects($this->any())->method('getEntity')->willReturn($entity);
+        $model->expects($this->any())->method('setData')->willReturnCallback(function($data) {
             $this->data = $data;
             return $this;
         });
-        $model->expects($this->exactly(2))->method('getData')->willReturnCallback(function() {
+        $model->expects($this->any())->method('getData')->willReturnCallback(function() {
             return $this->data;
         });
         $model->setData($data);
 
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $event->expects($this->exactly(1))->method('getTarget')->willReturn($model);
+        $event->expects($this->any())->method('getTarget')->willReturn($model);
 
         $this->assertTrue($this->object->onExecute($event));
         $this->assertEquals($result, $model->getData());
