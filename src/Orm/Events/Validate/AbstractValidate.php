@@ -65,21 +65,19 @@ abstract class AbstractValidate extends AbstractEvent
      */
     public function onExecute(EventInterface $event)
     {
-        if (!$event->getTarget() instanceof ModelInterface) {
+        $model = $event->getTarget();
+        if (!$this->validateModel($model, $this->getTypeInterface())) {
             return;
         }
-        $this->setModel($event->getTarget());
-        $this->setParams($event->getParams());
+        $this
+            ->setModel($model)
+            ->setParams($event->getParams());
 
-        $entity = $this->getModel()->getEntity();
-        if (!is_a($entity, $this->getTypeInterface())) {
-            return;
-        }
         if (!$this->preExecuteCheck()) {
             return;
         }
 
-        $this->validate($this->getModel()->getData(), $this->getFields($entity));
+        $this->validate($model->getData(), $this->getFields($model->getEntity()));
     }
 
     /**

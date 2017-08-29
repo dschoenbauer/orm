@@ -24,9 +24,11 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
 
+use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use PDO;
+use Zend\EventManager\EventInterface;
 
 /**
  * Description of AbstractPdoEvent
@@ -48,10 +50,19 @@ abstract class AbstractPdoEvent extends AbstractEvent
     public function __construct(array $events, PDO $adapter, $priority = EventPriorities::ON_TIME)
     {
 
-
         parent::__construct($events, $priority);
         $this->setAdapter($adapter);
     }
+
+    public function onExecute(EventInterface $event)
+    {
+        if (!$this->validateModel($event->getTarget(), EntityInterface::class)) {
+            return;
+        }
+        return $this->commit($event);
+    }
+
+    abstract protected function commit(EventInterface $event);
 
     /**
      * Returns a PHP Data Object

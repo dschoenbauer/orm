@@ -6,6 +6,7 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
 
+use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Exception\RecordNotFoundException;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Update as UpdateCommand;
@@ -29,11 +30,8 @@ class Update extends AbstractPdoEvent
      * @return void
      * @since v1.0.0
      */
-    public function onExecute(EventInterface $event)
+    public function commit(EventInterface $event)
     {
-        if (!$event->getTarget() instanceof ModelInterface) {
-            return;
-        }
         try {
             /* @var $model ModelInterface */
             $model = $event->getTarget();

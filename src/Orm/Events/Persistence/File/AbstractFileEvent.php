@@ -105,13 +105,11 @@ abstract class AbstractFileEvent extends AbstractEvent
 
     public function onExecute(EventInterface $event)
     {
-        if (!$event->getTarget() instanceof ModelInterface ||
-            !$event->getTarget()->getEntity() instanceof EntityInterface
-        ) {
+        $model = $event->getTarget();
+        if (!$this->validateModel($model, EntityInterface::class)) {
             return false; //Nothing to do with this event
         }
         /* @var $model ModelInterface */
-        $model = $event->getTarget();
         $existingData = $this->loadFile($model->getEntity());
         return $this->processAction($model, $existingData);
     }
