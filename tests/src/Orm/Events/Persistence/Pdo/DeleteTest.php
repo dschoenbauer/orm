@@ -56,7 +56,7 @@ class DeleteTest extends TestCase
     public function testOnExecuteTargetNotModel()
     {
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $event->expects($this->once())
+        $event->expects($this->any())
             ->method('getTarget')
             ->willReturn(null);
         $this->assertNull($this->object->onExecute($event));
@@ -68,22 +68,22 @@ class DeleteTest extends TestCase
         $idField = "id";
 
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
-        $entity->expects($this->once())->method('getTable')->willReturn($table);
-        $entity->expects($this->once())->method('getIdField')->willReturn($idField);
+        $entity->expects($this->any())->method('getTable')->willReturn($table);
+        $entity->expects($this->any())->method('getIdField')->willReturn($idField);
 
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
-        $model->expects($this->once())->method('getEntity')->willReturn($entity);
-        $model->expects($this->once())->method('getId')->willReturn(1);
+        $model->expects($this->any())->method('getEntity')->willReturn($entity);
+        $model->expects($this->any())->method('getId')->willReturn(1);
 
         $delete = $this->getMockBuilder(DeleteCommand::class)->disableOriginalConstructor()->getMock();
-        $delete->expects($this->once())->method('setIsStrict')->willReturnSelf();
-        $delete->expects($this->once())->method('setTable')->with($table)->willReturnSelf();
-        $delete->expects($this->once())->method('setWhere')->willReturnSelf();
-        $delete->expects($this->once())->method('execute')->with($this->mockAdapter);
+        $delete->expects($this->any())->method('setIsStrict')->willReturnSelf();
+        $delete->expects($this->any())->method('setTable')->with($table)->willReturnSelf();
+        $delete->expects($this->any())->method('setWhere')->willReturnSelf();
+        $delete->expects($this->any())->method('execute')->with($this->mockAdapter);
 
 
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
+        $event->expects($this->any())->method('getTarget')->willReturn($model);
 
         $this->assertNull($this->object->setDelete($delete)->onExecute($event));
     }
@@ -96,22 +96,22 @@ class DeleteTest extends TestCase
         $this->expectException(\DSchoenbauer\Orm\Exception\RecordNotFoundException::class);
         
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
-        $entity->expects($this->once())->method('getTable')->willReturn($table);
-        $entity->expects($this->once())->method('getIdField')->willReturn($idField);
+        $entity->expects($this->any())->method('getTable')->willReturn($table);
+        $entity->expects($this->any())->method('getIdField')->willReturn($idField);
 
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
-        $model->expects($this->once())->method('getEntity')->willReturn($entity);
-        $model->expects($this->once())->method('getId')->willReturn(1);
+        $model->expects($this->any())->method('getEntity')->willReturn($entity);
+        $model->expects($this->any())->method('getId')->willReturn(1);
 
         $delete = $this->getMockBuilder(DeleteCommand::class)->disableOriginalConstructor()->getMock();
-        $delete->expects($this->once())->method('setIsStrict')->willReturnSelf();
-        $delete->expects($this->once())->method('setTable')->with($table)->willReturnSelf();
-        $delete->expects($this->once())->method('setWhere')->willReturnSelf();
-        $delete->expects($this->once())->method('execute')->with($this->mockAdapter)->willThrowException(new NoRecordsAffectedCreateException());
+        $delete->expects($this->any())->method('setIsStrict')->willReturnSelf();
+        $delete->expects($this->any())->method('setTable')->with($table)->willReturnSelf();
+        $delete->expects($this->any())->method('setWhere')->willReturnSelf();
+        $delete->expects($this->any())->method('execute')->with($this->mockAdapter)->willThrowException(new NoRecordsAffectedCreateException());
 
 
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
+        $event->expects($this->any())->method('getTarget')->willReturn($model);
 
         $this->object->setDelete($delete)->onExecute($event);
     }

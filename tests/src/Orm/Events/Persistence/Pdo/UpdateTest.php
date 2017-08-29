@@ -57,7 +57,7 @@ class UpdateTest extends TestCase
     public function testOnExecuteTargetNotModel()
     {
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $event->expects($this->once())
+        $event->expects($this->any())
             ->method('getTarget')
             ->willReturn(null);
         $this->assertNull($this->object->onExecute($event));
@@ -70,24 +70,24 @@ class UpdateTest extends TestCase
         $idField = "id";
 
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
-        $entity->expects($this->once())->method('getTable')->willReturn($table);
-        $entity->expects($this->once())->method('getIdField')->willReturn($idField);
+        $entity->expects($this->any())->method('getTable')->willReturn($table);
+        $entity->expects($this->any())->method('getIdField')->willReturn($idField);
 
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
-        $model->expects($this->once())->method('getEntity')->willReturn($entity);
-        $model->expects($this->once())->method('getId')->willReturn(1);
-        $model->expects($this->once())->method('getData')->willReturn($data);
+        $model->expects($this->any())->method('getEntity')->willReturn($entity);
+        $model->expects($this->any())->method('getId')->willReturn(1);
+        $model->expects($this->any())->method('getData')->willReturn($data);
 
         $select = $this->getMockBuilder(UpdateCommand::class)->disableOriginalConstructor()->getMock();
-        $select->expects($this->once())->method('setIsStrict')->willReturnSelf();
-        $select->expects($this->once())->method('setTable')->with($table)->willReturnSelf();
-        $select->expects($this->once())->method('setData')->with($data)->willReturnSelf();
-        $select->expects($this->once())->method('setWhere')->willReturnSelf();
-        $select->expects($this->once())->method('execute')->with($this->mockAdapter);
+        $select->expects($this->any())->method('setIsStrict')->willReturnSelf();
+        $select->expects($this->any())->method('setTable')->with($table)->willReturnSelf();
+        $select->expects($this->any())->method('setData')->with($data)->willReturnSelf();
+        $select->expects($this->any())->method('setWhere')->willReturnSelf();
+        $select->expects($this->any())->method('execute')->with($this->mockAdapter);
 
 
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
+        $event->expects($this->any())->method('getTarget')->willReturn($model);
 
         $this->assertNull($this->object->setUpdate($select)->onExecute($event));
     }
@@ -100,24 +100,24 @@ class UpdateTest extends TestCase
         
         $this->expectException(RecordNotFoundException::class);
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
-        $entity->expects($this->once())->method('getTable')->willReturn($table);
-        $entity->expects($this->once())->method('getIdField')->willReturn($idField);
+        $entity->expects($this->any())->method('getTable')->willReturn($table);
+        $entity->expects($this->any())->method('getIdField')->willReturn($idField);
 
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
-        $model->expects($this->once())->method('getEntity')->willReturn($entity);
-        $model->expects($this->once())->method('getId')->willReturn(1);
-        $model->expects($this->once())->method('getData')->willReturn($data);
+        $model->expects($this->any())->method('getEntity')->willReturn($entity);
+        $model->expects($this->any())->method('getId')->willReturn(1);
+        $model->expects($this->any())->method('getData')->willReturn($data);
 
         $select = $this->getMockBuilder(UpdateCommand::class)->disableOriginalConstructor()->getMock();
-        $select->expects($this->once())->method('setIsStrict')->willReturnSelf();
-        $select->expects($this->once())->method('setTable')->with($table)->willReturnSelf();
-        $select->expects($this->once())->method('setData')->with($data)->willReturnSelf();
-        $select->expects($this->once())->method('setWhere')->willReturnSelf();
-        $select->expects($this->once())->method('execute')->with($this->mockAdapter)->willThrowException(new NoRecordsAffectedException());
+        $select->expects($this->any())->method('setIsStrict')->willReturnSelf();
+        $select->expects($this->any())->method('setTable')->with($table)->willReturnSelf();
+        $select->expects($this->any())->method('setData')->with($data)->willReturnSelf();
+        $select->expects($this->any())->method('setWhere')->willReturnSelf();
+        $select->expects($this->any())->method('execute')->with($this->mockAdapter)->willThrowException(new NoRecordsAffectedException());
 
 
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
+        $event->expects($this->any())->method('getTarget')->willReturn($model);
 
         $this->object->setUpdate($select)->onExecute($event);
     }

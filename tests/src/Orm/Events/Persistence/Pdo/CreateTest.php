@@ -57,7 +57,7 @@ class CreateTest extends TestCase
     public function testOnExecuteTargetNotModel()
     {
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $event->expects($this->once())
+        $event->expects($this->any())
             ->method('getTarget')
             ->willReturn(null);
         $this->assertNull($this->object->onExecute($event));
@@ -70,22 +70,22 @@ class CreateTest extends TestCase
         $data = ['test' => 1, 'some_id' => 2];
 
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
-        $entity->expects($this->once())->method('getTable')->willReturn($table);
+        $entity->expects($this->any())->method('getTable')->willReturn($table);
 
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
-        $model->expects($this->once())->method('getEntity')->willReturn($entity);
-        $model->expects($this->once())->method('getData')->willReturn($data);
-        $model->expects($this->once())->method('setId')->with(1);
+        $model->expects($this->any())->method('getEntity')->willReturn($entity);
+        $model->expects($this->any())->method('getData')->willReturn($data);
+        $model->expects($this->any())->method('setId')->with(1);
 
         $create = $this->getMockBuilder(CreateCommand::class)->disableOriginalConstructor()->getMock();
-        $create->expects($this->once())->method('setIsStrict')->willReturnSelf();
-        $create->expects($this->once())->method('setData')->with($data)->willReturnSelf();
-        $create->expects($this->once())->method('setTable')->with($table)->willReturnSelf();
-        $create->expects($this->once())->method('execute')->with($this->mockAdapter)->willReturn(1);
+        $create->expects($this->any())->method('setIsStrict')->willReturnSelf();
+        $create->expects($this->any())->method('setData')->with($data)->willReturnSelf();
+        $create->expects($this->any())->method('setTable')->with($table)->willReturnSelf();
+        $create->expects($this->any())->method('execute')->with($this->mockAdapter)->willReturn(1);
 
 
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
+        $event->expects($this->any())->method('getTarget')->willReturn($model);
 
         $this->assertTrue($this->object->setCreate($create)->onExecute($event));
     }
@@ -98,21 +98,21 @@ class CreateTest extends TestCase
 
         $this->expectException(RecordNotFoundException::class);
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
-        $entity->expects($this->once())->method('getTable')->willReturn($table);
+        $entity->expects($this->any())->method('getTable')->willReturn($table);
 
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
-        $model->expects($this->once())->method('getEntity')->willReturn($entity);
-        $model->expects($this->once())->method('getData')->willReturn($data);
+        $model->expects($this->any())->method('getEntity')->willReturn($entity);
+        $model->expects($this->any())->method('getData')->willReturn($data);
 
         $create = $this->getMockBuilder(CreateCommand::class)->disableOriginalConstructor()->getMock();
-        $create->expects($this->once())->method('setIsStrict')->willReturnSelf();
-        $create->expects($this->once())->method('setData')->with($data)->willReturnSelf();
-        $create->expects($this->once())->method('setTable')->with($table)->willReturnSelf();
-        $create->expects($this->once())->method('execute')->with($this->mockAdapter)->willThrowException(new NoRecordsAffectedCreateException());
+        $create->expects($this->any())->method('setIsStrict')->willReturnSelf();
+        $create->expects($this->any())->method('setData')->with($data)->willReturnSelf();
+        $create->expects($this->any())->method('setTable')->with($table)->willReturnSelf();
+        $create->expects($this->any())->method('execute')->with($this->mockAdapter)->willThrowException(new NoRecordsAffectedCreateException());
 
 
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
+        $event->expects($this->any())->method('getTarget')->willReturn($model);
 
         $this->object->setCreate($create)->onExecute($event);
     }

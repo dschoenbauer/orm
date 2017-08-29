@@ -89,12 +89,7 @@ abstract class AbstractHttpEvent extends AbstractEvent
     {
         /* @var $model ModelInterface */
         $model = $event->getTarget();
-        if (!$model instanceof ModelInterface) {
-            return;
-        }
-        /* @var $entity IsHttp */
-        $entity = $model->getEntity();
-        if (!$entity instanceof EntityInterface || !$entity instanceof IsHttpInterface) {
+        if (!$this->validateModel($model, IsHttpInterface::class)) {
             return;
         }
         $this->run($model);
