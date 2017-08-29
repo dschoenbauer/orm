@@ -59,10 +59,10 @@ class AbstractValidateTest extends TestCase
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
 
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
-        $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
+        $model->expects($this->any())->method('getEntity')->willReturn($entity);
 
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
+        $event->expects($this->any())->method('getTarget')->willReturn($model);
 
         $this->assertNull($this->object->onExecute($event));
     }
@@ -74,16 +74,16 @@ class AbstractValidateTest extends TestCase
             ->setMethods(['preExecuteCheck'])
             ->getMockForAbstractClass();
 
-        $mock->expects($this->exactly(1))->method('preExecuteCheck')->willReturn(false);
+        $mock->expects($this->any())->method('preExecuteCheck')->willReturn(false);
         $mock->expects($this->once())->method('getTypeInterface')->willReturn(HasBoolFieldsInterface::class);
 
         $entity = $this->getMockBuilder(AbstractEntityWithBool::class)->getMock();
 
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
-        $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
+        $model->expects($this->any())->method('getEntity')->willReturn($entity);
 
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
+        $event->expects($this->any())->method('getTarget')->willReturn($model);
 
         $this->assertNull($mock->onExecute($event));
 
@@ -97,11 +97,11 @@ class AbstractValidateTest extends TestCase
         $entity = $this->getMockBuilder(AbstractEntityWithBool::class)->getMock();
 
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
-        $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
-        $model->expects($this->exactly(1))->method('getData')->willReturn([]);
+        $model->expects($this->any())->method('getEntity')->willReturn($entity);
+        $model->expects($this->any())->method('getData')->willReturn([]);
 
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
+        $event->expects($this->any())->method('getTarget')->willReturn($model);
 
         $this->assertNull($this->object->onExecute($event));
     }
@@ -117,14 +117,14 @@ class AbstractValidateTest extends TestCase
         $entity = $this->getMockBuilder(AbstractEntityWithBool::class)->getMock();
 
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
-        $model->expects($this->exactly(1))->method('getEntity')->willReturn($entity);
-        $model->expects($this->exactly(1))->method('getData')->willReturn($data);
+        $model->expects($this->any())->method('getEntity')->willReturn($entity);
+        $model->expects($this->any())->method('getData')->willReturn($data);
 
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
-        $event->expects($this->exactly(1))->method('getParams')->willReturn($params);
+        $event->expects($this->any())->method('getTarget')->willReturn($model);
+        $event->expects($this->any())->method('getParams')->willReturn($params);
 
-        $this->object->expects($this->once())->method('validate')->with($data, $fields);
+        $this->object->expects($this->any())->method('validate')->with($data, $fields);
         $this->assertNull($this->object->onExecute($event));
         $this->assertSame($model, $this->object->getModel());
         $this->assertSame($params, $this->object->getParams());
