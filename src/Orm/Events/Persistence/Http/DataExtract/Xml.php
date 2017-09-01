@@ -24,49 +24,30 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence\Http\DataExtract;
 
+use DSchoenbauer\Orm\Exception\InvalidXmlException;
+use DSchoenbauer\Orm\Framework\XmlToArrayParser;
 use Zend\Http\Response;
 
 /**
- * Description of ResponseFactory
+ * Checks and extracts a response object for XML and converts it to a PHP array
  *
  * @author David Schoenbauer
  */
-class DataExtractorFactory
+class Xml implements DataExtractorInterface
 {
-    protected $extractors = [];
-    
-    public function __construct($loadDefaults = true)
-    {
-        if ($loadDefaults) {
-            $this->loadDefaults();
-        }
-    }
-    
-    public function loadDefaults()
-    {
-        $this->add(new Json())->add(new Xml());
-    }
 
-
-    public function getData(Response $response)
+    public function extract(Response $response)
     {
-        $extractors = $this->getExtractors();
-        /* @var $extractor DataExtractorInterface */
-        foreach ($extractors as $extractor) {
-            if ($extractor->match($response)) {
-                return $extractor->extract($response);
-            }
+        try {
+            $parser = new XmlToArrayParser();
+            return $parser->convert($response->getBody());
+        } catch (InvalidXmlException $exc) {
+            return [];
         }
     }
 
-    public function add(DataExtractorInterface $dataExtractor)
+    public function match(Response $response)
     {
-        $this->extractors[] = $dataExtractor;
-        return $this;
-    }
-
-    public function getExtractors()
-    {
-        return $this->extractors;
+        return strpos(strtolower($response->getHeaders()->get('Content-type')->getFieldValue()), "xml") !== false;
     }
 }
