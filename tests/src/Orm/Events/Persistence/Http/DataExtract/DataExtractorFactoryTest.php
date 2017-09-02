@@ -46,7 +46,7 @@ class DataExtractorFactoryTest extends TestCase
 
     public function testGetExtractorsWithDefaults()
     {
-        $this->assertEquals(1, count($this->object->getExtractors()));
+        $this->assertEquals(2, count($this->object->getExtractors()));
     }
 
     public function testGetExtractorsWithNoDefaults()
