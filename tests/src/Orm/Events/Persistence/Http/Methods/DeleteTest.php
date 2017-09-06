@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Persistence\Http;
+namespace DSchoenbauer\Orm\Events\Persistence\Http\Methods;
 
 use DSchoenbauer\Orm\Exception\HttpErrorException;
 use DSchoenbauer\Orm\Framework\AttributeCollection;
@@ -47,29 +47,22 @@ class DeleteTest extends TestCase
 
     protected function setUp()
     {
-        $this->object = new Delete();
-    }
-
-    public function testGetMethod()
-    {
-        $this->assertEquals(Request::METHOD_DELETE, $this->object->getMethod());
+        $this->object = new Delete([],'');
     }
 
     public function testRun()
     {
         $response = $this->getResponse("");
-        $attributes = $this->getMockBuilder(AttributeCollection::class)->getMock();
-        $attributes->expects($this->once())->method('set')->with('response', $response);
 
-        $model = $this->getModel(1998, [], $this->getIsHttp(null, 'bobsYouUncle', 'bobsYourAunt', true));
-        $model->expects($this->once())->method('getAttributes')->willReturn($attributes);
+
+        $model = $this->getModel(1998, [], $this->getIsHttp(null, 'bobsYouUncle', 'bobsYourAunt'));
 
         $client = $this->getMockBuilder(Client::class)->getMock();
         $client->expects($this->once())->method('setUri')->with('bobsYouUncle')->willReturnSelf();
         $client->expects($this->once())->method('setMethod')->with(Request::METHOD_DELETE)->willReturnSelf();
         $client->expects($this->once())->method('send')->willReturn($response);
 
-        $this->object->setClient($client)->run($model);
+        $this->object->setUriMask('bobsYouUncle')->setClient($client)->send($model);
     }
 
     public function testRunFail()
@@ -79,13 +72,13 @@ class DeleteTest extends TestCase
         $this->expectExceptionMessage("Test");
         $response = $this->getResponse("", "Test", 500);
 
-        $model = $this->getModel(1998, [], $this->getIsHttp(null, 'bobsYouUncle', 'bobsYourAunt', true));
+        $model = $this->getModel(1998, [], $this->getIsHttp(null, 'bobsYouUncle', 'bobsYourAunt'));
 
         $client = $this->getMockBuilder(Client::class)->getMock();
         $client->expects($this->once())->method('setUri')->with('bobsYouUncle')->willReturnSelf();
         $client->expects($this->once())->method('setMethod')->with(Request::METHOD_DELETE)->willReturnSelf();
         $client->expects($this->once())->method('send')->willReturn($response);
 
-        $this->object->setClient($client)->run($model);
+        $this->object->setUriMask('bobsYouUncle')->setClient($client)->send($model);
     }
 }

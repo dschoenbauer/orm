@@ -25,8 +25,10 @@
 namespace DSchoenbauer\Tests\Orm\Events\Persistence\Http;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
-use DSchoenbauer\Orm\Entity\IsHttpInterface;
+use DSchoenbauer\Orm\Entity\HasUriCollection;
+use DSchoenbauer\Orm\Entity\HasUriEntity;
 use DSchoenbauer\Orm\ModelInterface;
+use PHPUnit_Framework_MockObject_MockObject;
 
 /**
  * Description of TestModelTrait
@@ -41,7 +43,7 @@ trait TestModelTrait
      * @param type $idValue
      * @param type $data
      * @param type $entity
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return PHPUnit_Framework_MockObject_MockObject
      */
     public function getModel($idValue = 0, $data = [], $entity = null)
     {
@@ -67,12 +69,16 @@ trait TestModelTrait
         return $entity;
     }
 
-    public function getIsHttp($idField = null, $entityUrl = null, $collectionUrl = null)
+    public function getIsHttp($idField = null, $entityUrl = null, $collectionUrl = null, $useEntity = false)
     {
-        $entity = $this->getMockBuilder(IsHttpInterface::class)->getMock();
+
+        $entity = $this->getMockBuilder(($useEntity ? HasUriEntity::class : HasUriCollection::class))->getMock();
         $entity->expects($this->any())->method('getIdField')->willReturn($idField);
-        $entity->expects($this->any())->method('getEntityUrl')->willReturn($entityUrl);
-        $entity->expects($this->any())->method('getCollectionUrl')->willReturn($collectionUrl);
+        if ($useEntity) {
+            $entity->expects($this->any())->method('getUriEntityMask')->willReturn($entityUrl);
+        } else {
+            $entity->expects($this->any())->method('getUriCollectionMask')->willReturn($collectionUrl);
+        }
         return $entity;
     }
 }

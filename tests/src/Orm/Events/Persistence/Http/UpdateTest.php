@@ -66,7 +66,7 @@ class UpdateTest extends TestCase
         $client->expects($this->once())->method('setMethod')->with(Request::METHOD_PUT)->willReturnSelf();
         $client->expects($this->once())->method('send')->willReturn($response);
 
-        $model = $this->getModel(0, $data, $this->getIsHttp('id', 'bobsYourAunt', 'bobsYourUncle'));
+        $model = $this->getModel(0, $data, $this->getIsHttp('id', 'bobsYourAunt', 'bobsYourUncle', true));
         $model->expects($this->once())->method('setData')->with($data);
 
         $this->object->setClient($client)->run($model);
@@ -75,7 +75,7 @@ class UpdateTest extends TestCase
     public function testRunFail()
     {
         $data = ['id' => 1999, 'test' => 100];
-        
+
         $this->expectException(HttpErrorException::class);
         $this->expectExceptionCode(500);
         $this->expectExceptionMessage(\json_encode($data));
@@ -88,7 +88,7 @@ class UpdateTest extends TestCase
         $client->expects($this->once())->method('setMethod')->with(Request::METHOD_PUT)->willReturnSelf();
         $client->expects($this->once())->method('send')->willReturn($response);
 
-        $model = $this->getModel(0, $data, $this->getIsHttp('id', 'bobsYourAunt', 'bobsYourUncle'));
+        $model = $this->getModel(0, $data, $this->getIsHttp('id', 'bobsYourAunt', 'bobsYourUncle', true));
         $model->expects($this->exactly(0))->method('setData');
 
         $this->object->setClient($client)->run($model);

@@ -105,7 +105,7 @@ abstract class AbstractEvent implements VisitorInterface
                 return false;
             }
         }
-        if (!is_subclass_of($model->getEntity(), $expectedEntity)) {
+        if (!is_a($model->getEntity(), $expectedEntity)) {
             if ($returnException) {
                 throw new LogicException("Entity must implement or extend $expectedEntity");
             } else {

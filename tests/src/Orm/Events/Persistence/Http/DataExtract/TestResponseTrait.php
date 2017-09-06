@@ -28,7 +28,6 @@ use Zend\Http\Header\HeaderInterface;
 use Zend\Http\Headers;
 use Zend\Http\Response;
 
-
 /**
  * Description of TestResponseTrait
  *
@@ -58,10 +57,14 @@ trait TestResponseTrait
         $responseMock->expects($this->any())
             ->method('getBody')
             ->willReturn($body);
-        
+
         $responseMock->expects($this->any())
             ->method('getStatusCode')
             ->willReturn($statusCode);
+
+        $responseMock->expects($this->any())
+            ->method('isSuccess')
+            ->willReturn(in_array($statusCode, range(200, 299)));
 
         return $responseMock;
     }

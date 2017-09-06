@@ -29,7 +29,7 @@ use Zend\Http\Request;
 
 /**
  * Description of Delete
- *
+ * @deprecated since version 1.0.0
  * @author David Schoenbauer
  */
 class Delete extends AbstractHttpEvent

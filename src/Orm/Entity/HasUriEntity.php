@@ -22,37 +22,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Persistence\Http;
-
-use DSchoenbauer\Orm\Entity\IsHttpInterface;
-use DSchoenbauer\Orm\ModelInterface;
-use Zend\Http\Request;
+namespace DSchoenbauer\Orm\Entity;
 
 /**
- * Description of Create
- * @deprecated since version 1.0.0
+ *
  * @author David Schoenbauer
  */
-class Create extends Update
+interface HasUriEntity extends IsHttpInterface
 {
-
-    protected $method = Request::METHOD_POST;
-    
-    public function runExtra(ModelInterface $model)
-    {
-            $this->crossFillId($model);
-    }
-
-    public function crossFillId(ModelInterface $model)
-    {
-        $data = $model->getData();
-        if (array_key_exists($idField = $model->getEntity()->getIdField(), $data)) {
-            $model->setId($data[$idField]);
-        }
-    }
-
-    public function getUri(IsHttpInterface $entity)
-    {
-        return $entity->getUriCollectionMask();
-    }
+    /**
+     * A mask is a template that can be interpolated to add data too
+     */
+    public function getUriEntityMask();
 }

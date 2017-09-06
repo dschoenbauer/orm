@@ -29,7 +29,7 @@ use Zend\Http\Request;
 
 /**
  * Description of SelectAll
- *
+ * @deprecated since version 1.0.0
  * @author David Schoenbauer
  */
 class SelectAll extends Select
@@ -38,6 +38,6 @@ class SelectAll extends Select
     
     public function getUri(IsHttpInterface $entity)
     {
-        return $entity->getCollectionUrl();
+        return $entity->getUriCollectionMask();
     }
 }

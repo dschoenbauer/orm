@@ -22,70 +22,64 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Persistence\Http;
+namespace DSchoenbauer\Orm\Events\Persistence\Http\Methods;
 
 use DSchoenbauer\Orm\Exception\HttpErrorException;
-use DSchoenbauer\Orm\Framework\AttributeCollection;
 use DSchoenbauer\Tests\Orm\Events\Persistence\Http\DataExtract\TestResponseTrait;
 use DSchoenbauer\Tests\Orm\Events\Persistence\Http\TestModelTrait;
 use PHPUnit\Framework\TestCase;
 use Zend\Http\Client;
 use Zend\Http\Request;
 
+
 /**
- * Description of DeleteTest
+ * Description of GetTest
  *
  * @author David Schoenbauer
  */
-class DeleteTest extends TestCase
+class GetTest extends TestCase
 {
+    
+    /**
+     * @var Get
+     */
+    private $object;
 
-    protected $object;
-
-    use TestResponseTrait;
     use TestModelTrait;
-
+    use TestResponseTrait;
+    
     protected function setUp()
     {
-        $this->object = new Delete();
+        $this->object = new Get([],'');
     }
-
-    public function testGetMethod()
+        public function testRun()
     {
-        $this->assertEquals(Request::METHOD_DELETE, $this->object->getMethod());
-    }
-
-    public function testRun()
-    {
-        $response = $this->getResponse("");
-        $attributes = $this->getMockBuilder(AttributeCollection::class)->getMock();
-        $attributes->expects($this->once())->method('set')->with('response', $response);
-
-        $model = $this->getModel(1998, [], $this->getIsHttp(null, 'bobsYouUncle', 'bobsYourAunt', true));
-        $model->expects($this->once())->method('getAttributes')->willReturn($attributes);
+        $data = ['test' => 1, 'id' => 1999];
+        $model = $this->getModel(1999, $data, $this->getIsHttp('id', 'entity', 'collection'));
+        $model->expects($this->once())->method('setData')->with($data);
 
         $client = $this->getMockBuilder(Client::class)->getMock();
-        $client->expects($this->once())->method('setUri')->with('bobsYouUncle')->willReturnSelf();
-        $client->expects($this->once())->method('setMethod')->with(Request::METHOD_DELETE)->willReturnSelf();
-        $client->expects($this->once())->method('send')->willReturn($response);
+        $client->expects($this->any())->method('setMethod')->with(Request::METHOD_GET)->willReturnSelf();
+        $client->expects($this->any())->method('setUri')->with('entity')->willReturnSelf();
+        $client->expects($this->any())->method('send')->willReturn($this->getResponse('somethingJson', json_encode($data)));
 
-        $this->object->setClient($client)->run($model);
+        $this->object->setUriMask('entity')->setClient($client)->send($model);
     }
 
     public function testRunFail()
     {
         $this->expectException(HttpErrorException::class);
         $this->expectExceptionCode(500);
-        $this->expectExceptionMessage("Test");
-        $response = $this->getResponse("", "Test", 500);
-
-        $model = $this->getModel(1998, [], $this->getIsHttp(null, 'bobsYouUncle', 'bobsYourAunt', true));
+        $this->expectExceptionMessage('{"test":1,"id":1999}');
+        
+        $data = ['test' => 1, 'id' => 1999];
+        $model = $this->getModel(1999, $data, $this->getIsHttp('id', 'entity', 'collection'));
 
         $client = $this->getMockBuilder(Client::class)->getMock();
-        $client->expects($this->once())->method('setUri')->with('bobsYouUncle')->willReturnSelf();
-        $client->expects($this->once())->method('setMethod')->with(Request::METHOD_DELETE)->willReturnSelf();
-        $client->expects($this->once())->method('send')->willReturn($response);
+        $client->expects($this->any())->method('setMethod')->with(Request::METHOD_GET)->willReturnSelf();
+        $client->expects($this->any())->method('setUri')->with('entity')->willReturnSelf();
+        $client->expects($this->any())->method('send')->willReturn($this->getResponse('somethingJson', json_encode($data), 500));
 
-        $this->object->setClient($client)->run($model);
+        $this->object->setUriMask('entity')->setClient($client)->send($model);
     }
 }

@@ -29,7 +29,7 @@ use Zend\Http\Request;
 
 /**
  * Description of Update
- *
+ * @deprecated since version 1.0.0
  * @author David Schoenbauer
  */
 class Update extends AbstractHttpEvent
