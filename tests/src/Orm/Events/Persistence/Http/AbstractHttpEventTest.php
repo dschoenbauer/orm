@@ -24,7 +24,7 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence\Http;
 
-use DSchoenbauer\Orm\Entity\IsHttpInterface;
+use DSchoenbauer\Orm\Entity\HasUriEntity;
 use DSchoenbauer\Orm\Events\Persistence\Http\DataExtract\DataExtractorFactory;
 use DSchoenbauer\Orm\Events\Persistence\Http\DataExtract\DataExtractorInterface;
 use DSchoenbauer\Orm\Exception\HttpErrorException;
@@ -34,11 +34,10 @@ use PHPUnit\Framework\TestCase;
 use stdClass;
 use Zend\EventManager\EventInterface;
 use Zend\Http\Client;
-use Zend\Http\Response;
 
 /**
  * Description of AbstractHttpEventTest
- *
+ * @deprecated since version 1.0.0
  * @author David Schoenbauer
  */
 class AbstractHttpEventTest extends TestCase
@@ -93,15 +92,15 @@ use TestModelTrait;
 
     public function testGetUri()
     {
-        $entity = $this->getMockBuilder(IsHttpInterface::class)->getMock();
-        $entity->expects($this->any())->method('getEntityUrl')->willReturn('test');
+        $entity = $this->getMockBuilder(HasUriEntity::class)->getMock();
+        $entity->expects($this->any())->method('getUriEntityMask')->willReturn('test');
 
         $this->assertEquals('test', $this->object->getUri($entity));
     }
 
     public function testBuildUri()
     {
-        $this->object->buildUri($this->getModel(1, ['id' => 1], $this->getIsHttp('id', 'http://test.com')));
+        $this->object->buildUri($this->getModel(1, ['id' => 1], $this->getIsHttp('id', 'http://test.com', true)));
     }
 
     public function testBuildUriBadEntity()

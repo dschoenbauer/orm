@@ -29,7 +29,7 @@ use Zend\Http\Request;
 
 /**
  * Description of Select
- *
+ * @deprecated since version 1.0.0
  * @author David Schoenbauer
  */
 class Select extends AbstractHttpEvent

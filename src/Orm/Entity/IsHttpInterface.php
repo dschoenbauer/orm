@@ -30,8 +30,5 @@ namespace DSchoenbauer\Orm\Entity;
  */
 interface IsHttpInterface extends EntityInterface
 {
-
-    public function getCollectionUrl();
-
-    public function getEntityUrl();
+    public function getHeaders();
 }

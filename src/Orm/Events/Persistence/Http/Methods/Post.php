@@ -22,37 +22,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Persistence\Http;
+namespace DSchoenbauer\Orm\Events\Persistence\Http\Methods;
 
-use DSchoenbauer\Orm\Entity\IsHttpInterface;
 use DSchoenbauer\Orm\ModelInterface;
 use Zend\Http\Request;
 
 /**
- * Description of Create
- * @deprecated since version 1.0.0
+ * Description of Post
+ *
  * @author David Schoenbauer
  */
-class Create extends Update
+class Post extends AbstractHttpMethodEvent
 {
-
-    protected $method = Request::METHOD_POST;
     
-    public function runExtra(ModelInterface $model)
-    {
-            $this->crossFillId($model);
-    }
-
-    public function crossFillId(ModelInterface $model)
+    public function send(ModelInterface $model)
     {
         $data = $model->getData();
-        if (array_key_exists($idField = $model->getEntity()->getIdField(), $data)) {
-            $model->setId($data[$idField]);
-        }
+        $response = $this->checkForError($this->getClient()->setMethod($this->getMethod())
+                ->setParameterPost($data)
+                ->setUri($this->getUri($data))
+                ->send());
+        $model->setData($this->getDataExtractorFactory()->getData($response));
     }
-
-    public function getUri(IsHttpInterface $entity)
+    
+    public function getMethod()
     {
-        return $entity->getUriCollectionMask();
+        return Request::METHOD_POST;
     }
 }

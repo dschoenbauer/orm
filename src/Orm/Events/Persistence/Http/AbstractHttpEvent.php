@@ -25,6 +25,8 @@
 namespace DSchoenbauer\Orm\Events\Persistence\Http;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
+use DSchoenbauer\Orm\Entity\HasUriCollection;
+use DSchoenbauer\Orm\Entity\HasUriEntity;
 use DSchoenbauer\Orm\Entity\IsHttpInterface;
 use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Events\AbstractEvent;
@@ -38,7 +40,7 @@ use Zend\Http\Response;
 
 /**
  * Description of AbstractHttpEvent
- *
+ * @deprecated since version 1.0.0
  * @author David Schoenbauer
  */
 abstract class AbstractHttpEvent extends AbstractEvent
@@ -107,9 +109,17 @@ abstract class AbstractHttpEvent extends AbstractEvent
         return $this->interpolate($uri, $this->getData($model));
     }
 
+    /**
+     * Code is depreciated wired just to get it to work.
+     * @param IsHttpInterface $entity
+     * @return type
+     */
     public function getUri(IsHttpInterface $entity)
     {
-        return $entity->getEntityUrl();
+        if ($entity instanceof HasUriCollection) {
+            return $entity->getUriCollectionMask();
+        }
+        return $entity->getUriEntityMask();
     }
 
     public function getData(ModelInterface $model)

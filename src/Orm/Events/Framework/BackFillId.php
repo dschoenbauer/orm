@@ -22,37 +22,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Persistence\Http;
+namespace DSchoenbauer\Orm\Events\Framework;
 
-use DSchoenbauer\Orm\Entity\IsHttpInterface;
+use DSchoenbauer\Orm\Entity\EntityInterface;
+use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\ModelInterface;
-use Zend\Http\Request;
+use Zend\EventManager\EventInterface;
 
 /**
- * Description of Create
- * @deprecated since version 1.0.0
+ * Takes Id value defined in data and populates it into the model
+ *
  * @author David Schoenbauer
  */
-class Create extends Update
+class BackFillId extends AbstractEvent
 {
 
-    protected $method = Request::METHOD_POST;
-    
-    public function runExtra(ModelInterface $model)
+    public function onExecute(EventInterface $event)
     {
-            $this->crossFillId($model);
-    }
-
-    public function crossFillId(ModelInterface $model)
-    {
-        $data = $model->getData();
-        if (array_key_exists($idField = $model->getEntity()->getIdField(), $data)) {
-            $model->setId($data[$idField]);
+        /* @var $model ModelInterface */
+        $model = $event->getTarget();
+        if (!$this->validateModel($model, EntityInterface::class)) {
+            return false;
         }
-    }
+        $data = $model->getData();
+        $idField = $model->getEntity()->getIdField();
 
-    public function getUri(IsHttpInterface $entity)
-    {
-        return $entity->getUriCollectionMask();
+        if (!array_key_exists($idField, $data)) {
+            return false;
+        }
+        $idx = $data[$idField];
+        $model->setId($idx);
+        return true;
     }
 }

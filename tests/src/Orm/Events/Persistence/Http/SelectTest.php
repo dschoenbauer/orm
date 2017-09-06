@@ -56,7 +56,7 @@ class SelectTest extends TestCase
     public function testRun()
     {
         $data = ['test' => 1, 'id' => 1999];
-        $model = $this->getModel(1999, $data, $this->getIsHttp('id', 'entity', 'collection'));
+        $model = $this->getModel(1999, $data, $this->getIsHttp('id', 'entity', 'collection', true));
         $model->expects($this->once())->method('setData')->with($data);
 
         $client = $this->getMockBuilder(Client::class)->getMock();
@@ -72,9 +72,9 @@ class SelectTest extends TestCase
         $this->expectException(\DSchoenbauer\Orm\Exception\HttpErrorException::class);
         $this->expectExceptionCode(500);
         $this->expectExceptionMessage('{"test":1,"id":1999}');
-        
+
         $data = ['test' => 1, 'id' => 1999];
-        $model = $this->getModel(1999, $data, $this->getIsHttp('id', 'entity', 'collection'));
+        $model = $this->getModel(1999, $data, $this->getIsHttp('id', 'entity', 'collection', true));
 
         $client = $this->getMockBuilder(Client::class)->getMock();
         $client->expects($this->once())->method('setMethod')->with(Request::METHOD_GET)->willReturnSelf();
