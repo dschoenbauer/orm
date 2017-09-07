@@ -25,14 +25,14 @@
 namespace DSchoenbauer\Orm\Exception;
 
 use DSchoenbauer\Exception\Http\ClientError\BadRequestException;
-use PHPUnit_Framework_TestCase;
+use \PHPUnit\Framework\TestCase;
 
 /**
  * Thrown when a data type is provided other than the required data type
  *
  * @author David Schoenbauer
  */
-class RequiredFieldMissingExceptionTest extends PHPUnit_Framework_TestCase
+class RequiredFieldMissingExceptionTest extends \PHPUnit\Framework\TestCase
 {
 
     private $object;

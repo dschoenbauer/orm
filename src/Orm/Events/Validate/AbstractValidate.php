@@ -24,10 +24,11 @@
  */
 namespace DSchoenbauer\Orm\Events\Validate;
 
+use ArrayAccess;
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Orm\Exception\InvalidDataTypeException;
-use DSchoenbauer\Orm\Model;
-use Zend\EventManager\Event;
+use DSchoenbauer\Orm\ModelInterface;
+use Zend\EventManager\EventInterface;
 
 /**
  * Framework for validating data types
@@ -57,28 +58,26 @@ abstract class AbstractValidate extends AbstractEvent
 
     /**
      * method is called when a given event is triggered
-     * @param Event $event Event object passed at time of triggering
+     * @param Event $event EventInterface object passed at time of triggering
      * @throws InvalidDataTypeException thrown when value does not validate
      * @return void
      * @since v1.0.0
      */
-    public function onExecute(Event $event)
+    public function onExecute(EventInterface $event)
     {
-        if (!$event->getTarget() instanceof Model) {
+        $model = $event->getTarget();
+        if (!$this->validateModel($model, $this->getTypeInterface())) {
             return;
         }
-        $this->setModel($event->getTarget());
-        $this->setParams($event->getParams());
+        $this
+            ->setModel($model)
+            ->setParams($event->getParams());
 
-        $entity = $this->getModel()->getEntity();
-        if (!is_a($entity, $this->getTypeInterface())) {
-            return;
-        }
         if (!$this->preExecuteCheck()) {
             return;
         }
 
-        $this->validate($this->getModel()->getData(), $this->getFields($entity));
+        $this->validate($model->getData(), $this->getFields($model->getEntity()));
     }
 
     /**
@@ -101,7 +100,7 @@ abstract class AbstractValidate extends AbstractEvent
 
     /**
      * provides model for which data type exists
-     * @return Model
+     * @return ModelInterface
      * @since v1.0.0
      */
     public function getModel()
@@ -111,11 +110,11 @@ abstract class AbstractValidate extends AbstractEvent
 
     /**
      * set model for which data type exists
-     * @param Model $model
+     * @param ModelInterface $model
      * @return AbstractValidate
      * @since v1.0.0
      */
-    public function setModel(Model $model)
+    public function setModel(ModelInterface $model)
     {
         $this->model = $model;
         return $this;

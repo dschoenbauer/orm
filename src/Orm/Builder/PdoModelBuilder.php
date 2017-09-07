@@ -24,28 +24,17 @@
  */
 namespace DSchoenbauer\Orm\Builder;
 
+use DSchoenbauer\Orm\Builder\Component\PdoPersistence;
 use DSchoenbauer\Orm\CrudModel;
 use DSchoenbauer\Orm\Entity\EntityInterface;
-use DSchoenbauer\Orm\Enum\ModelEvents;
-use DSchoenbauer\Orm\Events\Persistence\PdoCreate;
-use DSchoenbauer\Orm\Events\Persistence\PdoDelete;
-use DSchoenbauer\Orm\Events\Persistence\PdoSelect;
-use DSchoenbauer\Orm\Events\Persistence\PdoUpdate;
-use DSchoenbauer\Orm\Events\Validate\DataType\DataTypeBoolean;
-use DSchoenbauer\Orm\Events\Validate\DataType\DataTypeDate;
-use DSchoenbauer\Orm\Events\Validate\DataType\DataTypeNumber;
-use DSchoenbauer\Orm\Events\Validate\DataType\DataTypeString;
-use DSchoenbauer\Orm\Events\Validate\Schema\DefaultValue;
-use DSchoenbauer\Orm\Events\Validate\Schema\RequiredFields;
-use DSchoenbauer\Orm\Events\Validate\Schema\ValidFields;
 use PDO;
 
 /**
- *
+ * Builds a standard model
  *
  * @author David Schoenbauer
  */
-class PdoModelBuilder implements BuilderInterface
+class PdoModelBuilder extends AbstractBuilder
 {
 
     /**
@@ -53,48 +42,16 @@ class PdoModelBuilder implements BuilderInterface
      */
     protected $adapter;
 
-    /**
-     * @var CrudModel
-     */
-    protected $model;
-
     public function __construct(\PDO $adapter, EntityInterface $entity)
     {
+        parent::__construct($entity);
         $this->setAdapter($adapter)->setModel(new CrudModel($entity));
     }
 
-    public function build()
-    {
-        return $this->getModel();
-    }
-
-    public function buildFinalOutput()
-    {
-    }
-
-    public function buildPersistence()
+    public function addPersistence()
     {
         $adapter = $this->getAdapter();
-        $this->getModel()
-            ->accept(new PdoCreate([ModelEvents::CREATE], $adapter))
-            ->accept(new PdoSelect([ModelEvents::FETCH], $adapter))
-            ->accept(new PdoUpdate([ModelEvents::UPDATE], $adapter))
-            ->accept(new PdoDelete([ModelEvents::DELETE], $adapter));
-    }
-
-    public function buildValidations()
-    {
-        $this->getModel()
-            ->accept(new ValidFields([ModelEvents::CREATE, ModelEvents::UPDATE]))
-            ->accept(new DefaultValue([ModelEvents::CREATE]))
-            ->accept(new RequiredFields([ModelEvents::CREATE, ModelEvents::UPDATE]))
-        
-            ->accept(new DataTypeBoolean([ModelEvents::CREATE, ModelEvents::UPDATE]))
-            ->accept(new DataTypeDate([ModelEvents::CREATE, ModelEvents::UPDATE]))
-            ->accept(new DataTypeNumber([ModelEvents::CREATE, ModelEvents::UPDATE]))
-            ->accept(new DataTypeString([ModelEvents::CREATE, ModelEvents::UPDATE]))
-            
-            ;
+        $this->getModel()->accept(new PdoPersistence($adapter));
     }
 
     /**
@@ -112,24 +69,6 @@ class PdoModelBuilder implements BuilderInterface
     public function setAdapter(PDO $adapter)
     {
         $this->adapter = $adapter;
-        return $this;
-    }
-
-    /**
-     * @return CrudModel
-     */
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    /**
-     * @param CrudModel $model
-     * @return $this
-     */
-    public function setModel(CrudModel $model)
-    {
-        $this->model = $model;
         return $this;
     }
 }

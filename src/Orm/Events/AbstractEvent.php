@@ -24,9 +24,12 @@
  */
 namespace DSchoenbauer\Orm\Events;
 
-use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Exception\Platform\InvalidArgumentException;
+use DSchoenbauer\Exception\Platform\LogicException;
+use DSchoenbauer\Orm\Enum\EventPriorities;
+use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Orm\VisitorInterface;
-use Zend\EventManager\Event;
+use Zend\EventManager\EventInterface;
 
 /**
  * Allows for easier event attachment
@@ -37,32 +40,34 @@ abstract class AbstractEvent implements VisitorInterface
 {
 
     private $events = [];
-    
-    public function __construct(array $events = [])
+    private $priority = EventPriorities::ON_TIME;
+
+    public function __construct(array $events = [], $priority = EventPriorities::ON_TIME)
     {
-        $this->setEvents($events);
+        $this
+            ->setEvents($events)
+            ->setPriority($priority);
     }
-    
 
     /**
      * provides an opportunity to extend Model's functionality
-     * @param Model $model model with which to be listened to
+     * @param ModelInterface $model model with which to be listened to
      * @since v1.0.0
      */
-    public function visitModel(Model $model)
+    public function visitModel(ModelInterface $model)
     {
         foreach ($this->getEvents() as $event) {
             $model->getEventManager()->attach($event, [$this, 'onExecute']);
         }
     }
 
-    abstract public function onExecute(Event $event);
+    abstract public function onExecute(EventInterface $event);
 
     /**
      * returns a list of event names that this object should be executed
      * @return array
      * @since v1.0.0
-     **/
+     * */
     public function getEvents()
     {
         return $this->events;
@@ -78,5 +83,35 @@ abstract class AbstractEvent implements VisitorInterface
     {
         $this->events = $events;
         return $this;
+    }
+
+    public function getPriority()
+    {
+        return $this->priority;
+    }
+
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
+        return $this;
+    }
+
+    public function validateModel($model, $expectedEntity, $returnException = false)
+    {
+        if (!$model instanceof ModelInterface) {
+            if ($returnException) {
+                throw new InvalidArgumentException('ModelInterface is expected');
+            } else {
+                return false;
+            }
+        }
+        if (!is_a($model->getEntity(), $expectedEntity)) {
+            if ($returnException) {
+                throw new LogicException("Entity must implement or extend $expectedEntity");
+            } else {
+                return false;
+            }
+        }
+        return true;
     }
 }

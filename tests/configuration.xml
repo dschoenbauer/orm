@@ -55,4 +55,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             </exclude>
         </whitelist>
     </filter>
+    <logging>
+        <log type="coverage-clover" target="../vendor/coverage/clover.xml"/>
+    </logging>
 </phpunit>

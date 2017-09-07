@@ -30,8 +30,8 @@ namespace DSchoenbauer\Orm\Builder;
  */
 interface BuilderInterface
 {
-    public function buildValidations();
-    public function buildPersistence();
-    public function buildFinalOutput();
+    public function addValidations();
+    public function addPersistence();
+    public function addFinalOutput();
     public function build();
 }

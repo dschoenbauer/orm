@@ -24,17 +24,29 @@
  */
 namespace DSchoenbauer\Orm\Events;
 
-use DSchoenbauer\Orm\Model;
+use DSchoenbauer\Exception\Platform\InvalidArgumentException;
+use DSchoenbauer\Exception\Platform\LogicException;
+use DSchoenbauer\Orm\Entity\EntityInterface;
+use DSchoenbauer\Orm\Enum\EventPriorities;
+use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Orm\VisitorInterface;
-use PHPUnit_Framework_TestCase;
+use DSchoenbauer\Tests\Orm\Events\Persistence\Http\TestModelTrait;
+use PHPUnit\Framework\TestCase;
+use stdClass;
+use Zend\EventManager\EventManagerInterface;
 
 /**
  * Description of AbstractEventTest
  *
  * @author David Schoenbauer
  */
-class AbstractEventTest extends PHPUnit_Framework_TestCase
+class AbstractEventTest extends TestCase
 {
+
+    use TestModelTrait;
+
+    /* @var $object AbstractEvent */
 
     private $object;
 
@@ -51,11 +63,11 @@ class AbstractEventTest extends PHPUnit_Framework_TestCase
 
     public function testVisitModel()
     {
-        $eventManagerMock = $this->getMockBuilder(\Zend\EventManager\EventManagerInterface::class)->getMock();
+        $eventManagerMock = $this->getMockBuilder(EventManagerInterface::class)->getMock();
         $eventManagerMock->expects($this->once())
             ->method('attach')
-            ->with('test', [$this->object, 'onExecute']);
-        $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+            ->with('test', [$this->object, 'onExecute'], 1);
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->any())
             ->method('accept')
             ->willReturnCallback(function(VisitorInterface $event) use ($model) {
@@ -66,5 +78,47 @@ class AbstractEventTest extends PHPUnit_Framework_TestCase
             ->willReturn($eventManagerMock);
         $this->assertInstanceOf(VisitorInterface::class, $this->object);
         $model->accept($this->object->setEvents(['test']));
+    }
+
+    public function testDefaultPriority()
+    {
+        $this->assertEquals(EventPriorities::ON_TIME, $this->object->getPriority());
+    }
+
+    public function testPriority()
+    {
+        $this->assertEquals(10000, $this->object->setPriority(10000)->getPriority());
+    }
+
+    public function testValidateModelModelBadException()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("ModelInterface is expected");
+        $this->object->validateModel(new stdClass(), "notAnEntity", true);
+    }
+
+    public function testValidateModelModelBadBoolean()
+    {
+        $this->assertFalse($this->object->validateModel(new stdClass(), "notanentity"));
+        $this->assertFalse($this->object->validateModel(new stdClass(), "notanentity"), false);
+    }
+
+    public function testValidateModelEntityBadException()
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage("Entity must implement or extend notanentity");
+        $this->assertFalse($this->object->validateModel($this->getModel(), "notanentity", true));
+    }
+
+    public function testValidateModelEntityBadBoolean()
+    {
+        $this->assertFalse($this->object->validateModel($this->getModel(), "notanentity"));
+        $this->assertFalse($this->object->validateModel($this->getModel(), "notanentity", false));
+    }
+
+    public function testValidateModelEntityGood()
+    {
+        $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
+        $this->assertTrue($this->object->validateModel($this->getModel(0, [], $entity), EntityInterface::class));
     }
 }

@@ -24,7 +24,9 @@
  */
 namespace DSchoenbauer\Orm;
 
-use PHPUnit_Framework_TestCase;
+use DSchoenbauer\Orm\Entity\EntityInterface;
+use DSchoenbauer\Orm\Enum\ModelEvents;
+use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventManager;
 
 /**
@@ -32,7 +34,7 @@ use Zend\EventManager\EventManager;
  *
  * @author David Schoenbauer
  */
-class CrudModelTest extends PHPUnit_Framework_TestCase
+class CrudModelTest extends TestCase
 {
 
     protected $object;
@@ -41,18 +43,18 @@ class CrudModelTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->entity = $this->getMockBuilder(Entity\EntityInterface::class)->getMock();
+        $this->entity = $this->getMockBuilder(EntityInterface::class)->getMock();
         $this->object = new CrudModel($this->entity);
         $this->mockEventManager = $this->getMockBuilder(EventManager::class)->getMock();
     }
 
     public function testCreate()
     {
-        $this->mockEventManager->expects($this->exactly(2))
+        $this->mockEventManager->expects($this->exactly(1))
             ->method('trigger')
             ->withConsecutive(
-                [Enum\ModelEvents::CREATE, $this->object],
-                [Enum\ModelEvents::FETCH, $this->object]);
+                [ModelEvents::CREATE, $this->object]
+        );
 
         $this->object->setEventManager($this->mockEventManager);
         $data = ['test' => 'value'];
@@ -60,12 +62,31 @@ class CrudModelTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($data, $this->object->getData());
     }
 
+    public function testCreateOnError()
+    {
+        $exc = new \Exception();
+        $this->mockEventManager->expects($this->exactly(2))
+            ->method('trigger')
+            ->withConsecutive(
+                [ModelEvents::CREATE, $this->object], 
+                [ModelEvents::ERROR, $this->object, ['event' => ModelEvents::CREATE, 'exception' => $exc]]
+            )->willReturnCallback(function() use ($exc){
+            static $i = 0;
+            if ($i == 0) {
+                $i++;
+                throw new $exc;
+            }
+        });
+        $this->object->setEventManager($this->mockEventManager);
+        $this->object->create(['test' => 'value']);
+    }
+
     public function testFetch()
     {
         $this->mockEventManager->expects($this->exactly(1))
             ->method('trigger')
             ->withConsecutive(
-                [Enum\ModelEvents::FETCH, $this->object]);
+                [ModelEvents::FETCH, $this->object]);
 
         $this->object->setEventManager($this->mockEventManager);
         $id = 1447;
@@ -74,25 +95,62 @@ class CrudModelTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($id, $this->object->getId());
     }
 
+    public function testFetchOnError()
+    {
+        $exc = new \Exception();
+        $this->mockEventManager->expects($this->exactly(2))
+            ->method('trigger')
+            ->withConsecutive(
+                [ModelEvents::FETCH, $this->object], [ModelEvents::ERROR, $this->object, ['event' => ModelEvents::FETCH, 'exception' => $exc]]
+            )->willReturnCallback(function() use ($exc) {
+            static $i = 0;
+            if ($i == 0) {
+                $i++;
+                throw $exc;
+            }
+        });
+
+        $this->object->setEventManager($this->mockEventManager);
+        $this->object->fetch(1447);
+    }
+
     public function testFetchAll()
     {
         $this->mockEventManager->expects($this->exactly(1))
             ->method('trigger')
             ->withConsecutive(
-                [Enum\ModelEvents::FETCH_ALL, $this->object]);
+                [ModelEvents::FETCH_ALL, $this->object]);
 
         $this->object->setEventManager($this->mockEventManager);
         $data = ['test' => 'value'];
         $this->assertEquals($data, $this->object->setData($data)->fetchAll());
     }
 
-    public function testUpdate()
+    public function testFetchAllOnError()
     {
+        $exc = new \Exception();
         $this->mockEventManager->expects($this->exactly(2))
             ->method('trigger')
             ->withConsecutive(
-                [Enum\ModelEvents::UPDATE, $this->object],
-                [Enum\ModelEvents::FETCH, $this->object]
+                [ModelEvents::FETCH_ALL, $this->object], 
+                [ModelEvents::ERROR, $this->object, ['event' => ModelEvents::FETCH_ALL, 'exception' => $exc]]
+            )->willReturnCallback(function() use($exc) {
+            static $i = 0;
+            if ($i == 0) {
+                $i++;
+                throw new $exc;
+            }
+        });
+        $this->object->setEventManager($this->mockEventManager);
+        $this->object->fetchAll();
+    }
+
+    public function testUpdate()
+    {
+        $this->mockEventManager->expects($this->exactly(1))
+            ->method('trigger')
+            ->withConsecutive(
+                [ModelEvents::UPDATE, $this->object]
         );
 
         $this->object->setEventManager($this->mockEventManager);
@@ -103,16 +161,53 @@ class CrudModelTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($id, $this->object->getId());
     }
 
+    public function testUpdateOnError()
+    {
+        $exc = new \Exception();
+        $this->mockEventManager->expects($this->exactly(2))
+            ->method('trigger')
+            ->withConsecutive(
+                [ModelEvents::UPDATE, $this->object], [ModelEvents::ERROR, $this->object, ['event' => ModelEvents::UPDATE, 'exception' => $exc]]
+            )->willReturnCallback(function() use ($exc) {
+            static $i = 0;
+            if ($i == 0) {
+                $i++;
+                throw $exc;
+            }
+        });
+
+        $this->object->setEventManager($this->mockEventManager);
+        $this->object->update(1447, ['test' => 'value']);
+    }
+
     public function testDelete()
     {
         $this->mockEventManager->expects($this->exactly(1))
             ->method('trigger')
             ->withConsecutive(
-                [Enum\ModelEvents::DELETE, $this->object]);
+                [ModelEvents::DELETE, $this->object]);
 
         $this->object->setEventManager($this->mockEventManager);
         $id = 1447;
         $this->assertTrue($this->object->delete($id));
         $this->assertEquals($id, $this->object->getId());
+    }
+
+    public function testDeleteOnError()
+    {
+        $exc = new \Exception();
+        $this->mockEventManager->expects($this->exactly(2))
+            ->method('trigger')
+            ->withConsecutive(
+                [ModelEvents::DELETE, $this->object], [ModelEvents::ERROR, $this->object, ['event' => ModelEvents::DELETE, 'exception' => $exc]]
+            )->willReturnCallback(function() use ($exc) {
+            static $i = 0;
+            if ($i == 0) {
+                $i++;
+                throw $exc;
+            }
+        });
+        $this->object->setEventManager($this->mockEventManager);
+        $this->object->delete(1447);
     }
 }

@@ -33,10 +33,10 @@ use Zend\EventManager\EventManagerAwareTrait;
  *
  * @author David Schoenbauer
  */
-class Model
+class Model implements ModelInterface
 {
 
-    private $id;
+    private $idx;
     private $data;
     private $attributes;
     private $entity;
@@ -77,7 +77,7 @@ class Model
     /**
      * Allows the visitor pattern to expand the functionality of the object
      * @param \DSchoenbauer\Orm\VisitorInterface $visitor
-     * @return Model
+     * @return ModelInterface
      * @since v1.0.0
      */
     public function accept(VisitorInterface $visitor)
@@ -93,7 +93,7 @@ class Model
      */
     public function getId()
     {
-        return $this->id;
+        return $this->idx;
     }
 
     /**
@@ -108,13 +108,13 @@ class Model
 
     /**
      * sets a unique identifier value for a given record
-     * @param integer $id
+     * @param integer $idx
      * @return Model
      * @since v1.0.0
      */
-    public function setId($id)
+    public function setId($idx)
     {
-        $this->id = $id;
+        $this->idx = $idx;
         return $this;
     }
 

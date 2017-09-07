@@ -36,7 +36,7 @@ use DSchoenbauer\Orm\Entity\HasDateWithCustomFormatInterface;
 class DataTypeDate extends AbstractDataType
 {
 
-    private $defaultDateTimeFormat;
+    private $defaultFormat;
     private $customDateTimeFormats = [];
 
     /**
@@ -92,18 +92,18 @@ class DataTypeDate extends AbstractDataType
      */
     public function getDefaultDateTimeFormat()
     {
-        return $this->defaultDateTimeFormat;
+        return $this->defaultFormat;
     }
 
     /**
      *
-     * @param string $defaultDateTimeFormat a format used to translate to a date
+     * @param string $defaultFormat a format used to translate to a date
      * @return $this
      * @since v1.0.0
      */
-    public function setDefaultDateTimeFormat($defaultDateTimeFormat)
+    public function setDefaultDateTimeFormat($defaultFormat)
     {
-        $this->defaultDateTimeFormat = $defaultDateTimeFormat;
+        $this->defaultFormat = $defaultFormat;
         return $this;
     }
 }

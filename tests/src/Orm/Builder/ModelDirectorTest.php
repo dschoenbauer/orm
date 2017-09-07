@@ -24,12 +24,14 @@
  */
 namespace DSchoenbauer\Orm\Builder;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Description of ModelDirector
  *
  * @author David Schoenbauer
  */
-class ModelDirectorTest extends \PHPUnit\Framework\TestCase
+class ModelDirectorTest extends TestCase
 {
     /* @var $bject ModelDirector */
 
@@ -43,10 +45,14 @@ class ModelDirectorTest extends \PHPUnit\Framework\TestCase
     public function testBuildModelBuild()
     {
         $builder = $this->getMockBuilder(BuilderInterface::class)->getMock();
-        $builder->expects($this->once())->method('buildValidations');
-        $builder->expects($this->once())->method('buildPersistence');
-        $builder->expects($this->once())->method('buildFinalOutput');
+        $builder->expects($this->once())->method('addValidations');
+        $builder->expects($this->once())->method('addPersistence');
+        $builder->expects($this->once())->method('addFinalOutput');
         $builder->expects($this->once())->method('build')->willReturn(true);
         $this->assertTrue($this->object->buildModel($builder));
+    }
+    
+    public function testInterface(){
+        $this->assertInstanceOf(DirectorInterface::class, $this->object);
     }
 }
