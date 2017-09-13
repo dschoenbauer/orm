@@ -107,17 +107,42 @@ class DateFilterTest extends TestCase
         $this->assertEquals($data, $this->object->formatDate($data, ['date' => DATE_ISO8601], new \DateTimeZone('UTC')));
     }
 
+    public function testFilterUnixTimeStamp()
+    {
+        $outputTime = "Friday, 14-Jul-17 08:40:00 GMT+0600";
+        $timeZone = new \DateTimeZone('GMT+600');
+        $data = $this->object->formatDate(['date' => 1500000000], ['date' => 'U'], $timeZone);
+        /* @var $date DateTime */
+        $date = $data['date'];
+        $this->assertInstanceOf(\DateTime::class, $date);
+        $this->assertEquals($outputTime,  $date->format(DateTime::RFC850));
+        $this->assertEquals($timeZone, $date->getTimeZone());
+    }
+    
+    public function testFilterDateTimeWithTimeZoneOfItsOwn()
+    {
+        $originalTime = "Friday, 14-Jul-17 02:40:00 GMT+0000";
+        $outputTime = "Friday, 14-Jul-17 08:40:00 GMT+0600";
+        $timeZone = new \DateTimeZone('GMT+600');
+        $data = $this->object->formatDate(['date' => $originalTime], ['date' => DateTime::RFC850], $timeZone);
+        /* @var $date DateTime */
+        $date = $data['date'];
+        $this->assertInstanceOf(\DateTime::class, $date);
+        $this->assertEquals($outputTime,  $date->format(DateTime::RFC850));
+        $this->assertEquals($timeZone, $date->getTimeZone());
+    }
+
     public function testFilter()
     {
         $data = ['dateObject' => '2010-12-30T23:21:46+1100'];
         $dataResult = ['dateObject' => new DateTime('2010-12-30T23:21:46+1100')];
-        
+
         $attributes = $this->getMockBuilder(AttributeCollection::class)->getMock();
         $attributes->expects($this->any())->method('get')->willReturnArgument(1);
         $model = $this->getFullModel(['dateObject'], DATE_ISO8601, []);
         $model->expects($this->any())->method('getAttributes')->willReturn($attributes);
-        
-        
+
+
         $this->object->setModel($model);
         $this->assertEquals($dataResult, $this->object->filter($data));
     }
