@@ -54,8 +54,11 @@ class DateFilter extends AbstractEventFilter
             if (!array_key_exists($field, $data) || $data[$field] instanceof DateTime) {
                 continue;
             }
+            /* @var $protoDateTime DateTime */
             if (!$protoDateTime = DateTime::createFromFormat($format, $data[$field], $timeZone)) {
                 throw new InvalidDataTypeException();
+            } elseif ($protoDateTime->getTimezone() !== $timeZone) {
+                $protoDateTime->setTimezone($timeZone);
             }
             $data[$field] = $protoDateTime;
         }
