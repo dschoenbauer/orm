@@ -108,16 +108,16 @@
         },
         {
             "name": "dschoenbauer/exception",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dschoenbauer/exception.git",
-                "reference": "82b57960468beebbe2ae34e888cb90e0c2c36395"
+                "reference": "46446948fffe9559ea3de6ce2cd6462387f5ba87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dschoenbauer/exception/zipball/82b57960468beebbe2ae34e888cb90e0c2c36395",
-                "reference": "82b57960468beebbe2ae34e888cb90e0c2c36395",
+                "url": "https://api.github.com/repos/dschoenbauer/exception/zipball/46446948fffe9559ea3de6ce2cd6462387f5ba87",
+                "reference": "46446948fffe9559ea3de6ce2cd6462387f5ba87",
                 "shasum": ""
             },
             "require": {
@@ -125,7 +125,8 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "5.7.14",
-                "satooshi/php-coveralls": "dev-master"
+                "satooshi/php-coveralls": "dev-master",
+                "squizlabs/php_codesniffer": "*"
             },
             "type": "library",
             "autoload": {
@@ -134,14 +135,17 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "David Schoenbauer",
-                    "email": "d.schoenbauer@ctimeetingtech.com"
+                    "email": "dschoenbauer@gmail.com"
                 }
             ],
             "description": "A base set of exceptions for my projects",
-            "time": "2017-02-22T20:30:19+00:00"
+            "time": "2017-09-13T13:07:37+00:00"
         },
         {
             "name": "dschoenbauer/sql",
