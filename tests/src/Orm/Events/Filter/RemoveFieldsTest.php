@@ -24,7 +24,7 @@
  */
 namespace DSchoenbauer\Orm\Events\Filter;
 
-use DSchoenbauer\Orm\Entity\HasFieldsToRemove;
+use DSchoenbauer\Orm\Entity\HasFieldsToRemoveInterface;
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Tests\Orm\Events\Persistence\Http\TestModelTrait;
 use PHPUnit\Framework\TestCase;
@@ -72,7 +72,7 @@ class RemoveFieldsTest extends TestCase
         $data = ['id' => 1, 'password' => 'somethingSecretD', 'name' => 'John Doe'];
         $result = ['name' => 'John Doe'];
 
-        $entity = $this->getMockBuilder(HasFieldsToRemove::class)->getMock();
+        $entity = $this->getMockBuilder(HasFieldsToRemoveInterface::class)->getMock();
         $entity->expects($this->any())->method('getFieldsToRemove')->willReturn($fields);
 
         $model = $this->getModel(1, $data, $entity);

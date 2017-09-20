@@ -28,7 +28,7 @@ namespace DSchoenbauer\Orm\Entity;
  *
  * @author David Schoenbauer
  */
-interface HasFieldsToRemove
+interface HasFieldsToRemoveInterface
 {
 
     public function getFieldsToRemove();
