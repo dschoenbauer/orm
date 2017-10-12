@@ -66,28 +66,68 @@ class AbstractPdoEventTest extends TestCase
         $this->assertEquals($events, $this->object->getEvents());
         $this->assertEquals($priority, $this->object->getPriority());
     }
-    
-    public function testOnExecuteBadTarget(){
+
+    public function testOnExecuteBadTarget()
+    {
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $this->assertNull($this->object->onExecute($event));
     }
-    
-    public function testOnExecuteGoodTargetBadInterface(){
+
+    public function testOnExecuteGoodTargetBadInterface()
+    {
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->any())->method('getTarget')->willReturn($model);
         $this->assertNull($this->object->onExecute($event));
     }
-    
-    public function testOnExecuteGood(){
+
+    public function testOnExecuteGood()
+    {
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->any())->method('getEntity')->willReturn($entity);
-        
+
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->any())->method('getTarget')->willReturn($model);
 
         $this->object->expects($this->once())->method('commit')->with($event);
         $this->object->onExecute($event);
+    }
+
+    /**
+     * 
+     * @param array $result
+     * @param array $data
+     * @param array $fields
+     * @dataProvider reduceFieldsDataProvider
+     */
+    public function testReduceFields(array $result, array $data, array $fields)
+    {
+        $this->assertEquals($result, $this->object->reduceFields($data, $fields));
+    }
+
+    public function reduceFieldsDataProvider()
+    {
+        $dateObj = new DateTimeExt();
+        return [
+            'Too Many Fields' => [['id' => 1, 'name' => 'bob'], ['id' => 1, 'name' => 'bob', 'xtra' => true], ['id', 'name']],
+            'Under Fields' => [['id' => 1, 'name' => 'bob'], ['id' => 1, 'name' => 'bob'], ['id', 'name', 'description', 'active']],
+            'Just Right' => [['id' => 1, 'name' => 'bob'], ['id' => 1, 'name' => 'bob'], ['id', 'name']],
+            'Boolean' => [['id' => 1, 'name' => 'bob', 'active' => true], ['id' => 1, 'name' => 'bob', 'active' => true], ['id', 'name', 'active']],
+            'scalar only' => [['id' => 1], ['id' => 1, 'array' => [1, 2], 'object' => new \stdClass()], ['id', 'array', 'object']],
+            'objects with _toString' => [['id' => 1, 'date' => $dateObj], ['id' => 1, 'array' => [1, 2], 'date' => $dateObj], ['id', 'array', 'date']],
+        ];
+    }
+}
+
+/**
+ * Naughty I know.
+ */
+class DateTimeExt extends \DateTime
+{
+
+    public function __toString()
+    {
+        return $this->format("Y-m-d H:i:s");
     }
 }
