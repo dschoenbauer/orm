@@ -67,11 +67,13 @@ class UpdateTest extends TestCase
     {
         $table = "someTable";
         $data = ['name' => "some", 'street' => "fields"];
+        $fields = ['name', 'street'];
         $idField = "id";
 
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
         $entity->expects($this->any())->method('getTable')->willReturn($table);
         $entity->expects($this->any())->method('getIdField')->willReturn($idField);
+        $entity->expects($this->any())->method('getAllFields')->willReturn($fields);
 
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->any())->method('getEntity')->willReturn($entity);
@@ -91,17 +93,20 @@ class UpdateTest extends TestCase
 
         $this->assertNull($this->object->setUpdate($select)->onExecute($event));
     }
+
     public function testOnExecuteNoRecord()
     {
         $table = "someTable";
         $data = ['name' => "some", 'street' => "fields"];
+        $fields = ['name', 'street'];
         $idField = "id";
 
-        
+
         $this->expectException(RecordNotFoundException::class);
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
         $entity->expects($this->any())->method('getTable')->willReturn($table);
         $entity->expects($this->any())->method('getIdField')->willReturn($idField);
+        $entity->expects($this->any())->method('getAllFields')->willReturn($fields);
 
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->any())->method('getEntity')->willReturn($entity);
