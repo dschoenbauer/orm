@@ -67,9 +67,7 @@ abstract class AbstractPdoEvent extends AbstractEvent
         $reduced = array_intersect_key($data, array_flip($fields));
 
         return array_filter($reduced, function ($value) {
-            if (is_scalar($value)) {
-                return true;
-            } elseif (is_object($value) && method_exists($value, '__toString')) {
+            if (is_scalar($value) || (is_object($value) && method_exists($value, '__toString'))) {
                 return true;
             }
             return false;
