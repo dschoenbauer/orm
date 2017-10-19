@@ -22,48 +22,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Enum;
+namespace DSchoenbauer\Orm\Events\Filter\PasswordMask;
 
 /**
- * An enumerated list of values used to define events a model may trigger
  *
  * @author David Schoenbauer
  */
-class ModelEvents
+interface PasswordMaskStrategyInterface
 {
-    
     /**
-     * Called to create a new record
+     * @param string $string
+     * @return string
      */
-    const CREATE = 'create';
-    
+    public function hashString($string);
+
     /**
-     * Called to retrieve a given record
+     * @param string $password
+     * @return bool
      */
-    const FETCH = "fetch";
-    
-    /**
-     * Called to retrieve a collection of records
-     */
-    const FETCH_ALL = "fetchAll";
-    
-    /**
-     * Called to update a record with data
-     */
-    const UPDATE = 'update';
-    
-    /**
-     * Called to remove data, be it one or many records
-     */
-    const DELETE = 'delete';
-    
-    /**
-     * Event called when an exception occurs
-     */
-    const ERROR = 'error';
-    
-    /**
-     * Event called when authorization has been verified the first time
-     */
-    const AUTHENTICATION_SUCCESS = 'authentication_success';
+    public function validate($password, $hash);
 }
