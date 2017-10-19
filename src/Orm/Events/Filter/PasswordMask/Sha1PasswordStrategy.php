@@ -22,48 +22,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Enum;
+namespace DSchoenbauer\Orm\Events\Filter\PasswordMask;
 
 /**
- * An enumerated list of values used to define events a model may trigger
+ * Description of Sha1PasswordStrategy
  *
  * @author David Schoenbauer
  */
-class ModelEvents
+class Sha1PasswordStrategy implements PasswordMaskStrategyInterface
 {
+
+    private $salt;
+
+    public function __construct($salt = null)
+    {
+        $this->setSalt($salt);
+    }
+
+    public function hashString($string)
+    {
+        return sha1($this->getSalt() . $string);
+    }
+
+    public function validate($password, $hash)
+    {
+        return $hash === $this->hashString($password);
+    }
     
-    /**
-     * Called to create a new record
-     */
-    const CREATE = 'create';
-    
-    /**
-     * Called to retrieve a given record
-     */
-    const FETCH = "fetch";
-    
-    /**
-     * Called to retrieve a collection of records
-     */
-    const FETCH_ALL = "fetchAll";
-    
-    /**
-     * Called to update a record with data
-     */
-    const UPDATE = 'update';
-    
-    /**
-     * Called to remove data, be it one or many records
-     */
-    const DELETE = 'delete';
-    
-    /**
-     * Event called when an exception occurs
-     */
-    const ERROR = 'error';
-    
-    /**
-     * Event called when authorization has been verified the first time
-     */
-    const AUTHENTICATION_SUCCESS = 'authentication_success';
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+        return $this;
+    }
 }
