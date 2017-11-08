@@ -44,11 +44,11 @@ class RemoveFields extends AbstractEvent
         }
         $data = $model->getData();
         $fields = $model->getEntity()->getFieldsToRemove();
-        $model->setData($this->removeFields($fields, $data));
+        $model->setData($this->purgeFields($fields, $data));
         return true;
     }
 
-    public function removeFields($fields, $data)
+    public function purgeFields($fields, $data)
     {
         foreach ($fields as $field) {
             unset($data[$field]);
