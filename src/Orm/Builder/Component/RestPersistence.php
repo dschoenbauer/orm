@@ -24,13 +24,14 @@
  */
 namespace DSchoenbauer\Orm\Builder\Component;
 
+use DSchoenbauer\Orm\Entity\HasUriCollection;
+use DSchoenbauer\Orm\Entity\HasUriEntity;
 use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Enum\ModelEvents;
-use DSchoenbauer\Orm\Events\Persistence\Http\Create;
-use DSchoenbauer\Orm\Events\Persistence\Http\Delete;
-use DSchoenbauer\Orm\Events\Persistence\Http\Select;
-use DSchoenbauer\Orm\Events\Persistence\Http\SelectAll;
-use DSchoenbauer\Orm\Events\Persistence\Http\Update;
+use DSchoenbauer\Orm\Events\Persistence\Http\Methods\Delete;
+use DSchoenbauer\Orm\Events\Persistence\Http\Methods\Get;
+use DSchoenbauer\Orm\Events\Persistence\Http\Methods\Post;
+use DSchoenbauer\Orm\Events\Persistence\Http\Methods\Put;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Orm\VisitorInterface;
 use Zend\Http\Client;
@@ -42,24 +43,38 @@ use Zend\Http\Client;
  */
 class RestPersistence implements VisitorInterface
 {
+
     protected $client;
 
     public function __construct(Client $client = null)
     {
         $this->setClient($client);
     }
-    
 
     public function visitModel(ModelInterface $model)
     {
         $client = $this->getClient();
-        $model->accept(new Create([ModelEvents::CREATE], EventPriorities::ON_TIME, $client));
-        $model->accept(new Select([ModelEvents::FETCH], EventPriorities::ON_TIME, $client));
-        $model->accept(new SelectAll([ModelEvents::FETCH_ALL], EventPriorities::ON_TIME, $client));
-        $model->accept(new Update([ModelEvents::UPDATE], EventPriorities::ON_TIME, $client));
-        $model->accept(new Delete([ModelEvents::DELETE], EventPriorities::ON_TIME, $client));
+        $entity = $model->getEntity();
+        if ($entity instanceof HasUriCollection) {
+            $post = new Post([ModelEvents::CREATE], $entity->getUriCollectionMask(), $entity->getHeaders());
+            $model->accept($post->setClient($client));
+            
+            $get = new Get([ModelEvents::FETCH_ALL], $entity->getUriCollectionMask(), $entity->getHeaders());
+            $model->accept($get->setClient($client));
+        }
+
+        if ($entity instanceof HasUriEntity) {
+            $get = new Get([ModelEvents::FETCH], $entity->getUriEntityMask(), $entity->getHeaders());
+            $model->accept($get->setClient($client));
+            
+            $put = new Put([ModelEvents::UPDATE], $entity->getUriEntityMask(), $entity->getHeaders());
+            $model->accept($put->setClient($client));
+            
+            $delete = new Delete([ModelEvents::DELETE], $entity->getUriEntityMask(), $entity->getHeaders());
+            $model->accept($delete->setClient($client));
+        }
     }
-    
+
     /**
      * @return Client
      */
