@@ -29,34 +29,11 @@ namespace DSchoenbauer\Orm\Events\Filter\PasswordMask;
  *
  * @author David Schoenbauer
  */
-class Sha1PasswordStrategy implements PasswordMaskStrategyInterface
+class Sha1PasswordStrategy extends MD5PasswordStrategy
 {
-
-    private $salt;
-
-    public function __construct($salt = null)
-    {
-        $this->setSalt($salt);
-    }
 
     public function hashString($string)
     {
         return sha1($this->getSalt() . $string);
-    }
-
-    public function validate($password, $hash)
-    {
-        return $hash === $this->hashString($password);
-    }
-    
-    public function getSalt()
-    {
-        return $this->salt;
-    }
-
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
-        return $this;
     }
 }
