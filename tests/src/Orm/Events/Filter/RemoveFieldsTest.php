@@ -87,9 +87,9 @@ class RemoveFieldsTest extends TestCase
     /**
      * @dataProvider revmoveFieldsDataProvider
      */
-    public function testRemoveFields($data, $fields, $result)
+    public function testPurgeFields($data, $fields, $result)
     {
-        $this->assertEquals($result, $this->object->removeFields($fields, $data));
+        $this->assertEquals($result, $this->object->purgeFields($fields, $data));
     }
 
     public function revmoveFieldsDataProvider()
