@@ -1,5 +1,4 @@
 <?php
-
 /*
  * The MIT License
  *
@@ -26,6 +25,9 @@
 namespace DSchoenbauer\Orm\Builder\Component;
 
 use DSchoenbauer\Orm\Builder\Component\RestPersistence;
+use DSchoenbauer\Orm\Entity\HasUriCollection;
+use DSchoenbauer\Orm\Entity\HasUriEntity;
+use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Tests\Orm\Builder\Component\AbstractComponentTestCase;
 use Zend\Http\Client;
 
@@ -42,7 +44,6 @@ class RestPersistenceTest extends AbstractComponentTestCase
     protected function setUp()
     {
         $this->object = new RestPersistence();
-        $this->setCalls(5);
     }
 
     public function testClientLazyLoad()
@@ -54,5 +55,28 @@ class RestPersistenceTest extends AbstractComponentTestCase
     {
         $client = $this->getMockBuilder(Client::class)->getMock();
         $this->assertSame($client, $this->object->setClient($client)->getClient());
+    }
+
+    public function testVisitModelHasUriCollection()
+    {
+        $this->evaluateVisitModel(HasUriCollection::class, 2, 'getUriCollectionMask');
+    }
+
+    public function testVisitModelHasUriEntity()
+    {
+        $this->evaluateVisitModel(HasUriEntity::class, 3, 'getUriEntityMask');
+    }
+
+    public function evaluateVisitModel($entityClass, $calls, $maskMethod)
+    {
+        $entity = $this->getMockBuilder($entityClass)->getMock();
+        $entity->expects($this->any())->method('getHeaders')->willReturn([]);
+        $entity->expects($this->exactly($calls))->method($maskMethod);
+        $entity->expects($this->exactly($calls))->method('getHeaders');
+
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
+        $model->expects($this->exactly($calls))->method('accept')->willReturnSelf();
+        $model->expects($this->any())->method('getEntity')->willReturn($entity);
+        $this->object->visitModel($model);
     }
 }
