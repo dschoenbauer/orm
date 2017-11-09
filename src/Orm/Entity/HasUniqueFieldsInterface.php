@@ -28,7 +28,7 @@ namespace DSchoenbauer\Orm\Entity;
  *
  * @author David Schoenbauer
  */
-interface HasUniqueFieldsInterface
+interface HasUniqueFieldsInterface extends EntityInterface
 {
 
     public function getUniqueFields();

@@ -22,18 +22,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Enum;
+namespace DSchoenbauer\Orm\Exception;
+
+use DSchoenbauer\Exception\Http\ClientError\ConflictException;
+use PHPUnit\Framework\TestCase;
 
 /**
- * Description of ExceptionMessages
+ * Description of NonUniqueValueExceptionTest
  *
  * @author David Schoenbauer
  */
-class ExceptionDefaultMessages
+class NonUniqueValueExceptionTest extends TestCase
 {
-
-    const REQUIRED_FIELD_MISSING_EXCEPTION = "The following fields have been determined to be required "
-        . "but are missing: %s";
-    const NON_UNIQUE_VALUE = "A value being provided has already been provided. "
-        . "Please modify your request and resubmit.";
+    protected $object;
+    
+    protected function setUp()
+    {
+        $this->object = new NonUniqueValueException();
+    }
+    
+    public function testInterfaceIsInPlace(){
+        $this->assertInstanceOf(OrmExceptionInterface::class, $this->object);
+    }
+    
+    public function testPartException(){
+        $this->assertInstanceOf(ConflictException::class, $this->object);
+    }
 }
