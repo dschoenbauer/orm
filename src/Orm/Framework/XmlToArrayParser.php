@@ -73,8 +73,8 @@ class XmlToArrayParser
     private function tagOpen($tag, $attributes)
     {
 
-        $this->convertToArray($tag, 'attrib');
-        $idx = $this->convertToArray($tag, 'cdata');
+        $this->convertToArray($tag);
+        $idx = $this->convertToArray($tag);
 
         if (isset($idx)) {
             $this->pointer[$tag][$idx] = array('@idx' => $idx, '@parent' => &$this->pointer);
