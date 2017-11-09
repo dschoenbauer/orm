@@ -28,6 +28,7 @@ use DSchoenbauer\Orm\Entity\HasUniqueFieldsInterface;
 use DSchoenbauer\Orm\Events\AbstractEvent;
 use DSchoenbauer\Tests\Orm\Events\Persistence\Http\TestModelTrait;
 use PDO;
+use PDOStatement;
 use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventInterface;
 
@@ -40,6 +41,10 @@ class UniqueFieldsTest extends TestCase
 {
 
     private $adapter;
+
+    /**
+     * @var UniqueFields
+     */
     private $object;
 
     use TestModelTrait;
@@ -88,5 +93,37 @@ class UniqueFieldsTest extends TestCase
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->any())->method('getTarget')->willReturn($this->getModel(0, [], $entity));
         $this->assertTrue($this->object->onExecute($event));
+    }
+
+    /**
+     * @dataProvider getCheckForDuplicatesData
+     */
+    public function testCheckForDuplicates($data, $uniqueFields, $table, $idField, $hasDuplicate)
+    {
+        $entity = $this->getMockBuilder(HasUniqueFieldsInterface::class)->getMock();
+        $entity->expects($this->any())->method('getUniqueFields')->willReturn($uniqueFields);
+        $entity->expects($this->any())->method('getTable')->willReturn($table);
+        $entity->expects($this->any())->method('getIdField')->willReturn($idField);
+
+        $stmt = $this->getMockBuilder(PDOStatement::class)->getMock();
+        $stmt->expects($this->any())->method('fetchColumn')->willReturn($hasDuplicate);
+        if ($hasDuplicate) {
+            $this->expectException(\DSchoenbauer\Orm\Exception\NonUniqueValueException::class);
+        }
+
+        $this->adapter->expects($this->any())->method('prepare')->willReturn($stmt);
+
+        $this->object->setAdapter($this->adapter)->checkForDuplicates($data, $entity);
+    }
+
+    public function getCheckForDuplicatesData()
+    {
+        return [
+            'Normal Test' => [['id' => 1], ['id'], 'table', 'id', false],
+            'Filed Doesnt exist in Data' => [['id' => 1], ['idx'], 'table', 'id', false],
+            'Duplicate Exists' => [['id' => 1], ['id'], 'table', 'id', true],
+            'Multiple Fields Duplicate' => [['id' => 1, 'idx' => 12], ['idx'], 'table', 'id', true],
+            'Multiple Fields' => [['id' => 1, 'idx' => 12], ['idx'], 'table', 'id', false],
+        ];
     }
 }

@@ -22,18 +22,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Enum;
+namespace DSchoenbauer\Orm\Exception;
+
+use DSchoenbauer\Exception\Http\ClientError\ConflictException;
+use DSchoenbauer\Orm\Enum\ExceptionDefaultMessages;
 
 /**
- * Description of ExceptionMessages
+ * Description of NonUniqueValueException
  *
  * @author David Schoenbauer
  */
-class ExceptionDefaultMessages
+class NonUniqueValueException extends ConflictException implements OrmExceptionInterface
 {
 
-    const REQUIRED_FIELD_MISSING_EXCEPTION = "The following fields have been determined to be required "
-        . "but are missing: %s";
-    const NON_UNIQUE_VALUE = "A value being provided has already been provided. "
-        . "Please modify your request and resubmit.";
+    public function getDefaultMessage()
+    {
+        return ExceptionDefaultMessages::NON_UNIQUE_VALUE;
+    }
 }
