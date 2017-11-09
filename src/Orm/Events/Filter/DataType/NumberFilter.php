@@ -32,7 +32,7 @@ use DSchoenbauer\Orm\ModelInterface;
  *
  * @author David Schoenbauer
  */
-class NumberFilter extends BooleanFilter
+class NumberFilter extends AbstractFilter
 {
 
     public function getFields(ModelInterface $model)
@@ -44,7 +44,7 @@ class NumberFilter extends BooleanFilter
         return $fields;
     }
 
-    protected function convertValue($value)
+    public function convertValue($value)
     {
         return $value += 0;
     }
