@@ -49,7 +49,6 @@ abstract class AbstractPDODataProvider implements DataProviderInterface
 
     public function getData()
     {
-        $result = false;
         $stmt = $this->getAdapter()->prepare($this->getSql());
         if ($this->getParameters() === null) {
             $result = $stmt->execute();
