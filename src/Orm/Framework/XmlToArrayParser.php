@@ -49,8 +49,17 @@ class XmlToArrayParser
         $this->parser = xml_parser_create("UTF-8");
         xml_set_object($this->parser, $this);
         xml_parser_set_option($this->parser, XML_OPTION_CASE_FOLDING, false);
-        xml_set_element_handler($this->parser, "tagOpen", "tagClose");
-        xml_set_character_data_handler($this->parser, "cdata");
+        $tagOpen = function ($parser, $tag, $attributes) {
+            $this->tagOpen($tag, $attributes);
+        };
+        $tagClose = function () {
+            return $this->tagClose();
+        };
+        $cdata = function ($parser, $cdata) {
+            return $this->cdata($cdata);
+        };
+        xml_set_element_handler($this->parser, $tagOpen, $tagClose);
+        xml_set_character_data_handler($this->parser, $cdata);
         if (xml_parse($this->parser, ltrim($xml)) !== 1) {
             $message = xml_error_string(xml_get_error_code($this->parser));
             $column = xml_get_current_column_number($this->parser);
@@ -61,7 +70,7 @@ class XmlToArrayParser
         return $this->array;
     }
 
-    private function tagOpen($parser, $tag, $attributes)
+    private function tagOpen($tag, $attributes)
     {
 
         $this->convertToArray($tag, 'attrib');
@@ -82,12 +91,12 @@ class XmlToArrayParser
     /**
      * Adds the current elements content to the current pointer[cdata] array.
      */
-    private function cdata($parser, $cdata)
+    private function cdata($cdata)
     {
         $this->pointer['cdata'] = trim($cdata);
     }
 
-    private function tagClose($parser, $tag)
+    private function tagClose()
     {
         $current = & $this->pointer;
         if (isset($this->pointer['@idx'])) {
@@ -106,13 +115,8 @@ class XmlToArrayParser
     /**
      * Converts a single element item into array(element[0]) if a second element of the same name is encountered.
      */
-    private function convertToArray($tag, $item)
+    private function convertToArray($tag)
     {
-        /*if (isset($this->pointer[$tag][$item])) {
-            $content = $this->pointer[$tag];
-            $this->pointer[$tag] = array((0) => $content);
-            $idx = 1;
-        } else */
         if (isset($this->pointer[$tag])) {
             $idx = count($this->pointer[$tag]);
             if (!isset($this->pointer[$tag][0])) {
