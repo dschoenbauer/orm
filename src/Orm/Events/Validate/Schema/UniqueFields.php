@@ -54,12 +54,7 @@ class UniqueFields extends AbstractEvent
         if (!$this->validateModel($model, HasUniqueFieldsInterface::class)) {
             return false;
         }
-        /* @var $entity HasUniqueFieldsInterface */
-        $entity = $model->getEntity();
-        $data = $model->getData();
-
-        $this->checkForDuplicates($data, $entity);
-
+        $this->checkForDuplicates($model->getData(), $model->getEntity());
         return true;
     }
 
