@@ -24,65 +24,33 @@
  */
 namespace DSchoenbauer\Orm\Events\Filter\DataType;
 
-use DSchoenbauer\Orm\Entity\HasBoolFieldsInterface;
-use DSchoenbauer\Orm\Enum\EventPriorities;
+use DSchoenbauer\Orm\Events\Filter\AbstractEventFilter;
 use DSchoenbauer\Orm\ModelInterface;
 
 /**
- * Description of Boolean
+ * Description of AbstractFilter
  *
  * @author David Schoenbauer
  */
-class BooleanFilter extends AbstractFilter
+abstract class AbstractFilter extends AbstractEventFilter
 {
 
-    protected $trueResult = true;
-    protected $falseResult = false;
-
-    public function __construct(
-        array $events = array(),
-        $trueResult = true,
-        $falseResult = false,
-        $priority = EventPriorities::ON_TIME
-    ) {
-        $this->setTrueResult($trueResult)->setFalseResult($falseResult);
-        parent::__construct($events, $priority);
+    public function filter(array $data)
+    {
+        $fields = $this->getFields($this->getModel());
+        return $this->formatValue($data, $fields);
     }
 
-
-    public function convertValue($value)
+    public function formatValue($data, $fields)
     {
-        return boolval($value) ? $this->getTrueResult() : $this->getFalseResult();
-    }
-
-    public function getFields(ModelInterface $model)
-    {
-        $fields = [];
-        if ($model->getEntity() instanceof HasBoolFieldsInterface) {
-            $fields = $model->getEntity()->getBoolFields();
+        foreach ($fields as $field) {
+            if (array_key_exists($field, $data)) {
+                $data[$field] = $this->convertValue($data[$field]);
+            }
         }
-        return $fields;
+        return $data;
     }
 
-    public function getTrueResult()
-    {
-        return $this->trueResult;
-    }
-
-    public function getFalseResult()
-    {
-        return $this->falseResult;
-    }
-
-    public function setTrueResult($trueResult)
-    {
-        $this->trueResult = $trueResult;
-        return $this;
-    }
-
-    public function setFalseResult($falseResult)
-    {
-        $this->falseResult = $falseResult;
-        return $this;
-    }
+    abstract public function convertValue($data);
+    abstract public function getFields(ModelInterface $model);
 }

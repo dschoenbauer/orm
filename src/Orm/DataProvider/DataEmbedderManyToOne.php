@@ -22,34 +22,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Persistence\Http;
-
-use DSchoenbauer\Orm\ModelInterface;
-use Zend\Http\Request;
+namespace DSchoenbauer\Orm\DataProvider;
 
 /**
- * Description of Update
- * @deprecated since version 1.0.0
+ *
+ *
  * @author David Schoenbauer
  */
-class Update extends AbstractHttpEvent
+class DataEmbedderManyToOne extends AbstractDataEmbedderMany
 {
 
-    protected $method = Request::METHOD_PUT;
-
-    public function run(ModelInterface $model)
+    public function getData()
     {
-        $uri = $this->buildUri($model);
-        $response = $this->checkForError($this->getClient()->setMethod($this->getMethod())
-                ->setParameterPost($model->getData())
-                ->setUri($uri)
-                ->send());
-        $model->setData($this->getDataExtractorFactory()->getData($response));
-        $this->runExtra($model);
-    }
-
-    public function runExtra(ModelInterface $model)
-    {
-        //void;
+        $target = $this->prepData($this->getTargetDataProvider()->getData(), null);
+        $embedded = $this->getEmbeddedDataProvider()->getData();
+        foreach ($target as &$row) {
+            if (!array_key_exists($this->getLinkField(), $row)) {
+                continue;
+            }
+            $id = $row[$this->getLinkField()];
+            if (!array_key_exists($id, $embedded)) {
+                continue;
+            }
+            
+            $row[$this->getEmbedKey()][$this->getName()] = $embedded[$id];
+        }
+        return $target;
     }
 }

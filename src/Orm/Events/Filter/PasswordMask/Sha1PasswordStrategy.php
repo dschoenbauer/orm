@@ -22,36 +22,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Persistence\Http;
-
-use DSchoenbauer\Tests\Orm\Events\Persistence\Http\TestModelTrait;
-use PHPUnit\Framework\TestCase;
-use Zend\Http\Request;
+namespace DSchoenbauer\Orm\Events\Filter\PasswordMask;
 
 /**
- * Description of SelectAllTest
+ * Description of Sha1PasswordStrategy
  *
  * @author David Schoenbauer
  */
-class SelectAllTest extends TestCase
+class Sha1PasswordStrategy extends MD5PasswordStrategy
 {
 
-    use TestModelTrait;
-
-    protected $object;
-
-    protected function setUp()
+    public function hashString($string)
     {
-        $this->object = new SelectAll();
-    }
-
-    public function testGetUri()
-    {
-        $this->assertEquals('collection', $this->object->getUri($this->getIsHttp('id', 'entity', 'collection')));
-    }
-
-    public function testGetMethod()
-    {
-        $this->assertEquals(Request::METHOD_GET,$this->object->getMethod());
+        return sha1($this->getSalt() . $string);
     }
 }

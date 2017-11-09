@@ -22,76 +22,73 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
+namespace DSchoenbauer\Orm\DataProvider;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
-use DSchoenbauer\Orm\Enum\EventPriorities;
-use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Sql\Command\Select;
 use PDO;
-use Zend\EventManager\EventInterface;
 
 /**
- * Description of AbstractPdoEvent
+ * Description of EntityDataProvider
  *
  * @author David Schoenbauer
  */
-abstract class AbstractPdoEvent extends AbstractEvent
+class EntityDataProvider implements DataProviderInterface
 {
 
+    private $entity;
+    private $select;
     private $adapter;
 
+    public function getData()
+    {
+        $this->getSelect()
+            ->setTable($this->getEntity()->getTable())
+            ->setFields(array_merge([$this->getEntity()->getIdField() . ' idx'], $this->getEntity()->getAllFields()))
+            ->setFetchStyle(\PDO::FETCH_ASSOC || \PDO::FETCH_UNIQUE)
+            ->setFetchFlat(false);
+        return $this->getSelect()->execute($this->getAdapter());
+    }
+
     /**
-     *
-     * @param array $events An array of event names to bind to
-     * @param PDO $adapter PDO connection to a db of some sort.
-     * be lazy loaded for you
-     * @since v1.0.0
+     * @return EntityInterface
      */
-    public function __construct(array $events, PDO $adapter, $priority = EventPriorities::ON_TIME)
+    public function getEntity()
     {
-
-        parent::__construct($events, $priority);
-        $this->setAdapter($adapter);
+        return $this->entity;
     }
 
-    public function onExecute(EventInterface $event)
+    public function setEntity(EntityInterface $entity)
     {
-        if (!$this->validateModel($event->getTarget(), EntityInterface::class)) {
-            return;
-        }
-        return $this->commit($event);
+        $this->entity = $entity;
+        return $this;
     }
-
-    public function reduceFields(array $data = [], array $fields = [])
-    {
-        $reduced = array_intersect_key($data, array_flip($fields));
-
-        return array_filter($reduced, function ($value) {
-            if (is_scalar($value) || (is_object($value) && method_exists($value, '__toString'))) {
-                return true;
-            }
-            return false;
-        });
-    }
-
-    abstract protected function commit(EventInterface $event);
 
     /**
-     * Returns a PHP Data Object
+     * @return Select
+     */
+    public function getSelect()
+    {
+        if (!$this->select) {
+            $this->setSelect(new Select(''));
+        }
+        return $this->select;
+    }
+
+    public function setSelect(Select $select)
+    {
+        $this->select = $select;
+        return $this;
+    }
+
+    /**
      * @return PDO
-     * @since v1.0.0
      */
     public function getAdapter()
     {
         return $this->adapter;
     }
 
-    /**
-     * PDO connection to a db of some sort.
-     * @param PDO $adapter
-     * @return $this
-     * @since v1.0.0
-     */
     public function setAdapter(PDO $adapter)
     {
         $this->adapter = $adapter;

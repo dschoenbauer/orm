@@ -38,7 +38,7 @@ class Create extends AbstractPdoEvent
             $idx = $this->getCreate()
                 ->setIsStrict()
                 ->setTable($entity->getTable())
-                ->setData($model->getData())
+                ->setData($this->reduceFields($model->getData(), $entity->getAllFields()))
                 ->execute($this->getAdapter());
             $model->setId($idx);
         } catch (NoRecordsAffectedException $exc) {

@@ -25,45 +25,15 @@
 namespace DSchoenbauer\Orm\Enum;
 
 /**
- * An enumerated list of values used to define events a model may trigger
+ * Description of ExceptionMessages
  *
  * @author David Schoenbauer
  */
-class ModelEvents
+class ExceptionDefaultMessages
 {
-    
-    /**
-     * Called to create a new record
-     */
-    const CREATE = 'create';
-    
-    /**
-     * Called to retrieve a given record
-     */
-    const FETCH = "fetch";
-    
-    /**
-     * Called to retrieve a collection of records
-     */
-    const FETCH_ALL = "fetchAll";
-    
-    /**
-     * Called to update a record with data
-     */
-    const UPDATE = 'update';
-    
-    /**
-     * Called to remove data, be it one or many records
-     */
-    const DELETE = 'delete';
-    
-    /**
-     * Event called when an exception occurs
-     */
-    const ERROR = 'error';
-    
-    /**
-     * Event called when authorization has been verified the first time
-     */
-    const AUTHENTICATION_SUCCESS = 'authentication_success';
+
+    const REQUIRED_FIELD_MISSING_EXCEPTION = "The following fields have been determined to be required "
+        . "but are missing: %s";
+    const NON_UNIQUE_VALUE = "A value being provided has already been provided. "
+        . "Please modify your request and resubmit.";
 }

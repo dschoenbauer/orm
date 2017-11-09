@@ -6,7 +6,6 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
 
-use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Exception\RecordNotFoundException;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Update as UpdateCommand;
@@ -38,7 +37,8 @@ class Update extends AbstractPdoEvent
             $entity = $model->getEntity();
             $this->getUpdate()
                 ->setIsStrict()
-                ->setTable($entity->getTable())->setData($model->getData())
+                ->setTable($entity->getTable())
+                ->setData($this->reduceFields($model->getData(), $entity->getAllFields()))
                 ->setWhere(new ArrayWhere([$entity->getIdField() => $model->getId()]))
                 ->execute($this->getAdapter());
         } catch (NoRecordsAffectedException $exc) {

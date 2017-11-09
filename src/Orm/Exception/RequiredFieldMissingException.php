@@ -25,6 +25,7 @@
 namespace DSchoenbauer\Orm\Exception;
 
 use DSchoenbauer\Exception\Http\ClientError\BadRequestException;
+use DSchoenbauer\Orm\Enum\ExceptionDefaultMessages;
 
 /**
  * A required field is not present in the data payload
@@ -37,10 +38,19 @@ class RequiredFieldMissingException extends BadRequestException implements OrmEx
 
     protected $missingFields;
 
-    public function __construct(array $missingFields = [], $message = "")
+    public function __construct(array $missingFields = [], $message = null)
     {
         $this->setMissingFields($missingFields);
-        parent::__construct($message);
+        if (!$message) {
+            $message = $this->getDefaultMessage();
+        }
+        parent::__construct($this->interpolateMessage($message, $this->getMissingFields()));
+    }
+
+    public function interpolateMessage($message, $fields, $noFieldsIdentifiedMessage = 'no fields identified')
+    {
+        $fieldString = implode(', ', $fields ?: [$noFieldsIdentifiedMessage]);
+        return sprintf($message, $fieldString);
     }
 
     /**
@@ -61,5 +71,10 @@ class RequiredFieldMissingException extends BadRequestException implements OrmEx
     {
         $this->missingFields = $missingFields;
         return $this;
+    }
+
+    public function getDefaultMessage()
+    {
+        return ExceptionDefaultMessages::REQUIRED_FIELD_MISSING_EXCEPTION;
     }
 }

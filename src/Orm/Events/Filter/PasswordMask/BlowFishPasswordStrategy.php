@@ -22,28 +22,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Persistence\Http;
-
-use DSchoenbauer\Orm\ModelInterface;
-use Zend\Http\Request;
+namespace DSchoenbauer\Orm\Events\Filter\PasswordMask;
 
 /**
- * Description of Delete
- * @deprecated since version 1.0.0
+ * Description of BlowFishPasswordStrategy
+ *
  * @author David Schoenbauer
  */
-class Delete extends AbstractHttpEvent
+class BlowFishPasswordStrategy implements PasswordMaskStrategyInterface
 {
+    private $cost = 10;
 
-    protected $method = Request::METHOD_DELETE;
-
-    public function run(ModelInterface $model)
+    public function __construct($cost = 10)
     {
-        $uri = $this->buildUri($model);
-        $response = $this->checkForError($this->getClient()
-                ->setUri($uri)
-                ->setMethod($this->getMethod())
-                ->send());
-        $model->getAttributes()->set('response', $response);
+        $this->setCost($cost);
+    }
+
+    public function hashString($string)
+    {
+        return password_hash($string, PASSWORD_BCRYPT, ['cost' => $this->getCost()]);
+    }
+
+    public function validate($string, $hash)
+    {
+        return password_verify($string, $hash);
+    }
+
+    public function getCost()
+    {
+        return $this->cost;
+    }
+
+    public function setCost($cost)
+    {
+        $this->cost = $cost;
+        return $this;
     }
 }

@@ -22,48 +22,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Enum;
+namespace DSchoenbauer\Orm\Exception;
+
+use DSchoenbauer\Exception\Http\ClientError\ConflictException;
+use DSchoenbauer\Orm\Enum\ExceptionDefaultMessages;
 
 /**
- * An enumerated list of values used to define events a model may trigger
+ * Description of NonUniqueValueException
  *
  * @author David Schoenbauer
  */
-class ModelEvents
+class NonUniqueValueException extends ConflictException implements OrmExceptionInterface
 {
-    
-    /**
-     * Called to create a new record
-     */
-    const CREATE = 'create';
-    
-    /**
-     * Called to retrieve a given record
-     */
-    const FETCH = "fetch";
-    
-    /**
-     * Called to retrieve a collection of records
-     */
-    const FETCH_ALL = "fetchAll";
-    
-    /**
-     * Called to update a record with data
-     */
-    const UPDATE = 'update';
-    
-    /**
-     * Called to remove data, be it one or many records
-     */
-    const DELETE = 'delete';
-    
-    /**
-     * Event called when an exception occurs
-     */
-    const ERROR = 'error';
-    
-    /**
-     * Event called when authorization has been verified the first time
-     */
-    const AUTHENTICATION_SUCCESS = 'authentication_success';
+
+    public function getDefaultMessage()
+    {
+        return ExceptionDefaultMessages::NON_UNIQUE_VALUE;
+    }
 }

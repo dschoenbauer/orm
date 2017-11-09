@@ -22,76 +22,68 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
+namespace DSchoenbauer\Orm\Events\Validate\Schema;
 
-use DSchoenbauer\Orm\Entity\EntityInterface;
+use DSchoenbauer\Orm\Entity\HasUniqueFieldsInterface;
 use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Exception\NonUniqueValueException;
+use DSchoenbauer\Orm\ModelInterface;
 use PDO;
 use Zend\EventManager\EventInterface;
 
 /**
- * Description of AbstractPdoEvent
+ * Description of UniqueFields
  *
  * @author David Schoenbauer
  */
-abstract class AbstractPdoEvent extends AbstractEvent
+class UniqueFields extends AbstractEvent
 {
 
     private $adapter;
 
-    /**
-     *
-     * @param array $events An array of event names to bind to
-     * @param PDO $adapter PDO connection to a db of some sort.
-     * be lazy loaded for you
-     * @since v1.0.0
-     */
-    public function __construct(array $events, PDO $adapter, $priority = EventPriorities::ON_TIME)
+    public function __construct(array $events = array(), $priority = EventPriorities::ON_TIME)
     {
-
         parent::__construct($events, $priority);
-        $this->setAdapter($adapter);
     }
 
     public function onExecute(EventInterface $event)
     {
-        if (!$this->validateModel($event->getTarget(), EntityInterface::class)) {
-            return;
-        }
-        return $this->commit($event);
-    }
-
-    public function reduceFields(array $data = [], array $fields = [])
-    {
-        $reduced = array_intersect_key($data, array_flip($fields));
-
-        return array_filter($reduced, function ($value) {
-            if (is_scalar($value) || (is_object($value) && method_exists($value, '__toString'))) {
-                return true;
-            }
+        /* @var $model ModelInterface */
+        $model = $event->getTarget();
+        if (!$this->validateModel($model, HasUniqueFieldsInterface::class)) {
             return false;
-        });
+        }
+        $this->checkForDuplicates($model->getData(), $model->getEntity());
+        return true;
     }
 
-    abstract protected function commit(EventInterface $event);
+    public function checkForDuplicates(array $data, HasUniqueFieldsInterface $entity)
+    {
+        $fields = $entity->getUniqueFields();
+        foreach ($fields as $field) {
+            if (!array_key_exists($field, $data) || !array_key_exists($entity->getIdField(), $data)) {
+                continue; /* field doesn't exsit in data */
+            }
+            $sql = sprintf('SELECT count(1)>0 has_duplicate from %s 
+                where %s != :id and %s = :value', $entity->getTable(), $entity->getIdField(), $field);
+            $stmt = $this->getAdapter()->prepare($sql);
+            $params = [$entity->getIdField() => $data[$entity->getIdField()], $field => $data[$field]];
+            $stmt->execute($params);
+            if ($stmt->fetchColumn()) {
+                throw new NonUniqueValueException();
+            }
+        }
+    }
 
     /**
-     * Returns a PHP Data Object
      * @return PDO
-     * @since v1.0.0
      */
     public function getAdapter()
     {
         return $this->adapter;
     }
 
-    /**
-     * PDO connection to a db of some sort.
-     * @param PDO $adapter
-     * @return $this
-     * @since v1.0.0
-     */
     public function setAdapter(PDO $adapter)
     {
         $this->adapter = $adapter;

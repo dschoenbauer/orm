@@ -22,25 +22,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Persistence\Http;
+namespace DSchoenbauer\Orm\Events\Filter;
 
-use DSchoenbauer\Orm\ModelInterface;
-use Zend\Http\Request;
+use DSchoenbauer\Orm\Entity\HasFieldsToRemoveInterface;
+use DSchoenbauer\Orm\Events\AbstractEvent;
+use Zend\EventManager\EventInterface;
 
 /**
- * Description of Select
- * @deprecated since version 1.0.0
+ * Description of RemoveFields
+ *
  * @author David Schoenbauer
  */
-class Select extends AbstractHttpEvent
+class RemoveFields extends AbstractEvent
 {
 
-    protected $method = Request::METHOD_GET;
-
-    public function run(ModelInterface $model)
+    public function onExecute(EventInterface $event)
     {
-        $url = $this->buildUri($model);
-        $this->getClient()->setMethod($this->getMethod())->setUri($url);
-        $model->setData($this->getDataExtractorFactory()->getData($this->checkForError($this->getClient()->send())));
+        $model = $event->getTarget();
+        if (!$this->validateModel($model, HasFieldsToRemoveInterface::class)) {
+            return false;
+        }
+        $data = $model->getData();
+        $fields = $model->getEntity()->getFieldsToRemove();
+        $model->setData($this->purgeFields($fields, $data));
+        return true;
+    }
+
+    public function purgeFields($fields, $data)
+    {
+        foreach ($fields as $field) {
+            unset($data[$field]);
+        }
+        return $data;
     }
 }

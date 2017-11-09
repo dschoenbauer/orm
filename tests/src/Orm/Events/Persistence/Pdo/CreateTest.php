@@ -68,9 +68,11 @@ class CreateTest extends TestCase
         $table = "someTable";
         $idField = "id";
         $data = ['test' => 1, 'some_id' => 2];
+        $fields = ['test', 'some_id'];
 
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
         $entity->expects($this->any())->method('getTable')->willReturn($table);
+        $entity->expects($this->any())->method('getAllFields')->willReturn($fields);
 
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->any())->method('getEntity')->willReturn($entity);
@@ -95,10 +97,12 @@ class CreateTest extends TestCase
         $table = "someTable";
         $idField = "id";
         $data = ['test' => 1, 'some_id' => 2];
+        $fields = ['test', 'some_id'];
 
         $this->expectException(RecordNotFoundException::class);
         $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
         $entity->expects($this->any())->method('getTable')->willReturn($table);
+        $entity->expects($this->any())->method('getAllFields')->willReturn($fields);
 
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->any())->method('getEntity')->willReturn($entity);

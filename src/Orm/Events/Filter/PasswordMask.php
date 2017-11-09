@@ -22,37 +22,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Persistence\Http;
+namespace DSchoenbauer\Orm\Events\Filter;
 
-use DSchoenbauer\Orm\Entity\IsHttpInterface;
+use DSchoenbauer\Orm\Entity\HasPasswordInterface;
+use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Events\Filter\PasswordMask\PasswordMaskStrategyInterface;
 use DSchoenbauer\Orm\ModelInterface;
-use Zend\Http\Request;
+use Zend\EventManager\EventInterface;
 
 /**
- * Description of Create
- * @deprecated since version 1.0.0
- * @author David Schoenbauer
+ * Masks incoming passwords with the appropriate strategy
  */
-class Create extends Update
+class PasswordMask extends AbstractEvent
 {
 
-    protected $method = Request::METHOD_POST;
-    
-    public function runExtra(ModelInterface $model)
+    public function onExecute(EventInterface $event)
     {
-            $this->crossFillId($model);
-    }
-
-    public function crossFillId(ModelInterface $model)
-    {
-        $data = $model->getData();
-        if (array_key_exists($idField = $model->getEntity()->getIdField(), $data)) {
-            $model->setId($data[$idField]);
+        /* @var $model ModelInterface */
+        $model = $event->getTarget();
+        if (!$this->validateModel($model, HasPasswordInterface::class)) {
+            return false;
         }
+        /* @var $entity HasPasswordInterface */
+        $entity = $model->getEntity();
+        $data = $model->getData();
+        $field = $entity->getPasswordField();
+        $model->setData($this->obfascateData($data, $field, $entity->getPasswordMaskStrategy()));
+        return true;
     }
 
-    public function getUri(IsHttpInterface $entity)
+    public function obfascateData(array $data, $field, PasswordMaskStrategyInterface $passwordMasker)
     {
-        return $entity->getUriCollectionMask();
+        if (array_key_exists($field, $data)) {
+            $data[$field] = $passwordMasker->hashString($data[$field]);
+        }
+        return $data;
     }
 }

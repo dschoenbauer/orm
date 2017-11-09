@@ -25,14 +25,15 @@
 namespace DSchoenbauer\Orm\Exception;
 
 use DSchoenbauer\Exception\Http\ClientError\BadRequestException;
-use \PHPUnit\Framework\TestCase;
+use DSchoenbauer\Orm\Enum\ExceptionDefaultMessages;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Thrown when a data type is provided other than the required data type
  *
  * @author David Schoenbauer
  */
-class RequiredFieldMissingExceptionTest extends \PHPUnit\Framework\TestCase
+class RequiredFieldMissingExceptionTest extends TestCase
 {
 
     private $object;
@@ -56,5 +57,54 @@ class RequiredFieldMissingExceptionTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals([], $this->object->getMissingFields());
         $this->assertEquals(['test'], $this->object->setMissingFields(['test'])->getMissingFields());
+    }
+
+    public function testCustomMessage()
+    {
+        $message = "My Message";
+        $this->object = new RequiredFieldMissingException([], $message);
+        $this->assertEquals($message, $this->object->getMessage());
+    }
+
+    public function testNoMessageFields()
+    {
+        $expected = sprintf(ExceptionDefaultMessages::REQUIRED_FIELD_MISSING_EXCEPTION, 'name, desc');
+        $this->object = new RequiredFieldMissingException(['name', 'desc']);
+        $this->assertEquals($expected, $this->object->getMessage());
+    }
+
+    public function testNoMessageNoFields()
+    {
+        $expected = sprintf(ExceptionDefaultMessages::REQUIRED_FIELD_MISSING_EXCEPTION, 'no fields identified');
+        $this->object = new RequiredFieldMissingException();
+        $this->assertEquals($expected, $this->object->getMessage());
+    }
+
+    /**
+     * 
+     * @param type $expected
+     * @param type $message
+     * @param array $fields
+     * @dataProvider getDataProvider
+     */
+    public function testInterpolateMessage($expected, $message, array $fields)
+    {
+        $this->assertEquals($expected, $this->object->interpolateMessage($message, $fields));
+    }
+
+    public function getDataProvider()
+    {
+        return [
+            ['this is a test: id', 'this is a test: %s', ['id']],
+            ['this is a test: id, name', 'this is a test: %s', ['id', 'name']]
+        ];
+    }
+
+    public function testCustomMessageWithFields()
+    {
+
+        $this->object = new RequiredFieldMissingException(['id'], 'Field missing: %s');
+        $expected = "Field missing: id";
+        $this->assertEquals($expected, $this->object->getMessage());
     }
 }

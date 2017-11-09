@@ -22,22 +22,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Persistence\Http;
-
-use DSchoenbauer\Orm\Entity\IsHttpInterface;
-use Zend\Http\Request;
+namespace DSchoenbauer\Orm\Events\Filter\PasswordMask;
 
 /**
- * Description of SelectAll
- * @deprecated since version 1.0.0
+ *
  * @author David Schoenbauer
  */
-class SelectAll extends Select
+interface PasswordMaskStrategyInterface
 {
-    protected $method = Request::METHOD_GET;
-    
-    public function getUri(IsHttpInterface $entity)
-    {
-        return $entity->getUriCollectionMask();
-    }
+    /**
+     * @param string $string
+     * @return string
+     */
+    public function hashString($string);
+
+    /**
+     * @param string $password
+     * @return bool
+     */
+    public function validate($password, $hash);
 }

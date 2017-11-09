@@ -22,48 +22,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Enum;
+namespace DSchoenbauer\Orm\DataProvider;
 
 /**
- * An enumerated list of values used to define events a model may trigger
  *
  * @author David Schoenbauer
  */
-class ModelEvents
+interface DataProviderInterface
 {
-    
-    /**
-     * Called to create a new record
-     */
-    const CREATE = 'create';
-    
-    /**
-     * Called to retrieve a given record
-     */
-    const FETCH = "fetch";
-    
-    /**
-     * Called to retrieve a collection of records
-     */
-    const FETCH_ALL = "fetchAll";
-    
-    /**
-     * Called to update a record with data
-     */
-    const UPDATE = 'update';
-    
-    /**
-     * Called to remove data, be it one or many records
-     */
-    const DELETE = 'delete';
-    
-    /**
-     * Event called when an exception occurs
-     */
-    const ERROR = 'error';
-    
-    /**
-     * Event called when authorization has been verified the first time
-     */
-    const AUTHENTICATION_SUCCESS = 'authentication_success';
+    public function getData();
 }
