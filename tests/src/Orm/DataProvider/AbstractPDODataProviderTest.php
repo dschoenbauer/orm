@@ -136,9 +136,8 @@ class AbstractPDODataProviderTest extends TestCase
     public function getStatementMock($fetchAll = true, $result = [], $mode = null, $parameters = null, $isError = false)
     {
         $stmt = $this->getMockBuilder(PDOStatement::class)->getMock();
-        $stmt->expects($this->exactly($isError ? 0 : ($fetchAll ? 1 : 0) ))->method('fetchAll')->willReturn($result);
-        $stmt->expects($this->exactly($isError ? 0 : ($fetchAll ? 0 : 1) ))->method('fetch')->willReturn($result);
-        $stmt->expects($this->exactly($isError ? 0 : 1 ))->method('setFetchMode')->with($mode);
+        $stmt->expects($this->exactly($isError ? 0 : ($fetchAll ? 1 : 0) ))->method('fetchAll')->with($mode)->willReturn($result);
+        $stmt->expects($this->exactly($isError ? 0 : ($fetchAll ? 0 : 1) ))->method('fetch')->with($mode)->willReturn($result);
         $execute = $stmt->expects($this->exactly(1))->method('execute')->willReturn(!$isError);
         if ($parameters !== null) {
             $execute->with($parameters);
