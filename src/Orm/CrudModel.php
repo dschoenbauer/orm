@@ -43,13 +43,7 @@ class CrudModel extends Model
      */
     public function create($data)
     {
-        try {
-            $this->setData($data);
-            $this->getEventManager()->trigger(ModelEvents::CREATE, $this);
-        } catch (\Exception $exc) {
-            $this->manageExceptions($exc, ModelEvents::CREATE);
-        }
-        return $this->getData();
+        return $this->setData($data)->processEvent(ModelEvents::CREATE)->getData();
     }
 
     /**
@@ -60,13 +54,7 @@ class CrudModel extends Model
      */
     public function fetch($idx)
     {
-        try {
-            $this->setId($idx);
-            $this->getEventManager()->trigger(ModelEvents::FETCH, $this);
-        } catch (\Exception $exc) {
-            $this->manageExceptions($exc, ModelEvents::FETCH);
-        }
-        return $this->getData();
+        return $this->setId($idx)->processEvent(ModelEvents::FETCH)->getData();
     }
 
     /**
@@ -76,12 +64,7 @@ class CrudModel extends Model
      */
     public function fetchAll()
     {
-        try {
-            $this->getEventManager()->trigger(ModelEvents::FETCH_ALL, $this);
-        } catch (Exception $exc) {
-            $this->manageExceptions($exc, ModelEvents::FETCH_ALL);
-        }
-        return $this->getData();
+        return $this->processEvent(ModelEvents::FETCH_ALL)->getData();
     }
 
     /**
@@ -93,13 +76,7 @@ class CrudModel extends Model
      */
     public function update($idx, $data)
     {
-        try {
-            $this->setId($idx)->setData($data);
-            $this->getEventManager()->trigger(ModelEvents::UPDATE, $this);
-        } catch (Exception $exc) {
-            $this->manageExceptions($exc, ModelEvents::UPDATE);
-        }
-        return $this->getData();
+        return $this->setId($idx)->setData($data)->processEvent(ModelEvents::UPDATE)->getData();
     }
 
     /**
@@ -118,6 +95,16 @@ class CrudModel extends Model
             $this->manageExceptions($exc, ModelEvents::DELETE);
             return false;
         }
+    }
+
+    private function processEvent($event)
+    {
+        try {
+            $this->getEventManager()->trigger($event, $this);
+        } catch (Exception $exc) {
+            $this->manageExceptions($exc, $event);
+        }
+        return $this;
     }
 
     private function manageExceptions(\Exception $exception, $event)

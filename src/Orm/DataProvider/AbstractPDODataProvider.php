@@ -58,11 +58,10 @@ abstract class AbstractPDODataProvider implements DataProviderInterface
         if (!$result) {
             return $this->getDefaultValue();
         }
-        $stmt->setFetchMode($this->getFetchStyle());
         if ($this->getFetchFlat()) {
-            return $stmt->fetch();
+            return $stmt->fetch($this->getFetchStyle());
         }
-        return $stmt->fetchAll();
+        return $stmt->fetchAll($this->getFetchStyle());
     }
 
     /**
