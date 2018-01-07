@@ -101,7 +101,8 @@ class CrudModelTest extends TestCase
         $this->mockEventManager->expects($this->exactly(2))
             ->method('trigger')
             ->withConsecutive(
-                [ModelEvents::FETCH, $this->object], [ModelEvents::ERROR, $this->object, ['event' => ModelEvents::FETCH, 'exception' => $exc]]
+                [ModelEvents::FETCH, $this->object],
+                [ModelEvents::ERROR, $this->object, ['event' => ModelEvents::FETCH, 'exception' => $exc]]
             )->willReturnCallback(function() use ($exc) {
             static $i = 0;
             if ($i == 0) {
@@ -199,14 +200,15 @@ class CrudModelTest extends TestCase
         $this->mockEventManager->expects($this->exactly(2))
             ->method('trigger')
             ->withConsecutive(
-                [ModelEvents::DELETE, $this->object], [ModelEvents::ERROR, $this->object, ['event' => ModelEvents::DELETE, 'exception' => $exc]]
+                [ModelEvents::DELETE, $this->object], 
+                [ModelEvents::ERROR, $this->object, ['event' => ModelEvents::DELETE, 'exception' => $exc]]
             )->willReturnCallback(function() use ($exc) {
-            static $i = 0;
-            if ($i == 0) {
-                $i++;
-                throw $exc;
-            }
-        });
+                static $i = 0;
+                if ($i == 0) {
+                    $i++;
+                    throw $exc;
+                }
+            });
         $this->object->setEventManager($this->mockEventManager);
         $this->object->delete(1447);
     }
