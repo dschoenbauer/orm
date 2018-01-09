@@ -87,16 +87,10 @@ class CrudModel extends Model
      */
     public function delete($idx)
     {
-        try {
-            $this->setId($idx);
-            $this->getEventManager()->trigger(ModelEvents::DELETE, $this);
-            return true;
-        } catch (Exception $exc) {
-            $this->manageExceptions($exc, ModelEvents::DELETE);
-            return false;
-        }
+        $this->setId($idx)->processEvent(ModelEvents::DELETE);
+        return true;
     }
-
+    
     private function processEvent($event)
     {
         try {
