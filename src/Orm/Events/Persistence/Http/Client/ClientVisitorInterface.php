@@ -2,7 +2,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017 David Schoenbauer.
+ * Copyright 2018 David Schoenbauer.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,27 +22,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Persistence\Http\Methods;
+namespace DSchoenbauer\Orm\Events\Persistence\Http\Client;
 
-use DSchoenbauer\Orm\ModelInterface;
-use Zend\Http\Request;
+use Zend\Http\Client;
 
 /**
- * Description of Delete
  *
  * @author David Schoenbauer
  */
-class Delete extends AbstractHttpMethodEvent
+interface ClientVisitorInterface
 {
-
-    public function send(ModelInterface $model)
-    {
-        $response = $this->checkForError($this->getClient()->send());
-        return $response->isSuccess();
-    }
-
-    public function getMethod()
-    {
-        return Request::METHOD_DELETE;
-    }
+    public function visitClient(Client $client);
 }

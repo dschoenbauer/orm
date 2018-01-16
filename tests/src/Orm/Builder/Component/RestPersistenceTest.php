@@ -70,9 +70,7 @@ class RestPersistenceTest extends AbstractComponentTestCase
     public function evaluateVisitModel($entityClass, $calls, $maskMethod)
     {
         $entity = $this->getMockBuilder($entityClass)->getMock();
-        $entity->expects($this->any())->method('getHeaders')->willReturn([]);
         $entity->expects($this->exactly($calls))->method($maskMethod);
-        $entity->expects($this->exactly($calls))->method('getHeaders');
 
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $model->expects($this->exactly($calls))->method('accept')->willReturnSelf();

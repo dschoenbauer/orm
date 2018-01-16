@@ -59,8 +59,6 @@ class GetTest extends TestCase
         $model->expects($this->once())->method('setData')->with($data);
 
         $client = $this->getMockBuilder(Client::class)->getMock();
-        $client->expects($this->any())->method('setMethod')->with(Request::METHOD_GET)->willReturnSelf();
-        $client->expects($this->any())->method('setUri')->with('entity')->willReturnSelf();
         $client->expects($this->any())->method('send')->willReturn($this->getResponse('somethingJson', json_encode($data)));
 
         $this->object->setUriMask('entity')->setClient($client)->send($model);
@@ -76,10 +74,13 @@ class GetTest extends TestCase
         $model = $this->getModel(1999, $data, $this->getIsHttp('id', 'entity', 'collection'));
 
         $client = $this->getMockBuilder(Client::class)->getMock();
-        $client->expects($this->any())->method('setMethod')->with(Request::METHOD_GET)->willReturnSelf();
-        $client->expects($this->any())->method('setUri')->with('entity')->willReturnSelf();
         $client->expects($this->any())->method('send')->willReturn($this->getResponse('somethingJson', json_encode($data), 500));
 
         $this->object->setUriMask('entity')->setClient($client)->send($model);
+    }
+    
+        
+    public function testMethod(){
+        $this->assertEquals(Request::METHOD_GET, $this->object->getMethod());
     }
 }

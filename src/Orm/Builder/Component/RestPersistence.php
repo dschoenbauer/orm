@@ -56,21 +56,21 @@ class RestPersistence implements VisitorInterface
         $client = $this->getClient();
         $entity = $model->getEntity();
         if ($entity instanceof HasUriCollection) {
-            $post = new Post([ModelEvents::CREATE], $entity->getUriCollectionMask(), $entity->getHeaders());
+            $post = new Post([ModelEvents::CREATE], $entity->getUriCollectionMask());
             $model->accept($post->setClient($client));
             
-            $get = new Get([ModelEvents::FETCH_ALL], $entity->getUriCollectionMask(), $entity->getHeaders());
+            $get = new Get([ModelEvents::FETCH_ALL], $entity->getUriCollectionMask());
             $model->accept($get->setClient($client));
         }
 
         if ($entity instanceof HasUriEntity) {
-            $get = new Get([ModelEvents::FETCH], $entity->getUriEntityMask(), $entity->getHeaders());
+            $get = new Get([ModelEvents::FETCH], $entity->getUriEntityMask());
             $model->accept($get->setClient($client));
             
-            $put = new Put([ModelEvents::UPDATE], $entity->getUriEntityMask(), $entity->getHeaders());
+            $put = new Put([ModelEvents::UPDATE], $entity->getUriEntityMask());
             $model->accept($put->setClient($client));
             
-            $delete = new Delete([ModelEvents::DELETE], $entity->getUriEntityMask(), $entity->getHeaders());
+            $delete = new Delete([ModelEvents::DELETE], $entity->getUriEntityMask());
             $model->accept($delete->setClient($client));
         }
     }

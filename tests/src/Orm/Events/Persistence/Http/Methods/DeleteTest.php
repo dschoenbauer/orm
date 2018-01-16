@@ -58,8 +58,6 @@ class DeleteTest extends TestCase
         $model = $this->getModel(1998, [], $this->getIsHttp(null, 'bobsYouUncle', 'bobsYourAunt'));
 
         $client = $this->getMockBuilder(Client::class)->getMock();
-        $client->expects($this->once())->method('setUri')->with('bobsYouUncle')->willReturnSelf();
-        $client->expects($this->once())->method('setMethod')->with(Request::METHOD_DELETE)->willReturnSelf();
         $client->expects($this->once())->method('send')->willReturn($response);
 
         $this->object->setUriMask('bobsYouUncle')->setClient($client)->send($model);
@@ -75,10 +73,12 @@ class DeleteTest extends TestCase
         $model = $this->getModel(1998, [], $this->getIsHttp(null, 'bobsYouUncle', 'bobsYourAunt'));
 
         $client = $this->getMockBuilder(Client::class)->getMock();
-        $client->expects($this->once())->method('setUri')->with('bobsYouUncle')->willReturnSelf();
-        $client->expects($this->once())->method('setMethod')->with(Request::METHOD_DELETE)->willReturnSelf();
         $client->expects($this->once())->method('send')->willReturn($response);
 
         $this->object->setUriMask('bobsYouUncle')->setClient($client)->send($model);
+    }
+    
+    public function testMethod(){
+        $this->assertEquals(Request::METHOD_DELETE, $this->object->getMethod());
     }
 }
