@@ -90,19 +90,18 @@ class CrudModel extends Model
         $this->setId($idx)->processEvent(ModelEvents::DELETE);
         return true;
     }
-    
-    private function processEvent($event)
+
+    protected function processEvent($event)
     {
         try {
             $this->getEventManager()->trigger($event, $this);
         } catch (Exception $exc) {
-            $this->manageExceptions($exc, $event);
+            $payload = [
+                'exception' => $exc,
+                'event' => $event,
+            ];
+            $this->getEventManager()->trigger(ModelEvents::ERROR, $this, $payload);
         }
         return $this;
-    }
-
-    private function manageExceptions(\Exception $exception, $event)
-    {
-        $this->getEventManager()->trigger(ModelEvents::ERROR, $this, compact('event', 'exception'));
     }
 }
