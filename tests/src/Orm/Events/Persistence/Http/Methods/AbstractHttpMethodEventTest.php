@@ -26,6 +26,7 @@ namespace DSchoenbauer\Orm\Events\Persistence\Http\Methods;
 
 use DSchoenbauer\Orm\Entity\IsHttpInterface;
 use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Events\Persistence\Http\Client\ClientVisitorInterface;
 use DSchoenbauer\Orm\Events\Persistence\Http\DataExtract\DataExtractorFactory;
 use DSchoenbauer\Orm\Exception\HttpErrorException;
 use DSchoenbauer\Tests\Orm\Events\Persistence\Http\DataExtract\TestResponseTrait;
@@ -63,16 +64,22 @@ class AbstractHttpMethodEventTest extends TestCase
     
     public function testOnExecuteGood(){
         $entity = $this->getMockBuilder(IsHttpInterface::class)->getMock();
-        $entity->expects($this->any())->method('getHeaders')->willReturn([]);
         $model = $this->getModel(0,[],$entity);
         
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->any())->method('getTarget')->willReturn($model);
         
         $this->object->expects($this->exactly(1))->method('send')->with($model);
+        $this->object->expects($this->once())->method('getMethod')->willReturn('GET');
         $this->assertNull($this->object->onExecute($event));
     }
-
+    
+    public function testAccept(){
+        $client = $this->getMockBuilder(Client::class)->getMock();
+        $visitor = $this->getMockBuilder(ClientVisitorInterface::class)->getMock();
+        $visitor->expects($this->once())->method('visitClient')->with($client);
+        $this->object->setClient($client)->accept($visitor);
+    }
 
     public function testIsEvent()
     {
@@ -142,18 +149,5 @@ class AbstractHttpMethodEventTest extends TestCase
         $this->expectExceptionCode(500);
         $this->expectExceptionMessage("some body");
         $this->assertTrue($this->object->checkForError($this->getResponse("","some body", 500)));
-    }
-
-    public function testHeaders(){
-        $data = ['test'=>'value'];
-        $this->assertEquals([],$this->object->getHeaders());
-        $this->assertEquals($data,$this->object->setHeaders($data)->getHeaders());
-    }
-    
-    public function testApplyHeaders(){
-        $data = ['test'=>'value'];
-        $client = $this->getMockBuilder(Client::class)->getMock();
-        $client->expects($this->any())->method('setHeaders')->with($data);
-        $client = $this->object->setHeaders($data)->applyHeaders($client);
     }
 }

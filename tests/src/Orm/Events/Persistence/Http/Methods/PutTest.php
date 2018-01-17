@@ -65,9 +65,7 @@ class PutTest extends TestCase
         $response = $this->getResponse('something/json', \json_encode($data));
 
         $client = $this->getMockBuilder(Client::class)->getMock();
-        $client->expects($this->once())->method('setUri')->with('bobsYourAunt')->willReturnSelf();
         $client->expects($this->once())->method('setParameterPost')->with($data)->willReturnSelf();
-        $client->expects($this->once())->method('setMethod')->with(Request::METHOD_PUT)->willReturnSelf();
         $client->expects($this->once())->method('send')->willReturn($response);
 
         $model = $this->getModel(0, $data, $this->getIsHttp('id', 'bobsYourAunt', 'bobsYourUncle'));
@@ -87,14 +85,16 @@ class PutTest extends TestCase
         $response = $this->getResponse('something/json', \json_encode($data), 500);
 
         $client = $this->getMockBuilder(Client::class)->getMock();
-        $client->expects($this->once())->method('setUri')->with('bobsYourAunt')->willReturnSelf();
         $client->expects($this->once())->method('setParameterPost')->with($data)->willReturnSelf();
-        $client->expects($this->once())->method('setMethod')->with(Request::METHOD_PUT)->willReturnSelf();
         $client->expects($this->once())->method('send')->willReturn($response);
 
         $model = $this->getModel(0, $data, $this->getIsHttp('id', 'bobsYourAunt', 'bobsYourUncle'));
         $model->expects($this->exactly(0))->method('setData');
 
         $this->object->setUriMask('bobsYourAunt')->setClient($client)->send($model);
+    }
+
+    public function testMethod(){
+        $this->assertEquals(Request::METHOD_PUT, $this->object->getMethod());
     }
 }

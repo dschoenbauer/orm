@@ -37,11 +37,8 @@ class Post extends AbstractHttpMethodEvent
     
     public function send(ModelInterface $model)
     {
-        $data = $model->getData();
-        $response = $this->checkForError($this->getClient()->setMethod($this->getMethod())
-                ->setParameterPost($data)
-                ->setUri($this->getUri($data))
-                ->send());
+        $this->getClient()->setParameterPost($model->getData());
+        $response = $this->checkForError($this->getClient()->send());
         $model->setData($this->getDataExtractorFactory()->getData($response));
     }
     

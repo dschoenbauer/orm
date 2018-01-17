@@ -24,11 +24,13 @@
  */
 namespace DSchoenbauer\Orm\Entity;
 
+use DSchoenbauer\Orm\Events\Persistence\Http\Client\ClientVisitorInterface;
+
 /**
  *
  * @author David Schoenbauer
  */
-interface IsHttpInterface extends EntityInterface
+interface IsHttpInterface extends EntityInterface, ClientVisitorInterface
 {
-    public function getHeaders();
+    
 }
