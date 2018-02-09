@@ -27,6 +27,8 @@ namespace DSchoenbauer\Orm\Events\Persistence\Http\Methods;
 use DSchoenbauer\Orm\Entity\IsHttpInterface;
 use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Events\Persistence\Http\Client\ClientVisiteeInterface;
+use DSchoenbauer\Orm\Events\Persistence\Http\Client\ClientVisitorInterface;
 use DSchoenbauer\Orm\Events\Persistence\Http\DataExtract\DataExtractorFactory;
 use DSchoenbauer\Orm\Exception\HttpErrorException;
 use DSchoenbauer\Orm\Framework\InterpolateTrait;
@@ -40,7 +42,7 @@ use Zend\Http\Response;
  *
  * @author David Schoenbauer
  */
-abstract class AbstractHttpMethodEvent extends AbstractEvent
+abstract class AbstractHttpMethodEvent extends AbstractEvent implements ClientVisiteeInterface
 {
 
     use InterpolateTrait;
@@ -48,25 +50,43 @@ abstract class AbstractHttpMethodEvent extends AbstractEvent
     private $dataExtractorFactory;
     private $client;
     private $uriMask;
-    private $headers = [];
 
-    public function __construct(array $events, $uriMask, array $headers = [], $priority = EventPriorities::ON_TIME)
+    public function __construct(array $events, $uriMask, $priority = EventPriorities::ON_TIME)
     {
-        $this->setUriMask($uriMask)->setHeaders($headers);
+        $this->setUriMask($uriMask);
         parent::__construct($events, $priority);
     }
 
     public function onExecute(EventInterface $event)
     {
+        /* @var $model ModelInterface */
         $model = $event->getTarget();
         if (!$this->validateModel($model, IsHttpInterface::class)) {
             return;
         }
-        $this->setHeaders($model->getEntity()->getHeaders())->applyHeaders($this->getClient());
-        return $this->send($model);
+
+        if ($model->getEntity() instanceof ClientVisitorInterface) {
+            $this->accept($model->getEntity());
+        }
+        $this->setUp($model);
+        return $this-> send($model);
+    }
+
+    public function accept(ClientVisitorInterface $visitor)
+    {
+        $visitor->visitClient($this->getClient());
+    }
+
+    protected function setUp(ModelInterface $model)
+    {
+        $this->getClient()
+            ->setUri($this->getUri($model->getData()))
+            ->setMethod($this->getMethod());
     }
 
     abstract public function send(ModelInterface $model);
+    
+    abstract public function getMethod();
 
     public function getDataExtractorFactory()
     {
@@ -124,22 +144,5 @@ abstract class AbstractHttpMethodEvent extends AbstractEvent
             return $response;
         }
         throw new HttpErrorException($response->getBody(), $response->getStatusCode());
-    }
-    
-    public function getHeaders()
-    {
-        return $this->headers;
-    }
-
-    public function setHeaders(array $headers)
-    {
-        $this->headers = $headers;
-        return $this;
-    }
-    
-    public function applyHeaders(Client $client)
-    {
-        $client->setHeaders($this->getHeaders());
-        return $this;
     }
 }

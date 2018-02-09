@@ -34,10 +34,14 @@ use Zend\Http\Request;
  */
 class Get extends AbstractHttpMethodEvent
 {
-    
+
     public function send(ModelInterface $model)
     {
-        $this->getClient()->setMethod(Request::METHOD_GET)->setUri($this->getUri($model->getData()));
         $model->setData($this->getDataExtractorFactory()->getData($this->checkForError($this->getClient()->send())));
+    }
+
+    public function getMethod()
+    {
+        return Request::METHOD_GET;
     }
 }
