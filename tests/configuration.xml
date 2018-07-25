@@ -49,8 +49,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <directory suffix=".php">../src</directory>
             <exclude>
                 <directory suffix="Interface.php">../src</directory>
-                <directory>./vendor</directory>
                 <directory suffix=".php">../src/Orm/Enum</directory>
+                <directory>./vendor</directory>
                 <directory>./tests</directory>
             </exclude>
         </whitelist>
