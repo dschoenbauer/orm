@@ -22,55 +22,53 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\DataProvider;
+namespace DSchoenbauer\Tests\Orm\Events\DataProvider;
 
 use DSchoenbauer\Orm\DataProvider\DataProviderInterface;
-use DSchoenbauer\Orm\Entity\EntityInterface;
-use DSchoenbauer\Orm\Enum\EventPriorities as EventPriority;
-use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Orm\VisitorInterface;
-use Zend\EventManager\EventInterface;
 
 /**
- * Description of DataProviderEvent
- *
  * @author David Schoenbauer
  */
-class DataProviderEvent extends AbstractEvent
+class MockDataProviderVisitor implements DataProviderInterface, VisitorInterface
 {
+    private $data = [];
+    private $attributes = [];
 
-    private $dataProvider;
-
-    public function __construct(array $events, DataProviderInterface $dataProvider, $priority = EventPriority::ON_TIME)
+    public function __construct($data, $attributes)
     {
-        parent::__construct($events, $priority);
-        $this->setDataProvider($dataProvider);
+        $this->setData($data)->setAttributes($attributes);
+        
     }
 
-    public function onExecute(EventInterface $event)
+    public function visitModel(ModelInterface $model)
     {
-        $model = $event->getTarget();
-        if (!$this->validateModel($model, EntityInterface::class)) {
-            return false;
+        foreach ($this->getAttributes() as $key => $value) {
+            $model->getAttributes()->set($key, $value);
         }
-        if ($this->getDataProvider() instanceof VisitorInterface) {
-            $model->accept($this->getDataProvider());
-        }
-        $model->setData($this->getDataProvider()->getData());
-        return true;
     }
 
-    /**
-     * @return DataProviderInterface
-     */
-    public function getDataProvider()
+    public function getData()
     {
-        return $this->dataProvider;
+        return $this->data;
     }
 
-    public function setDataProvider(DataProviderInterface $dataProvider)
+    public function setData($data)
     {
-        $this->dataProvider = $dataProvider;
+        $this->data = $data;
         return $this;
     }
+
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+        return $this;
+    }
+
 }

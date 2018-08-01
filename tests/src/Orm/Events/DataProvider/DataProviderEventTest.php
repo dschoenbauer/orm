@@ -24,10 +24,12 @@
  */
 namespace DSchoenbauer\Orm\Events\DataProvider;
 
+use DSchoenbauer\Orm\CrudModel;
 use DSchoenbauer\Orm\DataProvider\DataProviderInterface;
 use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Model;
 use DSchoenbauer\Orm\ModelInterface;
+use DSchoenbauer\Tests\Orm\Events\DataProvider\MockDataProviderVisitor;
 use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventInterface;
 
@@ -44,7 +46,7 @@ class DataProviderEventTest extends TestCase
     protected function setUp()
     {
         $this->dataProviderMock = $this->getMockBuilder(DataProviderInterface::class)->disableOriginalConstructor()->getMock();
-        $this->object = new DataProviderEvent([], $this->dataProviderMock);
+        $this->object = new DataProviderEvent(['someEvent'], $this->dataProviderMock);
     }
 
     public function testOnExecuteModelFail()
@@ -52,29 +54,47 @@ class DataProviderEventTest extends TestCase
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $this->assertFalse($this->object->onExecute($event));
     }
-    
+
     public function testOnExecuteEntityFail()
     {
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
-        
+
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->once())->method('getTarget')->willReturn($model);
-        
+
         $this->assertFalse($this->object->onExecute($event));
     }
-    
+
+    public function testOnExecuteVisitModel()
+    {
+        $mockEntity = $this->getMockBuilder(EntityInterface::class)->getMock();
+        $model = new CrudModel($mockEntity);
+
+        $data = ['test' => true];
+        $attr = ['a' => 'b', 'c' => 'd', 'e' => 'f'];
+
+        $this->object->setDataProvider(new MockDataProviderVisitor($data, $attr));
+        $model->accept($this->object);
+        $model->getEventManager()->trigger('someEvent', $model);
+        
+        $this->assertEquals($data, $model->getData());
+        $this->assertEquals('b',$model->getAttributes()->get('a'));
+        $this->assertEquals('d',$model->getAttributes()->get('c'));
+        $this->assertEquals('f',$model->getAttributes()->get('e'));
+    }
+
     public function testOnExecuteSuccess()
     {
         $data = ['some' => 'test'];
         $this->dataProviderMock->expects($this->once())->method('getData')->willReturn($data);
-            
+
         $model = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
         $model->expects($this->once())->method('getEntity')->willReturn($this->getMockBuilder(EntityInterface::class)->getMock());
         $model->expects($this->once())->method('setData')->with($data);
-        
+
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->once())->method('getTarget')->willReturn($model);
-        
+
         $this->assertTrue($this->object->onExecute($event));
     }
 
