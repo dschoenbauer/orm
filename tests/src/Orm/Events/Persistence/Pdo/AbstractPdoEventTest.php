@@ -70,7 +70,7 @@ class AbstractPdoEventTest extends TestCase
     public function testOnExecuteBadTarget()
     {
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $this->assertNull($this->object->onExecute($event));
+        $this->assertFalse($this->object->onExecute($event));
     }
 
     public function testOnExecuteGoodTargetBadInterface()
@@ -78,7 +78,7 @@ class AbstractPdoEventTest extends TestCase
         $model = $this->getMockBuilder(ModelInterface::class)->getMock();
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->any())->method('getTarget')->willReturn($model);
-        $this->assertNull($this->object->onExecute($event));
+        $this->assertFalse($this->object->onExecute($event));
     }
 
     public function testOnExecuteGood()

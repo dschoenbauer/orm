@@ -27,7 +27,7 @@ class Delete extends AbstractPdoEvent
     /**
      * event action
      * @param EventInterface $event object passed when event is fired
-     * @return void
+     * @return bool
      * @since v1.0.0
      */
     public function commit(EventInterface $event)
@@ -41,6 +41,7 @@ class Delete extends AbstractPdoEvent
                 ->setTable($entity->getTable())
                 ->setWhere(new ArrayWhere([$entity->getIdField() => $model->getId()]))
                 ->execute($this->getAdapter());
+            return true;
         } catch (NoRecordsAffectedException $exc) {
             throw new RecordNotFoundException();
         }
