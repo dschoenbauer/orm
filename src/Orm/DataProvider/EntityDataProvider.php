@@ -45,7 +45,7 @@ class EntityDataProvider implements DataProviderInterface
         $this->getSelect()
             ->setTable($this->getEntity()->getTable())
             ->setFields(array_merge([$this->getEntity()->getIdField() . ' idx'], $this->getEntity()->getAllFields()))
-            ->setFetchStyle(\PDO::FETCH_ASSOC || \PDO::FETCH_UNIQUE)
+            ->setFetchStyle(\PDO::FETCH_ASSOC | \PDO::FETCH_UNIQUE)
             ->setFetchFlat(false);
         return $this->getSelect()->execute($this->getAdapter());
     }
