@@ -88,7 +88,7 @@ class Model implements ModelInterface
 
     /**
      * provides a unique identifier value for a given record
-     * @return integer
+     * @return string
      * @since v1.0.0
      */
     public function getId()
@@ -108,7 +108,7 @@ class Model implements ModelInterface
 
     /**
      * sets a unique identifier value for a given record
-     * @param integer $idx
+     * @param string $idx
      * @return Model
      * @since v1.0.0
      */
