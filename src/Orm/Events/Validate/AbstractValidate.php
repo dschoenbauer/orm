@@ -58,7 +58,7 @@ abstract class AbstractValidate extends AbstractEvent
 
     /**
      * method is called when a given event is triggered
-     * @param Event $event EventInterface object passed at time of triggering
+     * @param EventInterface $event EventInterface object passed at time of triggering
      * @throws InvalidDataTypeException thrown when value does not validate
      * @return void
      * @since v1.0.0

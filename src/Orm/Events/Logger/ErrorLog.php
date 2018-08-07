@@ -69,6 +69,6 @@ class ErrorLog extends AbstractEvent
         $inPieces = explode('\\', $fullName);
         $file = array_pop($inPieces);
         $matches = preg_split('/(?=[A-Z])/', $file);
-        return trim(implode(' ', $matches));
+        return trim(implode(' ', $matches ?: []));
     }
 }
