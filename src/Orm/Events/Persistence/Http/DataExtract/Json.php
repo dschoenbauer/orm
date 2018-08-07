@@ -44,7 +44,7 @@ class Json implements DataExtractorInterface
     {
         
         //Header\HeaderInterface
-        $header =$response->getHeaders()->get('Content-type');
+        $header = $response->getHeaders()->get('Content-type');
         if (!$header instanceof HeaderInterface) {
             return false;
         }

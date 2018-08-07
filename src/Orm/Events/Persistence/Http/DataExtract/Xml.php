@@ -50,7 +50,7 @@ class Xml implements DataExtractorInterface
     public function match(Response $response)
     {
         $header = $response->getHeaders()->get('Content-type');
-        if(!$header instanceof HeaderInterface){
+        if (!$header instanceof HeaderInterface) {
             return false;
         }
         return strpos(strtolower($header->getFieldValue()), "xml") !== false;
