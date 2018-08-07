@@ -70,6 +70,11 @@ class JsonTest extends TestCase
         ];
     }
 
+    function testMatchFail()
+    {
+        $this->assertFalse($this->object->match($this->getResponse('application/json', '', 200, true)));
+    }
+
     /**
      * @dataProvider extractDataProvider
      * @param type $json

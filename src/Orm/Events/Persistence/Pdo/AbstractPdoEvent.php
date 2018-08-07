@@ -57,7 +57,7 @@ abstract class AbstractPdoEvent extends AbstractEvent
     public function onExecute(EventInterface $event)
     {
         if (!$this->validateModel($event->getTarget(), EntityInterface::class)) {
-            return;
+            return false;
         }
         return $this->commit($event);
     }

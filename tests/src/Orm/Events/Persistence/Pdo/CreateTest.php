@@ -60,7 +60,7 @@ class CreateTest extends TestCase
         $event->expects($this->any())
             ->method('getTarget')
             ->willReturn(null);
-        $this->assertNull($this->object->onExecute($event));
+        $this->assertFalse($this->object->onExecute($event));
     }
 
     public function testOnExecute()

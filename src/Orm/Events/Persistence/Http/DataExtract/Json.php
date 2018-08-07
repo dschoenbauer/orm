@@ -24,6 +24,7 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence\Http\DataExtract;
 
+use Zend\Http\Header\HeaderInterface;
 use Zend\Http\Response;
 
 /**
@@ -41,6 +42,12 @@ class Json implements DataExtractorInterface
 
     public function match(Response $response)
     {
-        return strpos(strtolower($response->getHeaders()->get('Content-type')->getFieldValue()), "json") !== false;
+        
+        //Header\HeaderInterface
+        $header = $response->getHeaders()->get('Content-type');
+        if (!$header instanceof HeaderInterface) {
+            return false;
+        }
+        return strpos(strtolower($header->getFieldValue()), "json") !== false;
     }
 }
