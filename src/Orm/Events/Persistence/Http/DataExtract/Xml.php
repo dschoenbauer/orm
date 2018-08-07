@@ -26,6 +26,7 @@ namespace DSchoenbauer\Orm\Events\Persistence\Http\DataExtract;
 
 use DSchoenbauer\Orm\Exception\InvalidXmlException;
 use DSchoenbauer\Orm\Framework\XmlToArrayParser;
+use Zend\Http\Header\HeaderInterface;
 use Zend\Http\Response;
 
 /**
@@ -48,6 +49,10 @@ class Xml implements DataExtractorInterface
 
     public function match(Response $response)
     {
-        return strpos(strtolower($response->getHeaders()->get('Content-type')->getFieldValue()), "xml") !== false;
+        $header = $response->getHeaders()->get('Content-type');
+        if(!$header instanceof HeaderInterface){
+            return false;
+        }
+        return strpos(strtolower($header->getFieldValue()), "xml") !== false;
     }
 }
