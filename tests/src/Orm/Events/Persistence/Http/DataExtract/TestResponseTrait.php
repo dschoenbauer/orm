@@ -36,15 +36,19 @@ use Zend\Http\Response;
 trait TestResponseTrait
 {
 
-    public function getResponse($header, $body = "", $statusCode = 200)
+    public function getResponse($header, $body = "", $statusCode = 200, $failedHeader = false)
     {
         $responseMock = $this->getMockBuilder(Response::class)->getMock();
         $headersMock = $this->getMockBuilder(Headers::class)->getMock();
-        $headerMock = $this->getMockBuilder(HeaderInterface::class)->getMock();
+        if($failedHeader){
+            $headerMock = false;
+        }else{
+            $headerMock = $this->getMockBuilder(HeaderInterface::class)->getMock();
+            $headerMock->expects($this->any())
+                ->method('getFieldValue')
+                ->willReturn($header);
+        }
 
-        $headerMock->expects($this->any())
-            ->method('getFieldValue')
-            ->willReturn($header);
 
         $headersMock->expects($this->any())
             ->method('get')

@@ -70,6 +70,11 @@ class XmlTest extends TestCase
         ];
     }
 
+    function testMatchFail()
+    {
+        $this->assertFalse($this->object->match($this->getResponse('application/xml', '', 200, true)));
+    }
+
     /**
      * @dataProvider extractDataProvider
      * @param type $json

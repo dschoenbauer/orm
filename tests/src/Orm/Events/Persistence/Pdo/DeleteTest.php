@@ -59,7 +59,7 @@ class DeleteTest extends TestCase
         $event->expects($this->any())
             ->method('getTarget')
             ->willReturn(null);
-        $this->assertNull($this->object->onExecute($event));
+        $this->assertFalse($this->object->onExecute($event));
     }
 
     public function testOnExecute()
@@ -85,7 +85,7 @@ class DeleteTest extends TestCase
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->any())->method('getTarget')->willReturn($model);
 
-        $this->assertNull($this->object->setDelete($delete)->onExecute($event));
+        $this->assertTrue($this->object->setDelete($delete)->onExecute($event));
     }
     
     public function testOnExecuteNoRecord()

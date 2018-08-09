@@ -83,7 +83,7 @@ class EntityDataProviderTest extends TestCase
         $select = $this->getMockBuilder(Select::class)->disableOriginalConstructor()->getMock();
         $select->expects($this->atLeast(1))->method('setTable')->with($table)->willReturnSelf();
         $select->expects($this->atLeast(1))->method('setFields')->with(['id idx', 'id', 'test'])->willReturnSelf();
-        $select->expects($this->atLeast(1))->method('setFetchStyle')->with(\PDO::FETCH_ASSOC || \PDO::FETCH_UNIQUE)->willReturnSelf();
+        $select->expects($this->atLeast(1))->method('setFetchStyle')->with(\PDO::FETCH_ASSOC | \PDO::FETCH_UNIQUE)->willReturnSelf();
         $select->expects($this->atLeast(1))->method('setFetchFlat')->with(false)->willReturnSelf();
         $select->expects($this->atLeast(1))->method('execute')->with($adapter)->willReturn($result);
 
