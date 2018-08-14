@@ -50,7 +50,7 @@ class DefaultValue extends AbstractValidate
      * @inheritDoc
      * @return string
      */
-    public function getTypeInterface()
+    public function getInterface()
     {
         return HasDefaultValuesInterface::class;
     }

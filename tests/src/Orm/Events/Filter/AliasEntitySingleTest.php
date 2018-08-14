@@ -52,7 +52,7 @@ class AliasEntitySingleTest extends TestCase
 
     public function testTypeInterface()
     {
-        $this->assertEquals(HasFieldAliasesInterface::class, $this->object->getTypeInterface());
+        $this->assertEquals(HasFieldAliasesInterface::class, $this->object->getInterface());
     }
 
     /**

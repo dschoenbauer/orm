@@ -54,7 +54,7 @@ class DataTypeStringTest extends TestCase
     public function testGetTypeInterface()
     {
         $this->assertEquals(
-            HasStringFieldsInterface::class, $this->object->getTypeInterface()
+            HasStringFieldsInterface::class, $this->object->getInterface()
         );
     }
 

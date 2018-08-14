@@ -25,7 +25,6 @@
 namespace DSchoenbauer\Orm\Events\Filter;
 
 use DSchoenbauer\Orm\Entity\HasDefaultValuesInterface;
-use DSchoenbauer\Orm\Enum\ModelEvents;
 use DSchoenbauer\Orm\ModelInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -66,12 +65,11 @@ class DefaultValueTest extends TestCase
 
     public function testGetTypeInterface()
     {
-        $this->assertEquals(HasDefaultValuesInterface::class, $this->object->getTypeInterface());
+        $this->assertEquals(HasDefaultValuesInterface::class, $this->object->getInterface());
     }
 
     public function testValidateGoldenPath()
     {
-        $this->object->setParams(['events' => [ModelEvents::CREATE]]);
         $data = ['id' => 1, 'name' => 'ted'];
         $fields = ['id' => 999, 'name' => 'rupert', 'ack' => true];
         $default = ['id' => 1, 'name' => 'ted', 'ack' => true];
@@ -81,7 +79,6 @@ class DefaultValueTest extends TestCase
 
     public function testValidateAllValuesProvidedNoDefault()
     {
-        $this->object->setParams(['events' => [ModelEvents::CREATE]]);
         $data = ['id' => 1, 'name' => 'ted'];
         $fields = ['id' => 999, 'name' => 'rupert'];
         $this->assertTrue($this->object->validate($data, $fields));
@@ -90,7 +87,6 @@ class DefaultValueTest extends TestCase
 
     public function testValidatePoorFormat()
     {
-        $this->object->setParams(['events' => ModelEvents::CREATE]);
         $data = ['id' => 1, 'name' => 'ted'];
         $fields = ['id' => 999, 'name' => 'rupert', 'ack' => true];
         $this->assertTrue($this->object->validate($data, $fields));

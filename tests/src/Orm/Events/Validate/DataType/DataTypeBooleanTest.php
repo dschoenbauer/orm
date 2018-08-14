@@ -54,7 +54,7 @@ class DataTypeBooleanTest extends TestCase
     public function testGetTypeInterface()
     {
         $this->assertEquals(
-        HasBoolFieldsInterface::class, $this->object->getTypeInterface()
+        HasBoolFieldsInterface::class, $this->object->getInterface()
         );
     }
 

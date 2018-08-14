@@ -55,6 +55,7 @@ abstract class AbstractModelEvent extends AbstractEvent
     abstract public function execute(ModelInterface $model);
 
     /**
+     * Provides the source event that triggered
      * @return EventInterface
      */
     public function getEvent()
@@ -62,6 +63,11 @@ abstract class AbstractModelEvent extends AbstractEvent
         return $this->event;
     }
 
+    /**
+     * Sets event that triggered the filter to fire
+     * @param EventInterface $event
+     * @return $this
+     */
     public function setEvent(EventInterface $event)
     {
         $this->event = $event;

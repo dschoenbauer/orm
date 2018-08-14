@@ -25,28 +25,19 @@
 namespace DSchoenbauer\Orm\Events\Validate;
 
 use ArrayAccess;
-use DSchoenbauer\Orm\Events\AbstractEvent;
-use DSchoenbauer\Orm\Exception\InvalidDataTypeException;
+use DSchoenbauer\Orm\Events\AbstractModelEvent;
 use DSchoenbauer\Orm\ModelInterface;
-use Zend\EventManager\EventInterface;
 
 /**
  * Framework for validating data types
  *
  * @author David Schoenbauer <dschoenbauer@gmail.com>
  */
-abstract class AbstractValidate extends AbstractEvent
+abstract class AbstractValidate extends AbstractModelEvent
 {
 
     protected $model;
     protected $params;
-
-    /**
-     * full name space of an interface that defines a given field type
-     * @return string
-     * @since v1.0.0
-     */
-    abstract public function getTypeInterface();
 
     /**
      * returns the fields affected by the entity interface
@@ -57,27 +48,18 @@ abstract class AbstractValidate extends AbstractEvent
     abstract public function getFields($entity);
 
     /**
-     * method is called when a given event is triggered
-     * @param EventInterface $event EventInterface object passed at time of triggering
-     * @throws InvalidDataTypeException thrown when value does not validate
-     * @return void
-     * @since v1.0.0
+     *
+     * @param ModelInterface $model
+     * @since v1.5.0
      */
-    public function onExecute(EventInterface $event)
+    public function execute(ModelInterface $model)
     {
-        $model = $event->getTarget();
-        if (!$this->validateModel($model, $this->getTypeInterface())) {
-            return;
-        }
-        $this
-            ->setModel($model)
-            ->setParams($event->getParams());
+        $this->setModel($model);
 
         if (!$this->preExecuteCheck()) {
-            return;
+            return false;
         }
-
-        $this->validate($model->getData(), $this->getFields($model->getEntity()));
+        return $this->validate($model->getData(), $this->getFields($model->getEntity()));
     }
 
     /**
@@ -117,28 +99,6 @@ abstract class AbstractValidate extends AbstractEvent
     public function setModel(ModelInterface $model)
     {
         $this->model = $model;
-        return $this;
-    }
-
-    /**
-     * Get all parameters
-     * @return array|object|ArrayAccess
-     * @since v1.0.0
-     */
-    public function getParams()
-    {
-        return $this->params;
-    }
-
-    /**
-     * Set parameters
-     *
-     * @param  array|ArrayAccess|object $params
-     * @since v1.0.0
-     */
-    public function setParams($params)
-    {
-        $this->params = $params;
         return $this;
     }
 }

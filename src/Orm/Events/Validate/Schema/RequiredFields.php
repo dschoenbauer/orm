@@ -42,7 +42,7 @@ class RequiredFields extends AbstractValidate
         return $entity->getRequiredFields();
     }
 
-    public function getTypeInterface()
+    public function getInterface()
     {
         return HasRequiredFieldsInterface::class;
     }

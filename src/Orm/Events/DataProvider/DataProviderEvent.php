@@ -25,18 +25,17 @@
 namespace DSchoenbauer\Orm\Events\DataProvider;
 
 use DSchoenbauer\Orm\DataProvider\DataProviderInterface;
-use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Enum\EventPriorities as EventPriority;
-use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Events\AbstractModelEvent;
+use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Orm\VisitorInterface;
-use Zend\EventManager\EventInterface;
 
 /**
  * Description of DataProviderEvent
  *
  * @author David Schoenbauer
  */
-class DataProviderEvent extends AbstractEvent
+class DataProviderEvent extends AbstractModelEvent
 {
 
     private $dataProvider;
@@ -47,12 +46,8 @@ class DataProviderEvent extends AbstractEvent
         $this->setDataProvider($dataProvider);
     }
 
-    public function onExecute(EventInterface $event)
+    public function execute(ModelInterface $model)
     {
-        $model = $event->getTarget();
-        if (!$this->validateModel($model, EntityInterface::class)) {
-            return false;
-        }
         if ($this->getDataProvider() instanceof VisitorInterface) {
             $model->accept($this->getDataProvider());
         }
