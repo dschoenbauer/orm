@@ -25,24 +25,23 @@
 namespace DSchoenbauer\Orm\Events\Filter;
 
 use DSchoenbauer\Orm\Entity\HasPasswordInterface;
-use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Events\AbstractModelEvent;
 use DSchoenbauer\Orm\Events\Filter\PasswordMask\PasswordMaskStrategyInterface;
 use DSchoenbauer\Orm\ModelInterface;
-use Zend\EventManager\EventInterface;
 
 /**
  * Masks incoming passwords with the appropriate strategy
  */
-class PasswordMask extends AbstractEvent
+class PasswordMask extends AbstractModelEvent
 {
 
-    public function onExecute(EventInterface $event)
+    public function getInterface()
     {
-        /* @var $model ModelInterface */
-        $model = $event->getTarget();
-        if (!$this->validateModel($model, HasPasswordInterface::class)) {
-            return false;
-        }
+        return HasPasswordInterface::class;
+    }
+
+    public function execute(ModelInterface $model)
+    {
         /* @var $entity HasPasswordInterface */
         $entity = $model->getEntity();
         $data = $model->getData();

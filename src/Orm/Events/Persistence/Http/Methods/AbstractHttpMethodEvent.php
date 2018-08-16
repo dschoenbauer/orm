@@ -26,7 +26,7 @@ namespace DSchoenbauer\Orm\Events\Persistence\Http\Methods;
 
 use DSchoenbauer\Orm\Entity\IsHttpInterface;
 use DSchoenbauer\Orm\Enum\EventPriorities;
-use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Events\AbstractModelEvent;
 use DSchoenbauer\Orm\Events\Persistence\Http\Client\ClientVisiteeInterface;
 use DSchoenbauer\Orm\Events\Persistence\Http\Client\ClientVisitorInterface;
 use DSchoenbauer\Orm\Events\Persistence\Http\DataExtract\DataExtractorFactory;
@@ -42,7 +42,7 @@ use Zend\Http\Response;
  *
  * @author David Schoenbauer
  */
-abstract class AbstractHttpMethodEvent extends AbstractEvent implements ClientVisiteeInterface
+abstract class AbstractHttpMethodEvent extends AbstractModelEvent implements ClientVisiteeInterface
 {
 
     use InterpolateTrait;
@@ -57,21 +57,21 @@ abstract class AbstractHttpMethodEvent extends AbstractEvent implements ClientVi
         parent::__construct($events, $priority);
     }
 
-    public function onExecute(EventInterface $event)
+    public function getInterface()
     {
-        /* @var $model ModelInterface */
-        $model = $event->getTarget();
-        if (!$this->validateModel($model, IsHttpInterface::class)) {
-            return;
-        }
+        return IsHttpInterface::class;
+    }
 
+    public function execute(ModelInterface $model)
+    {
         if ($model->getEntity() instanceof ClientVisitorInterface) {
             $this->accept($model->getEntity());
         }
         $this->setUp($model);
-        return $this-> send($model);
+        return $this->send($model);
+        ;
     }
-
+    
     public function accept(ClientVisitorInterface $visitor)
     {
         $visitor->visitClient($this->getClient());

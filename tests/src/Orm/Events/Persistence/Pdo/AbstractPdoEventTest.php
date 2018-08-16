@@ -90,7 +90,7 @@ class AbstractPdoEventTest extends TestCase
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->any())->method('getTarget')->willReturn($model);
 
-        $this->object->expects($this->once())->method('commit')->with($event);
+        $this->object->expects($this->once())->method('commit')->with($model);
         $this->object->onExecute($event);
     }
 

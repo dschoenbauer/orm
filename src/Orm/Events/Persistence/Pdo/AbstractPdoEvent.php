@@ -24,18 +24,17 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
 
-use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Enum\EventPriorities;
-use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Events\AbstractModelEvent;
+use DSchoenbauer\Orm\ModelInterface;
 use PDO;
-use Zend\EventManager\EventInterface;
 
 /**
  * Description of AbstractPdoEvent
  *
  * @author David Schoenbauer
  */
-abstract class AbstractPdoEvent extends AbstractEvent
+abstract class AbstractPdoEvent extends AbstractModelEvent
 {
 
     private $adapter;
@@ -54,14 +53,11 @@ abstract class AbstractPdoEvent extends AbstractEvent
         $this->setAdapter($adapter);
     }
 
-    public function onExecute(EventInterface $event)
+    public function execute(ModelInterface $model)
     {
-        if (!$this->validateModel($event->getTarget(), EntityInterface::class)) {
-            return false;
-        }
-        return $this->commit($event);
+        return $this->commit($model);
     }
-
+    
     public function reduceFields(array $data = [], array $fields = [])
     {
         $reduced = array_intersect_key($data, array_flip($fields));
@@ -74,7 +70,7 @@ abstract class AbstractPdoEvent extends AbstractEvent
         });
     }
 
-    abstract protected function commit(EventInterface $event);
+    abstract protected function commit(ModelInterface $model);
 
     /**
      * Returns a PHP Data Object

@@ -26,18 +26,17 @@ namespace DSchoenbauer\Orm\Events\Validate\Schema;
 
 use DSchoenbauer\Orm\Entity\HasUniqueFieldsInterface;
 use DSchoenbauer\Orm\Enum\EventPriorities;
-use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Events\AbstractModelEvent;
 use DSchoenbauer\Orm\Exception\NonUniqueValueException;
 use DSchoenbauer\Orm\ModelInterface;
 use PDO;
-use Zend\EventManager\EventInterface;
 
 /**
  * Description of UniqueFields
  *
  * @author David Schoenbauer
  */
-class UniqueFields extends AbstractEvent
+class UniqueFields extends AbstractModelEvent
 {
 
     private $adapter;
@@ -47,17 +46,17 @@ class UniqueFields extends AbstractEvent
         parent::__construct($events, $priority);
     }
 
-    public function onExecute(EventInterface $event)
+    public function getInterface()
     {
-        /* @var $model ModelInterface */
-        $model = $event->getTarget();
-        if (!$this->validateModel($model, HasUniqueFieldsInterface::class)) {
-            return false;
-        }
+        return HasUniqueFieldsInterface::class;
+    }
+    
+    public function execute(ModelInterface $model)
+    {
         $this->checkForDuplicates($model->getData(), $model->getEntity());
         return true;
     }
-
+    
     public function checkForDuplicates(array $data, HasUniqueFieldsInterface $entity)
     {
         $fields = $entity->getUniqueFields();
