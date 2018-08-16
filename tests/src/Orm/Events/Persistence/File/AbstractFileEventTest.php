@@ -26,6 +26,7 @@ namespace DSchoenbauer\Orm\Events\Persistence\File;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Exception\InvalidPathException;
+use DSchoenbauer\Tests\Orm\Events\Persistence\Http\TestModelTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -35,7 +36,7 @@ use PHPUnit\Framework\TestCase;
  */
 class AbstractFileEventTest extends TestCase
 {
-
+    use TestModelTrait;
     /**
      * @var AbstractFileEvent
      */
@@ -45,7 +46,7 @@ class AbstractFileEventTest extends TestCase
     protected function setUp()
     {
         $this->testPath = str_replace('/', DIRECTORY_SEPARATOR, dirname(__FILE__) . '/../../../../../files/');
-        $this->object = $this->getMockForAbstractClass(\DSchoenbauer\Orm\Events\Persistence\File\AbstractFileEvent::class);
+        $this->object = $this->getMockForAbstractClass(AbstractFileEvent::class);
     }
 
     public function testLoadFile()
@@ -67,6 +68,17 @@ class AbstractFileEventTest extends TestCase
         $this->assertTrue($this->object->setPath($this->testPath)->saveFile($data, $entity));
         $contents = file_get_contents($this->object->getFileName($entity));
         $this->assertEquals($result, $contents);
+    }
+
+    public function testExecute()
+    {
+        $model = $this->getModel(0,[],$this->getEntity('test'));
+        $this->object
+            ->expects($this->once())
+            ->method('processAction')
+            ->with($model,[])
+            ->willReturn(true);
+        $this->assertTrue($this->object->execute($model));
     }
 
     public function testLoadFileFileNotFound()
