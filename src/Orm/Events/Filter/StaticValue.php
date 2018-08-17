@@ -50,7 +50,7 @@ class StaticValue extends AbstractValidate
      * @inheritDoc
      * @return string
      */
-    public function getTypeInterface()
+    public function getInterface()
     {
         return HasStaticValuesInterface::class;
     }

@@ -71,7 +71,7 @@ class CrossTriggerTest extends TestCase
         $targetEvents = ['test', 'test2'];
         $eventManagerMock = $this->getMockBuilder(EventManager::class)->getMock();
 
-        $model = $this->getModel();
+        $model = $this->getModel(0,[],$this->getAbstractEntity());
         $model->expects($this->any())->method('getEventManager')->willReturn($eventManagerMock);
         $eventManagerMock
             ->expects($this->exactly(count($targetEvents)))

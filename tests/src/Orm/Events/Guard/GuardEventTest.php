@@ -26,6 +26,7 @@ namespace DSchoenbauer\Orm\Events\Guard;
 
 use DSchoenbauer\Exception\Http\ClientError\ForbiddenException;
 use DSchoenbauer\Orm\Events\Guard\GuardEvent;
+use DSchoenbauer\Tests\Orm\Events\Persistence\Http\TestModelTrait;
 use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventInterface;
 
@@ -36,6 +37,7 @@ use Zend\EventManager\EventInterface;
  */
 class GuardEventTest extends TestCase
 {
+    use TestModelTrait;
     /* @var $object GuardEvent */
 
     private $object;
@@ -95,6 +97,7 @@ class GuardEventTest extends TestCase
         $this->expectException(ForbiddenException::class);
         
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
+        $event->expects($this->once())->method('getTarget')->willReturn($this->getModel(0,[],$this->getAbstractEntity()));
         $guard = $this->getMockBuilder(GuardInterface::class)->getMock();
         $guard->expects($this->exactly(1))->method('authenticate')->willReturn(false);
         
@@ -102,6 +105,7 @@ class GuardEventTest extends TestCase
     }
     public function testOnExecuteSuccess(){
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
+        $event->expects($this->once())->method('getTarget')->willReturn($this->getModel(0,[],$this->getAbstractEntity()));
         $guard = $this->getMockBuilder(GuardInterface::class)->getMock();
         $guard->expects($this->exactly(1))->method('authenticate')->willReturn(true);
         

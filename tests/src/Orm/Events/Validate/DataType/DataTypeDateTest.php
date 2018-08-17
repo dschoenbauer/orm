@@ -55,7 +55,7 @@ class DataTypeDateTest extends \PHPUnit\Framework\TestCase
     public function testGetTypeInterface()
     {
         $this->assertEquals(
-            HasDateFieldsInterface::class, $this->object->getTypeInterface()
+            HasDateFieldsInterface::class, $this->object->getInterface()
         );
     }
 

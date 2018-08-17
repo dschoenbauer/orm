@@ -24,26 +24,19 @@
  */
 namespace DSchoenbauer\Orm\Events\Filter;
 
-use DSchoenbauer\Orm\Entity\EntityInterface;
-use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Events\AbstractModelEvent;
 use DSchoenbauer\Orm\ModelInterface;
-use Zend\EventManager\EventInterface;
 
 /**
  * Removes primary id key from data set
  *
  * @author David Schoenbauer
  */
-class RemoveId extends AbstractEvent
+class RemoveId extends AbstractModelEvent
 {
 
-    public function onExecute(EventInterface $event)
+    public function execute(ModelInterface $model)
     {
-        /* @var $model ModelInterface */
-        $model = $event->getTarget();
-        if (!$this->validateModel($model, EntityInterface::class)) {
-            return false;
-        }
         $data = $model->getData();
         $idField = $model->getEntity()->getIdField();
         unset($data[$idField]);

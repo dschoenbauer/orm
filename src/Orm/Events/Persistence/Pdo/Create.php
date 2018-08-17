@@ -6,12 +6,10 @@
  */
 namespace DSchoenbauer\Orm\Events\Persistence\Pdo;
 
-use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Exception\RecordNotFoundException;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Create as CreateCommand;
 use DSchoenbauer\Sql\Exception\NoRecordsAffectedException;
-use Zend\EventManager\EventInterface;
 
 /**
  * Event driven hook to creates information from a PDO connection
@@ -25,15 +23,14 @@ class Create extends AbstractPdoEvent
 
     /**
      * event action
-     * @param EventInterface $event object passed when event is fired
+     * @param ModelInterface $event object passed when event is fired
      * @return bool
      * @since v1.0.0
      */
-    public function commit(EventInterface $event)
+    public function commit(ModelInterface $model)
     {
         try {
             /* @var $model ModelInterface */
-            $model = $event->getTarget();
             $entity = $model->getEntity();
             $idx = $this->getCreate()
                 ->setIsStrict()

@@ -60,7 +60,7 @@ class AliasEntitySingle extends AbstractValidate
         return array_flip($entity->getFieldAliases());
     }
 
-    public function getTypeInterface()
+    public function getInterface()
     {
         return HasFieldAliasesInterface::class;
     }

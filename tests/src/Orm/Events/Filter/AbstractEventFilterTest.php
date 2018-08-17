@@ -24,6 +24,7 @@
  */
 namespace DSchoenbauer\Orm\Events\Filter;
 
+use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Tests\Orm\Events\Persistence\Http\TestModelTrait;
 use PHPUnit\Framework\TestCase;
@@ -70,11 +71,11 @@ class AbstractEventFilterTest extends TestCase
         $this->object->expects($this->once())->method('filter')->with([])->willReturn(['id' => 1]);
 
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
+        $model = $this->getModel(1, [], $this->getMockBuilder(EntityInterface::class)->getMock());
         $model->expects($this->once())->method('getData')->willReturn([]);
         $model->expects($this->once())->method('setData')->with(['id' => 1]);
 
-        $event->expects($this->exactly(2))->method('getTarget')->willReturn($model);
+        $event->expects($this->exactly(1))->method('getTarget')->willReturn($model);
 
         $this->assertTrue($this->getObject()->onExecute($event));
         $this->assertSame($event, $this->getObject()->getEvent());

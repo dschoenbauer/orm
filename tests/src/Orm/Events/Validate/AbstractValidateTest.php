@@ -47,35 +47,15 @@ class AbstractValidateTest extends TestCase
         $this->object = $this->getMockForAbstractClass(AbstractValidate::class);
     }
 
-    public function testExecuteNotAModel()
-    {
-        $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $event->expects($this->once())->method('getTarget');
-        $this->assertNull($this->object->onExecute($event));
-    }
-
-    public function testExecuteDoesNotHaveAnInterface()
-    {
-        $entity = $this->getMockBuilder(EntityInterface::class)->getMock();
-
-        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
-        $model->expects($this->any())->method('getEntity')->willReturn($entity);
-
-        $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $event->expects($this->any())->method('getTarget')->willReturn($model);
-
-        $this->assertNull($this->object->onExecute($event));
-    }
-
     public function testExecutePreFlightCheckFail()
     {
         $mock = $this->getMockBuilder(AbstractValidate::class)
             ->disableOriginalConstructor()
-            ->setMethods(['preExecuteCheck'])
+            ->setMethods(['preExecuteCheck','getInterface'])
             ->getMockForAbstractClass();
 
         $mock->expects($this->any())->method('preExecuteCheck')->willReturn(false);
-        $mock->expects($this->once())->method('getTypeInterface')->willReturn(HasBoolFieldsInterface::class);
+        $mock->expects($this->once())->method('getInterface')->willReturn(HasBoolFieldsInterface::class);
 
         $entity = $this->getMockBuilder(AbstractEntityWithBool::class)->getMock();
 
@@ -85,13 +65,18 @@ class AbstractValidateTest extends TestCase
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->any())->method('getTarget')->willReturn($model);
 
-        $this->assertNull($mock->onExecute($event));
+        $this->assertFalse($mock->onExecute($event));
 
     }
 
     public function testExecuteBasicData()
     {
-        $this->object->expects($this->once())->method('getTypeInterface')->willReturn(HasBoolFieldsInterface::class);
+        $this->object = $this->getMockBuilder(AbstractValidate::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getInterface'])
+            ->getMockForAbstractClass();
+                
+        $this->object->expects($this->once())->method('getInterface')->willReturn(HasBoolFieldsInterface::class);
         $this->object->expects($this->once())->method('getFields')->willReturn([]);
 
         $entity = $this->getMockBuilder(AbstractEntityWithBool::class)->getMock();
@@ -103,7 +88,8 @@ class AbstractValidateTest extends TestCase
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->any())->method('getTarget')->willReturn($model);
 
-        $this->assertNull($this->object->onExecute($event));
+        $this->object->expects($this->once())->method('validate')->with([],[])->willReturn(true);
+        $this->assertTrue($this->object->onExecute($event));
     }
 
     public function testValidateIsGettingAllFields()
@@ -111,7 +97,12 @@ class AbstractValidateTest extends TestCase
         $data = ['id' => 1, 'values' => [1, 2, 3]];
         $params = ['id' => 100, 'values' => [1, 2, 3, 5]];
         $fields = ['id', 'values'];
-        $this->object->expects($this->once())->method('getTypeInterface')->willReturn(HasBoolFieldsInterface::class);
+        $this->object = $this->getMockBuilder(AbstractValidate::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['validate','getFields', 'getInterface'])
+            ->getMock();
+        $this->object->expects($this->any())->method('validate')->with($data, $fields);
+        $this->object->expects($this->once())->method('getInterface')->willReturn(HasBoolFieldsInterface::class);
         $this->object->expects($this->once())->method('getFields')->willReturn($fields);
 
         $entity = $this->getMockBuilder(AbstractEntityWithBool::class)->getMock();
@@ -124,10 +115,9 @@ class AbstractValidateTest extends TestCase
         $event->expects($this->any())->method('getTarget')->willReturn($model);
         $event->expects($this->any())->method('getParams')->willReturn($params);
 
-        $this->object->expects($this->any())->method('validate')->with($data, $fields);
         $this->assertNull($this->object->onExecute($event));
         $this->assertSame($model, $this->object->getModel());
-        $this->assertSame($params, $this->object->getParams());
+        $this->assertSame($event, $this->object->getEvent());
     }
 
     public function testModel()
@@ -136,9 +126,4 @@ class AbstractValidateTest extends TestCase
         $this->assertSame($mockModel, $this->object->setModel($mockModel)->getModel());
     }
 
-    public function testParam()
-    {
-        $param = ['test' => 1];
-        $this->assertSame($param, $this->object->setParams($param)->getParams());
-    }
 }

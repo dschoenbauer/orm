@@ -50,7 +50,7 @@ class DataTypeString extends AbstractDataType
      * @return string
      * @since v1.0.0
      */
-    public function getTypeInterface()
+    public function getInterface()
     {
         return HasStringFieldsInterface::class;
     }

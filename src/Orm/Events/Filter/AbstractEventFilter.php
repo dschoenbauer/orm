@@ -24,37 +24,29 @@
  */
 namespace DSchoenbauer\Orm\Events\Filter;
 
-use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Events\AbstractModelEvent;
 use DSchoenbauer\Orm\ModelInterface;
-use Zend\EventManager\EventInterface;
 
 /**
  * Description of AbstractEventFilter
  *
  * @author David Schoenbauer
  */
-abstract class AbstractEventFilter extends AbstractEvent
+abstract class AbstractEventFilter extends AbstractModelEvent
 {
 
     protected $model;
     protected $event;
 
-    /**
-     * The event called when the event is triggered
-     * @param EventInterface $event
-     * @return boolean
-     */
-    public function onExecute(EventInterface $event)
+
+    public function execute(ModelInterface $model)
     {
-        $this->setEvent($event);
-        if (!$event->getTarget() instanceof ModelInterface) {
-            return false;
-        }
-        $this->setModel($event->getTarget());
+        $this->setModel($model);
         $this->getModel()->setData($this->filter($this->getModel()->getData()));
         return true;
     }
 
+    
     /**
      * Takes the data from the model and allows for modification of the data
      * @return array Modified data
@@ -78,26 +70,6 @@ abstract class AbstractEventFilter extends AbstractEvent
     public function setModel(ModelInterface $model)
     {
         $this->model = $model;
-        return $this;
-    }
-
-    /**
-     * Provides event that triggered the filter to fire
-     * @return EventInterface
-     */
-    public function getEvent()
-    {
-        return $this->event;
-    }
-
-    /**
-     * Sets event that triggered the filter to fire
-     * @param EventInterface $event
-     * @return $this
-     */
-    public function setEvent(EventInterface $event)
-    {
-        $this->event = $event;
         return $this;
     }
 }

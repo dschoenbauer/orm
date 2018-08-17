@@ -27,21 +27,20 @@ namespace DSchoenbauer\Orm\Events\Filter;
 use DSchoenbauer\DotNotation\ArrayDotNotation;
 use DSchoenbauer\Orm\Entity\MassMappingInterface;
 use DSchoenbauer\Orm\Enum\EventPriorities;
-use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Events\AbstractModelEvent;
 use DSchoenbauer\Orm\ModelInterface;
-use Zend\EventManager\EventInterface;
 
 /**
  * Description of MassMapper
  *
  * @author David Schoenbauer
  */
-class MassMapper extends AbstractEvent
+class MassMapper extends AbstractModelEvent
 {
-   
+
     const MAPPING_IN = 'in';
     const MAPPING_OUT = 'out';
-    
+
     private $mappingDirection = self::MAPPING_IN;
 
     public function __construct(
@@ -49,16 +48,18 @@ class MassMapper extends AbstractEvent
         $mappingDirection = self::MAPPING_IN,
         $priority = EventPriorities::ON_TIME
     ) {
+    
         parent::__construct($events, $priority);
         $this->setMappingDirection($mappingDirection);
     }
 
-    public function onExecute(EventInterface $event)
+    public function getInterface()
     {
-        $model = $event->getTarget();
-        if (!$this->validateModel($model, MassMappingInterface::class)) {
-            return false;
-        }
+        return MassMappingInterface::class;
+    }
+
+    public function execute(ModelInterface $model)
+    {
         $entity = $model->getEntity();
         $model->setData($this->mapData($entity->getMapping(), $model->getData()));
         return true;
@@ -76,7 +77,7 @@ class MassMapper extends AbstractEvent
         }
         return $arrayDotout->getData();
     }
-    
+
     public function getMappingDirection()
     {
         return $this->mappingDirection;
