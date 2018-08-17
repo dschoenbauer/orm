@@ -25,16 +25,15 @@
 namespace DSchoenbauer\Orm\Events\Framework;
 
 use DSchoenbauer\Orm\Enum\EventPriorities;
-use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Events\AbstractModelEvent;
 use DSchoenbauer\Orm\ModelInterface;
-use Zend\EventManager\EventInterface;
 
 /**
  * Description of CrossTrigger
  *
  * @author David Schoenbauer
  */
-class CrossTrigger extends AbstractEvent
+class CrossTrigger extends AbstractModelEvent
 {
 
     private $targetEvents = [];
@@ -45,12 +44,8 @@ class CrossTrigger extends AbstractEvent
         $this->setTargetEvents($targetEvents);
     }
 
-    public function onExecute(EventInterface $event)
+    public function execute(ModelInterface $model)
     {
-        $model = $event->getTarget();
-        if (!$model instanceof ModelInterface) {
-            return false;
-        }
         $targetEvents = $this->getTargetEvents();
         foreach ($targetEvents as $targetEvent) {
             $model->getEventManager()->trigger($targetEvent, $model);

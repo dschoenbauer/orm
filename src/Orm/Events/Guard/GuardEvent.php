@@ -26,8 +26,9 @@ namespace DSchoenbauer\Orm\Events\Guard;
 
 use DSchoenbauer\Exception\Http\ClientError\ForbiddenException;
 use DSchoenbauer\Orm\Enum\EventPriorities;
-use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Events\AbstractModelEvent;
 use DSchoenbauer\Orm\Events\Guard\GuardInterface;
+use DSchoenbauer\Orm\ModelInterface;
 use Zend\EventManager\EventInterface;
 
 /**
@@ -35,7 +36,7 @@ use Zend\EventManager\EventInterface;
  *
  * @author David Schoenbauer
  */
-class GuardEvent extends AbstractEvent
+class GuardEvent extends AbstractModelEvent
 {
 
     private $guards = [];
@@ -48,14 +49,14 @@ class GuardEvent extends AbstractEvent
         }
     }
 
-    public function onExecute(EventInterface $event)
+    public function execute(ModelInterface $model)
     {
         if (!$this->authenticate()) {
             throw new ForbiddenException();
         }
         return true;
     }
-
+    
     public function authenticate()
     {
         /* @var $guard GuardInterface */

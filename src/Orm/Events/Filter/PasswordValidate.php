@@ -28,19 +28,18 @@ use DSchoenbauer\Exception\Http\ClientError\UnauthorizedException;
 use DSchoenbauer\Orm\Entity\HasPasswordInterface;
 use DSchoenbauer\Orm\Enum\EventPriorities;
 use DSchoenbauer\Orm\Enum\ModelEvents;
-use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Events\AbstractModelEvent;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Select;
 use DSchoenbauer\Sql\Where\ArrayWhere;
 use PDO;
-use Zend\EventManager\EventInterface;
 
 /**
  * Description of PasswordValidate
  *
  * @author David Schoenbauer
  */
-class PasswordValidate extends AbstractEvent
+class PasswordValidate extends AbstractModelEvent
 {
 
     private $adapter;
@@ -52,13 +51,13 @@ class PasswordValidate extends AbstractEvent
         parent::__construct($events, $priority);
     }
 
-    public function onExecute(EventInterface $event)
+    public function getInterface()
     {
-        /* @var $model ModelInterface */
-        $model = $event->getTarget();
-        if (!$this->validateModel($model, HasPasswordInterface::class)) {
-            return false;
-        }
+        return HasPasswordInterface::class;
+    }
+
+    public function execute(ModelInterface $model)
+    {
         /* @var $entity HasPasswordInterface */
         $entity = $model->getEntity();
         if (!$this->validateUser($model->getData(), $entity)) {
@@ -82,13 +81,13 @@ class PasswordValidate extends AbstractEvent
     public function getUsersPasswordHash($userName, HasPasswordInterface $passwordInfo)
     {
         return $this->getSelect()
-            ->setTable($passwordInfo->getTable())
-            ->setFields([$passwordInfo->getPasswordField()])
-            ->setWhere(new ArrayWhere([$passwordInfo->getUserNameField() => $userName]))
-            ->setFetchFlat()
-            ->setFetchStyle(\PDO::FETCH_COLUMN)
-            ->setDefaultValue(false)
-            ->execute($this->getAdapter());
+                ->setTable($passwordInfo->getTable())
+                ->setFields([$passwordInfo->getPasswordField()])
+                ->setWhere(new ArrayWhere([$passwordInfo->getUserNameField() => $userName]))
+                ->setFetchFlat()
+                ->setFetchStyle(\PDO::FETCH_COLUMN)
+                ->setDefaultValue(false)
+                ->execute($this->getAdapter());
     }
 
     /**

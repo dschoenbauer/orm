@@ -62,14 +62,16 @@ class ErrorLogTest extends TestCase
     public function testOnExecuteNoException()
     {
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $event->expects($this->any())->method('getTarget')->willReturn($this->getModel());
+        $event->expects($this->any())
+            ->method('getTarget')
+            ->willReturn($this->getModel(0,[],$this->getAbstractEntity()));
         $this->assertFalse($this->object->onExecute($event));
     }
 
     public function testOnExecuteGood()
     {
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $model = $this->getModel();
+        $model = $this->getModel(0,[],$this->getAbstractEntity());
 
         $attributes = $this->getMockBuilder(AttributeCollection::class)->getMock();
         $model->expects($this->any())->method('getAttributes')->willReturn($attributes);

@@ -33,7 +33,6 @@ use DSchoenbauer\Orm\Events\Persistence\Http\DataExtract\DataExtractorFactory;
 use DSchoenbauer\Orm\Exception\HttpErrorException;
 use DSchoenbauer\Orm\Framework\InterpolateTrait;
 use DSchoenbauer\Orm\ModelInterface;
-use Zend\EventManager\EventInterface;
 use Zend\Http\Client;
 use Zend\Http\Response;
 
