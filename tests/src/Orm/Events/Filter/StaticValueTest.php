@@ -66,12 +66,11 @@ class StaticValueTest extends TestCase
 
     public function testGetTypeInterface()
     {
-        $this->assertEquals(HasStaticValuesInterface::class, $this->object->getTypeInterface());
+        $this->assertEquals(HasStaticValuesInterface::class, $this->object->getInterface());
     }
 
     public function testValidateGoldenPath()
     {
-        $this->object->setParams(['events' => [ModelEvents::CREATE]]);
         $data = ['id' => 1, 'name' => 'ted'];
         $fields = ['id' => 999, 'name' => 'rupert', 'ack' => true];
         $results = ['id' => 999, 'name' => 'rupert', 'ack' => true];
@@ -81,7 +80,6 @@ class StaticValueTest extends TestCase
 
     public function testValidateAllValuesProvidedNoStatic()
     {
-        $this->object->setParams(['events' => [ModelEvents::CREATE]]);
         $data = ['id' => 1, 'name' => 'ted'];
         $fields = ['id' => 999, 'name' => 'rupert'];
         $this->assertTrue($this->object->validate($data, $fields));
@@ -90,7 +88,6 @@ class StaticValueTest extends TestCase
 
     public function testValidatePoorFormat()
     {
-        $this->object->setParams(['events' => ModelEvents::CREATE]);
         $data = ['id' => 1, 'name' => 'ted'];
         $fields = ['id' => 999, 'name' => 'rupert', 'ack' => true];
         $this->assertTrue($this->object->validate($data, $fields));

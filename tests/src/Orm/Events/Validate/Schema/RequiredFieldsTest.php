@@ -53,7 +53,7 @@ class RequiredFieldsTest extends TestCase
 
     public function testTypeInterface()
     {
-        $this->assertEquals(HasRequiredFieldsInterface::class, $this->object->getTypeInterface());
+        $this->assertEquals(HasRequiredFieldsInterface::class, $this->object->getInterface());
     }
 
     /**

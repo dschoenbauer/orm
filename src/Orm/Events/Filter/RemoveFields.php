@@ -25,29 +25,30 @@
 namespace DSchoenbauer\Orm\Events\Filter;
 
 use DSchoenbauer\Orm\Entity\HasFieldsToRemoveInterface;
-use DSchoenbauer\Orm\Events\AbstractEvent;
-use Zend\EventManager\EventInterface;
+use DSchoenbauer\Orm\Events\AbstractModelEvent;
+use DSchoenbauer\Orm\ModelInterface;
 
 /**
  * Description of RemoveFields
  *
  * @author David Schoenbauer
  */
-class RemoveFields extends AbstractEvent
+class RemoveFields extends AbstractModelEvent
 {
 
-    public function onExecute(EventInterface $event)
+    public function getInterface()
     {
-        $model = $event->getTarget();
-        if (!$this->validateModel($model, HasFieldsToRemoveInterface::class)) {
-            return false;
-        }
+        return HasFieldsToRemoveInterface::class;
+    }
+    
+    public function execute(ModelInterface $model)
+    {
         $data = $model->getData();
         $fields = $model->getEntity()->getFieldsToRemove();
         $model->setData($this->purgeFields($fields, $data));
         return true;
     }
-
+    
     public function purgeFields($fields, $data)
     {
         foreach ($fields as $field) {

@@ -11,7 +11,6 @@ use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Update as UpdateCommand;
 use DSchoenbauer\Sql\Exception\NoRecordsAffectedException;
 use DSchoenbauer\Sql\Where\ArrayWhere;
-use Zend\EventManager\EventInterface;
 
 /**
  * Event driven hook to update information from a PDO connection
@@ -25,15 +24,14 @@ class Update extends AbstractPdoEvent
 
     /**
      * event action
-     * @param EventInterface $event object passed when event is fired
+     * @param ModelInterface $event object passed when event is fired
      * @return bool
      * @since v1.0.0
      */
-    public function commit(EventInterface $event)
+    public function commit(ModelInterface $model)
     {
         try {
             /* @var $model ModelInterface */
-            $model = $event->getTarget();
             $entity = $model->getEntity();
             $this->getUpdate()
                 ->setIsStrict()

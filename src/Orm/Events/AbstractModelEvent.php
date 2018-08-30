@@ -2,7 +2,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017 David Schoenbauer.
+ * Copyright 2018 David Schoenbauer.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,45 +22,55 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Framework;
+namespace DSchoenbauer\Orm\Events;
 
-use DSchoenbauer\Orm\Enum\EventPriorities;
-use DSchoenbauer\Orm\Events\AbstractModelEvent;
+use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\ModelInterface;
+use Zend\EventManager\EventInterface;
 
 /**
- * Description of CrossTrigger
+ * Description of AbstracrModelEvents
  *
  * @author David Schoenbauer
  */
-class CrossTrigger extends AbstractModelEvent
+abstract class AbstractModelEvent extends AbstractEvent
 {
 
-    private $targetEvents = [];
+    private $event;
 
-    public function __construct(array $events = [], array $targetEvents = [], $priority = EventPriorities::LATEST)
+    public function getInterface()
     {
-        parent::__construct($events, $priority);
-        $this->setTargetEvents($targetEvents);
+        return EntityInterface::class;
     }
 
-    public function execute(ModelInterface $model)
+    public function onExecute(EventInterface $event)
     {
-        $targetEvents = $this->getTargetEvents();
-        foreach ($targetEvents as $targetEvent) {
-            $model->getEventManager()->trigger($targetEvent, $model);
+        $model = $this->setEvent($event)->getEvent()->getTarget();
+        if (!$this->validateModel($model, $this->getInterface())) {
+            return false;
         }
-        return true;
+        return $this->execute($model);
     }
 
-    public function getTargetEvents()
+    abstract public function execute(ModelInterface $model);
+
+    /**
+     * Provides the source event that triggered
+     * @return EventInterface
+     */
+    public function getEvent()
     {
-        return $this->targetEvents;
+        return $this->event;
     }
 
-    public function setTargetEvents(array $targetEvents)
+    /**
+     * Sets event that triggered the filter to fire
+     * @param EventInterface $event
+     * @return $this
+     */
+    public function setEvent(EventInterface $event)
     {
-        $this->targetEvents = $targetEvents;
+        $this->event = $event;
         return $this;
     }
 }

@@ -22,74 +22,65 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Logger;
+namespace DSchoenbauer\Orm\Events;
 
-use DSchoenbauer\Orm\Events\AbstractEvent;
-use DSchoenbauer\Orm\Framework\AttributeCollection;
+use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Tests\Orm\Events\Persistence\Http\TestModelTrait;
-use Exception;
 use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventInterface;
 
 /**
- * Description of LoggerClass
+ * Description of AbstractEventTest
  *
  * @author David Schoenbauer
  */
-class ErrorLogTest extends TestCase
+class AbstractModelEventTest extends TestCase
 {
-
-    private $object;
 
     use TestModelTrait;
 
+    /* @var $object AbstractModelEvent */
+    private $object;
+
     protected function setUp()
     {
-        $this->object = new ErrorLog();
+        $this->object = $this->getMockForAbstractClass(AbstractModelEvent::class);
     }
 
-    public function testIsAbstractEvent()
-    {
-        $this->assertInstanceOf(AbstractEvent::class, $this->object);
+    
+    public function testGetInterface(){
+        $this->assertEquals(EntityInterface::class, $this->object->getInterface());
     }
-
-    public function testOnExecuteNoTarget()
-    {
+    
+    public function testOnExecuteBadTarget(){
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
+        $event->expects($this->once())->method('getTarget')->willReturn(new \stdClass());
         $this->assertFalse($this->object->onExecute($event));
+        $this->assertSame($event, $this->object->getEvent());
     }
-
-    public function testOnExecuteNoException()
-    {
+    
+    public function testOnExecuteGoodTargetBadEntity(){
+        $model = $this->getModel(1, []);
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $event->expects($this->any())
-            ->method('getTarget')
-            ->willReturn($this->getModel(0,[],$this->getAbstractEntity()));
+        $event->expects($this->once())->method('getTarget')->willReturn($model);
         $this->assertFalse($this->object->onExecute($event));
+        $this->assertSame($event, $this->object->getEvent());
     }
-
-    public function testOnExecuteGood()
-    {
+    
+    public function testOnExecuteGoodTargetGoodEntity(){
+        $model = $this->getModel(1, [], $this->getMockBuilder(EntityInterface::class)->getMock());
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
-        $model = $this->getModel(0,[],$this->getAbstractEntity());
-
-        $attributes = $this->getMockBuilder(AttributeCollection::class)->getMock();
-        $model->expects($this->any())->method('getAttributes')->willReturn($attributes);
-        $event->expects($this->any())->method('getTarget')->willReturn($model);
-        $event->expects($this->any())->method('getParam')->willReturnOnConsecutiveCalls(new Exception('message'), "eventName");
-        $data = [
-            'success' => false,
-            'event' => 'eventName',
-            'message' => 'message',
-            'name' => 'Exception',
-        ];
+        $event->expects($this->once())->method('getTarget')->willReturn($model);
+        $this->object->expects($this->once())->method('execute')->with($model)->willReturn(true);
         $this->assertTrue($this->object->onExecute($event));
-        $this->assertEquals($data, $model->getData());
+        $this->assertSame($event, $this->object->getEvent());
     }
 
-    public function testConvertToName()
-    {
-        $this->assertEquals("Error Log Test", $this->object->convertToName($this));
-        $this->assertEquals("Error Log", $this->object->convertToName($this->object));
+            
+
+    public function testEvent(){
+        $event = $this->getMockBuilder(EventInterface::class)->getMock();
+        $this->assertSame($event,$this->object->setEvent($event)->getEvent());
     }
+
 }

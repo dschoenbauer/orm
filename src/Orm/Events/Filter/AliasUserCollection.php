@@ -51,7 +51,7 @@ class AliasUserCollection extends AliasEntityCollection
         );
     }
 
-    public function getTypeInterface()
+    public function getInterface()
     {
         return EntityInterface::class;
     }

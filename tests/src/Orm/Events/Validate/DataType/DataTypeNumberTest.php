@@ -55,7 +55,7 @@ class DataTypeNumberTest extends TestCase
     public function testGetTypeInterface()
     {
         $this->assertEquals(
-            HasNumericFieldsInterface::class, $this->object->getTypeInterface()
+            HasNumericFieldsInterface::class, $this->object->getInterface()
         );
     }
     

@@ -26,17 +26,18 @@ namespace DSchoenbauer\Orm\Events\Persistence\File;
 
 use DSchoenbauer\Orm\Entity\EntityInterface;
 use DSchoenbauer\Orm\Enum\EventPriorities;
-use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Events\AbstractModelEvent;
 use DSchoenbauer\Orm\Exception\InvalidPathException;
 use DSchoenbauer\Orm\ModelInterface;
 use Zend\EventManager\EventInterface;
+use function GuzzleHttp\json_encode;
 
 /**
  * Description of AbstractFileEvent
  *
  * @author David Schoenbauer
  */
-abstract class AbstractFileEvent extends AbstractEvent
+abstract class AbstractFileEvent extends AbstractModelEvent
 {
 
     private $path;
@@ -103,12 +104,8 @@ abstract class AbstractFileEvent extends AbstractEvent
 
     abstract public function processAction(ModelInterface $model, array $existingData);
 
-    public function onExecute(EventInterface $event)
+    public function execute(ModelInterface $model)
     {
-        $model = $event->getTarget();
-        if (!$this->validateModel($model, EntityInterface::class)) {
-            return false; //Nothing to do with this event
-        }
         /* @var $model ModelInterface */
         $existingData = $this->loadFile($model->getEntity());
         return $this->processAction($model, $existingData);

@@ -26,7 +26,7 @@ namespace DSchoenbauer\Orm\Events\Validate\Schema;
 
 use DSchoenbauer\Orm\Entity\HasVersionControlIndexInterface;
 use DSchoenbauer\Orm\Enum\EventPriorities;
-use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Events\AbstractModelEvent;
 use DSchoenbauer\Orm\Exception\InvalidDataTypeException;
 use DSchoenbauer\Orm\Exception\RecordOutOfDateException;
 use DSchoenbauer\Orm\Exception\RequiredFieldMissingException;
@@ -34,14 +34,13 @@ use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Select;
 use DSchoenbauer\Sql\Where\ArrayWhere;
 use PDO;
-use Zend\EventManager\EventInterface;
 
 /**
  * Validates that data for update is the current record
  *
  * @author David Schoenbauer
  */
-class VersionControlIndex extends AbstractEvent
+class VersionControlIndex extends AbstractModelEvent
 {
 
     private $adapter;
@@ -53,13 +52,13 @@ class VersionControlIndex extends AbstractEvent
         parent::__construct($events, $priority);
     }
 
-    public function onExecute(EventInterface $event)
+    public function getInterface()
     {
-        /* @var $model ModelInterface */
-        $model = $event->getTarget();
-        if (!$this->validateModel($model, HasVersionControlIndexInterface::class)) {
-            return false;
-        }
+        return HasVersionControlIndexInterface::class;
+    }
+    
+    public function execute(ModelInterface $model)
+    {
         $field = $model->getEntity()->getVersionControlField();
         $data = $model->getData();
         $this->validateFieldExists($data, $field);

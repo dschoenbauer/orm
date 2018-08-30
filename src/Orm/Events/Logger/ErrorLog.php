@@ -24,18 +24,17 @@
  */
 namespace DSchoenbauer\Orm\Events\Logger;
 
-use DSchoenbauer\Orm\Events\AbstractEvent;
+use DSchoenbauer\Orm\Events\AbstractModelEvent;
 use DSchoenbauer\Orm\Framework\InterpolateTrait;
 use DSchoenbauer\Orm\ModelInterface;
 use Exception;
-use Zend\EventManager\EventInterface;
 
 /**
  * Description of ErrorLog
  *
  * @author David Schoenbauer
  */
-class ErrorLog extends AbstractEvent
+class ErrorLog extends AbstractModelEvent
 {
 
     const KEY_SUCCESS = 'success';
@@ -45,12 +44,11 @@ class ErrorLog extends AbstractEvent
 
     use InterpolateTrait;
 
-    public function onExecute(EventInterface $event)
+    public function execute(ModelInterface $model)
     {
-        $model = $event->getTarget();
-        $exception = $event->getParam('exception', null);
-        $event = $event->getParam('event', null);
-        if (!$model instanceof ModelInterface || !$exception instanceof Exception) {
+        $exception = $this->getEvent()->getParam('exception', null);
+        $event = $this->getEvent()->getParam('event', null);
+        if (!$exception instanceof Exception) {
             return false;
         }
         $model->setData([
@@ -61,6 +59,7 @@ class ErrorLog extends AbstractEvent
         ]);
         $model->getAttributes()->set('status', $exception->getCode());
         return true;
+        ;
     }
 
     public function convertToName($exc)

@@ -60,7 +60,7 @@ class AliasUserCollectionTest extends TestCase
 
     public function testGetTypeInterface()
     {
-        $this->assertEquals(EntityInterface::class, $this->object->getTypeInterface());
+        $this->assertEquals(EntityInterface::class, $this->object->getInterface());
     }
 
     public function testVisitModel()

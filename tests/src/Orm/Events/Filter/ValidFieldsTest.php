@@ -53,7 +53,7 @@ class ValidFieldsTest extends TestCase
 
     public function testTypeInterface()
     {
-        $this->assertEquals(EntityInterface::class, $this->object->getTypeInterface());
+        $this->assertEquals(EntityInterface::class, $this->object->getInterface());
     }
 
     /**

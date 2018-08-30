@@ -59,7 +59,7 @@ class AbstractHttpMethodEventTest extends TestCase
     public function testOnExecuteNoGood(){
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $this->object->expects($this->exactly(0))->method('send');
-        $this->assertNull($this->object->onExecute($event));
+        $this->assertFalse($this->object->onExecute($event));
     }
     
     public function testOnExecuteGood(){
