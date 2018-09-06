@@ -26,6 +26,8 @@ namespace DSchoenbauer\Orm\Events\Guard;
 
 use DSchoenbauer\Exception\Http\ClientError\ForbiddenException;
 use DSchoenbauer\Orm\Events\Guard\GuardEvent;
+use DSchoenbauer\Orm\ModelInterface;
+use DSchoenbauer\Tests\Orm\Events\Guard\MockGuardVisitor;
 use DSchoenbauer\Tests\Orm\Events\Persistence\Http\TestModelTrait;
 use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventInterface;
@@ -69,18 +71,29 @@ class GuardEventTest extends TestCase
     public function testAuthenticateFalse(){
         $guard = $this->getMockBuilder(GuardInterface::class)->getMock();
         $guard->expects($this->once())->method('authenticate')->willReturn(false);
-        $this->assertFalse($this->object->add($guard)->authenticate());
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
+        $this->assertFalse($this->object->add($guard)->authenticate($model));
     }
     
     public function testAuthenticateFalseTwice(){
         $guard = $this->getMockBuilder(GuardInterface::class)->getMock();
         $guard->expects($this->exactly(2))->method('authenticate')->willReturn(false);
-        $this->assertFalse($this->object->add($guard)->add($guard)->authenticate());
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
+        $this->assertFalse($this->object->add($guard)->add($guard)->authenticate($model));
     }
     public function testAuthenticateTrue(){
         $guard = $this->getMockBuilder(GuardInterface::class)->getMock();
         $guard->expects($this->exactly(1))->method('authenticate')->willReturn(true);
-        $this->assertTrue($this->object->add($guard)->authenticate());
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
+        $this->assertTrue($this->object->add($guard)->authenticate($model));
+    }
+    
+    public function testAuthenticateVisitModel(){
+        $guard = new MockGuardVisitor();
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
+        $model->expects($this->once())->method('accept')->with($guard);
+        
+        $this->assertTrue($this->object->add($guard)->authenticate($model));        
     }
     
     public function testAuthenticateTrueNoMore(){
@@ -90,9 +103,12 @@ class GuardEventTest extends TestCase
         $guardBad = $this->getMockBuilder(GuardInterface::class)->getMock();
         $guardBad->expects($this->exactly(0))->method('authenticate')->willReturn(false);
 
-        $this->assertTrue($this->object->add($guard)->add($guardBad)->authenticate());
+        $model = $this->getMockBuilder(ModelInterface::class)->getMock();
+        $this->assertTrue($this->object->add($guard)->add($guardBad)->authenticate($model));
     }
     
+
+
     public function testOnExecuteFail(){
         $this->expectException(ForbiddenException::class);
         

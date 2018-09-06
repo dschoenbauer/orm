@@ -22,67 +22,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace DSchoenbauer\Orm\Events\Guard;
+namespace DSchoenbauer\Tests\Orm\Events\Guard;
 
-use DSchoenbauer\Exception\Http\ClientError\ForbiddenException;
-use DSchoenbauer\Orm\Enum\EventPriorities;
-use DSchoenbauer\Orm\Events\AbstractModelEvent;
 use DSchoenbauer\Orm\Events\Guard\GuardInterface;
 use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Orm\VisitorInterface;
 
 /**
- * Description of GuardEvent
+ * Description of MockGuardVisitor
  *
  * @author David Schoenbauer
  */
-class GuardEvent extends AbstractModelEvent
+class MockGuardVisitor implements VisitorInterface, GuardInterface
 {
-
-    private $guards = [];
-
-    public function __construct(array $events = [], array $guards = [], $priority = EventPriorities::ON_TIME)
+    public function authenticate()
     {
-        parent::__construct($events, $priority);
-        foreach ($guards as $guard) {
-            $this->add($guard);
-        }
-    }
-
-    public function execute(ModelInterface $model)
-    {
-        if (!$this->authenticate($model)) {
-            throw new ForbiddenException();
-        }
         return true;
     }
 
-    public function authenticate(ModelInterface $model)
+    public function visitModel(ModelInterface $model)
     {
-        /* @var $guard GuardInterface */
-        foreach ($this->guards as $guard) {
-            if ($guard instanceof VisitorInterface) {
-                $model->accept($guard);
-            }
-            if ($guard->authenticate()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public function add(GuardInterface $guard)
-    {
-        $this->guards[] = $guard;
-        return $this;
-    }
-
-    /**
-     *
-     * @return array
-     */
-    public function getGuards()
-    {
-        return $this->guards;
+        return true;
     }
 }
