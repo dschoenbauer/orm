@@ -212,4 +212,26 @@ class CrudModelTest extends TestCase
         $this->object->setEventManager($this->mockEventManager);
         $this->object->delete(1447);
     }
+    
+        public function testOnException()
+    {
+        $exc = new \Exception('test');
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('test');
+        $this->mockEventManager->expects($this->exactly(1))
+            ->method('trigger')
+            ->withConsecutive(
+                [ModelEvents::FETCH, $this->object]
+            )->willReturnCallback(function() use ($exc) {
+                    throw $exc;
+            });
+        $this->object->setEventManager($this->mockEventManager);
+        $this->object->setThrowExceptions()->fetch(1447);
+    }
+    
+    public function testThrowException(){
+        $this->assertFalse($this->object->getThrowExceptions());
+        $this->assertTrue($this->object->setThrowExceptions()->getThrowExceptions());
+        $this->assertFalse($this->object->setThrowExceptions(false)->getThrowExceptions());
+    }
 }

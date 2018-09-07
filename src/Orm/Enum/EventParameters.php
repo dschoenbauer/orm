@@ -32,4 +32,5 @@ namespace DSchoenbauer\Orm\Enum;
 class EventParameters
 {
     const EXCEPTION = "exception";
+    const EVENT = "event";
 }
