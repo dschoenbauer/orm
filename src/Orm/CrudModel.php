@@ -24,6 +24,8 @@
  */
 namespace DSchoenbauer\Orm;
 
+use DSchoenbauer\Orm\Entity\EntityInterface;
+use DSchoenbauer\Orm\Enum\EventParameters;
 use DSchoenbauer\Orm\Enum\ModelEvents;
 use Exception;
 
@@ -34,6 +36,14 @@ use Exception;
  */
 class CrudModel extends Model
 {
+
+    private $throwExceptions = false;
+
+    public function __construct(EntityInterface $entity, $throwExceptions = false)
+    {
+        parent::__construct($entity);
+        $this->setThrowExceptions($throwExceptions);
+    }
 
     /**
      * Process the addition of a new record
@@ -96,12 +106,27 @@ class CrudModel extends Model
         try {
             $this->getEventManager()->trigger($event, $this);
         } catch (Exception $exc) {
-            $payload = [
-                'exception' => $exc,
-                'event' => $event,
-            ];
-            $this->getEventManager()->trigger(ModelEvents::ERROR, $this, $payload);
+            if (!$this->getThrowExceptions()) {
+                $payload = [
+                    EventParameters::EXCEPTION => $exc,
+                    EventParameters::EVENT => $event,
+                ];
+                $this->getEventManager()->trigger(ModelEvents::ERROR, $this, $payload);
+                return $this;
+            }
+            throw $exc;
         }
+        return $this;
+    }
+
+    public function getThrowExceptions()
+    {
+        return $this->throwExceptions;
+    }
+
+    public function setThrowExceptions($throwExceptions = true)
+    {
+        $this->throwExceptions = $throwExceptions;
         return $this;
     }
 }
