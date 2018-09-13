@@ -149,16 +149,16 @@
         },
         {
             "name": "dschoenbauer/sql",
-            "version": "v1.1.2",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dschoenbauer/sql.git",
-                "reference": "394f654f5ffe39890d70b30929f37f714e16a045"
+                "reference": "e349c5080d4ac490e5335369a93b7ed152f7aaee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dschoenbauer/sql/zipball/394f654f5ffe39890d70b30929f37f714e16a045",
-                "reference": "394f654f5ffe39890d70b30929f37f714e16a045",
+                "url": "https://api.github.com/repos/dschoenbauer/sql/zipball/e349c5080d4ac490e5335369a93b7ed152f7aaee",
+                "reference": "e349c5080d4ac490e5335369a93b7ed152f7aaee",
                 "shasum": ""
             },
             "require": {
@@ -187,7 +187,7 @@
                 }
             ],
             "description": "Object oriented approch to Sql statement generation with a focus on building requirements for PDO",
-            "time": "2017-05-24T17:37:33+00:00"
+            "time": "2018-09-11T03:38:00+00:00"
         },
         {
             "name": "psr/container",
