@@ -33,6 +33,7 @@ use DSchoenbauer\Orm\ModelInterface;
 use DSchoenbauer\Sql\Command\Select;
 use DSchoenbauer\Sql\Where\ArrayWhere;
 use PDO;
+use stdClass;
 
 /**
  * Description of PasswordValidate
@@ -60,13 +61,19 @@ class PasswordValidate extends AbstractModelEvent
     {
         /* @var $entity HasPasswordInterface */
         $entity = $model->getEntity();
-        if (!$this->validateUser($model->getData(), $entity)) {
+        if (!$idx = $this->validateUser($model->getData(), $entity)) {
             throw new UnauthorizedException();
         }
+        $model->setId($idx);
         $model->getEventManager()->trigger(ModelEvents::AUTHENTICATION_SUCCESS, $model);
         return true;
     }
 
+    /**
+     * @param mixed $data
+     * @param HasPasswordInterface $passwordInfo
+     * @return boolean
+     */
     public function validateUser($data, HasPasswordInterface $passwordInfo)
     {
         if (!array_key_exists($passwordInfo->getPasswordField(), $data ?: []) ||
@@ -74,20 +81,28 @@ class PasswordValidate extends AbstractModelEvent
         ) {
             return false;
         }
-        $hash = $this->getUsersPasswordHash($data[$passwordInfo->getUserNameField()], $passwordInfo);
-        return $passwordInfo->getPasswordMaskStrategy()->validate($data[$passwordInfo->getPasswordField()], $hash);
+        $meta = $this->getPasswordMetaData($data[$passwordInfo->getUserNameField()], $passwordInfo);
+        return $passwordInfo->getPasswordMaskStrategy()->validate($data[$passwordInfo->getPasswordField()], $meta->hash) ? $meta->id : false;
     }
 
-    public function getUsersPasswordHash($userName, HasPasswordInterface $passwordInfo)
+    public function getPasswordMetaData($userName, HasPasswordInterface $passwordInfo)
     {
         return $this->getSelect()
                 ->setTable($passwordInfo->getTable())
                 ->setFields([$passwordInfo->getPasswordField()])
                 ->setWhere(new ArrayWhere([$passwordInfo->getUserNameField() => $userName]))
                 ->setFetchFlat()
-                ->setFetchStyle(\PDO::FETCH_COLUMN)
-                ->setDefaultValue(false)
+                ->setFetchStyle(\PDO::FETCH_OBJ)
+                ->setDefaultValue($this->getNullReturn())
                 ->execute($this->getAdapter());
+    }
+    
+    public function getNullReturn($id = null, $hash = null)
+    {
+        $obj = new stdClass();
+        $obj->id = $id;
+        $obj->hash = $hash;
+        return $obj;
     }
 
     /**
