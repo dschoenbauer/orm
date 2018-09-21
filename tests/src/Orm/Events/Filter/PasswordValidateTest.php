@@ -91,6 +91,7 @@ class PasswordValidateTest extends TestCase
         $model->expects($this->any())->method('getEntity')->willReturn($entity);
         $model->expects($this->once())->method('getData')->willReturn(['test' => 'test']);
         $model->expects($this->once())->method('getEventManager')->willReturn($eventManager);
+        $model->expects($this->exactly(1))->method('setId')->with(10);
 
         $event = $this->getMockBuilder(EventInterface::class)->getMock();
         $event->expects($this->any())->method('getTarget')->willReturn($model);
@@ -137,8 +138,11 @@ class PasswordValidateTest extends TestCase
     public function testValidateUserAll()
     {
 
-        $this->object = $this->getMockBuilder(PasswordValidate::class)->setMethods(['getUsersPasswordHash'])->disableOriginalConstructor()->getMock();
-        $this->object->expects($this->any())->method('getUsersPasswordHash');
+        $nullObj = new \stdClass();
+        $nullObj->id = 100;
+        $nullObj->hash = null;
+        $this->object = $this->getMockBuilder(PasswordValidate::class)->setMethods(['getPasswordMetaData'])->disableOriginalConstructor()->getMock();
+        $this->object->expects($this->any())->method('getPasswordMetaData')->willReturn($nullObj);
 
         $passwordMaskStrategy = $this->getMockBuilder(PasswordMaskStrategyInterface::class)->getMock();
         $passwordMaskStrategy->expects($this->once())->method('validate')->willReturn(true);
@@ -148,9 +152,29 @@ class PasswordValidateTest extends TestCase
         $passwordInfo->expects($this->any())->method('getPasswordField')->willReturn('pass');
         $passwordInfo->expects($this->any())->method('getPasswordMaskStrategy')->willReturn($passwordMaskStrategy);
 
-        $this->assertTrue($this->object->validateUser(['user' => 'test', 'pass' => 'test'], $passwordInfo));
+        $this->assertEquals(100, $this->object->validateUser(['user' => 'test', 'pass' => 'test'], $passwordInfo));
     }
 
+        public function testValidateUserFail()
+    {
+
+        $nullObj = new \stdClass();
+        $nullObj->id = 100;
+        $nullObj->hash = null;
+        $this->object = $this->getMockBuilder(PasswordValidate::class)->setMethods(['getPasswordMetaData'])->disableOriginalConstructor()->getMock();
+        $this->object->expects($this->any())->method('getPasswordMetaData')->willReturn($nullObj);
+
+        $passwordMaskStrategy = $this->getMockBuilder(PasswordMaskStrategyInterface::class)->getMock();
+        $passwordMaskStrategy->expects($this->once())->method('validate')->willReturn(false);
+
+        $passwordInfo = $this->getMockBuilder(HasPasswordInterface::class)->getMock();
+        $passwordInfo->expects($this->any())->method('getUserNameField')->willReturn('user');
+        $passwordInfo->expects($this->any())->method('getPasswordField')->willReturn('pass');
+        $passwordInfo->expects($this->any())->method('getPasswordMaskStrategy')->willReturn($passwordMaskStrategy);
+
+        $this->assertFalse($this->object->validateUser(['user' => 'test', 'pass' => 'test'], $passwordInfo));
+    }
+    
     public function testAdapter()
     {
         $pdo = $this->getMockBuilder(PDO::class)->disableOriginalConstructor()->getMock();
@@ -168,13 +192,17 @@ class PasswordValidateTest extends TestCase
         $this->assertSame($mySelect, $this->object->setSelect($mySelect)->getSelect());
     }
 
-    public function testGetUsersPasswordHash()
+    public function testGetPasswordMetaData()
     {
         $userName = "test";
         $table = 'table';
         $passwordField = 'passwordField';
         $userNameField = 'userNameField';
 
+        $nullReturn = new \stdClass();
+        $nullReturn->hash = null;
+        $nullReturn->id = null;
+        
         $passwordInfo = $this->getMockBuilder(HasPasswordInterface::class)->getMock();
         $passwordInfo->expects($this->any())->method('getTable')->willReturn($table);
         $passwordInfo->expects($this->any())->method('getPasswordField')->willReturn($passwordField);
@@ -187,10 +215,25 @@ class PasswordValidateTest extends TestCase
         $select->expects($this->atLeast(1))->method('setFields')->with([$passwordField])->willReturnSelf();
         $select->expects($this->atLeast(1))->method('setWhere')->with($this->isInstanceOf(ArrayWhere::class))->willReturnSelf(); //Needs to be better
         $select->expects($this->atLeast(1))->method('setFetchFlat')->willReturnSelf();
-        $select->expects($this->atLeast(1))->method('setFetchStyle')->with(\PDO::FETCH_COLUMN)->willReturnSelf();
-        $select->expects($this->atLeast(1))->method('setDefaultValue')->with(false)->willReturnSelf();
+        $select->expects($this->atLeast(1))->method('setFetchStyle')->with(\PDO::FETCH_OBJ)->willReturnSelf();
+        $select->expects($this->atLeast(1))->method('setDefaultValue')->with($nullReturn)->willReturnSelf();
         $select->expects($this->atLeast(1))->method('execute')->with($this->isInstanceOf(\PDO::class))->willReturn(true);
 
-        $this->assertTrue($this->object->setSelect($select)->getUsersPasswordHash($userName, $passwordInfo));
+        $this->assertTrue($this->object->setSelect($select)->getPasswordMetaData($userName, $passwordInfo));
     }
+    
+    function testGetNullReturnDefault(){
+        $nullReturn = new \stdClass();
+        $nullReturn->id = null;
+        $nullReturn->hash = null;
+        $this->assertEquals($nullReturn, $this->object->getNullReturn());
+    }
+    
+    function testGetNullReturnContent(){
+        $dataReturn = new \stdClass();
+        $dataReturn->id = 999999;
+        $dataReturn->hash = 'someHash';
+        $this->assertEquals($dataReturn, $this->object->getNullReturn(999999,'someHash'));
+    }
+    
 }
