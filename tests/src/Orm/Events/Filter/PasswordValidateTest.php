@@ -196,6 +196,7 @@ class PasswordValidateTest extends TestCase
     {
         $userName = "test";
         $table = 'table';
+        $idField = 'idField';
         $passwordField = 'passwordField';
         $userNameField = 'userNameField';
 
@@ -205,6 +206,7 @@ class PasswordValidateTest extends TestCase
         
         $passwordInfo = $this->getMockBuilder(HasPasswordInterface::class)->getMock();
         $passwordInfo->expects($this->any())->method('getTable')->willReturn($table);
+        $passwordInfo->expects($this->any())->method('getIdField')->willReturn($idField);
         $passwordInfo->expects($this->any())->method('getPasswordField')->willReturn($passwordField);
         $passwordInfo->expects($this->any())->method('getUserNameField')->willReturn($userNameField);
 
@@ -212,7 +214,7 @@ class PasswordValidateTest extends TestCase
             //->setMethods(['setTable','setFields','setWhere','setFetchFlat','setFetchStyle','setDefaultValue','execute'])
             ->getMock();
         $select->expects($this->atLeast(1))->method('setTable')->with($table)->willReturnSelf();
-        $select->expects($this->atLeast(1))->method('setFields')->with([$passwordField])->willReturnSelf();
+        $select->expects($this->atLeast(1))->method('setFields')->with([$passwordField . ' as hash', $idField . ' as id'])->willReturnSelf();
         $select->expects($this->atLeast(1))->method('setWhere')->with($this->isInstanceOf(ArrayWhere::class))->willReturnSelf(); //Needs to be better
         $select->expects($this->atLeast(1))->method('setFetchFlat')->willReturnSelf();
         $select->expects($this->atLeast(1))->method('setFetchStyle')->with(\PDO::FETCH_OBJ)->willReturnSelf();
