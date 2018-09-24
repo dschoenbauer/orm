@@ -82,21 +82,23 @@ class PasswordValidate extends AbstractModelEvent
             return false;
         }
         $meta = $this->getPasswordMetaData($data[$passwordInfo->getUserNameField()], $passwordInfo);
-        return $passwordInfo->getPasswordMaskStrategy()->validate($data[$passwordInfo->getPasswordField()], $meta->hash) ? $meta->id : false;
+        return $passwordInfo
+                ->getPasswordMaskStrategy()
+                ->validate($data[$passwordInfo->getPasswordField()], $meta->hash) ? $meta->id : false;
     }
 
     public function getPasswordMetaData($userName, HasPasswordInterface $passwordInfo)
     {
         return $this->getSelect()
                 ->setTable($passwordInfo->getTable())
-                ->setFields([$passwordInfo->getPasswordField()])
+                ->setFields([$passwordInfo->getPasswordField() . ' as hash', $passwordInfo->getIdField() . ' as id'])
                 ->setWhere(new ArrayWhere([$passwordInfo->getUserNameField() => $userName]))
                 ->setFetchFlat()
                 ->setFetchStyle(\PDO::FETCH_OBJ)
                 ->setDefaultValue($this->getNullReturn())
                 ->execute($this->getAdapter());
     }
-    
+
     public function getNullReturn($id = null, $hash = null)
     {
         $obj = new stdClass();
